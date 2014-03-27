@@ -1,0 +1,9 @@
+package com.eecs494.finalproject.gameserver.protobuf;
+
+option java_outer_classname = "GameServerProtos";
+
+message ClientInfo {
+	required string name = 1;
+	required string address = 2;
+	required int32 port = 3;
+}
