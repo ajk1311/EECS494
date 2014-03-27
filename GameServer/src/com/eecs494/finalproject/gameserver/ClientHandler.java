@@ -2,6 +2,7 @@ package com.eecs494.finalproject.gameserver;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -10,7 +11,7 @@ import com.eecs494.finalproject.gameserver.protobuf.GameServerProtos.ClientInfo;
 
 public class ClientHandler implements Runnable {
 
-	private static final BlockingQueue<ClientInfo> PLAYER_QUEUE = new ArrayBlockingQueue<ClientInfo>(50);
+	private static final BlockingQueue<ClientInfoWrapper> PLAYER_QUEUE = new ArrayBlockingQueue<ClientInfoWrapper>(50);
 	
 	private Socket mSocket;
 	
@@ -24,11 +25,11 @@ public class ClientHandler implements Runnable {
 		try {
 			inStream = mSocket.getInputStream();
 			final ClientInfo incoming = ClientInfo.parseFrom(inStream);
-			final ClientInfo waiting = PLAYER_QUEUE.poll();
+			final ClientInfoWrapper waiting = PLAYER_QUEUE.poll();
 			if (waiting == null) {
-				PLAYER_QUEUE.put(incoming);
+				PLAYER_QUEUE.put(new ClientInfoWrapper(incoming, mSocket));
 			} else {
-				hookUpClients(incoming, waiting);
+				hookUpPlayers(incoming, waiting);
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -46,7 +47,63 @@ public class ClientHandler implements Runnable {
 		}
 	}
 	
-	private void hookUpClients(ClientInfo client1, ClientInfo client2) {
+	/** Sets up the connection between two players, passing off each one's connection information to the other. */
+	private void hookUpPlayers(ClientInfo incoming, ClientInfoWrapper waiting) {
+		// Make sure we have a connection for both entities
+		final Socket hostSocket = mSocket;
+		final Socket clientSocket = waiting.socket;
 		
+		// Set up the appropriate information for the host and client
+		final ClientInfo hostInfo = ClientInfo.newBuilder(waiting.info).setIsHost(true).build();
+		final ClientInfo clientInfo = ClientInfo.newBuilder(incoming).setIsHost(false).build();
+		
+		// Send the host and the client their respective information
+		// Any set up handshake that takes place now executes on those devices
+		OutputStream hostStream = null;
+		OutputStream clientStream = null;
+		try {
+			hostStream = hostSocket.getOutputStream();
+			clientStream = clientSocket.getOutputStream();
+			hostInfo.writeTo(hostStream);
+			clientInfo.writeTo(clientStream);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			// TODO handle error
+		} finally {
+			if (hostStream != null) {
+				try {
+					hostStream.close();
+				} catch (IOException e) {
+				}
+			}
+			if (clientStream != null) {
+				try {
+					clientStream.close();
+				} catch (IOException e) {
+				}
+			}
+			if (hostSocket != null && !hostSocket.isClosed()) {
+				try {
+					hostSocket.close();
+				} catch (IOException e) {
+				}
+			}
+			if (clientSocket != null && !clientSocket.isClosed()) {
+				try {
+					clientSocket.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+	}
+	
+	/** Saves an open socket alongside the info for the associated client */
+	private class ClientInfoWrapper {
+		public ClientInfo info;
+		public Socket socket;
+		public ClientInfoWrapper(ClientInfo info, Socket socket) {
+			this.info = info;
+			this.socket = socket;
+		}
 	}
 }
