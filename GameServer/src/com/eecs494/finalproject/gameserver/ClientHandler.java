@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -11,6 +13,8 @@ import com.eecs494.finalproject.gameserver.protobuf.GameServerProtos.ClientInfo;
 
 public class ClientHandler implements Runnable {
 
+	private static final int INT_SIZE = Integer.SIZE / Byte.SIZE;
+	
 	private static final BlockingQueue<ClientInfoWrapper> PLAYER_QUEUE = new ArrayBlockingQueue<ClientInfoWrapper>(50);
 	
 	private Socket mSocket;
@@ -23,12 +27,24 @@ public class ClientHandler implements Runnable {
 	public void run() {
 		InputStream inStream = null;
 		try {
+			byte[] buff_len = new byte[INT_SIZE];
 			inStream = mSocket.getInputStream();
-			final ClientInfo incoming = ClientInfo.parseFrom(inStream);
+			inStream.read(buff_len);
+			System.out.println(buff_len);
+			int length = ByteBuffer.wrap(buff_len).order(ByteOrder.LITTLE_ENDIAN).getInt();
+			System.out.println("length: " + length);
+			byte[] client_data = new byte[length];
+			inStream.read(client_data);
+			
+			final ClientInfo incoming = ClientInfo.parseFrom(client_data);
 			final ClientInfoWrapper waiting = PLAYER_QUEUE.poll();
+			System.out.println("The connecting client is: " + incoming.getName());
 			if (waiting == null) {
+				System.out.println("No client currently waiting, entering wait queue");
 				PLAYER_QUEUE.put(new ClientInfoWrapper(incoming, mSocket));
 			} else {
+				//TODO: add check to make sure connecting clients are different
+				System.out.println("Found game, connecting: " + incoming.getName() + "and" + waiting.info.getName());
 				hookUpPlayers(incoming, waiting);
 			}
 		} catch (IOException ioe) {
@@ -63,8 +79,15 @@ public class ClientHandler implements Runnable {
 		OutputStream clientStream = null;
 		try {
 			hostStream = hostSocket.getOutputStream();
-			clientStream = clientSocket.getOutputStream();
+			int info_len = hostInfo.getSerializedSize();
+			hostStream.write(ByteBuffer.allocate(INT_SIZE).order(ByteOrder.LITTLE_ENDIAN)
+					.putInt(hostInfo.getSerializedSize()).array());
+			System.out.println("info len is: " + info_len);
 			hostInfo.writeTo(hostStream);
+			
+			clientStream = clientSocket.getOutputStream();
+			clientStream.write(ByteBuffer.allocate(INT_SIZE)
+					.putInt(clientInfo.getSerializedSize()).order(ByteOrder.LITTLE_ENDIAN).array());
 			clientInfo.writeTo(clientStream);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();

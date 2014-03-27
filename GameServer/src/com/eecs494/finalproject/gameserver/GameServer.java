@@ -17,6 +17,7 @@ public class GameServer {
 		try {
 			serverSocket = new ServerSocket(SERVER_PORT);
 			while (true) {
+				System.out.println("Waiting for client...");
 				final Socket clientSocket = serverSocket.accept();
 				EXECUTOR.execute(new ClientHandler(clientSocket));
 			}
