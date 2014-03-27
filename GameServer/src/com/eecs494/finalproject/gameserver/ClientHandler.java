@@ -80,10 +80,10 @@ public class ClientHandler implements Runnable {
 		try {
 			hostStream = hostSocket.getOutputStream();
 			int info_len = hostInfo.getSerializedSize();
-			hostStream.write(ByteBuffer.allocate(INT_SIZE).order(ByteOrder.LITTLE_ENDIAN)
-					.putInt(hostInfo.getSerializedSize()).array());
-			System.out.println("info len is: " + info_len);
-			hostInfo.writeTo(hostStream);
+			ByteBuffer bBuf = ByteBuffer.allocate(INT_SIZE + info_len).order(ByteOrder.LITTLE_ENDIAN);
+			bBuf.putInt(info_len);
+			bBuf.put(hostInfo.toByteArray());
+			hostStream.write(bBuf.array());
 			
 			clientStream = clientSocket.getOutputStream();
 			clientStream.write(ByteBuffer.allocate(INT_SIZE)
