@@ -35,6 +35,7 @@ public class ServerConnection : MonoBehaviour {
 	{
 		running = false;
 	}
+
 	void connect(string username)
 	{
 		using (TcpClient client = new TcpClient("10.0.0.16", 9191))
