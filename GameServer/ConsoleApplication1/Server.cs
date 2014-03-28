@@ -18,6 +18,8 @@ namespace GameServer
         /** The dedicated port for our game server */
         static readonly int SERVER_PORT = 9191;
 
+        static readonly int SOCKET_TIMEOUT = 5000; // ms
+
         static void Main(string[] args)
         {
             try
@@ -44,14 +46,19 @@ namespace GameServer
 
         static void HandleClient(Socket clientSocket)
         {
+            clientSocket.SendTimeout = clientSocket.ReceiveTimeout = SOCKET_TIMEOUT;
             using (NetworkStream socStream = new NetworkStream(clientSocket))
             {
                 // Receive the connecting client's info
                 ClientInfo incoming = 
                     Serializer.DeserializeWithLengthPrefix<ClientInfo>(socStream, PrefixStyle.Base128);
+                incoming.address = ((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString();
                 Console.WriteLine("Incoming client: name=" + incoming.name + ", address=" +
-                    incoming.address + ", port=" + incoming.port);
+                     incoming.address + ", port=" + incoming.port);
+                
+                // Try to connect to a waiting player
                 ClientInfoWrapper waiting = PLAYER_QUEUE.Poll();
+                
                 if (waiting == null)
                 {
                     // If there is no waiting player, add the incoming client to the queue
@@ -60,10 +67,41 @@ namespace GameServer
                 }
                 else
                 {
-                    // Otherwise we found a match, so hook up the two clients
-                    Console.WriteLine("Match found! Connecting " + incoming.name + " and " + waiting.info.name);
-                    HookupPlayers(clientSocket, incoming, waiting);
+                    while (!SocketConnected(waiting.socket))
+                    {
+                        // While the front of the queue has disconnected, or the queue is empty
+                        waiting = PLAYER_QUEUE.Poll();
+                        if (waiting == null)
+                        {
+                            Console.WriteLine("No waiting players, adding to the wait queue.");
+                            PLAYER_QUEUE.Put(new ClientInfoWrapper { info = incoming, socket = clientSocket });
+                            break;
+                        }
+                    }
+                    if (waiting != null && SocketConnected(clientSocket))
+                    {
+                        // Otherwise we found a match, so hook up the two clients
+                        Console.WriteLine("Match found! Connecting " + incoming.name + " and " + waiting.info.name);
+                        HookupPlayers(clientSocket, incoming, waiting);
+                    }
                 }
+            }
+        }
+
+        static bool SocketConnected(Socket socket)
+        {
+            try
+            {
+                byte[] buf = new byte[1];
+                buf[0] = (byte)1;
+                socket.Send(buf);
+                socket.Receive(buf);
+                return buf[0] == 1;
+            }
+            catch (SocketException se)
+            {
+                Console.Write(se.Message);
+                return false;
             }
         }
 
