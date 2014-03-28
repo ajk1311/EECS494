@@ -30,7 +30,6 @@ public class ClientHandler implements Runnable {
 			byte[] buff_len = new byte[INT_SIZE];
 			inStream = mSocket.getInputStream();
 			inStream.read(buff_len);
-			System.out.println(buff_len);
 			int length = ByteBuffer.wrap(buff_len).order(ByteOrder.LITTLE_ENDIAN).getInt();
 			System.out.println("length: " + length);
 			byte[] client_data = new byte[length];
@@ -84,7 +83,7 @@ public class ClientHandler implements Runnable {
 			bBuf.putInt(info_len);
 			bBuf.put(hostInfo.toByteArray());
 			hostStream.write(bBuf.array());
-			
+			hostStream.close();
 			clientStream = clientSocket.getOutputStream();
 			clientStream.write(ByteBuffer.allocate(INT_SIZE)
 					.putInt(clientInfo.getSerializedSize()).order(ByteOrder.LITTLE_ENDIAN).array());
