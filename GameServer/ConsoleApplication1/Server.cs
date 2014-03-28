@@ -49,15 +49,19 @@ namespace GameServer
                 // Receive the connecting client's info
                 ClientInfo incoming = 
                     Serializer.DeserializeWithLengthPrefix<ClientInfo>(socStream, PrefixStyle.Base128);
+                Console.WriteLine("Incoming client: name=" + incoming.name + ", address=" +
+                    incoming.address + ", port=" + incoming.port);
                 ClientInfoWrapper waiting = PLAYER_QUEUE.Poll();
                 if (waiting == null)
                 {
                     // If there is no waiting player, add the incoming client to the queue
+                    Console.WriteLine("No waiting players, adding to the wait queue.");
                     PLAYER_QUEUE.Put(new ClientInfoWrapper { info = incoming, socket = clientSocket });
                 }
                 else
                 {
                     // Otherwise we found a match, so hook up the two clients
+                    Console.WriteLine("Match found! Connecting " + incoming.name + " and " + waiting.info.name);
                     HookupPlayers(clientSocket, incoming, waiting);
                 }
             }
@@ -79,7 +83,9 @@ namespace GameServer
 
                 using (NetworkStream hostStream = new NetworkStream(hostSocket))
                 {
+                    Console.WriteLine("Sending info about " + waiting.info.name + " to " + incoming.name);
                     Serializer.SerializeWithLengthPrefix(hostStream, hostInfo, PrefixStyle.Base128);
+                    Console.WriteLine("Done!");
                 }
             }
 
@@ -96,9 +102,12 @@ namespace GameServer
 
                 using (NetworkStream clientStream = new NetworkStream(clientSocket))
                 {
+                    Console.WriteLine("Sending info about " + incoming.name + " to " + waiting.info.name);
                     Serializer.SerializeWithLengthPrefix(clientStream, clientInfo, PrefixStyle.Base128);
+                    Console.WriteLine("Done!");
                 }
             }
+            Console.WriteLine("Connection started, game should be underway shortly.");
         }
 
         /** Returns the local IPv4 address of this machine */
