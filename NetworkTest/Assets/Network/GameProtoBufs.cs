@@ -17,18 +17,25 @@ namespace GameProtoBufs
 
         [ProtoMember(4)]
         public bool isHost;
+
+		[ProtoMember(5)]
+		public int playerID;
     }
 
-    [ProtoContract]
-    public class RemoteTransform
-    {
-        [ProtoMember(1)]
-        public float x;
+	[ProtoContract]
+	public class PlayerReady
+	{
+		[ProtoMember(1)]
+		public int playerID;
+	}
 
-        [ProtoMember(2)]
-        public float y;
+	[ProtoContract]
+	public class InputEvent
+	{
+		[ProtoMember(1)]
+		public int playerID;
 
-        [ProtoMember(3)]
-        public float z;
-    }
+		[ProtoMember(2)]
+		public int keyCode;
+	}
 }
