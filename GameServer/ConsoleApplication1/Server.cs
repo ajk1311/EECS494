@@ -6,10 +6,28 @@ using System.Threading;
 using System.Collections.Generic;
 
 using ProtoBuf;
-using GameProtobuf;
 
 namespace GameServer
 {
+    [ProtoContract]
+    class ClientInfo
+    {
+        [ProtoMember(1)]
+        public string name;
+
+        [ProtoMember(2)]
+        public string address;
+
+        [ProtoMember(3)]
+        public int port;
+
+        [ProtoMember(4)]
+        public bool isHost;
+
+        [ProtoMember(5)]
+        public int playerID;
+    }
+
     /**
      * Class that runs our dedicated matchmaking game server
      */
@@ -116,6 +134,7 @@ namespace GameServer
                     name = waiting.info.name,
                     address = waiting.info.address,
                     port = waiting.info.port,
+                    playerID = 0,
                     isHost = true
                 };
 
@@ -135,6 +154,7 @@ namespace GameServer
                     name = incoming.name,
                     address = incoming.address,
                     port = incoming.port,
+                    playerID = 1,
                     isHost = false
                 };
 
