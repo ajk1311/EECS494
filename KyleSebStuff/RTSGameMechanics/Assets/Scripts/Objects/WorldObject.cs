@@ -98,10 +98,10 @@ public class WorldObject : MonoBehaviour {
     }
     
     private void DrawSelection() {
-        GUI.skin = GUIResources.getSelectBoxSkin;
+        GUI.skin = GUIResources.SELECT_BOX_SKIN;
         Rect selectBox = GUIResources.CalculateSelectionBox(selectionBounds);
         //Draw the selection box around the currently selected object, within the bounds of the playing area
-        GUI.BeginGroup(GUIResources.GetPlayingArea());
+        GUI.BeginGroup(GUIResources.PLAYING_AREA);
         DrawSelectionBox(selectBox);
         GUI.EndGroup();
     }

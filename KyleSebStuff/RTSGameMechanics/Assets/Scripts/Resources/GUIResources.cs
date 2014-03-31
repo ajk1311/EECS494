@@ -4,22 +4,26 @@ using System.Collections.Generic;
 namespace RTS {
     public static class GUIResources {
         //Playing Area Calculations
-        private static int RESOURCE_BAR_HEIGHT = 0;
-        private static int ORDERS_BAR_HEIGHT = 0;
-        private static Rect PLAYING_AREA = new Rect(0, RESOURCE_BAR_HEIGHT, Screen.width, Screen.height - RESOURCE_BAR_HEIGHT - ORDERS_BAR_HEIGHT);
+        public static int RESOURCE_BAR_HEIGHT = Screen.height / 20;
+        public static int ORDERS_BAR_HEIGHT = Screen.height / 4;
+        public static Rect PLAYING_AREA = new Rect(0, 0, Screen.width, Screen.height - ORDERS_BAR_HEIGHT);
 
-        public static Rect GetPlayingArea() {
-            return PLAYING_AREA;
-        }
+		public static int TEXT_WIDTH = 128;
+		public static int TEXT_HEIGHT = 32;
+		public static int ICON_WIDTH = 32;
+		public static int ICON_HEIGHT = 32;
+
+		public static bool MouseInPlayingArea() {
+			//Screen coordinates start in the lower-left corner of the screen
+			//not the top-right of the screen like the drawing coordinates do
+			Vector3 mousePos = Input.mousePosition;
+			bool insideWidth = mousePos.x >= 0 && mousePos.x <= Screen.width;
+			bool insideHeight = mousePos.y >= ORDERS_BAR_HEIGHT && mousePos.y <= Screen.height;
+			return insideWidth && insideHeight;
+		}
 
         //Select Box Skin
-        private static GUISkin SELECT_BOX_SKIN;
-
-        public static GUISkin getSelectBoxSkin { get { return SELECT_BOX_SKIN; } }
-
-        public static void setSelectBoxSkin(GUISkin skin) {
-            SELECT_BOX_SKIN = skin;
-        }
+        public static GUISkin SELECT_BOX_SKIN;
 
         //Calculating the Selection Box Bounds
         public static Rect CalculateSelectionBox(Bounds selectionBounds) {
@@ -51,7 +55,7 @@ namespace RTS {
             
             //Screen coordinates start in the bottom right corner, rather than the top left corner
             //this correction is needed to make sure the selection box is drawn in the correct place
-            float selectBoxTop = PLAYING_AREA.height - (screenBounds.center.y + screenBounds.extents.y);
+            float selectBoxTop = Screen.height - (screenBounds.center.y + screenBounds.extents.y);
             float selectBoxLeft = screenBounds.center.x - screenBounds.extents.x;
             float selectBoxWidth = 2 * screenBounds.extents.x;
             float selectBoxHeight = 2 * screenBounds.extents.y;
