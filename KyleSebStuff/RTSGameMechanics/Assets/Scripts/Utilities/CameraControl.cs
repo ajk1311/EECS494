@@ -6,18 +6,16 @@ public class CameraControl : MonoBehaviour {
 
     public float ScrollWidth = 15;
     public float ScrollSpeed = 25;
-    public float MaxCameraHeight = 40;
+	public float PanningSpeed = 10;
+    public float MaxCameraHeight = 20;
     public float MinCameraHeight = 5;
     private Vector3 movement, cameraDirection;
 
-    // Update is called once per frame
-    void LateUpdate() {
+    void Update() {
         MoveCamera();
     }
     
     private void MoveCamera() {
-        UpdateDirection();
-
         float xpos = Input.mousePosition.x;
         float ypos = Input.mousePosition.y;
         movement = new Vector3(0, 0, 0);
@@ -36,7 +34,8 @@ public class CameraControl : MonoBehaviour {
             movement.z += 1.5f;
         }
         
-        if (Input.GetAxis("Mouse ScrollWheel") <= 0 && Camera.main.transform.position.y <= MaxCameraHeight) {
+		//Zoom in and Zoom out with Scroll
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.transform.position.y <= MaxCameraHeight) {
             movement = Camera.main.transform.forward * Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
         }
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.transform.position.y >= MinCameraHeight) {
@@ -45,11 +44,6 @@ public class CameraControl : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        rigidbody.velocity = movement;
-    }
-
-    private void UpdateDirection() {
-        Ray ray = Camera.main.ScreenPointToRay(Camera.main.transform.position);
-        cameraDirection = ray.direction.normalized;
+        rigidbody.velocity = movement * PanningSpeed;
     }
 }

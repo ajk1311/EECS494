@@ -172,6 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScrollWidth: 15
   ScrollSpeed: 25
+  PanningSpeed: 10
   MaxCameraHeight: 40
   MinCameraHeight: 5
 --- !u!54 &487294011
@@ -234,6 +235,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe02c3cc6ed0a4209bea75376138bf0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedSpace:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!114 &487294016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,7 +298,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f7802995857d4445f8bd8c4969c222e0, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -376,7 +383,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f7802995857d4445f8bd8c4969c222e0, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -492,8 +499,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2058419462}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.1230354, y: 1, z: 11.665554}
+  m_LocalRotation: {x: .225447029, y: 0, z: 0, w: .974255443}
+  m_LocalPosition: {x: 16.1230354, y: 9.05265808, z: 11.665554}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -510,7 +517,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScrollWidth: 15
   ScrollSpeed: 25
-  MaxCameraHeight: 40
+  PanningSpeed: 10
+  MaxCameraHeight: 20
   MinCameraHeight: 5
 --- !u!54 &2058419469
 Rigidbody:
