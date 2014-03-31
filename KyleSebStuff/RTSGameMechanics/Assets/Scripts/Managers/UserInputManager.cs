@@ -5,13 +5,11 @@ using RTS;
 public class UserInputManager : MonoBehaviour {
 
 	SelectionManager selectionManagerScript;
-	DragSelect dragSelectScript;
 	PlayerScript player;	
 
 	// Use this for initialization
 	void Start () {
 		selectionManagerScript = this.GetComponent<SelectionManager> ();
-		dragSelectScript = this.GetComponent<DragSelect> ();
 		player = this.GetComponent<PlayerScript> ();
 	}	
 	

@@ -98,17 +98,17 @@ public class WorldObject : MonoBehaviour {
     }
     
     private void DrawSelection() {
-      GUI.skin = GUIResources.getSelectBoxSkin;
-      Rect selectBox = GUIResources.CalculateSelectionBox(selectionBounds);
-      //Draw the selection box around the currently selected object, within the bounds of the playing area
-      GUI.BeginGroup(GUIResources.GetPlayingArea());
-      DrawSelectionBox(selectBox);
-      GUI.EndGroup();
+        GUI.skin = GUIResources.getSelectBoxSkin;
+        Rect selectBox = GUIResources.CalculateSelectionBox(selectionBounds);
+        //Draw the selection box around the currently selected object, within the bounds of the playing area
+        GUI.BeginGroup(GUIResources.GetPlayingArea());
+        DrawSelectionBox(selectBox);
+        GUI.EndGroup();
     }
     
     /* Internal worker methods that can be accessed by subclass */
     
     protected virtual void DrawSelectionBox(Rect selectBox) {
-      GUI.Box(selectBox, "");
+        GUI.Box(selectBox, "");
     }
 }
