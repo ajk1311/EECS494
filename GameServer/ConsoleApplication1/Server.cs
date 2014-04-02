@@ -26,6 +26,9 @@ namespace GameServer
 
         [ProtoMember(5)]
         public int playerID;
+
+        [ProtoMember(6)]
+        public int opponentID;
     }
 
     /**
@@ -134,7 +137,8 @@ namespace GameServer
                     name = waiting.info.name,
                     address = waiting.info.address,
                     port = waiting.info.port,
-                    playerID = 0,
+                    playerID = 1,
+                    opponentID = 2,
                     isHost = true
                 };
 
@@ -154,7 +158,8 @@ namespace GameServer
                     name = incoming.name,
                     address = incoming.address,
                     port = incoming.port,
-                    playerID = 1,
+                    playerID = 2,
+                    opponentID = 1,
                     isHost = false
                 };
 
