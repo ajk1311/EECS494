@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
 	private static List<IGameUnit> units = new List<IGameUnit>();
 
 	private IPEndPoint remoteEndpoint;
-	private ClientInfo playerInfo, opponentInfo;
+	private ClientInfo playerInfo;
 	private Socket 	sendSocket, recvSocket;
 
 	private Dictionary<int, Queue<Command>> pendingBuffer;
@@ -45,25 +45,35 @@ public class GameManager : MonoBehaviour {
 	// Controls timeouts and retry checks when the game is halted
 	private int timeoutChecks = 0;
 
-	public static void Start(Socket recvSocket, ClientInfo playerInfo, ClientInfo opponentInfo)
+	public static void Start(Socket recvSocket, ClientInfo playerInfo)
 	{
 		GameManager instance = new GameObject("GameManager").AddComponent<GameManager>();
 		instance.playerInfo = playerInfo;
-		instance.opponentInfo = opponentInfo;
 		instance.recvSocket = recvSocket;
 		instance.sendSocket = new Socket(
 			AddressFamily.InterNetwork, 
 			SocketType.Dgram, 
 			ProtocolType.Udp);
 		instance.remoteEndpoint = new IPEndPoint(
-			IPAddress.Parse(opponentInfo.address), 
-			opponentInfo.port);
+			IPAddress.Parse(playerInfo.address), 
+			playerInfo.port);
 		GameCommands.Init();
 	}
 
 	void Start() 
 	{
+		latency = DEFAULT_LATENCY;
+		currTick = 0;
+		maxTick = currTick;
+		tickLength = DEFAULT_TICK_LENGTH;
+		
+		gameFrame = 0;
+		framesPerTick = latency;
+		frameTime = 0f;
+		frameLength = framesPerTick / tickLength;
+
 		playerCmds = new Dictionary<int,Queue<Command>>();
+		opponentCmds = new Dictionary<int,Queue<Command>>();
 		pendingBuffer = new Dictionary<int,Queue<Command>>();
 		
 		for (int i = 0; i < latency; i++)
@@ -77,16 +87,6 @@ public class GameManager : MonoBehaviour {
 			pendingBuffer.Add(i, pending);
 		}
 
-		latency = DEFAULT_LATENCY;
-		currTick = 0;
-		maxTick = currTick + latency;
-		tickLength = DEFAULT_TICK_LENGTH;
-
-		gameFrame = 0;
-		framesPerTick = latency;
-		frameTime = 0f;
-		frameLength = framesPerTick / tickLength;
-
 		UnityThreading.Thread.InBackground (() =>
 		{
 			AcceptCommands();
@@ -98,8 +98,10 @@ public class GameManager : MonoBehaviour {
 		frameTime += Time.deltaTime;
 		if (frameTime >= frameLength)
 		{
+//			Debug.Log ("curr game frame: " + gameFrame);
 			if (gameFrame == 0)
 			{
+//				Debug.Log ("Curr Tick: " + currTick);
 				if (ProcessCommands())
 				{
 					AcceptInput();
@@ -115,10 +117,9 @@ public class GameManager : MonoBehaviour {
 					else if (timeoutChecks % 20 == 0)
 					{
 						SendBufferedCommands();
-						timeoutChecks++;
 					}
+					timeoutChecks++;
 				}
-
 			}
 			else
 			{
@@ -148,6 +149,15 @@ public class GameManager : MonoBehaviour {
 		{
 			receivedOpponentCmds = opponentCmds.ContainsKey(currTick);
 		}
+//		Debug.Log ("max tick is: " + maxTick);
+//		foreach(KeyValuePair<int,Queue<Command>> pair in opponentCmds)
+//		{
+//			Debug.Log ("opponentCmds contains key: " + pair.Key);
+//		}
+//		foreach(KeyValuePair<int,Queue<Command>> pair in playerCmds)
+//		{
+//			Debug.Log ("playerCmds contains key: " + pair.Key);
+//		}
 		if(currTick <= maxTick && receivedOpponentCmds)
 		{
 			SendBufferedCommands();
@@ -155,7 +165,7 @@ public class GameManager : MonoBehaviour {
 			playerCmds.Remove(currTick);
 			lock (opponentCmds)
 			{
-				GameCommands.AddInput(opponentInfo.playerID, opponentCmds[currTick]);
+				GameCommands.AddInput(playerInfo.opponentID, opponentCmds[currTick]);
 				opponentCmds.Remove(currTick);
 			}
 			return true;
@@ -169,17 +179,27 @@ public class GameManager : MonoBehaviour {
 		packet.playerID = playerInfo.playerID;
 		lock (pendingBuffer) 
 		{
-			if (!pendingBuffer.ContainsKey(currTick))
+			if (!pendingBuffer.ContainsKey(currTick + latency))
 			{
 				Queue<Command> q = new Queue<Command>();
-				q.Enqueue(Command.NewEmptyCommand(currTick));
-				pendingBuffer.Add(currTick, q);
+				q.Enqueue(Command.NewEmptyCommand(currTick + latency));
+				pendingBuffer.Add(currTick + latency, q);
 			}
+			if (!playerCmds.ContainsKey(currTick + latency))
+			{
+				Queue<Command> q = new Queue<Command>();
+				q.Enqueue(Command.NewEmptyCommand(currTick + latency));
+				playerCmds.Add(currTick + latency, q);
+			}
+//			Debug.Log("SENDING PACKET WITH THE FOLLOWING CONTENTS: ");
 			foreach(KeyValuePair<int,Queue<Command>> entry in pendingBuffer)
 			{
+//				Debug.Log ("putting into pending buffer with tick: " + entry.Key);
+//				Debug.Log ("putting into pending buffer with queue of length: " + entry.Value.Count);
 				packet.AddCommands(entry.Value);
 			}
 		}
+		Debug.Log ("sending out packet: " + packet.ToString ());
 		using (MemoryStream stream = new MemoryStream())
 		{
 			Serializer.Serialize(stream, packet);
@@ -233,11 +253,12 @@ public class GameManager : MonoBehaviour {
 
 	void AcceptCommands()
 	{
-		byte[] inputBuffer = new byte[64]; 
+		byte[] inputBuffer = new byte[128]; 
 		while(true)
 		{
 			int sz = recvSocket.Receive(inputBuffer);
 			DataPacket packet = Serializer.Deserialize<DataPacket>(new MemoryStream(inputBuffer, 0, sz));
+//			Debug.Log ("incoming packet contents: " + packet.ToString());
 			if (packet.isAck) 
 			{
 				int prevMaxTick = maxTick;
@@ -256,7 +277,7 @@ public class GameManager : MonoBehaviour {
 				{
 					playerID = playerInfo.playerID,
 					isAck = true,
-					tick = packet.tick
+					tick = maxPacketTick(packet.commands)
 				};
 				using (MemoryStream stream = new MemoryStream())
 				{
@@ -265,17 +286,30 @@ public class GameManager : MonoBehaviour {
 				}
 				lock (opponentCmds)
 				{
-					if (!opponentCmds.ContainsKey(packet.tick))
-					{
-						opponentCmds.Add(packet.tick, new Queue<Command>());
-					}
 					foreach (Command command in packet.commands)
 					{
+						if (!opponentCmds.ContainsKey(command.tick))
+						{
+							opponentCmds.Add(command.tick, new Queue<Command>());
+						}
 						opponentCmds[command.tick].Enqueue(command);
 					}
 				}
 			}
 		}
+	}
+
+	private int maxPacketTick(List<Command> cmds)
+	{
+		int curr_max = 0;
+		for(int i = 0; i < cmds.Count; i++)
+		{
+			if(curr_max < cmds[i].tick)
+			{
+				curr_max = cmds[i].tick;
+			}
+		}
+		return curr_max;
 	}
 
 	public static void RegisterGameUnit(IGameUnit gameUnit)

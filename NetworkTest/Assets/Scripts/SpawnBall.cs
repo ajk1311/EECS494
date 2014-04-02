@@ -8,6 +8,11 @@ public class SpawnBall : MonoBehaviour, GameManager.IGameUnit {
 
 	private int	playerID;
 
+	public void Start()
+	{
+		GameManager.RegisterGameUnit(this);
+	}
+
 	public void SetPlayerID(int playerID)
 	{
 		this.playerID = playerID;
@@ -15,6 +20,7 @@ public class SpawnBall : MonoBehaviour, GameManager.IGameUnit {
 
 	public void GameUpdate(float deltaTime)
 	{
+		Debug.Log ("game update inside spawn point!");
 		if(GameCommands.GetKeyDown(playerID, KeyCode.Space))
 		{
 			GameObject spawned = (GameObject) Instantiate(playerID == 1 ? prefab1 : prefab2);

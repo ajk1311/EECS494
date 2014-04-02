@@ -61,7 +61,25 @@ namespace GameProtoBufs
 
 		public void AddCommands(IEnumerable<Command> _commands)
 		{
-			commands.AddRange(commands);
+			commands.AddRange(_commands);
+		}
+
+		public override string ToString()
+		{
+			string str = "Packet with player id " + playerID + ":\n";
+			if (isAck)
+			{
+				str += "\tIs Ack for tick " + tick;
+			}
+			else
+			{
+				str += "\tIs Input with commands:";
+				foreach (Command cmd in commands)
+				{
+					str += "\t\t" + cmd.ToString();
+				}
+			}
+			return str;
 		}
 	}
 
@@ -90,7 +108,7 @@ namespace GameProtoBufs
 
 		public KeyCode KeyCode
 		{
-			get { return CODES[keyCode]; }
+			get { return keyCode == -1 ? KeyCode.None : CODES[keyCode]; }
 		}
 
 		[ProtoMember(3)]
@@ -110,6 +128,11 @@ namespace GameProtoBufs
 		
 		[ProtoMember(8)]
 		public float z1;
+
+		public override string ToString()
+		{
+			return "Tick=" + tick + ", KeyCode=" + keyCode;
+		}
 
 		public static Command NewEmptyCommand(int _tick)
 		{

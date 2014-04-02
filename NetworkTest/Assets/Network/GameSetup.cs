@@ -146,7 +146,7 @@ public class GameSetup
 		BroadcastReady(true, localInfo);
 		UnityThreading.Thread.InForeground(() => 
 		{
-			GameManager.Start(localInfo.socket, localInfo.wrapped, remoteInfo);
+			GameManager.Start(localInfo.socket, remoteInfo);
 		});
 	}
 

@@ -9,6 +9,7 @@ public class BallControl : MonoBehaviour, GameManager.IGameUnit {
 
 	void Start () {
 		transform.position = destination;
+		GameManager.RegisterGameUnit (this);
 	}
 
 	public void SetPlayerID(int playerID)

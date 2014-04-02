@@ -6,12 +6,13 @@ public static class GameCommands
 {
 	public static readonly Vector3 Empty = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
-	private static readonly List<Dictionary<KeyCode, Command>> commandDispatch = new List<Dictionary<KeyCode, Command>>(2);
+	private static List<Dictionary<KeyCode, Command>> commandDispatch;
 
 	public static void Init()
 	{
-		commandDispatch[0] = new Dictionary<KeyCode, Command>();
-		commandDispatch[1] = new Dictionary<KeyCode, Command>();
+		commandDispatch = new List<Dictionary<KeyCode, Command>>(2);
+		commandDispatch.Add(new Dictionary<KeyCode, Command>());
+		commandDispatch.Add(new Dictionary<KeyCode, Command>());
 	}
 
 	public static void ClearInput()
@@ -24,6 +25,7 @@ public static class GameCommands
 
 	public static void AddInput(int playerID, Queue<Command> commands)
 	{
+		Debug.Log ("player id is: " + playerID);
 		Dictionary<KeyCode, Command> map = commandDispatch[playerID - 1];
 		foreach (Command cmd in commands)
 		{
