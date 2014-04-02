@@ -34,6 +34,12 @@ public class SelectionManager : MonoBehaviour {
 		}
 	}
 
+    public void moveUnits(Vector3 destination){
+        foreach(GameObject obj in currentlySelectedObjects){
+            obj.GetComponent<Unit>().startMovement(destination);
+        }
+    }
+
 	public bool isSelected(GameObject gameObject) {
 		return currentlySelectedObjects.Find(foundObj => foundObj == gameObject);
 	}

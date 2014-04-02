@@ -12,6 +12,13 @@ namespace RTS {
 			return null;
 		}
 
+        public static Vector3 FindHitPoint() {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit)) 
+                return hit.point;
+            return MechanicResources.InvalidPosition;
+        }
 		public static bool IsWithin(GameObject gameObject, Rect rect) {
 			Vector3 screenPos = Camera.main.WorldToScreenPoint (gameObject.transform.position);
 			Vector3 realScreenPos = new Vector3(screenPos.x, Screen.height-screenPos.y, screenPos.z);

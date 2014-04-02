@@ -1,15 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MechanicResources : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+namespace RTS{
+    public static class MechanicResources{
+        private static Vector3 invalidPosition = new Vector3(-99999, -99999, -99999);
+        public static Vector3 InvalidPosition { get { return invalidPosition; } }
+    }
 }
