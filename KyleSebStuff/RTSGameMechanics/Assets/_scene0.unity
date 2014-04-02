@@ -1262,7 +1262,7 @@ GameObject:
   - 154: {fileID: 675150063}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2922,6 +2922,10 @@ Prefab:
     - target: {fileID: 400000, guid: 642f7727cd52dbf4eb8a3714e440446e, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 642f7727cd52dbf4eb8a3714e440446e, type: 2}
+      propertyPath: m_TagString
+      value: Map
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 642f7727cd52dbf4eb8a3714e440446e, type: 2}

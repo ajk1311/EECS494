@@ -6,7 +6,7 @@ public class CameraControl : MonoBehaviour {
 
     public float ScrollWidth = 15;
     public float ScrollSpeed = 25;
-	public float PanningSpeed = 10;
+	public float PanningSpeed = 25;
     public float MaxCameraHeight = 20;
     public float MinCameraHeight = 5;
     private Vector3 movement, cameraDirection;
