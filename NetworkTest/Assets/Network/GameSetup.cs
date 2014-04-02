@@ -32,7 +32,7 @@ public class GameSetup
 
 	private static bool remoteReady = false;
 
-	private static ClientInfo remoteInfo;
+	public static ClientInfo remoteInfo;
 
     public static void ConnectToGame(string name)
     {
@@ -68,9 +68,9 @@ public class GameSetup
 		GameConnectionEvent connectionEvent = new GameConnectionEvent
 		{
 			name = localInfo.wrapped.name,
-			ID = localInfo.wrapped.playerID,
+			ID = remoteInfo.playerID,
 			opponentName = remoteInfo.name,
-			opponentID = remoteInfo.playerID,
+			opponentID = remoteInfo.opponentID,
 			success = true
 		};
 		Dispatcher.Instance.Post(connectionEvent);
@@ -117,14 +117,12 @@ public class GameSetup
 	private static void WaitForReady(MyClientInfo localInfo)
 	{
 		byte[] buf = new byte[32];
-		EndPoint endpoint = new IPEndPoint (
-			IPAddress.Parse (remoteInfo.address), remoteInfo.port);
-		int sz = localInfo.socket.ReceiveFrom(buf, ref endpoint);
-		Debug.Log("Received ready message " + sz + " bytes long");
+		int sz = localInfo.socket.Receive(buf);
+
 		try
 		{
-			PlayerReady msg = Serializer.Deserialize<PlayerReady>(new MemoryStream(buf));
-			if (msg.playerID != remoteInfo.playerID)
+			PlayerReady msg = Serializer.Deserialize<PlayerReady>(new MemoryStream(buf, 0, sz));
+			if (msg.playerID != remoteInfo.opponentID)
 			{
 				throw new Exception("Player ID received does not match recorded remote id");
 			}
@@ -139,13 +137,17 @@ public class GameSetup
 		lock (readyLock) 
 		{
 			remoteReady = true;
-			Monitor.Pulse(waitingForRemote);
+			Monitor.Pulse(readyLock);
 			while (!localReady)
 			{
-				Monitor.Wait(waitingForLocal);
+				Monitor.Wait(readyLock);
 			}
 		}
 		BroadcastReady(true, localInfo);
+		UnityThreading.Thread.InForeground(() => 
+		{
+			GameManager.Start(localInfo.socket, localInfo.wrapped, remoteInfo);
+		});
 	}
 
 	private static void BroadcastReady(bool ready, MyClientInfo localInfo = null)
@@ -176,10 +178,10 @@ public class GameSetup
 		lock (readyLock)
 		{
 			localReady = true;
-			Monitor.Pulse(waitingForLocal);
+			Monitor.Pulse(readyLock);
 			while (!remoteReady)
 			{
-				Monitor.Wait(waitingForRemote);
+				Monitor.Wait(readyLock);
 			}
 		}
 	}

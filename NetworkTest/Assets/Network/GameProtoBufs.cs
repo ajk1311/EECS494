@@ -1,5 +1,7 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using ProtoBuf;
+using System.Collections.Generic;
 
 namespace GameProtoBufs
 {
@@ -20,6 +22,9 @@ namespace GameProtoBufs
 
 		[ProtoMember(5)]
 		public int playerID;
+
+		[ProtoMember(6)]
+		public int opponentID;
     }
 
 	[ProtoContract]
@@ -30,12 +35,85 @@ namespace GameProtoBufs
 	}
 
 	[ProtoContract]
-	public class InputEvent
+	public class DataPacket
 	{
 		[ProtoMember(1)]
 		public int playerID;
 
 		[ProtoMember(2)]
+		public bool isAck;
+		
+		[ProtoMember(3)]
+		public int tick;
+
+		[ProtoMember(4)]
+		public List<Command> commands;
+
+		public DataPacket()
+		{
+			commands = new List<Command>();
+		}
+
+		public void AddCommand(Command command)
+		{
+			commands.Add(command);
+		}
+
+		public void AddCommands(IEnumerable<Command> _commands)
+		{
+			commands.AddRange(commands);
+		}
+	}
+
+	[ProtoContract]
+	public class Command
+	{
+		public static readonly int None = -1;
+
+		private static readonly KeyCode[] CODES = new KeyCode[]
+		{
+			KeyCode.Space,
+			KeyCode.LeftArrow,
+			KeyCode.RightArrow,
+			KeyCode.UpArrow,
+			KeyCode.DownArrow,
+			KeyCode.Mouse0,
+			KeyCode.Mouse1,
+			KeyCode.Mouse2
+		};
+
+		[ProtoMember(1)]
+		public int tick;
+
+		[ProtoMember(2)]
 		public int keyCode;
+
+		public KeyCode KeyCode
+		{
+			get { return CODES[keyCode]; }
+		}
+
+		[ProtoMember(3)]
+		public float x0;
+
+		[ProtoMember(4)]
+		public float y0;
+
+		[ProtoMember(5)]
+		public float z0;
+		
+		[ProtoMember(6)]
+		public float x1;
+		
+		[ProtoMember(7)]
+		public float y1;
+		
+		[ProtoMember(8)]
+		public float z1;
+
+		public static Command NewEmptyCommand(int _tick)
+		{
+			return new Command { tick = _tick, keyCode = None };
+		}
 	}
 }

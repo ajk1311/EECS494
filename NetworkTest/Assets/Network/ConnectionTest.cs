@@ -6,29 +6,28 @@ using System.Threading;
 
 public class ConnectionTest : MonoBehaviour {
 
+	public Object spawnPrefab;
+
 	void Start () 
 	{
 		Dispatcher.Instance.Register(this);
 		GameSetup.ConnectToGame("player1");
 	}
 
-	void OnDestroy()
-	{
-		Dispatcher.Instance.Unregister(this);
-	}
-
 	[HandlesEvent]
 	public void OnGameConnection(GameConnectionEvent connectionEvent)
 	{
 		Debug.Log("Game Connected, opponent is " + connectionEvent.opponentName);
-		UnityThreading.Thread.InBackground(() =>
-		{
-			Thread.Sleep(5000);
-			UnityThreading.Thread.InForeground(() =>
-			{
-				GameSetup.Ready(connectionEvent.ID);
-			});
-		});
+
+		GameObject playerSpawnPoint = (GameObject) Instantiate(spawnPrefab);
+		playerSpawnPoint.name = connectionEvent.name + "_spawnPoint";
+		playerSpawnPoint.GetComponent<SpawnBall>().SetPlayerID(connectionEvent.ID);
+
+		GameObject opponentSpawnPoint = (GameObject) Instantiate(spawnPrefab);
+		opponentSpawnPoint.name = connectionEvent.opponentName + "_spawnPoint";
+		opponentSpawnPoint.GetComponent<SpawnBall>().SetPlayerID(connectionEvent.opponentID);
+
+		GameSetup.Ready(connectionEvent.ID);
 	}
 
 	[HandlesEvent]
