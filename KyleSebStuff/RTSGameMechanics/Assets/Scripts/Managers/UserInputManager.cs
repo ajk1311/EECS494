@@ -57,9 +57,15 @@ public class UserInputManager : MonoBehaviour {
     private void RightMouseClick() {
         if (GUIResources.MouseInPlayingArea()) {
             if (selectionManagerScript.count() > 0) {
-                Vector3 destination = RTSGameMechanics.FindHitPoint();
-                if (destination != MechanicResources.InvalidPosition) {
-                    selectionManagerScript.moveUnits(destination);
+                GameObject target = RTSGameMechanics.FindHitObject();
+                if(target.tag != "Map") {
+					Debug.Log ("Attacking");
+                    selectionManagerScript.attackUnit(target);
+                } else {
+                    Vector3 destination = RTSGameMechanics.FindHitPoint();
+                    if (destination != MechanicResources.InvalidPosition) {
+                        selectionManagerScript.moveUnits(destination);
+                    }
                 }
             }
         }
