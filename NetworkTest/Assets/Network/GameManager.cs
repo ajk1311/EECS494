@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private static readonly int DEFAULT_LATENCY = 4; // ticks
-	private static readonly float DEFAULT_TICK_LENGTH = 200; // ms	
+	private static readonly float DEFAULT_TICK_LENGTH = 400; // ms	
 	private static readonly int MAX_TIMEOUT_LOOP_COUNT = 200; // iterations
 
 	private static List<IGameUnit> units = new List<IGameUnit>();
@@ -98,10 +98,9 @@ public class GameManager : MonoBehaviour {
 		frameTime += Time.deltaTime;
 		if (frameTime >= frameLength)
 		{
-//			Debug.Log ("curr game frame: " + gameFrame);
+            frameTime = 0;
 			if (gameFrame == 0)
 			{
-//				Debug.Log ("Curr Tick: " + currTick);
 				if (ProcessCommands())
 				{
 					AcceptInput();
@@ -136,7 +135,6 @@ public class GameManager : MonoBehaviour {
 				if (gameFrame == framesPerTick)
 				{
 					gameFrame = 0;
-					currTick++;
 				}
 			}
 		}
@@ -149,15 +147,6 @@ public class GameManager : MonoBehaviour {
 		{
 			receivedOpponentCmds = opponentCmds.ContainsKey(currTick);
 		}
-//		Debug.Log ("max tick is: " + maxTick);
-//		foreach(KeyValuePair<int,Queue<Command>> pair in opponentCmds)
-//		{
-//			Debug.Log ("opponentCmds contains key: " + pair.Key);
-//		}
-//		foreach(KeyValuePair<int,Queue<Command>> pair in playerCmds)
-//		{
-//			Debug.Log ("playerCmds contains key: " + pair.Key);
-//		}
 		if(currTick <= maxTick && receivedOpponentCmds)
 		{
 			SendBufferedCommands();
@@ -167,7 +156,8 @@ public class GameManager : MonoBehaviour {
 			{
 				GameCommands.AddInput(playerInfo.opponentID, opponentCmds[currTick]);
 				opponentCmds.Remove(currTick);
-			}
+            }
+            currTick++;
 			return true;
 		}
 		return false;
@@ -191,11 +181,8 @@ public class GameManager : MonoBehaviour {
 				q.Enqueue(Command.NewEmptyCommand(currTick + latency));
 				playerCmds.Add(currTick + latency, q);
 			}
-//			Debug.Log("SENDING PACKET WITH THE FOLLOWING CONTENTS: ");
 			foreach(KeyValuePair<int,Queue<Command>> entry in pendingBuffer)
 			{
-//				Debug.Log ("putting into pending buffer with tick: " + entry.Key);
-//				Debug.Log ("putting into pending buffer with queue of length: " + entry.Value.Count);
 				packet.AddCommands(entry.Value);
 			}
 		}
@@ -258,7 +245,7 @@ public class GameManager : MonoBehaviour {
 		{
 			int sz = recvSocket.Receive(inputBuffer);
 			DataPacket packet = Serializer.Deserialize<DataPacket>(new MemoryStream(inputBuffer, 0, sz));
-//			Debug.Log ("incoming packet contents: " + packet.ToString());
+			//Debug.Log ("incoming packet contents: " + packet.ToString());
 			if (packet.isAck) 
 			{
 				int prevMaxTick = maxTick;

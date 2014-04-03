@@ -14,7 +14,7 @@ using GameProtoBufs;
 
 public class GameSetup
 {
-    private static readonly string SERVER_IP = "10.0.0.17";
+    private static readonly string SERVER_IP = "35.2.218.94";
 
     private static readonly int SERVER_PORT = 9191;
 

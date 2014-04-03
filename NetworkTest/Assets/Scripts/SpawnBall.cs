@@ -20,9 +20,10 @@ public class SpawnBall : MonoBehaviour, GameManager.IGameUnit {
 
 	public void GameUpdate(float deltaTime)
 	{
-		Debug.Log ("game update inside spawn point!");
+		//Debug.Log ("game update inside spawn point!");
 		if(GameCommands.GetKeyDown(playerID, KeyCode.Space))
 		{
+           // Debug.Log("Got space bar!");
 			GameObject spawned = (GameObject) Instantiate(playerID == 1 ? prefab1 : prefab2);
 			spawned.GetComponent<BallControl>().SetPlayerID(playerID);
 		}

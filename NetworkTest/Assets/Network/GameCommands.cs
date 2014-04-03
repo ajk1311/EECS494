@@ -25,7 +25,6 @@ public static class GameCommands
 
 	public static void AddInput(int playerID, Queue<Command> commands)
 	{
-		Debug.Log ("player id is: " + playerID);
 		Dictionary<KeyCode, Command> map = commandDispatch[playerID - 1];
 		foreach (Command cmd in commands)
 		{

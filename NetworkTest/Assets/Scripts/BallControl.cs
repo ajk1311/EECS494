@@ -24,6 +24,18 @@ public class BallControl : MonoBehaviour, GameManager.IGameUnit {
 		{
 			destination = new Vector3(destination.x + 2, destination.y, destination.z);
 		}
+        else if (GameCommands.GetKeyDown(playerID, KeyCode.LeftArrow))
+        {
+            destination = new Vector3(destination.x - 2, destination.y, destination.z);
+        }
+        else if (GameCommands.GetKeyDown(playerID, KeyCode.UpArrow))
+        {
+            destination = new Vector3(destination.x, destination.y, destination.z + 2);
+        }
+        else if (GameCommands.GetKeyDown(playerID, KeyCode.DownArrow))
+        {
+            destination = new Vector3(destination.x, destination.y, destination.z - 2);
+        }
 		transform.position = Vector3.Lerp(transform.position, destination, speed * deltaTime);
 	}
 }

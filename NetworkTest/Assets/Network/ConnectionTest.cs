@@ -11,7 +11,7 @@ public class ConnectionTest : MonoBehaviour {
 	void Start () 
 	{
 		Dispatcher.Instance.Register(this);
-		GameSetup.ConnectToGame("jjhsiung");
+		GameSetup.ConnectToGame("akausejr");
 	}
 
 	[HandlesEvent]
