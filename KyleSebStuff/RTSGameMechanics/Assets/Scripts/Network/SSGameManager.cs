@@ -272,6 +272,8 @@ public class SSGameManager : MonoBehaviour {
 		}
 	}
 
+
+
 	void ScheduleCommand(int keyCode,
 	                     float x0 = 0, float y0 = 0, float z0 = 0,
 	                     float x1 = 0, float y1 = 0, float z1 = 0)
