@@ -13,20 +13,16 @@ namespace RTS {
 		}
 
 		public static Vector3 FindHitPoint() {
-			return FindHitPoint(Input.mousePosition);
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit)) {
+				return hit.point;
+			}
+			return MechanicResources.InvalidPosition;
 		}
 
-        public static Vector3 FindHitPoint(Vector3 position) {
+		public static Vector3 FindHitPointOnMap(Vector3 position) {
             Ray ray = Camera.main.ScreenPointToRay(position);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit)) {
-                return hit.point;
-			}
-            return MechanicResources.InvalidPosition;
-        }
-
-		public static Vector3 FindHitPointOnMap() {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hits;
 			hits = Physics.RaycastAll (ray);
             if (hits.Length > 0) { 

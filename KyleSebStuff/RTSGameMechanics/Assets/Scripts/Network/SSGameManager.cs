@@ -242,8 +242,8 @@ public class SSGameManager : MonoBehaviour {
 				if (Mathf.Abs (Input.mousePosition.x - mouse0DownVector.x) > 2 &&
 				    Mathf.Abs (Input.mousePosition.y - mouse0DownVector.y) > 2)
 				{
-					Vector3 downHit = RTSGameMechanics.FindHitPoint(mouse0DownVector);
-					Vector3 upHit = RTSGameMechanics.FindHitPoint();
+					Vector3 downHit = RTSGameMechanics.FindHitPointOnMap(mouse0DownVector);
+					Vector3 upHit = RTSGameMechanics.FindHitPointOnMap(Input.mousePosition);
 					ScheduleCommand(SSKeyCode.Mouse0Select, 
 					                downHit.x, downHit.y, downHit.z,
 					                upHit.x, upHit.y, upHit.z);
@@ -265,7 +265,7 @@ public class SSGameManager : MonoBehaviour {
 		{
 			if (mouse1Down)
 			{
-				Vector3 hit = RTSGameMechanics.FindHitPoint();
+				Vector3 hit = RTSGameMechanics.FindHitPointOnMap(Input.mousePosition);
 				ScheduleCommand(SSKeyCode.Mouse1Click, hit.x, hit.y, hit.z);
 				mouse1Down = false;
 			}
