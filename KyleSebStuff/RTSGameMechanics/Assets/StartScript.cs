@@ -5,8 +5,7 @@ using SSGameEvents;
 
 public class StartScript : MonoBehaviour {
 
-	public Object Player;
-	public Object Opponent;
+	public Object opponentUnit;
 	public Object unitPrefab;
 
 	void Start () {
@@ -33,7 +32,7 @@ public class StartScript : MonoBehaviour {
 		opponentObject.GetComponent<UserInputManager>().playerID = connectionEvent.opponentID;
 
 		
-		GameObject unit2 = (GameObject)Instantiate (unitPrefab, new Vector3(20, 2.5f, 30), Quaternion.identity);
+		GameObject unit2 = (GameObject)Instantiate (opponentUnit, new Vector3(20, 2.5f, 30), Quaternion.identity);
 		unit2.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 
 		SSGameSetup.Ready(connectionEvent.ID);
