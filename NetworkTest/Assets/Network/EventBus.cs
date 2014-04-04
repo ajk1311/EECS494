@@ -49,6 +49,7 @@ namespace EventBus
 			}
 			catch (ArgumentException ae)
 			{
+                Debug.Log(ae.Message);
 				throw new ArgumentException("Event Dispatcher can only be created on the Unity main thread." +
 				                            "Instance must be invoked at least once from Start(), Awake(), Update(), FixedUpdate(), etc.");
 			}

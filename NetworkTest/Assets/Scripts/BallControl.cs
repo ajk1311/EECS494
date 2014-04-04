@@ -20,19 +20,19 @@ public class BallControl : MonoBehaviour, SSGameManager.IGameUnit {
 	public void GameUpdate(float deltaTime)
 	{
 		//poll available commands for current tick
-		if (SSInput.GetKeyDown(playerID, KeyCode.RightArrow))
+		if (SSInput.GetKeyDown(playerID, SSKeyCode.RightArrow))
 		{
 			destination = new Vector3(destination.x + 2, destination.y, destination.z);
 		}
-        else if (SSInput.GetKeyDown(playerID, KeyCode.LeftArrow))
+        else if (SSInput.GetKeyDown(playerID, SSKeyCode.LeftArrow))
         {
             destination = new Vector3(destination.x - 2, destination.y, destination.z);
         }
-        else if (SSInput.GetKeyDown(playerID, KeyCode.UpArrow))
+        else if (SSInput.GetKeyDown(playerID, SSKeyCode.UpArrow))
         {
             destination = new Vector3(destination.x, destination.y, destination.z + 2);
         }
-        else if (SSInput.GetKeyDown(playerID, KeyCode.DownArrow))
+        else if (SSInput.GetKeyDown(playerID, SSKeyCode.DownArrow))
         {
             destination = new Vector3(destination.x, destination.y, destination.z - 2);
         }

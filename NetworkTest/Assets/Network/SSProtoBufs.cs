@@ -86,39 +86,20 @@ namespace SSProtoBufs
 	[ProtoContract]
 	public class Command
 	{
-		public static readonly int None = -1;
-
-		private static readonly KeyCode[] CODES = new KeyCode[]
-		{
-			KeyCode.Space,
-			KeyCode.LeftArrow,
-			KeyCode.RightArrow,
-			KeyCode.UpArrow,
-			KeyCode.DownArrow,
-			KeyCode.Mouse0,
-			KeyCode.Mouse1,
-			KeyCode.Mouse2
-		};
-
 		[ProtoMember(1)]
 		public int tick;
 
 		[ProtoMember(2)]
 		public int keyCode;
 
-		public KeyCode KeyCode
-		{
-			get { return keyCode == -1 ? KeyCode.None : CODES[keyCode]; }
-		}
-
 		[ProtoMember(3)]
-		public float x0;
+		public float x;
 
 		[ProtoMember(4)]
-		public float y0;
+		public float y;
 
 		[ProtoMember(5)]
-		public float z0;
+		public float z;
 
 		public override string ToString()
 		{
@@ -127,7 +108,7 @@ namespace SSProtoBufs
 
 		public static Command NewEmptyCommand(int _tick)
 		{
-			return new Command { tick = _tick, keyCode = None };
+			return new Command { tick = _tick, keyCode = SSKeyCode.Empty };
 		}
 	}
 }

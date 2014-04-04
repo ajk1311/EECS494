@@ -24,15 +24,19 @@ public class SSGameSetup
 
 	private static object readyLock = new object();
 
-	private static object waitingForLocal = new object();
-
-	private static object waitingForRemote = new object();
-
 	private static bool localReady = false;
 
 	private static bool remoteReady = false;
 
 	public static ClientInfo remoteInfo;
+
+    public static bool Connected
+    {
+        get
+        {
+            return connected || connecting;
+        }
+    }
 
     public static void ConnectToGame(string name)
     {

@@ -95,7 +95,7 @@ public class ServerConnection : MonoBehaviour {
 							System.Threading.Thread.Sleep(5000);
 						}
 					} catch(IOException ioe){
-						Debug.Log ("shit broke :(");
+						Debug.Log ("shit broke: " + ioe.Message);
 					}
 				}
 			}

@@ -194,24 +194,40 @@ public class SSGameManager : MonoBehaviour {
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			ScheduleCommand(0);
+			ScheduleCommand(SSKeyCode.Space);
 		}
 		else if (Input.GetKeyDown(KeyCode.LeftArrow))
 		{
-			ScheduleCommand(1);
+			ScheduleCommand(SSKeyCode.LeftArrow);
 		}
 		else if (Input.GetKeyDown(KeyCode.RightArrow))
 		{
-			ScheduleCommand(2);
+			ScheduleCommand(SSKeyCode.RightArrow);
 		}
 		else if (Input.GetKeyDown(KeyCode.UpArrow))
 		{
-			ScheduleCommand(3);
+			ScheduleCommand(SSKeyCode.UpArrow);
 		}
 		else if (Input.GetKeyDown(KeyCode.DownArrow))
 		{
-			ScheduleCommand(4);
+			ScheduleCommand(SSKeyCode.DownArrow);
 		}
+        else if (Input.GetMouseButtonDown(0))
+        {
+            ScheduleCommand(SSKeyCode.Mouse0Down);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            ScheduleCommand(SSKeyCode.Mouse0Up);
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            ScheduleCommand(SSKeyCode.Mouse1Up);
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            ScheduleCommand(SSKeyCode.Mouse1Down);
+        }
 	}
 
 	void ScheduleCommand(int keyCode)

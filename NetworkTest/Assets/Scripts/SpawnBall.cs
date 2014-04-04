@@ -21,7 +21,7 @@ public class SpawnBall : MonoBehaviour, SSGameManager.IGameUnit {
 	public void GameUpdate(float deltaTime)
 	{
 		//Debug.Log ("game update inside spawn point!");
-		if(SSInput.GetKeyDown(playerID, KeyCode.Space))
+		if(SSInput.GetKeyDown(playerID, SSKeyCode.Space))
 		{
            // Debug.Log("Got space bar!");
 			GameObject spawned = (GameObject) Instantiate(playerID == 1 ? prefab1 : prefab2);
