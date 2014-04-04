@@ -19,11 +19,11 @@ namespace RTS {
                 return hit.point;
             return MechanicResources.InvalidPosition;
         }
+
 		public static bool IsWithin(GameObject gameObject, Rect rect) {
-			Vector3 screenPos = Camera.main.WorldToScreenPoint (gameObject.transform.position);
-			Vector3 realScreenPos = new Vector3(screenPos.x, Screen.height-screenPos.y, screenPos.z);
+			Vector3 modifiedObjectPos = new Vector3 (gameObject.transform.position.x, 0, gameObject.transform.position.z);
 			
-			if (rect.Contains (realScreenPos, true)) {
+			if (rect.Contains (modifiedObjectPos, true)) {
 				return true;
 			}
 			
