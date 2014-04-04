@@ -28,12 +28,14 @@ namespace RTS {
 		public static Vector3 FindHitPointOnMap() {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hits;
-            if (Physics.RaycastAll(ray, out hits)) 
+			hits = Physics.RaycastAll (ray);
+            if (hits.Length > 0) { 
 				foreach(RaycastHit hit in hits) {
 					if(hit.transform.tag == "Map") {
-					return hit.point;
+						return hit.point;
 					}
 				}
+			}
             return MechanicResources.InvalidPosition;
         }
 
