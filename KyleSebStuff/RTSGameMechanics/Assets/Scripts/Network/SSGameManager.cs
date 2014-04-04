@@ -265,7 +265,7 @@ public class SSGameManager : MonoBehaviour {
 		{
 			if (mouse1Down)
 			{
-				Vector3 hit = RTSGameMechanics.FindHitPointOnMap(Input.mousePosition);
+				Vector3 hit = RTSGameMechanics.FindHitPoint();
 				ScheduleCommand(SSKeyCode.Mouse1Click, hit.x, hit.y, hit.z);
 				mouse1Down = false;
 			}
