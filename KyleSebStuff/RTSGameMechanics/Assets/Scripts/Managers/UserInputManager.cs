@@ -32,7 +32,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void LeftMouseClickDown(Vector3 mousePosition) {
         //TODO If mouse in playing area
-//        if (GUIResources.MouseInPlayingArea()) {
+        if (GUIResources.MouseInPlayingArea()) {
             GameObject hitObject = RTSGameMechanics.FindHitObject(mousePosition);
     
             if (hitObject) {
@@ -51,13 +51,13 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 					SelectionManager.deselectAllGameObjects(PlayerID);
                 }
             }
-//        } else {
+        } else {
             //TODO Not in Game bounds but in HUD/GUI
-//        }
+        }
     }
 
     private void RightMouseClick(Vector3 mousePosition) {
-//        if (GUIResources.MouseInPlayingArea()) {
+        if (GUIResources.MouseInPlayingArea()) {
 			if (SelectionManager.count(PlayerID) > 0) {
                 GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
                 if(target.tag != "Map") {
@@ -69,7 +69,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                     }
                 }
             }
-//        }
+        }
     }
 
     private void selectGameObject(GameObject gameObject) {
