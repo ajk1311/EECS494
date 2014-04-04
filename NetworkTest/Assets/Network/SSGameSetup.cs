@@ -9,12 +9,12 @@ using System.Collections;
 
 using EventBus;
 using ProtoBuf;
-using GameEvents;
-using GameProtoBufs;
+using SSGameEvents;
+using SSProtoBufs;
 
-public class GameSetup
+public class SSGameSetup
 {
-    private static readonly string SERVER_IP = "35.2.218.94";
+    private static readonly string SERVER_IP = "10.0.0.17";
 
     private static readonly int SERVER_PORT = 9191;
 
@@ -146,7 +146,7 @@ public class GameSetup
 		BroadcastReady(true, localInfo);
 		UnityThreading.Thread.InForeground(() => 
 		{
-			GameManager.Start(localInfo.socket, remoteInfo);
+			SSGameManager.Start(localInfo.socket, remoteInfo);
 		});
 	}
 

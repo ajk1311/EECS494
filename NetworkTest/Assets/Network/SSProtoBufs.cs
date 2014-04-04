@@ -3,7 +3,7 @@ using System;
 using ProtoBuf;
 using System.Collections.Generic;
 
-namespace GameProtoBufs
+namespace SSProtoBufs
 {
     [ProtoContract]
     public class ClientInfo
@@ -119,15 +119,6 @@ namespace GameProtoBufs
 
 		[ProtoMember(5)]
 		public float z0;
-		
-		[ProtoMember(6)]
-		public float x1;
-		
-		[ProtoMember(7)]
-		public float y1;
-		
-		[ProtoMember(8)]
-		public float z1;
 
 		public override string ToString()
 		{

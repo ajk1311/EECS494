@@ -2,23 +2,10 @@
 using System.Net.Sockets;
 using System.Collections.Generic;
 
-using GameProtoBufs;
+using SSProtoBufs;
 
-namespace GameEvents 
+namespace SSGameEvents 
 {
-    public static class GameEventType
-    {
-        public enum TypeId
-        {
-            Connection
-        }
-
-        public static readonly Dictionary<Type, TypeId> TypeToId = new Dictionary<Type, TypeId>
-        {
-            {typeof(GameConnectionEvent), TypeId.Connection}
-        };
-    }
-
     public class GameConnectionEvent
     {
         public string name;

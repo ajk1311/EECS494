@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpawnBall : MonoBehaviour, GameManager.IGameUnit {
+public class SpawnBall : MonoBehaviour, SSGameManager.IGameUnit {
 
 	public Object prefab1;
 	public Object prefab2;
@@ -10,7 +10,7 @@ public class SpawnBall : MonoBehaviour, GameManager.IGameUnit {
 
 	public void Start()
 	{
-		GameManager.RegisterGameUnit(this);
+		SSGameManager.RegisterGameUnit(this);
 	}
 
 	public void SetPlayerID(int playerID)
@@ -21,7 +21,7 @@ public class SpawnBall : MonoBehaviour, GameManager.IGameUnit {
 	public void GameUpdate(float deltaTime)
 	{
 		//Debug.Log ("game update inside spawn point!");
-		if(GameCommands.GetKeyDown(playerID, KeyCode.Space))
+		if(SSInput.GetKeyDown(playerID, KeyCode.Space))
 		{
            // Debug.Log("Got space bar!");
 			GameObject spawned = (GameObject) Instantiate(playerID == 1 ? prefab1 : prefab2);

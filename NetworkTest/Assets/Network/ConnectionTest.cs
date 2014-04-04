@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using GameEvents;
+using SSGameEvents;
 using EventBus;
 using System.Threading;
 
@@ -11,7 +11,7 @@ public class ConnectionTest : MonoBehaviour {
 	void Start () 
 	{
 		Dispatcher.Instance.Register(this);
-		GameSetup.ConnectToGame("akausejr");
+		SSGameSetup.ConnectToGame("akausejr");
 	}
 
 	[HandlesEvent]
@@ -27,7 +27,7 @@ public class ConnectionTest : MonoBehaviour {
 		opponentSpawnPoint.name = connectionEvent.opponentName + "_spawnPoint";
 		opponentSpawnPoint.GetComponent<SpawnBall>().SetPlayerID(connectionEvent.opponentID);
 
-		GameSetup.Ready(connectionEvent.ID);
+		SSGameSetup.Ready(connectionEvent.ID);
 	}
 
 	[HandlesEvent]

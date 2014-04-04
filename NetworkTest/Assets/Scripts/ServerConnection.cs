@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ProtoBuf;
-using GameProtoBufs;
+using SSProtoBufs;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;

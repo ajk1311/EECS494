@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using GameProtoBufs;
+using SSProtoBufs;
 
-public static class GameCommands
+public static class SSInput
 {
 	public static readonly Vector3 Empty = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
@@ -51,16 +51,14 @@ public static class GameCommands
 		return new Vector3(cmd.x0, cmd.y0, cmd.z0);
 	}
 
-	public static Vector3[] GetMouseDragSelection(int playerID)
-	{
-		if (!commandDispatch[playerID - 1].ContainsKey(KeyCode.Mouse2))
-		{
-			return null;
-		}
-		Command cmd = commandDispatch[playerID - 1][KeyCode.Mouse2];
-		Vector3[] selection = new Vector3[2];
-		selection[0] = new Vector3(cmd.x0, cmd.y0, cmd.z0);
-		selection[1] = new Vector3(cmd.x1, cmd.y1, cmd.z1);
-		return selection;
-	}
+    public static Vector3 GetMouseButtonUp(int playerID, int mouseButton)
+    {
+        KeyCode keyCode = mouseButton == 0 ? KeyCode.Mouse0 : KeyCode.Mouse1;
+        if (!commandDispatch[playerID - 1].ContainsKey(keyCode))
+        {
+            return Empty;
+        }
+        Command cmd = commandDispatch[playerID - 1][keyCode];
+        return new Vector3(cmd.x0, cmd.y0, cmd.z0);
+    }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BallControl : MonoBehaviour, GameManager.IGameUnit {
+public class BallControl : MonoBehaviour, SSGameManager.IGameUnit {
 
 	private int playerID;
 	public float speed = 2;
@@ -9,7 +9,7 @@ public class BallControl : MonoBehaviour, GameManager.IGameUnit {
 
 	void Start () {
 		transform.position = destination;
-		GameManager.RegisterGameUnit (this);
+		SSGameManager.RegisterGameUnit (this);
 	}
 
 	public void SetPlayerID(int playerID)
@@ -20,19 +20,19 @@ public class BallControl : MonoBehaviour, GameManager.IGameUnit {
 	public void GameUpdate(float deltaTime)
 	{
 		//poll available commands for current tick
-		if (GameCommands.GetKeyDown(playerID, KeyCode.RightArrow))
+		if (SSInput.GetKeyDown(playerID, KeyCode.RightArrow))
 		{
 			destination = new Vector3(destination.x + 2, destination.y, destination.z);
 		}
-        else if (GameCommands.GetKeyDown(playerID, KeyCode.LeftArrow))
+        else if (SSInput.GetKeyDown(playerID, KeyCode.LeftArrow))
         {
             destination = new Vector3(destination.x - 2, destination.y, destination.z);
         }
-        else if (GameCommands.GetKeyDown(playerID, KeyCode.UpArrow))
+        else if (SSInput.GetKeyDown(playerID, KeyCode.UpArrow))
         {
             destination = new Vector3(destination.x, destination.y, destination.z + 2);
         }
-        else if (GameCommands.GetKeyDown(playerID, KeyCode.DownArrow))
+        else if (SSInput.GetKeyDown(playerID, KeyCode.DownArrow))
         {
             destination = new Vector3(destination.x, destination.y, destination.z - 2);
         }

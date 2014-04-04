@@ -3,11 +3,11 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Collections.Generic;
-using GameProtoBufs;
+using SSProtoBufs;
 using ProtoBuf;
 using System.IO;
 
-public class GameManager : MonoBehaviour {
+public class SSGameManager : MonoBehaviour {
 
 	public interface IGameUnit
 	{
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
 
 	public static void Start(Socket recvSocket, ClientInfo playerInfo)
 	{
-		GameManager instance = new GameObject("GameManager").AddComponent<GameManager>();
+		SSGameManager instance = new GameObject("GameManager").AddComponent<SSGameManager>();
 		instance.playerInfo = playerInfo;
 		instance.recvSocket = recvSocket;
 		instance.sendSocket = new Socket(
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour {
 		instance.remoteEndpoint = new IPEndPoint(
 			IPAddress.Parse(playerInfo.address), 
 			playerInfo.port);
-		GameCommands.Init();
+		SSInput.Init();
 	}
 
 	void Start() 
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour {
 				}
 				if (gameFrame == 1)
 				{
-					GameCommands.ClearInput();
+					SSInput.ClearInput();
 				}
 				gameFrame++;
 				if (gameFrame == framesPerTick)
@@ -150,11 +150,11 @@ public class GameManager : MonoBehaviour {
 		if(currTick <= maxTick && receivedOpponentCmds)
 		{
 			SendBufferedCommands();
-			GameCommands.AddInput(playerInfo.playerID, playerCmds[currTick]);
+			SSInput.AddInput(playerInfo.playerID, playerCmds[currTick]);
 			playerCmds.Remove(currTick);
 			lock (opponentCmds)
 			{
-				GameCommands.AddInput(playerInfo.opponentID, opponentCmds[currTick]);
+				SSInput.AddInput(playerInfo.opponentID, opponentCmds[currTick]);
 				opponentCmds.Remove(currTick);
             }
             currTick++;
