@@ -304,7 +304,6 @@ public class SSGameManager : MonoBehaviour {
 					{
 						if (!opponentCmds.ContainsKey(command.tick))
 						{
-							if(command.keyCode == SSKeyCode.Mouse0Down)
 							opponentCmds.Add(command.tick, new Queue<Command>());
 						}
 						opponentCmds[command.tick].Enqueue(command);
