@@ -183,7 +183,7 @@ public class SSGameManager : MonoBehaviour {
 				packet.AddCommands(entry.Value);
 			}
 		}
-		Debug.Log ("sending out packet: " + packet.ToString ());
+//		Debug.Log ("sending out packet: " + packet.ToString ());
 		using (MemoryStream stream = new MemoryStream())
 		{
 			Serializer.Serialize(stream, packet);
@@ -304,6 +304,7 @@ public class SSGameManager : MonoBehaviour {
 					{
 						if (!opponentCmds.ContainsKey(command.tick))
 						{
+							if(command.keyCode == SSKeyCode.Mouse0Down)
 							opponentCmds.Add(command.tick, new Queue<Command>());
 						}
 						opponentCmds[command.tick].Enqueue(command);

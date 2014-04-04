@@ -30,6 +30,7 @@ public static class SSInput
 		{
 			if (!map.ContainsKey(cmd.keyCode))
 			{
+				if(playerID != GameObject.Find("Opponent").GetComponent<UserInputManager>().playerID && cmd.keyCode != SSKeyCode.Empty)
 				map.Add(cmd.keyCode, cmd);
 			}
 		}
