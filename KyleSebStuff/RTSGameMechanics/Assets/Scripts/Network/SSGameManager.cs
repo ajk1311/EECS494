@@ -283,7 +283,7 @@ public class SSGameManager : MonoBehaviour {
 		cmd.tick = currTick + latency;
 
 		if (keyCode == SSKeyCode.Mouse0Click ||
-		    keyCode == SSKeyCode.Mouse0Select ||
+		    keyCode == SSKeyCode.Mouse1Click ||
 		    keyCode == SSKeyCode.Mouse0Select)
 		{
 			cmd.x0 = x0;
