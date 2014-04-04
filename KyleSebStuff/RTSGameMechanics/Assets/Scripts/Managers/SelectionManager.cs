@@ -3,49 +3,50 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class SelectionManager : MonoBehaviour {
+public static class SelectionManager {
 
-    private List<GameObject> currentlySelectedObjects;
-    public Rect selectedSpace = new Rect(0, 0, 0, 0);
+    private static List<List<GameObject>> currentlySelectedObjects;
+    public static Rect selectedSpace = new Rect(0, 0, 0, 0);
 
-    // Use this for initialization
-    void Start() {
-        currentlySelectedObjects = new List<GameObject>();
+    public static void Init() {
+        currentlySelectedObjects = new List<List<GameObject>>(2);
+		currentlySelectedObjects.Add(new List<GameObject>());
+		currentlySelectedObjects.Add(new List<GameObject>());
     }
 
-    public int count() {
-        return currentlySelectedObjects.Count;
+    public static int count(int playerID) {
+        return currentlySelectedObjects[playerID -1].Count;
     }
 
-    public void addSelectedGameObject(GameObject gameObject) {
-        currentlySelectedObjects.Add(gameObject);
+	public static void addSelectedGameObject(int playerID, GameObject gameObject) {
+		currentlySelectedObjects[playerID -1].Add(gameObject);
     }
 
-    public void deselectGameObject(GameObject  gameObject) {
-        if (!currentlySelectedObjects.Remove(gameObject)) {
+	public static void deselectGameObject(int playerID, GameObject  gameObject) {
+		if (!currentlySelectedObjects[playerID -1].Remove(gameObject)) {
             Debug.Log("Removed a non-selected object");
         }
     }
 
-    public void deselectAllGameObjects() {
-        foreach (GameObject obj in currentlySelectedObjects) {
+	public static void deselectAllGameObjects(int playerID) {
+        foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
             obj.GetComponent<WorldObject>().setCurrentlySelected(false);
         }
     }
 
-    public void moveUnits(Vector3 destination) {
-        foreach (GameObject obj in currentlySelectedObjects) {
+	public static void moveUnits(int playerID, Vector3 destination) {
+        foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
             obj.GetComponent<Unit>().IssueMoveCommand(destination);
         }
     }
 
-    public void attackUnit(GameObject target) {
-        foreach (GameObject obj in currentlySelectedObjects) {
+	public static void attackUnit(int playerID, GameObject target) {
+        foreach (GameObject obj in currentlySelectedObjects[playerID -1]) {
             obj.GetComponent<Unit>().IssueAttackCommand(target);
         }
     }
 
-    public bool isSelected(GameObject gameObject) {
-        return currentlySelectedObjects.Find(foundObj => foundObj == gameObject);
+	public static bool isSelected(int playerID, GameObject gameObject) {
+        return currentlySelectedObjects[playerID-1].Find(foundObj => foundObj == gameObject);
     }
 }

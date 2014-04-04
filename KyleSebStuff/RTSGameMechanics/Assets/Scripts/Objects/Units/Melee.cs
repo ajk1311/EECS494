@@ -11,7 +11,7 @@ public class Melee : Unit {
 	}
 	
 	// Update is called once per frame
-    protected override void Update () {
+    public override void GameUpdate(float deltaTime) {
 	
 	}
 }

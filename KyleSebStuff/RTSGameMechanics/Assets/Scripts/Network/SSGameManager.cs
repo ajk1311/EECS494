@@ -5,13 +5,14 @@ using System.Net.Sockets;
 using System.Collections.Generic;
 using SSProtoBufs;
 using ProtoBuf;
+using RTS;
 using System.IO;
 
 public class SSGameManager : MonoBehaviour {
 
-	public interface IGameUnit
+	public interface IUpdatable
 	{
-		void SetPlayerID(int playerID);
+		int PlayerID { get; }
 
 		void GameUpdate(float deltaTime);
 	}
@@ -20,7 +21,7 @@ public class SSGameManager : MonoBehaviour {
 	private static readonly float DEFAULT_TICK_LENGTH = 400; // ms	
 	private static readonly int MAX_TIMEOUT_LOOP_COUNT = 200; // iterations
 
-	private static List<IGameUnit> units = new List<IGameUnit>();
+	private static List<IUpdatable> units = new List<IUpdatable>();
 
 	private IPEndPoint remoteEndpoint;
 	private ClientInfo playerInfo;
@@ -123,7 +124,7 @@ public class SSGameManager : MonoBehaviour {
 			else
 			{
 				AcceptInput();
-				foreach (IGameUnit unit in units)
+				foreach (IUpdatable unit in units)
 				{
 					unit.GameUpdate(frameLength);
 				}
@@ -235,6 +236,20 @@ public class SSGameManager : MonoBehaviour {
 		Command cmd = new Command();
 		cmd.keyCode = keyCode;
 		cmd.tick = currTick + latency;
+
+		switch (keyCode)
+		{
+		case SSKeyCode.Mouse0Down:
+		case SSKeyCode.Mouse1Down:
+		case SSKeyCode.Mouse0Up:
+		case SSKeyCode.Mouse1Up:
+			Vector3 hit = RTSGameMechanics.FindHitPoint();
+			cmd.x = hit.x;
+			cmd.y = hit.y;
+			cmd.z = hit.z;
+			break;
+		}
+
 		lock (pendingBuffer)
 		{
 			if (!pendingBuffer.ContainsKey(cmd.tick))
@@ -311,12 +326,12 @@ public class SSGameManager : MonoBehaviour {
 		return curr_max;
 	}
 
-	public static void RegisterGameUnit(IGameUnit gameUnit)
+	public static void Register(IUpdatable gameUnit)
 	{
 		units.Add(gameUnit);
 	}
 
-	public static void UnregisterGameUnit(IGameUnit gameUnit)
+	public static void Unregister(IUpdatable gameUnit)
 	{
 		units.Remove(gameUnit);
 	}

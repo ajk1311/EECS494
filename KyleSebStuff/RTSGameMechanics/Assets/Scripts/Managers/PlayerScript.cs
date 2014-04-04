@@ -3,20 +3,19 @@ using System.Collections;
 
 public class PlayerScript : MonoBehaviour {
 
+	public int id;
 	public string playerName;
 	private int power = 0;
 	private int memory = 0;
 	private int maxMemory = 0;
 
-	// Use this for initialization
 	void Start () {
 		power = 15;
         memory = 0;
         maxMemory = 30;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void Update() {
 	
 	}
 

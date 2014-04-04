@@ -2,51 +2,53 @@ using UnityEngine;
 using System.Collections;
 using RTS;
 
-public class UserInputManager : MonoBehaviour {
+public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
-    SelectionManager selectionManagerScript;
-    PlayerScript player;    
+	public int playerID;
 
-    // Use this for initialization
+	public int PlayerID {
+		get { return playerID; }
+	}
+
     void Start() {
-        selectionManagerScript = this.GetComponent<SelectionManager>();
-        player = this.GetComponent<PlayerScript>();
+		SSGameManager.Register(this);
     }   
     
-    // Update is called once per frame
-    void Update() {
+    public void GameUpdate(float deltaTime) {
         MouseActivity();
     }
 
     private void MouseActivity() {
-        if (Input.GetMouseButtonDown(0)) {
-            LeftMouseClickDown();
-            Debug.Log(selectionManagerScript.count());
-        } else if (Input.GetMouseButtonDown(1)) 
-            RightMouseClick();
+		Vector3 position;
+        if (SSInput.GetMouseButtonDown(PlayerID, 0, out position)) {
+            LeftMouseClickDown(position);
+            Debug.Log(SelectionManager.count(PlayerID));
+        } else if (SSInput.GetMouseButtonDown(PlayerID, 1, out position)) {
+            RightMouseClick(position);
+		}
 
         //TODO Mouse Hover
     }
 
-    private void LeftMouseClickDown() {
+    private void LeftMouseClickDown(Vector3 mousePosition) {
         //TODO If mouse in playing area
         if (GUIResources.MouseInPlayingArea()) {
-            GameObject hitObject = RTSGameMechanics.FindHitObject();
+            GameObject hitObject = RTSGameMechanics.FindHitObject(mousePosition);
     
             if (hitObject) {
                 if (hitObject.tag != "Map") {
                     WorldObject worldObject = hitObject.GetComponent<WorldObject>();
                     if (worldObject) {
-                        if (selectionManagerScript.isSelected(hitObject)) {
+                        if (SelectionManager.isSelected(PlayerID, hitObject)) {
                             //ignore that selected object we own
                         } else {
-                            selectionManagerScript.deselectAllGameObjects();
+                            SelectionManager.deselectAllGameObjects(PlayerID);
                             selectGameObject(hitObject);
                         }
                     }
                 } else {
                     //deselect all units
-                    selectionManagerScript.deselectAllGameObjects();
+					SelectionManager.deselectAllGameObjects(PlayerID);
                 }
             }
         } else {
@@ -54,17 +56,17 @@ public class UserInputManager : MonoBehaviour {
         }
     }
 
-    private void RightMouseClick() {
+    private void RightMouseClick(Vector3 mousePosition) {
         if (GUIResources.MouseInPlayingArea()) {
-            if (selectionManagerScript.count() > 0) {
-                GameObject target = RTSGameMechanics.FindHitObject();
+			if (SelectionManager.count(PlayerID) > 0) {
+                GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
                 if(target.tag != "Map") {
 					Debug.Log ("Attacking");
-                    selectionManagerScript.attackUnit(target);
+					SelectionManager.attackUnit(PlayerID, target);
                 } else {
                     Vector3 destination = RTSGameMechanics.FindHitPoint();
                     if (destination != MechanicResources.InvalidPosition) {
-                        selectionManagerScript.moveUnits(destination);
+						SelectionManager.moveUnits(PlayerID, destination);
                     }
                 }
             }
@@ -74,7 +76,7 @@ public class UserInputManager : MonoBehaviour {
     private void selectGameObject(GameObject gameObject) {
         WorldObject worldObject = gameObject.GetComponent<WorldObject>();
 
-        if (worldObject.getPlayer() == player) {
+		if (worldObject.PlayerID == GameObject.Find("Player").GetComponent<PlayerScript>().id) {
             worldObject.setCurrentlySelected(true);
         } else {
             //select enemy object

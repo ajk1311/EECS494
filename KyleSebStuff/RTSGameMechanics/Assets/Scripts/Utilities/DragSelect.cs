@@ -10,8 +10,7 @@ public class DragSelect : MonoBehaviour {
 	
 	private bool m_CheckDeselect = false;
 	private bool m_Dragging = false;
-
-	SelectionManager selectionManagerScript;
+	int PlayerID = 1;
 		
 //	private float m_GuiWidth = 0;
 
@@ -23,8 +22,6 @@ public class DragSelect : MonoBehaviour {
 		m_DragStyle.border.top = 1;
 		m_DragStyle.border.left = 1;
 		m_DragStyle.border.right = 1;
-
-		selectionManagerScript = this.GetComponent<SelectionManager> ();
 	}
 	
 	// Update is called once per frame
@@ -42,7 +39,7 @@ public class DragSelect : MonoBehaviour {
 			m_CheckDeselect = false;
 			m_Dragging = false;
 
-			selectionManagerScript.selectedSpace = new Rect(0,0,0,0);
+			SelectionManager.selectedSpace = new Rect(0,0,0,0);
 		}
 
 		if (m_CheckDeselect)
@@ -51,7 +48,7 @@ public class DragSelect : MonoBehaviour {
 			{
 				m_CheckDeselect = false;
 				m_Dragging = true;
-				selectionManagerScript.deselectAllGameObjects();
+				SelectionManager.deselectAllGameObjects(PlayerID);
 			}
 		}
 
@@ -88,7 +85,7 @@ public class DragSelect : MonoBehaviour {
 //			rect.xMax = Screen.width-m_GuiWidth;
 //		}
 
-		selectionManagerScript.selectedSpace = rect;
+		SelectionManager.selectedSpace = rect;
 
 		GUI.Box (rect, "", style);
 	}

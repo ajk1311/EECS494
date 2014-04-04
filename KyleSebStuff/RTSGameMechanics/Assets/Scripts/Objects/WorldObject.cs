@@ -2,7 +2,7 @@
 using System.Collections;
 using RTS;
 
-public class WorldObject : MonoBehaviour {
+public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
     
     //Public variables
     public string objectName;
@@ -13,43 +13,41 @@ public class WorldObject : MonoBehaviour {
     //Variables accessible by subclass
 
     //TODO player scripts
-    protected PlayerScript player;
+    public int playerID;
     protected Bounds selectionBounds;
     protected bool currentlySelected = false;
     protected bool alreadySelected = false;
-    protected SelectionManager selectionManagerScript; 
     
+	public int PlayerID {
+		get { return playerID; }
+	}
+
     /*** Game Engine methods, all can be overridden by subclass ***/
-    
+
     protected virtual void Awake() {
         CalculateBounds();
     }
     
     protected virtual void Start() {
-        //TODO need to remove this, its for testing only
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+		SSGameManager.Register(this);
+    }
 
-        selectionManagerScript = player.gameObject.GetComponent<SelectionManager>();
-    }
-    
-    protected virtual void Update() {
-        selectionLogic();
-    }
+	protected virtual void OnDestroy() {
+		SSGameManager.Unregister(this);
+	}
+
+	public virtual void GameUpdate(float deltaTime) {
+		selectionLogic();
+	}
     
     protected virtual void OnGUI() {
-        if (currentlySelected) 
+        if (currentlySelected && 
+		    playerID == GameObject.Find("Player").GetComponent<PlayerScript>().id) {
             DrawSelection();
+		}
     }
     
     /*** Public methods ***/
-
-    public PlayerScript getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(PlayerScript script) {
-        this.player = script;
-    }
 
     public void setCurrentlySelected(bool data) {
         currentlySelected = data;
@@ -63,19 +61,19 @@ public class WorldObject : MonoBehaviour {
 
     private void selectionLogic() {
 
-        if (RTSGameMechanics.IsWithin(this.gameObject, selectionManagerScript.selectedSpace)) {
+        if (RTSGameMechanics.IsWithin(this.gameObject, SelectionManager.selectedSpace)) {
             Debug.Log("-----Select GameObject for Drag------");
             currentlySelected = true;
         }
 
         if (currentlySelected && !alreadySelected) {
             Debug.Log("-----Select GameObject------");
-            selectionManagerScript.addSelectedGameObject(this.gameObject);
+			SelectionManager.addSelectedGameObject(PlayerID, this.gameObject);
             //draw gui
             //set other vars as need to true
         } else if (!currentlySelected && alreadySelected) {
             Debug.Log("-----Deselect GameObject------");
-            selectionManagerScript.deselectGameObject(this.gameObject);
+			SelectionManager.deselectGameObject(PlayerID,this.gameObject);
             //Dont draw gui
             //set other vars to false
         }

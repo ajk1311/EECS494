@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace RTS {
 	public static class RTSGameMechanics {
-
-		public static GameObject FindHitObject() {
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit)) 
-				return hit.collider.gameObject;
+		//change this to use world coordinates
+		public static GameObject FindHitObject(Vector3 position) {
+			Collider[] hitColliders = Physics.OverlapSphere (position, 0.25f);
+			if(hitColliders.Length != 0) {
+				return hitColliders[0].gameObject;
+			}
 			return null;
 		}
 

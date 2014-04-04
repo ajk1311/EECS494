@@ -31,14 +31,7 @@ public class Unit : WorldObject {
         seeker = GetComponent<Seeker>();
         characterController = GetComponent<CharacterController>();
     }
-    
-    // Update is called once per frame
-    protected override void Update() {
-        base.Update();
-        if (moving && pathComplete) {
-            CalculateBounds();
-        }
-    }
+
 
     public bool isMoving() {
         return moving;
@@ -120,7 +113,13 @@ public class Unit : WorldObject {
         moving = false;
     }
 
-    public void FixedUpdate() {
+	public override void GameUpdate(float deltaTime) {
+		base.GameUpdate(deltaTime);
+
+		if (moving && pathComplete) {
+			CalculateBounds();
+		}
+
         if (attacking && currentTarget) {
             Pursuit();
         }
@@ -135,7 +134,7 @@ public class Unit : WorldObject {
             }
 
             Vector3 direction = (path.vectorPath [currentWaypoint] - transform.position).normalized;
-            direction *= speed * Time.fixedDeltaTime;
+            direction *= speed * deltaTime;
             characterController.Move(direction);
 
             //Check if we are close enough to the next waypoint

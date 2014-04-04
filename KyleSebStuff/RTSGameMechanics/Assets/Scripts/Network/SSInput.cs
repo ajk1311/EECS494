@@ -40,25 +40,29 @@ public static class SSInput
 		return commandDispatch[playerID - 1].ContainsKey(keyCode);
 	}
 
-	public static Vector3 GetMouseButtonDown(int playerID, int mouseButton)
+	public static bool GetMouseButtonDown(int playerID, int mouseButton, out Vector3 mousePosition)
 	{
 		int keyCode = mouseButton == 0 ? SSKeyCode.Mouse0Down : SSKeyCode.Mouse1Down;
 		if (!commandDispatch[playerID - 1].ContainsKey(keyCode))
 		{
-			return Empty;
+			mousePosition = Empty;
+			return false;
 		}
 		Command cmd = commandDispatch[playerID - 1][keyCode];
-		return new Vector3(cmd.x, cmd.y, cmd.z);
+		mousePosition = new Vector3(cmd.x, cmd.y, cmd.z);
+		return true;
 	}
 
-    public static Vector3 GetMouseButtonUp(int playerID, int mouseButton)
+    public static bool GetMouseButtonUp(int playerID, int mouseButton, out Vector3 mousePosition)
     {
         int keyCode = mouseButton == 0 ? SSKeyCode.Mouse0Up : SSKeyCode.Mouse1Up;
         if (!commandDispatch[playerID - 1].ContainsKey(keyCode))
         {
-            return Empty;
+			mousePosition = Empty;
+            return false;
         }
         Command cmd = commandDispatch[playerID - 1][keyCode];
-        return new Vector3(cmd.x, cmd.y, cmd.z);
+        mousePosition = new Vector3(cmd.x, cmd.y, cmd.z);
+		return true;
     }
 }
