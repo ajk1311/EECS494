@@ -19,12 +19,16 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     }
 
     private void MouseActivity() {
-		Vector3 position;
-        if (SSInput.GetMouseButtonDown(PlayerID, 0, out position)) {
+		Vector3 position, position2;
+        if (SSInput.GetMouseClick(PlayerID, 0, out position)) {
             LeftMouseClickDown(position);
             Debug.Log(SelectionManager.count(PlayerID));
-        } else if (SSInput.GetMouseButtonDown(PlayerID, 1, out position)) {
+        } else if (SSInput.GetMouseClick(PlayerID, 1, out position)) {
             RightMouseClick(position);
+		} else if (SSInput.GetMouseDragSelection(playerID, out position, out position2)) {
+			LeftMouseDragSelection(position, position2);
+		} else {
+			SelectionManager.selectedSpace = new Rect(0, 0, 0, 0);
 		}
 
         //TODO Mouse Hover
@@ -71,6 +75,15 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
             }
         }
     }
+
+	private void LeftMouseDragSelection(Vector3 downPosition, Vector3 upPosition) {
+		// TODO selection not under GUI
+		SelectionManager.deselectAllGameObjects(playerID);
+		SelectionManager.selectedSpace = new Rect(downPosition.x, 
+		                                          downPosition.y, 
+		                                          Mathf.Abs(upPosition.x - downPosition.x), 
+		                                          Mathf.Abs (upPosition.z - downPosition.z));
+	}
 
     private void selectGameObject(GameObject gameObject) {
         WorldObject worldObject = gameObject.GetComponent<WorldObject>();

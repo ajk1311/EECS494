@@ -15,11 +15,9 @@ public static class SSKeyCode {
 
     public const int DownArrow = 4;
 
-    public const int Mouse0Down = 5;
+    public const int Mouse0Click = 5;
 
-    public const int Mouse0Up = 6;
+    public const int Mouse0Select = 6;
 
-    public const int Mouse1Down = 7;
-
-    public const int Mouse1Up = 8;
+    public const int Mouse1Click = 7;
 }

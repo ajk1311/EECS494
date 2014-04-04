@@ -12,11 +12,16 @@ namespace RTS {
 			return null;
 		}
 
-        public static Vector3 FindHitPoint() {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		public static Vector3 FindHitPoint() {
+			return FindHitPoint(Input.mousePosition);
+		}
+
+        public static Vector3 FindHitPoint(Vector3 position) {
+            Ray ray = Camera.main.ScreenPointToRay(position);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit)) 
+            if (Physics.Raycast(ray, out hit)) {
                 return hit.point;
+			}
             return MechanicResources.InvalidPosition;
         }
 		public static bool IsWithin(GameObject gameObject, Rect rect) {

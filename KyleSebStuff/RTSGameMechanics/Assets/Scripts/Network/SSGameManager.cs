@@ -46,6 +46,15 @@ public class SSGameManager : MonoBehaviour {
 	// Controls timeouts and retry checks when the game is halted
 	private int timeoutChecks = 0;
 
+	// Handles mouse input calculation
+
+	private static readonly Vector3 INVALID_POSITION = 
+		new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+	private bool mouse0Down = false;
+	private bool mouse1Down = false;
+	private Vector3 mouse0DownVector = INVALID_POSITION;
+
 	public static void Start(Socket recvSocket, ClientInfo playerInfo)
 	{
 		SSGameManager instance = new GameObject("GameManager").AddComponent<SSGameManager>();
@@ -213,41 +222,77 @@ public class SSGameManager : MonoBehaviour {
 		{
 			ScheduleCommand(SSKeyCode.DownArrow);
 		}
-        else if (Input.GetMouseButtonDown(0))
-        {
-            ScheduleCommand(SSKeyCode.Mouse0Down);
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            ScheduleCommand(SSKeyCode.Mouse0Up);
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            ScheduleCommand(SSKeyCode.Mouse1Up);
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            ScheduleCommand(SSKeyCode.Mouse1Down);
-        }
+        else 
+		{
+			HandleMouseInput();
+		}
 	}
 
-	void ScheduleCommand(int keyCode)
+	void HandleMouseInput()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			mouse0Down = true;
+			mouse0DownVector = Input.mousePosition;
+		}
+		else if (Input.GetMouseButtonUp(0))
+		{
+			if (mouse0Down) 
+			{
+				if (Mathf.Abs (Input.mousePosition.x - mouse0DownVector.x) > 2 &&
+				    Mathf.Abs (Input.mousePosition.y - mouse0DownVector.y) > 2)
+				{
+					Vector3 downHit = RTSGameMechanics.FindHitPoint(mouse0DownVector);
+					Vector3 upHit = RTSGameMechanics.FindHitPoint();
+					ScheduleCommand(SSKeyCode.Mouse0Select, 
+					                downHit.x, downHit.y, downHit.z,
+					                upHit.x, upHit.y, upHit.z);
+				} 
+				else
+				{
+					Vector3 hit = RTSGameMechanics.FindHitPoint();
+					ScheduleCommand(SSKeyCode.Mouse0Click, hit.x, hit.y, hit.z);
+				}
+				mouse0Down = false;
+				mouse0DownVector = INVALID_POSITION;
+			}
+		}
+		else if (Input.GetMouseButtonDown(1))
+		{
+			mouse1Down = true;
+		}
+		else if (Input.GetMouseButtonUp(1))
+		{
+			if (mouse1Down)
+			{
+				Vector3 hit = RTSGameMechanics.FindHitPoint();
+				ScheduleCommand(SSKeyCode.Mouse1Click, hit.x, hit.y, hit.z);
+				mouse1Down = false;
+			}
+		}
+	}
+
+	void ScheduleCommand(int keyCode,
+	                     float x0 = 0, float y0 = 0, float z0 = 0,
+	                     float x1 = 0, float y1 = 0, float z1 = 0)
 	{
 		Command cmd = new Command();
 		cmd.keyCode = keyCode;
 		cmd.tick = currTick + latency;
 
-		switch (keyCode)
+		if (keyCode == SSKeyCode.Mouse0Click ||
+		    keyCode == SSKeyCode.Mouse0Select ||
+		    keyCode == SSKeyCode.Mouse0Select)
 		{
-		case SSKeyCode.Mouse0Down:
-		case SSKeyCode.Mouse1Down:
-		case SSKeyCode.Mouse0Up:
-		case SSKeyCode.Mouse1Up:
-			Vector3 hit = RTSGameMechanics.FindHitPoint();
-			cmd.x = hit.x;
-			cmd.y = hit.y;
-			cmd.z = hit.z;
-			break;
+			cmd.x0 = x0;
+			cmd.y0 = y0;
+			cmd.z0 = z0;
+			if (keyCode == SSKeyCode.Mouse0Select)
+			{
+				cmd.x1 = x1;
+				cmd.y1 = y1;
+				cmd.z1 = z1;
+			}
 		}
 
 		lock (pendingBuffer)

@@ -40,29 +40,29 @@ public static class SSInput
 		return commandDispatch[playerID - 1].ContainsKey(keyCode);
 	}
 
-	public static bool GetMouseButtonDown(int playerID, int mouseButton, out Vector3 mousePosition)
+	public static bool GetMouseClick(int playerID, int mouseButton, out Vector3 mousePosition)
 	{
-		int keyCode = mouseButton == 0 ? SSKeyCode.Mouse0Down : SSKeyCode.Mouse1Down;
+		int keyCode = mouseButton == 0 ? SSKeyCode.Mouse0Click : SSKeyCode.Mouse1Click;
 		if (!commandDispatch[playerID - 1].ContainsKey(keyCode))
 		{
 			mousePosition = Empty;
 			return false;
 		}
 		Command cmd = commandDispatch[playerID - 1][keyCode];
-		mousePosition = new Vector3(cmd.x, cmd.y, cmd.z);
+		mousePosition = new Vector3(cmd.x0, cmd.y0, cmd.z0);
 		return true;
 	}
 
-    public static bool GetMouseButtonUp(int playerID, int mouseButton, out Vector3 mousePosition)
+    public static bool GetMouseDragSelection(int playerID, out Vector3 downPosition, out Vector3 upPosition)
     {
-        int keyCode = mouseButton == 0 ? SSKeyCode.Mouse0Up : SSKeyCode.Mouse1Up;
-        if (!commandDispatch[playerID - 1].ContainsKey(keyCode))
+        if (!commandDispatch[playerID - 1].ContainsKey(SSKeyCode.Mouse0Select))
         {
-			mousePosition = Empty;
+			downPosition = upPosition = Empty;
             return false;
         }
-        Command cmd = commandDispatch[playerID - 1][keyCode];
-        mousePosition = new Vector3(cmd.x, cmd.y, cmd.z);
+        Command cmd = commandDispatch[playerID - 1][SSKeyCode.Mouse0Select];
+        downPosition = new Vector3(cmd.x0, cmd.y0, cmd.z0);
+		upPosition = new Vector3(cmd.x1, cmd.y1, cmd.z1);
 		return true;
     }
 }

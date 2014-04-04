@@ -93,16 +93,22 @@ namespace SSProtoBufs
 		public int keyCode;
 
 		[ProtoMember(3)]
-		public int actionID;
+		public float x0;
 
 		[ProtoMember(4)]
-		public float x;
+		public float y0;
 
 		[ProtoMember(5)]
-		public float y;
+		public float z0;
 
 		[ProtoMember(6)]
-		public float z;
+		public float x1;
+		
+		[ProtoMember(7)]
+		public float y1;
+		
+		[ProtoMember(8)]
+		public float z1;
 
 		public override string ToString()
 		{
