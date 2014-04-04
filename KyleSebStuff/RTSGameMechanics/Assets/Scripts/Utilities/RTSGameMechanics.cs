@@ -20,6 +20,18 @@ namespace RTS {
             return MechanicResources.InvalidPosition;
         }
 
+		public static Vector3 FindHitPointOnMap() {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit[] hits;
+            if (Physics.RaycastAll(ray, out hits)) 
+				foreach(RaycastHit hit in hits) {
+					if(hit.transform.tag == "Map") {
+					return hit.point;
+					}
+				}
+            return MechanicResources.InvalidPosition;
+        }
+
 		public static bool IsWithin(GameObject gameObject, Rect rect) {
 			Vector3 modifiedObjectPos = new Vector3 (gameObject.transform.position.x, 0, gameObject.transform.position.z);
 			
