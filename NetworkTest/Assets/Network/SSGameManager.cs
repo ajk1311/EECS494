@@ -131,11 +131,7 @@ public class SSGameManager : MonoBehaviour {
 				{
 					SSInput.ClearInput();
 				}
-				gameFrame++;
-				if (gameFrame == framesPerTick)
-				{
-					gameFrame = 0;
-				}
+				gameFrame = ++gameFrame % framesPerTick;
 			}
 		}
 	}
