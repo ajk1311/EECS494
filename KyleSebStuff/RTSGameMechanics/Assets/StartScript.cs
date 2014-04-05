@@ -13,7 +13,7 @@ public class StartScript : MonoBehaviour {
 
 	void Start () {
 		Dispatcher.Instance.Register (this);
-		SSGameSetup.ConnectToGame("jjhsiung");
+		SSGameSetup.ConnectToGame("akausejr");
 	}
 	
 	[HandlesEvent]
@@ -38,8 +38,8 @@ public class StartScript : MonoBehaviour {
 			opponentUnit = (GameObject)Instantiate(greenUnit, opponentStartPosition, Quaternion.identity);
 			opponentUnit2 = (GameObject)Instantiate(greenUnit, opponentStartPosition + new Vector3(1.5f, 0, 0), Quaternion.identity);
 		} else {
-			myUnit = (GameObject)Instantiate(blueUnit, opponentStartPosition, Quaternion.identity);
-			myUnit2 = (GameObject)Instantiate(blueUnit, opponentStartPosition + new Vector3(1.5f, 0, 0), Quaternion.identity);
+			myUnit = (GameObject)Instantiate(greenUnit, opponentStartPosition, Quaternion.identity);
+			myUnit2 = (GameObject)Instantiate(greenUnit, opponentStartPosition + new Vector3(1.5f, 0, 0), Quaternion.identity);
 			opponentUnit = (GameObject)Instantiate(blueUnit, startPosition, Quaternion.identity);
 			opponentUnit2 = (GameObject)Instantiate(blueUnit, startPosition + new Vector3(-1.5f, 0, 0), Quaternion.identity);
 		}
