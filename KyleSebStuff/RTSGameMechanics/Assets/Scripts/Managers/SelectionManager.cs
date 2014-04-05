@@ -49,4 +49,8 @@ public static class SelectionManager {
 	public static bool isSelected(int playerID, GameObject gameObject) {
         return currentlySelectedObjects[playerID-1].Find(foundObj => foundObj == gameObject);
     }
+
+	public static List<GameObject> getSelectedUnits(int playerID) {
+		return currentlySelectedObjects[playerID-1];
+	}
 }
