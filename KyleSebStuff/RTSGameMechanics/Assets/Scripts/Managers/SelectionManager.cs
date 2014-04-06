@@ -23,7 +23,9 @@ public static class SelectionManager {
     }
 
 	public static void deselectGameObject(int playerID, GameObject obj) {
-		obj.GetComponent<WorldObject>().setCurrentlySelected(false);
+		if (!currentlySelectedObjects[playerID -1].Remove(obj)) {
+			Debug.Log("Removed a non-selected object");
+		}
     }
 
 	public static void deselectAllGameObjects(int playerID) {
