@@ -53,10 +53,6 @@ public static class SelectionManager {
 	public static List<GameObject> getSelectedUnits(int playerID) {
 		return currentlySelectedObjects[playerID-1];
 	}
-
-	public static List<GameObject> getSelectedUnits(int playerID) {
-		return currentlySelectedObjects[playerID-1];
-	}
 	
 	public static Dictionary<string, int> getUnitCounts(int playerID) {
 		Dictionary<string, int> unitCounts = new Dictionary<string, int> ();
