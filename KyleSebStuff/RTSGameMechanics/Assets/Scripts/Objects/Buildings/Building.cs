@@ -3,23 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using RTS;
 
-public class Building : WorldObject  {
+public abstract class Building : WorldObject  {
 
-	protected GUIModelManager.GUIModel guiModel;
+	private GUIModelManager.GUIModel guiModel;
 
 	protected virtual void Start() {
 		base.Start ();
-		guiModel = new GUIModelManager.GUIModel ();
+		guiModel = GetGUIModel();
 	}
 
-	public virtual override void GameUpdate (float deltaTime)
-	{
+	public virtual void GameUpdate(float deltaTime) {
 		base.GameUpdate (deltaTime);
 		if (currentlySelected) {
 			GUIModelManager.CurrentModel = guiModel;
 		}
 	}
-	
-	
 
+	protected abstract GUIModelManager.GUIModel GetGUIModel();
 }

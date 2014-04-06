@@ -39,7 +39,7 @@ public class GUIManager : MonoBehaviour {
     
     void OnGUI() {
         DrawOrdersBar();
-		DrawCurrentGUIModel ();
+		DrawCurrentGUIModel();
         DrawResourceBar();
 
 		if (m_Dragging) {
@@ -73,7 +73,6 @@ public class GUIManager : MonoBehaviour {
 				float button_x = (i % curr_model.leftPanelColumns) * left_icon_width;
 				float button_y = (3.0f/4.0f) * Screen.height + (i / 3) * icon_height;
 				curr_model.leftPanelButtons[i].rect = new Rect(button_x, button_y, left_icon_width, icon_height);
-				
 			}
 			for (int i = 0, len = curr_model.centerPanelButtons.Count; i < len; i++) {
 				float button_x = left_panel_width + (i % curr_model.centerPanelColumns) * center_icon_width;
@@ -88,14 +87,14 @@ public class GUIManager : MonoBehaviour {
 		
 		//draw left panel icons
 		for (int i = 0, len = curr_model.leftPanelButtons.Count; i < len; i++) {
-			float button_x = (i % curr_model.leftPanelColumns) * left_icon_width;
-			float button_y = (i / 3) * icon_height;
+//			float button_x = (i % curr_model.leftPanelColumns) * left_icon_width;
+//			float button_y = (i / 3) * icon_height;
 			GUI.Button (curr_model.leftPanelButtons[i].rect, curr_model.leftPanelButtons[i].icon);
 		}
 		//draw center panel icons
 		for (int i = 0, len = curr_model.centerPanelButtons.Count; i < len; i++) {
-			float button_x = left_panel_width + (i % curr_model.centerPanelColumns) * center_icon_width;
-			float button_y = (i / 3) * icon_height;
+//			float button_x = left_panel_width + (i % curr_model.centerPanelColumns) * center_icon_width;
+//			float button_y = (i / 3) * icon_height;
 			GUI.Button (curr_model.centerPanelButtons[i].rect, curr_model.centerPanelButtons[i].icon);
 		}
 		GUI.EndGroup();
@@ -125,7 +124,7 @@ public class GUIManager : MonoBehaviour {
     }
 
 	void Update() {
-		checkIfDragging ();
+		checkIfDragging();
 	}
 
 	private void checkIfDragging() {
@@ -175,7 +174,7 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	public static int [] GetButtonID(Vector3 mousePos) {
-		int [] button = new int[2];
+		int[] button = new int[2];
 		Vector2 mousePos2D = new Vector2 (mousePos.x, mousePos.y);
 		for(int i = 0; i < curr_model.leftPanelButtons.Count; i++) {
 			if(curr_model.leftPanelButtons[i].rect.Contains(mousePos2D)) {
@@ -187,7 +186,7 @@ public class GUIManager : MonoBehaviour {
 
 		for(int i = 0; i < curr_model.centerPanelButtons.Count; i++) {
 			if(curr_model.centerPanelButtons[i].rect.Contains(mousePos2D)) {
-				button[1] = 0;
+				button[0] = 1;
 				button[1] = i;
 				return button;
 			}
