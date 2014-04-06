@@ -2,67 +2,73 @@
 using System.Collections.Generic;
 using SSProtoBufs;
 
-public static class SSInput
-{
+/**
+ * Acts just like Unity's Input class, allowing objects to query for input on any given frame
+ */
+public static class SSInput {
+	/** Empty coordinate. Used for out paraters */
 	public static readonly Vector3 Empty = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
-	private static List<Dictionary<int, Command>> commandDispatch;
+	/** Keeps an input dispatch table for each player */
+	private static List<Dictionary<int, Command>> sDispatchTables;
 
-	public static void Init()
-	{
-		commandDispatch = new List<Dictionary<int, Command>>(2);
-		commandDispatch.Add(new Dictionary<int, Command>());
-		commandDispatch.Add(new Dictionary<int, Command>());
+	/** Called when the game manager starts */
+	public static void Init() {
+		sDispatchTables = new List<Dictionary<int, Command>>(2);
+		sDispatchTables.Add(new Dictionary<int, Command>());
+		sDispatchTables.Add(new Dictionary<int, Command>());
 	}
 
-	public static void ClearInput()
-	{
-		foreach (Dictionary<int, Command> map in commandDispatch)
-		{
-			map.Clear();
+	/** Remvoes all input for the frame */
+	public static void ClearInput() {
+		foreach (Dictionary<int, Command> table in sDispatchTables) {
+			table.Clear();
 		}
 	}
 
-	public static void AddInput(int playerID, Queue<Command> commands)
-	{
-		Dictionary<int, Command> map = commandDispatch[playerID - 1];
-		foreach (Command cmd in commands)
-		{
-			if (!map.ContainsKey(cmd.keyCode))
-			{
-				map.Add(cmd.keyCode, cmd);
+	/** Offers up input for a frame */
+	public static void AddInput(int playerID, Queue<Command> commands) {
+		Dictionary<int, Command> table = sDispatchTables[playerID - 1];
+		foreach (Command cmd in commands) {
+			if (!table.ContainsKey(cmd.keyCode)) {
+				table.Add(cmd.keyCode, cmd);
 			}
 		}
 	}
 
-	public static bool GetKeyDown(int playerID, int keyCode)
-	{
-		return commandDispatch[playerID - 1].ContainsKey(keyCode);
+	/** Returns true if the player with playerID pressed the key with keyCode for a frame */
+	public static bool GetKeyDown(int playerID, int keyCode) {
+		return sDispatchTables[playerID - 1].ContainsKey(keyCode);
 	}
 
-	public static bool GetMouseClick(int playerID, int mouseButton, out Vector3 mousePosition)
-	{
+	/** 
+	 * Returns true if the player with playerID clicked the given mouseButton for a frame.
+	 * Puts the coordinates of the click into mousePosition.
+	 */
+	public static bool GetMouseClick(int playerID, int mouseButton, out Vector3 mousePosition) {
+		// Assign the keyCode ourselves so that the function acts like Input.GetMouseButtonDown(int)
 		int keyCode = mouseButton == 0 ? SSKeyCode.Mouse0Click : SSKeyCode.Mouse1Click;
-		if (!commandDispatch[playerID - 1].ContainsKey(keyCode))
-		{
+		Command input;
+		if (!sDispatchTables[playerID - 1].TryGetValue(keyCode, out input)) {
 			mousePosition = Empty;
 			return false;
 		}
-		Command cmd = commandDispatch[playerID - 1][keyCode];
-		mousePosition = new Vector3(cmd.x0, cmd.y0, cmd.z0);
+		mousePosition = new Vector3(input.x0, input.y0, input.z0);
 		return true;
 	}
 
-    public static bool GetMouseDragSelection(int playerID, out Vector3 downPosition, out Vector3 upPosition)
-    {
-        if (!commandDispatch[playerID - 1].ContainsKey(SSKeyCode.Mouse0Select))
-        {
+	/**
+	 * Returns true if the player with playerID dragged the mouse and made a selection for a frame.
+	 * Puts the coordinates of the beginning and end of the drag into downPosition and upPosition, respectively.
+	 */
+    public static bool GetMouseDragSelection(int playerID, out Vector3 downPosition, out Vector3 upPosition) {
+		Command input;
+		if (!sDispatchTables[playerID - 1].TryGetValue(SSKeyCode.Mouse0Select, out input)) {
 			downPosition = upPosition = Empty;
-            return false;
-        }
-        Command cmd = commandDispatch[playerID - 1][SSKeyCode.Mouse0Select];
-        downPosition = new Vector3(cmd.x0, cmd.y0, cmd.z0);
-		upPosition = new Vector3(cmd.x1, cmd.y1, cmd.z1);
+			return false;
+		}
+		downPosition = new Vector3(input.x0, input.y0, input.z0);
+		upPosition = new Vector3(input.x1, input.y1, input.z1);
 		return true;
     }
 }

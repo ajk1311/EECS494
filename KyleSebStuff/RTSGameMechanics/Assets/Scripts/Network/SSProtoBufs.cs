@@ -3,11 +3,17 @@ using System;
 using ProtoBuf;
 using System.Collections.Generic;
 
-namespace SSProtoBufs
-{
+/**
+ * Contains all of the types of packets we will send between us, the server, and the opponent.
+ * Uses Google's awesome Protocol Buffer library, and the even cooler C# library, protobuf-net:
+ * https://developers.google.com/protocol-buffers/
+ * https://code.google.com/p/protobuf-net/
+ */
+namespace SSProtoBufs {
+
+	/** Represents the connection information send to and from the server */
     [ProtoContract]
-    public class ClientInfo
-    {
+    public class ClientInfo {
         [ProtoMember(1)]
         public string name;
 
@@ -27,16 +33,20 @@ namespace SSProtoBufs
 		public int opponentID;
     }
 
+	/** Signal telling players that the game is ready */
 	[ProtoContract]
-	public class PlayerReady
-	{
+	public class PlayerReady {
 		[ProtoMember(1)]
 		public int playerID;
 	}
 
+	/**
+	 * The standard data packet send on every turn of the Lockstep loop in game manager.
+	 * To avoid expensive type sending and checking, the packet can act as an input packet or an ack.
+	 * We only send input to keep the bandwidth very low, while maximizing the game rendering speed.
+	 */
 	[ProtoContract]
-	public class DataPacket
-	{
+	public class DataPacket {
 		[ProtoMember(1)]
 		public int playerID;
 
@@ -49,33 +59,28 @@ namespace SSProtoBufs
 		[ProtoMember(4)]
 		public List<Command> commands;
 
-		public DataPacket()
-		{
+		public DataPacket() {
 			commands = new List<Command>();
 		}
 
-		public void AddCommand(Command command)
-		{
+		/** Adds a single command to the packet's list */
+		public void AddCommand(Command command) {
 			commands.Add(command);
 		}
 
-		public void AddCommands(IEnumerable<Command> _commands)
-		{
+		/** Adds the whole collection of commands to the packet */
+		public void AddCommands(IEnumerable<Command> _commands) {
 			commands.AddRange(_commands);
 		}
 
-		public override string ToString()
-		{
+		/** Prints a human-readable message about this packet */
+		public override string ToString() {
 			string str = "Packet with player id " + playerID + ":\n";
-			if (isAck)
-			{
+			if (isAck) {
 				str += "\tIs Ack for tick " + tick;
-			}
-			else
-			{
+			} else {
 				str += "\tIs Input with commands:";
-				foreach (Command cmd in commands)
-				{
+				foreach (Command cmd in commands) {
 					str += "\t\t" + cmd.ToString();
 				}
 			}
@@ -83,9 +88,9 @@ namespace SSProtoBufs
 		}
 	}
 
+	/** Represents a command from user input */
 	[ProtoContract]
-	public class Command
-	{
+	public class Command {
 		[ProtoMember(1)]
 		public int tick;
 
@@ -110,13 +115,12 @@ namespace SSProtoBufs
 		[ProtoMember(8)]
 		public float z1;
 
-		public override string ToString()
-		{
+		public override string ToString() {
 			return "Tick=" + tick + ", KeyCode=" + keyCode;
 		}
 
-		public static Command NewEmptyCommand(int _tick)
-		{
+		/** Generates an empty command for the given tick */
+		public static Command NewEmptyCommand(int _tick) {
 			return new Command { tick = _tick, keyCode = SSKeyCode.Empty };
 		}
 	}
