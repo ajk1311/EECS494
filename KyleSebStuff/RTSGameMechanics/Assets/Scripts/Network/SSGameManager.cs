@@ -230,7 +230,6 @@ public class SSGameManager : MonoBehaviour {
 
 	void HandleMouseInput()
 	{
-		Debug.Log("Handling mouse input");
 		if (Input.GetMouseButtonDown(0))
 		{
 			mouse0Down = true;
@@ -245,9 +244,6 @@ public class SSGameManager : MonoBehaviour {
 				{
 					Vector3 downHit = RTSGameMechanics.FindHitPointOnMap(mouse0DownVector);
 					Vector3 upHit = RTSGameMechanics.FindHitPointOnMap(Input.mousePosition);
-
-					Debug.Log("Mouse drag detected. Down position=" + downHit + ", up position=" + upHit);
-
 					ScheduleCommand(SSKeyCode.Mouse0Select, 
 					                downHit.x, downHit.y, downHit.z,
 					                upHit.x, upHit.y, upHit.z);

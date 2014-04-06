@@ -21,7 +21,11 @@ public class GUIManager : MonoBehaviour {
 	private Vector2 m_DragLocationStart;
 	private Vector2 m_DragLocationEnd;
 	private bool m_CheckDeselect = false;
-	private bool m_Dragging = false;
+	private static bool s_Dragging = false;
+
+	public static bool Dragging {
+		get { return s_Dragging; }
+	}
 
     //Initialization into GUIResources
     void Start() {
@@ -40,7 +44,7 @@ public class GUIManager : MonoBehaviour {
         DrawOrdersBar();
         DrawResourceBar();
 
-		if (m_Dragging) {
+		if (s_Dragging) {
 			m_DragLocationEnd = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 			DragBox (m_DragLocationStart, m_DragLocationEnd, m_DragStyle);
 		}
@@ -91,7 +95,7 @@ public class GUIManager : MonoBehaviour {
 		if (Input.GetMouseButtonUp (0))
 		{
 			m_CheckDeselect = false;
-			m_Dragging = false;
+			s_Dragging = false;
 		}
 		
 		if (m_CheckDeselect)
@@ -99,7 +103,7 @@ public class GUIManager : MonoBehaviour {
 			if (Mathf.Abs (Input.mousePosition.x - m_DragLocationStart.x) > 2 && Mathf.Abs (Input.mousePosition.y-m_DragLocationStart.y) > 2)
 			{
 				m_CheckDeselect = false;
-				m_Dragging = true;
+				s_Dragging = true;
 			}
 		}
 	}

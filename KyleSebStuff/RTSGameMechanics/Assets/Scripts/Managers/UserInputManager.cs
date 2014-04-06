@@ -22,13 +22,12 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 		Vector3 position, position2;
         if (SSInput.GetMouseClick(PlayerID, 0, out position)) {
             LeftMouseClickDown(position);
-            Debug.Log(SelectionManager.count(PlayerID));
         } else if (SSInput.GetMouseClick(PlayerID, 1, out position)) {
             RightMouseClick(position);
 		} else if (SSInput.GetMouseDragSelection(playerID, out position, out position2)) {
 			LeftMouseDragSelection(position, position2);
 		} else {
-			SelectionManager.selectedSpace = new Rect(0, 0, 0, 0);
+			SelectionManager.selectedSpace = null;
 		}
 
         //TODO Mouse Hover
@@ -79,10 +78,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 	private void LeftMouseDragSelection(Vector3 downPosition, Vector3 upPosition) {
 		// TODO selection not under GUI
 		SelectionManager.deselectAllGameObjects(playerID);
-		SelectionManager.selectedSpace = new Rect(downPosition.x, 
-		                                          downPosition.y, 
-		                                          Mathf.Abs(upPosition.x - downPosition.x), 
-		                                          Mathf.Abs (upPosition.z - downPosition.z));
+		SelectionManager.selectedSpace = new Vector3[] { downPosition, upPosition };
 	}
 
     private void selectGameObject(GameObject gameObject) {

@@ -140,9 +140,6 @@ namespace EventBus
 				mEventQueue.Clear();
 			}
 			foreach (QueuedEvent queuedEvent in mDispatchQueue) {
-				
-				Debug.Log("EventBus.Dispatcher: " + "dispatching event of type " + queuedEvent.myEvent.GetType().ToString());
-				
 				queuedEvent.myEventHandler.HandleEvent(queuedEvent.myEvent);
 			}
 		}
@@ -157,7 +154,6 @@ namespace EventBus
 
 		public void Register(object subscriber)
 		{
-			Debug.Log("EventBus.Dispatcher: " + "Regster(), " + subscriber.ToString());
 			if (subscriber == null) {
 				throw new ArgumentNullException("Object to register must not be null");
 			}
@@ -166,10 +162,8 @@ namespace EventBus
 
 			Dictionary<Type, MethodInfo> handlerMethods;
 			if (sMethodCache.ContainsKey(subscriberType)) {
-				Debug.Log("EventBus.Dispatcher: " + "method cache hit ");
 				handlerMethods = sMethodCache[subscriberType];
 			} else {
-				Debug.Log("EventBus.Dispatcher: " + "method cache miss ");
 				handlerMethods = GetVerifiedHandlerMethods(subscriberType);
 				if (handlerMethods == null) {
 					return;
@@ -180,9 +174,6 @@ namespace EventBus
 			foreach (KeyValuePair<Type, MethodInfo> pair in handlerMethods) {
 				Type eventType = pair.Key;
 				MethodInfo handlerMethod = pair.Value;
-				
-				Debug.Log("EventBus.Dispatcher: " + "method " + handlerMethod.ToString() + " can handle event " + eventType.ToString());
-
 				HashSet<MyEventHandler> handlersForEvent;
 
 				if (sSubscribers.ContainsKey(eventType)) {
@@ -237,9 +228,6 @@ namespace EventBus
 		public void Post(object myEvent)
 		{
 			Type eventType = myEvent.GetType();
-
-			Debug.Log("EventBus.Dispatcher: " + "posting event of type " + eventType.ToString());
-
 			if (sSubscribers.ContainsKey(eventType)) {
 				HashSet<MyEventHandler> handlers = sSubscribers[eventType];
 

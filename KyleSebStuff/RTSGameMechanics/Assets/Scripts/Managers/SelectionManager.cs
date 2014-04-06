@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System;
 
 public static class SelectionManager {
-
+	
+	public static Vector3[] selectedSpace;
     private static List<List<GameObject>> currentlySelectedObjects;
-    public static Rect selectedSpace = new Rect(0, 0, 0, 0);
 
     public static void Init() {
         currentlySelectedObjects = new List<List<GameObject>>(2);

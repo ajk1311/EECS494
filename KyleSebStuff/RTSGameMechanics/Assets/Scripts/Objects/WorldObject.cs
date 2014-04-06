@@ -61,18 +61,15 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void selectionLogic() {
 
-        if (RTSGameMechanics.IsWithin(this.gameObject, SelectionManager.selectedSpace)) {
-            Debug.Log("-----Select GameObject for Drag------");
+        if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.selectedSpace)) {
             currentlySelected = true;
         }
 
         if (currentlySelected && !alreadySelected) {
-            Debug.Log("-----Select GameObject------");
 			SelectionManager.addSelectedGameObject(PlayerID, this.gameObject);
             //draw gui
             //set other vars as need to true
         } else if (!currentlySelected && alreadySelected) {
-            Debug.Log("-----Deselect GameObject------");
 			SelectionManager.deselectGameObject(PlayerID,this.gameObject);
             //Dont draw gui
             //set other vars to false
