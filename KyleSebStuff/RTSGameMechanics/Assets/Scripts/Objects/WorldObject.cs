@@ -93,10 +93,10 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
     }
     
     private void DrawSelection() {
-        GUI.skin = GUIResources.SELECT_BOX_SKIN;
+        GUI.skin = GUIResources.SelectBoxSkin;
         Rect selectBox = GUIResources.CalculateSelectionBox(selectionBounds);
         //Draw the selection box around the currently selected object, within the bounds of the playing area
-        GUI.BeginGroup(GUIResources.PLAYING_AREA);
+        GUI.BeginGroup(GUIResources.PlayingArea);
         DrawSelectionBox(selectBox);
         GUI.EndGroup();
     }
