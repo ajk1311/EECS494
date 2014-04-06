@@ -33,6 +33,10 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
     }
 
 	protected virtual void OnDestroy() {
+		if(currentlySelected) {
+			SelectionManager.removeUnitFromList(playerID, this.gameObject);
+		}
+
 		SSGameManager.Unregister(this);
 	}
 
