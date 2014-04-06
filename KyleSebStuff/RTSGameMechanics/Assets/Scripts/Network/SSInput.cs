@@ -65,4 +65,15 @@ public static class SSInput
 		upPosition = new Vector3(cmd.x1, cmd.y1, cmd.z1);
 		return true;
     }
+
+	public static bool GetGUIClick(int playerID, out Vector3 clickPosition)
+	{
+		if (!commandDispatch[playerID - 1].ContainsKey(SSKeyCode.GUIClick)) {
+			clickPosition = Empty;
+			return false;
+		}
+		Command cmd = commandDispatch[playerID - 1][SSKeyCode.GUIClick];
+		clickPosition = new Vector3(cmd.x0, cmd.y0, 0);
+		return true;
+	}
 }

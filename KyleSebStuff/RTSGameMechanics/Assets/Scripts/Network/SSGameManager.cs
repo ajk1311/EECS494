@@ -254,8 +254,16 @@ public class SSGameManager : MonoBehaviour {
 				} 
 				else
 				{
-					Vector3 hit = RTSGameMechanics.FindHitPoint();
-					ScheduleCommand(SSKeyCode.Mouse0Click, hit.x, hit.y, hit.z);
+					if(GUIResources.MouseInPlayingArea()) {
+						Vector3 hit = RTSGameMechanics.FindHitPoint();
+						ScheduleCommand(SSKeyCode.Mouse0Click, hit.x, hit.y, hit.z);
+					}
+					else {
+						int [] button = GUIManager.GetButtonID(Input.mousePosition);
+						if(button != null) {
+							ScheduleCommand(SSKeyCode.GUIClick, button[0], button[1]);
+						}
+					}
 				}
 				mouse0Down = false;
 				mouse0DownVector = INVALID_POSITION;

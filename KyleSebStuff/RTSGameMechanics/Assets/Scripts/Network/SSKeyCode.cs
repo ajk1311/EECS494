@@ -20,4 +20,6 @@ public static class SSKeyCode {
     public const int Mouse0Select = 6;
 
     public const int Mouse1Click = 7;
+
+	public const int GUIClick = 8;
 }
