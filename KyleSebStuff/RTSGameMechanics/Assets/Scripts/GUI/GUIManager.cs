@@ -29,11 +29,11 @@ public class GUIManager : MonoBehaviour {
 
     //Initialization into GUIResources
     void Start() {
-        player = this.gameObject.GetComponent<PlayerScript>();
+        player = gameObject.GetComponent<PlayerScript>();
         GUIResources.SELECT_BOX_SKIN = SELECT_BOX_SKIN;
 
 		//Initialize the Dragging Variables
-		m_DragStyle.normal.background = TextureGenerator.MakeTexture (0.8f, 0.8f, 0.8f, 0.3f);
+		m_DragStyle.normal.background = TextureGenerator.MakeTexture(0.8f, 0.8f, 0.8f, 0.3f);
 		m_DragStyle.border.bottom = 1;
 		m_DragStyle.border.top = 1;
 		m_DragStyle.border.left = 1;
@@ -45,8 +45,10 @@ public class GUIManager : MonoBehaviour {
         DrawResourceBar();
 
 		if (s_Dragging) {
-			m_DragLocationEnd = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-			DragBox (m_DragLocationStart, m_DragLocationEnd, m_DragStyle);
+			m_DragLocationEnd = new Vector2(
+				Mathf.Min(Mathf.Max(Input.mousePosition.x, 4), Screen.width - 4), 
+				Mathf.Min(Mathf.Max(Input.mousePosition.y, GUIResources.ORDERS_BAR_HEIGHT + 4), Screen.height - 4));
+			DragBox(m_DragLocationStart, m_DragLocationEnd, m_DragStyle);
 		}
     }
     
