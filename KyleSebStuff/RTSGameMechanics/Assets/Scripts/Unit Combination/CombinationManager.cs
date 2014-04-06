@@ -24,16 +24,50 @@ public static class CombinationManager {
 		}
 	}
 	
-	public static void combine(int playerID, string desiredUnit) {
-		int amount = getValidComboAmount(comboRef[desiredUnit], SelectionManager.getUnitCounts(playerID));
+	public static bool combine(int playerID, string desiredUnit) {
+		AssemblerScript script = GameObject.FindObjectOfType<AssemblerScript>();
+
+		List<GameObject> selectedUnits = SelectionManager.getSelectedUnits(playerID);
+		List<GameObject> comboUnits = new List<GameObject>();
+		List< KeyValuePair<string,int>> comboCounts = comboRef [desiredUnit];
+
+		int amount = getValidComboAmount(comboCounts, SelectionManager.getUnitCounts(playerID));
 		if(amount == 0) {
-			return;
+			//Not A Valid Combo
+			return false;
 		}
 		
-		//It is a valid Combo so do it
-		
+		//Get all the Units to Combine
+		//total units needed to create new unit
+		int unitCount = 0;
+		foreach(KeyValuePair<string,int> pair in comboCounts) {
+			int unitsFound = 0;
+			unitCount += pair.Value;
+			foreach(GameObject obj in selectedUnits) {
+				if(obj.GetComponent<WorldObject>().objectName == pair.Key && unitsFound !=pair.Value) {
+					comboUnits.Add(obj);
+					unitsFound++;
+				}
+			}
+		}
+
+		//Que a Unit for Assembler to Start looking to Create
+		script.addUnitToQue (desiredUnit, unitCount);
+
+		foreach(GameObject obj in comboUnits) {
+			//Save position of Unit
+			Vector3 pos = obj.transform.position;
+
+			//Destroy Unit
+			GameObject.Destroy(obj);
+
+			//Instantiate unitBits with position of destroyed unit
+			script.createUnitBits(pos, desiredUnit);
+		}
+
+		return true;
 	}
-	
+
 	private static int getValidComboAmount(List< KeyValuePair<string,int>> list, 
 	                                       Dictionary<string,int> myUnitCounts) {
 		int currentMax = 0;

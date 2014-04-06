@@ -1,0 +1,68 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
+	int playerID;
+	public Transform bitsUnitPrefab;
+
+	private Dictionary<string, KeyValuePair<int,int>> unitQueue;
+
+	public int PlayerID {
+		get { return playerID; }
+	}
+
+	void Start() {
+		unitQueue = new Dictionary<string, KeyValuePair<int,int>> ();
+		SSGameManager.Register(this);
+	}
+
+	public void GameUpdate (float deltaTime) {
+	
+	}
+
+	public void addUnitToQue(string type, int amount) {
+		if(unitQueue.ContainsKey(type)) {
+			int currentAmount = unitQueue[type].Value;
+			unitQueue[type] = new KeyValuePair<int,int>(amount, currentAmount + amount);
+		}
+		else {
+			KeyValuePair<int,int>  pair2 =  new KeyValuePair<int, int>(amount,amount);
+			unitQueue.Add(type, pair2);
+		}
+	}
+
+	public void createUnitBits(Vector3 pos, string desiredUnit) {
+		Transform bitsUnit = Instantiate (bitsUnitPrefab, pos, transform.rotation) as Transform;
+		bitsUnit.GetComponent<UnitBitsScript> ().destination = transform.position;
+		bitsUnit.GetComponent<UnitBitsScript> ().desiredUnit = desiredUnit;
+	}
+
+	void OnTriggerEnter(Collider other) {
+		string type = other.gameObject.GetComponent<UnitBitsScript> ().desiredUnit;
+
+		int factor = unitQueue[type].Key;
+		int newCurrentAmount = unitQueue[type].Value - 1;
+
+		unitQueue[type] = new KeyValuePair<int,int>(factor, newCurrentAmount);
+
+		if((newCurrentAmount % factor) == 0) {
+			buildUnit(posToBuildUnit(), type);
+		}
+
+		Destroy(other.gameObject);
+	}
+
+	void buildUnit(Vector3 pos, string type) {
+		//Instantiate new Unit
+		//Set unit to Selected if within view or always?
+	}
+
+	Vector3 posToBuildUnit() {
+		return transform.position;
+	}
+
+	void OnDestroy() {
+		SSGameManager.Unregister(this);
+	}
+}
