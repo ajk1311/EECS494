@@ -53,4 +53,25 @@ public static class SelectionManager {
 	public static List<GameObject> getSelectedUnits(int playerID) {
 		return currentlySelectedObjects[playerID-1];
 	}
+
+	public static List<GameObject> getSelectedUnits(int playerID) {
+		return currentlySelectedObjects[playerID-1];
+	}
+	
+	public static Dictionary<string, int> getUnitCounts(int playerID) {
+		Dictionary<string, int> unitCounts = new Dictionary<string, int> ();
+		
+		foreach(GameObject unit in currentlySelectedObjects[playerID-1]) {
+			string currentKey = unit.GetComponent<WorldObject>().objectName;
+			
+			if(unitCounts.ContainsKey(currentKey)) {
+				unitCounts[currentKey]++;
+			}
+			else {
+				unitCounts.Add(currentKey, 1);
+			}
+		}
+		
+		return unitCounts;
+	}
 }
