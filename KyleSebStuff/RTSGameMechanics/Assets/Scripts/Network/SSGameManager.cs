@@ -40,8 +40,8 @@ public class SSGameManager : MonoBehaviour {
 	 */
 	private static readonly int DefaultLatency = 4; // ticks
 
-	/** The default length of one tick, or, communication turn */
-	private static readonly float DefaultTickLength = 400; // ms	
+	/** The default length of one frame in the communication turn */
+	private static readonly float DefaultFrameLength = 1f / 60f; // ms	
 
 	/**
 	 * When we don't receive acks for our commands, we must retry sending them to the
@@ -81,7 +81,7 @@ public class SSGameManager : MonoBehaviour {
 	 */
 	private Dictionary<int, Queue<Command>> mOpponentCmds;
 
-	private int	mLatency;
+	private int mLatency;
 	private int mCurrentTick;
 	// Max tick == the highest received ack
 	private int mMaxTick;
@@ -122,13 +122,13 @@ public class SSGameManager : MonoBehaviour {
 		mLatency = DefaultLatency;
 		mCurrentTick = 0;
 		mMaxTick = mCurrentTick;
-		mTickLength = DefaultTickLength;
-		
+
 		mCurrentGameFrame = 0;
 		mFramesPerTick = mLatency;
 		mFrameLength = 0f;
-		mFrameMaxLength = mFramesPerTick / mTickLength;
-		Debug.Log("mFrameMaxLength=" + mFrameLength);
+		mFrameMaxLength = DefaultFrameLength;
+		Debug.Log("mFrameMaxLength=" + mFrameMaxLength);
+
 
 		mPlayerCmds = new Dictionary<int,Queue<Command>>();
 		mOpponentCmds = new Dictionary<int,Queue<Command>>();
@@ -148,25 +148,20 @@ public class SSGameManager : MonoBehaviour {
 		}
 
 		// Start accepting commands in a background thread
-		UnityThreading.Thread.InBackground(() => AcceptCommands() );
+		UnityThreading.Thread.InBackground(() => AcceptCommands());
 	}
 
 	/** We use the real Update() to simulate are own controlled game loop */
 	void Update() {
 		mFrameLength += Time.deltaTime;
 		if (mFrameLength >= mFrameMaxLength) {
-            mFrameLength = 0;
+			mFrameLength = 0;
 			if (mCurrentGameFrame == 0) {
 				/* On the first frame of a communication turn, we must process
 				 * all of the incoming, outgoing, and pending commands to make
 				 * sure the conditions are met to continue rendering the game */
-				if (ProcessCommands()) {
-					// If the conditions were indeed met, go ahead and continue the loop
-					AcceptInput();
-					mCurrentGameFrame++;
-					mTimeoutChecks = 0;
-				} else {
-					// Otherwise, we need to retry sending commands to our opponent
+				if (!ProcessCommands()) {
+					// If we can't proceed to the next frame, retry sending the commands
 					if (mTimeoutChecks == MaxTimeoutLoopCount) {
 						// Connection timed out, TODO game over
 					} else if (mTimeoutChecks % 20 == 0) {
@@ -174,21 +169,20 @@ public class SSGameManager : MonoBehaviour {
 						SendBufferedCommands();
 					}
 					mTimeoutChecks++;
+					return;
 				}
-			} else {
-				/* On every other frame of the communication turn, we actually render the game.
-				 * This is accomplished by calling GameUpdate on every updatable object that
-				 * has registered. We also accept and schedule user input */
-				AcceptInput();
-				foreach (IUpdatable unit in sUnits) {
-					unit.GameUpdate(mFrameMaxLength);
-				}
-				if (mCurrentGameFrame == 1) {
-					// Input should only exist for one frame, just like in Unity
-					SSInput.ClearInput();
-				}
-				mCurrentGameFrame = ++mCurrentGameFrame % mFramesPerTick;
+				mTimeoutChecks = 0;
 			}
+			/* On every frame of the communication turn, we actually render the game.
+			 * This is accomplished by calling GameUpdate on every updatable object that
+			 * has registered. We also accept and schedule user input */
+			AcceptInput();
+			foreach (IUpdatable unit in sUnits) {
+				unit.GameUpdate(mFrameMaxLength);
+			}
+			// Input should only last for one frame
+			SSInput.ClearInput();
+			mCurrentGameFrame = ++mCurrentGameFrame % mFramesPerTick;
 		}
 	}
 
