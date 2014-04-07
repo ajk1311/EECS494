@@ -83,7 +83,7 @@ public class GUIManager : MonoBehaviour {
 		} else {
             text = player.getMemory().ToString() + "/" + player.getMaxMemory().ToString();
 		}
-        GUI.DrawTexture(new Rect(iconLeft, topPos, GUIResources.IconWidth, GUIResources.IconHeight), resourceIcon);
+//        GUI.DrawTexture(new Rect(iconLeft, topPos, GUIResources.IconWidth, GUIResources.IconHeight), resourceIcon);
         GUI.Label(new Rect(textLeft, topPos, GUIResources.TextWidth, GUIResources.TextHeight), text);
     }
 

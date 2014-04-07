@@ -110,4 +110,11 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
     protected virtual void DrawSelectionBox(Rect selectBox) {
         GUI.Box(selectBox, "");
     }
+
+    public virtual void TakeDamage(int damage){
+        hitPoints -= damage;
+        if(hitPoints <= 0){
+            Destroy(gameObject);
+        }
+    }
 }

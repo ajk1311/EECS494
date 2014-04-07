@@ -10,17 +10,19 @@ public class Unit : WorldObject {
     protected bool pathComplete = false;
     protected bool moving = false;
     protected bool attacking = false;
+    protected bool idle = true;
     protected Seeker seeker;
     protected CharacterController characterController;
     protected Path path;
     protected Vector3 oldEnemyPosition;
     public GameObject currentTarget = null;
-    public GameObject PROJECTILE;
     public int currentWaypoint = 0;
     public float nextWaypointDistance = 3;
-    public float speed = 50;
-    public float attackRange = 10f;
+    public float speed;
+    public float attackRange;
+    public float reloadSpeed;
     public bool reloading = false;
+    public float attentionRange;
 
     protected override void Awake() {
         base.Awake();
@@ -31,7 +33,6 @@ public class Unit : WorldObject {
         seeker = GetComponent<Seeker>();
         characterController = GetComponent<CharacterController>();
     }
-
 
     public bool isMoving() {
         return moving;
@@ -63,6 +64,7 @@ public class Unit : WorldObject {
     private void StartMovement(Vector3 destination) {
         seeker.StartPath(transform.position, destination, OnPathComplete);
         moving = true;
+        idle = false;
     }
 
     protected virtual void Pursuit() {
@@ -71,25 +73,19 @@ public class Unit : WorldObject {
                 AttackHandler();
         } else {
             if (oldEnemyPosition != currentTarget.transform.position) {
+                transform.position = Vector3.MoveTowards(transform.position, currentTarget.transform.position, speed * Time.deltaTime);
+            } else {
                 StartMovement(currentTarget.transform.position);
-                oldEnemyPosition = currentTarget.transform.position;
             }
+            oldEnemyPosition = currentTarget.transform.position;
         }
     }
 
     protected virtual void Reload() {
-        reloading = false;
     }
 
     protected virtual void AttackHandler() {
-        //Stop moving in order to attack
-        moving = false;
-        Vector3 projectilePosition = Vector3.MoveTowards(transform.position, currentTarget.transform.position, 1f);
-        projectilePosition.y += 1;
-        GameObject projectile = (GameObject)Instantiate(PROJECTILE, projectilePosition, Quaternion.identity);
-        projectile.transform.parent = this.transform;
-        reloading = true;
-        Invoke("Reload", .75f);
+
     }
 
     protected virtual bool WithinAttackRange() {
@@ -111,38 +107,70 @@ public class Unit : WorldObject {
     public void ReachedDestination() {
         pathComplete = false;
         moving = false;
+        idle = true;
     }
 
-	public override void GameUpdate(float deltaTime) {
-		base.GameUpdate(deltaTime);
+    public void FinishAttacking() {
+        attacking = false;
+        moving = false;
+        idle = true;
+    }
 
-		if (moving && pathComplete) {
-			CalculateBounds();
-		}
+    public override void GameUpdate(float deltaTime) {
+        base.GameUpdate(deltaTime);
 
-        if (attacking && currentTarget) {
-            Pursuit();
+        if (moving && pathComplete) {
+            CalculateBounds();
         }
+
+        if (attacking) {
+            if (currentTarget) {
+                Pursuit();
+            } else {
+                FinishAttacking();
+            }
+        }
+        //TODO: Make Attention Work
+//      if (idle) {
+//          ScanForEnemies();
+//      }
 
         if (!moving) {
             return;
-        }
-        if (pathComplete && moving) {
-            if (currentWaypoint >= path.vectorPath.Count) {
-                ReachedDestination();
-                return;
-            }
+        } else {
+            if (pathComplete) {
+                if (currentWaypoint >= path.vectorPath.Count) {
+                    ReachedDestination();
+                    return;
+                }
 
-            Vector3 direction = (path.vectorPath [currentWaypoint] - transform.position).normalized;
-            direction *= speed * deltaTime;
-            characterController.Move(direction);
+                Vector3 direction = (path.vectorPath [currentWaypoint] - transform.position).normalized;
+                direction *= speed * deltaTime;
+                characterController.Move(direction);
 
-            //Check if we are close enough to the next waypoint
-            //If we are, proceed to follow the next waypoint
-            if (Vector3.Distance(transform.position, path.vectorPath [currentWaypoint]) < nextWaypointDistance) {
-                currentWaypoint++;
-                return;
+                //Check if we are close enough to the next waypoint
+                //If we are, proceed to follow the next waypoint
+                if (Vector3.Distance(transform.position, path.vectorPath [currentWaypoint]) < nextWaypointDistance) {
+                    currentWaypoint++;
+                    return;
+                }
             }
         }
     }
+
+    public override void TakeDamage(int damage) {
+        base.TakeDamage(damage);
+    }
+
+    //TODO: Make attention work
+//    public virtual void ScanForEnemies() {
+//        int layerMask = RTSGameMechanics.GetAttentionPhysicsLayer(this.gameObject.layer);
+//      Collider[] hitColliders = Physics.OverlapSphere(transform.position, attentionRange, layerMask);
+//        if(hitColliders.Length > 0){
+//          currentTarget = hitColliders[0].gameObject;
+//          attacking = true;
+//      }
+//    }
+
+    //TODO: Handle Getting Attacked
 }
