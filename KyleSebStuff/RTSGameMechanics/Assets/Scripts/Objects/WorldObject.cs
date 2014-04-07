@@ -65,6 +65,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void selectionLogic() {
         if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.selectedSpace)) {
+			Debug.Log("Currently selected: " + name);
             currentlySelected = true;
         }
 

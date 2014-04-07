@@ -40,8 +40,8 @@ namespace RTS {
                 return false;
             }
 
-            float x0 = rect [0].x;
-            float x1 = rect [1].x;
+            float x0 = rect[0].x;
+            float x1 = rect[1].x;
             bool containsX = false;
             float targetX = gameObject.transform.position.x;
 
@@ -55,15 +55,15 @@ namespace RTS {
                 return false;
             }
 
-            float z0 = rect [0].z;
-            float z1 = rect [1].z;
+            float z0 = rect[0].z;
+            float z1 = rect[1].z;
             bool containsZ = false;
             float targetZ = gameObject.transform.position.z;
 
             if (z0 < z1) {
                 containsZ = targetZ <= z1 && targetZ >= z0;
             } else {
-                containsZ = targetZ <= z0 && targetZ >= z1;
+                containsZ = targetZ >= z1 && targetZ <= z0;
             }
 
             return containsZ;

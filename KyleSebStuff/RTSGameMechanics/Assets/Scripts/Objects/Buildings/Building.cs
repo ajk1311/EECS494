@@ -8,8 +8,13 @@ public abstract class Building : WorldObject  {
 	private GUIModelManager.GUIModel guiModel;
 
 	public override void GameUpdate(float deltaTime) {
-		base.GameUpdate (deltaTime);
-		GUIModelManager.SetCurrentModel(playerID, currentlySelected ? GetGUIModel() : null);
+		base.GameUpdate(deltaTime);
+		if (currentlySelected) {
+			Debug.Log("Currently selected building: " + name);
+			GUIModelManager.SetCurrentModel(playerID, GetGUIModel());
+		} else {
+			GUIModelManager.SetCurrentModel(playerID, null);
+		}
 	}
 
 	protected abstract GUIModelManager.GUIModel GetGUIModel();

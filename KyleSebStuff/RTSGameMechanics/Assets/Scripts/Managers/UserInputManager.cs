@@ -78,7 +78,6 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     }
 
 	private void LeftMouseDragSelection(Vector3 downPosition, Vector3 upPosition) {
-
 		SelectionManager.deselectAllGameObjects(playerID);
 		SelectionManager.selectedSpace = new Vector3[] { downPosition, upPosition };
 	}
