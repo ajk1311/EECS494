@@ -306,8 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScrollWidth: 15
   ScrollSpeed: 25
-  PanningSpeed: 25
-  MaxCameraHeight: 65
+  PanningSpeed: 100
+  MaxCameraHeight: 100
   MinCameraHeight: 5
 --- !u!54 &645879595
 Rigidbody:
