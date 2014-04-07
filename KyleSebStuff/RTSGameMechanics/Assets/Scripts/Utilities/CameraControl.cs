@@ -16,6 +16,10 @@ public class CameraControl : MonoBehaviour {
     }
     
     private void MoveCamera() {
+		if (GUIManager.Dragging) {
+			return;
+		}
+
         float xpos = Input.mousePosition.x;
         float ypos = Input.mousePosition.y;
         movement = new Vector3(0, 0, 0);

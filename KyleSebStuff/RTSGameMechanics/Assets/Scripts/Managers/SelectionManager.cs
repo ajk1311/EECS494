@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System;
 
 public static class SelectionManager {
-
+	
+	public static Vector3[] selectedSpace;
     private static List<List<GameObject>> currentlySelectedObjects;
-    public static Rect selectedSpace = new Rect(0, 0, 0, 0);
 
     public static void Init() {
         currentlySelectedObjects = new List<List<GameObject>>(2);
@@ -22,10 +22,10 @@ public static class SelectionManager {
 		currentlySelectedObjects[playerID -1].Add(gameObject);
     }
 
-	public static void deselectGameObject(int playerID, GameObject  gameObject) {
-		if (!currentlySelectedObjects[playerID -1].Remove(gameObject)) {
-            Debug.Log("Removed a non-selected object");
-        }
+	public static void deselectGameObject(int playerID, GameObject obj) {
+		if (!currentlySelectedObjects[playerID -1].Remove(obj)) {
+			Debug.Log("Removed a non-selected object");
+		}
     }
 
 	public static void deselectAllGameObjects(int playerID) {
@@ -53,7 +53,11 @@ public static class SelectionManager {
 	public static List<GameObject> getSelectedUnits(int playerID) {
 		return currentlySelectedObjects[playerID-1];
 	}
-	
+
+	public static void removeUnitFromList(int playerID, GameObject gameObject) {
+		currentlySelectedObjects [playerID - 1].Remove (gameObject);
+	}
+
 	public static Dictionary<string, int> getUnitCounts(int playerID) {
 		Dictionary<string, int> unitCounts = new Dictionary<string, int> ();
 		

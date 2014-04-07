@@ -14,6 +14,7 @@ public class CPU : DestructableBuilding {
 	protected override void Start ()
 	{
 		base.Start ();
+		playerID = 1;
 	}
 
 	protected override RTS.GUIModelManager.GUIModel GetGUIModel ()
@@ -35,7 +36,14 @@ public class CPU : DestructableBuilding {
 		button3.clicked += () => {Debug.Log ("Creating unit 3 from CPU");};
 		CPUGuiModel.leftPanelButtons.Add (button3);
 
+		CPUGuiModel.centerPanelButtons = new List<GUIModelManager.Button> ();
+
 		CPUGuiModel.cached = false;
 		return CPUGuiModel;
+	}
+
+	public override void GameUpdate (float deltaTime)
+	{
+		base.GameUpdate (deltaTime);
 	}
 }

@@ -33,6 +33,10 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
     }
 
 	protected virtual void OnDestroy() {
+		if(currentlySelected) {
+			SelectionManager.removeUnitFromList(playerID, this.gameObject);
+		}
+
 		SSGameManager.Unregister(this);
 	}
 
@@ -61,18 +65,15 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void selectionLogic() {
 
-        if (RTSGameMechanics.IsWithin(this.gameObject, SelectionManager.selectedSpace)) {
-            Debug.Log("-----Select GameObject for Drag------");
+        if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.selectedSpace)) {
             currentlySelected = true;
         }
 
         if (currentlySelected && !alreadySelected) {
-            Debug.Log("-----Select GameObject------");
 			SelectionManager.addSelectedGameObject(PlayerID, this.gameObject);
             //draw gui
             //set other vars as need to true
         } else if (!currentlySelected && alreadySelected) {
-            Debug.Log("-----Deselect GameObject------");
 			SelectionManager.deselectGameObject(PlayerID,this.gameObject);
             //Dont draw gui
             //set other vars to false
@@ -96,10 +97,10 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
     }
     
     private void DrawSelection() {
-        GUI.skin = GUIResources.SELECT_BOX_SKIN;
+        GUI.skin = GUIResources.SelectBoxSkin;
         Rect selectBox = GUIResources.CalculateSelectionBox(selectionBounds);
         //Draw the selection box around the currently selected object, within the bounds of the playing area
-        GUI.BeginGroup(GUIResources.PLAYING_AREA);
+        GUI.BeginGroup(GUIResources.PlayingArea);
         DrawSelectionBox(selectBox);
         GUI.EndGroup();
     }

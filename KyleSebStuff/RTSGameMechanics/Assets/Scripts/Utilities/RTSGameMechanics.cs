@@ -24,7 +24,7 @@ namespace RTS {
 		public static Vector3 FindHitPointOnMap(Vector3 position) {
             Ray ray = Camera.main.ScreenPointToRay(position);
             RaycastHit[] hits;
-			hits = Physics.RaycastAll (ray);
+			hits = Physics.RaycastAll(ray);
             if (hits.Length > 0) { 
 				foreach(RaycastHit hit in hits) {
 					if(hit.transform.tag == "Map") {
@@ -35,14 +35,38 @@ namespace RTS {
             return MechanicResources.InvalidPosition;
         }
 
-		public static bool IsWithin(GameObject gameObject, Rect rect) {
-			Vector3 modifiedObjectPos = new Vector3 (gameObject.transform.position.x, 0, gameObject.transform.position.z);
-			
-			if (rect.Contains (modifiedObjectPos, true)) {
-				return true;
+		public static bool IsWithin(GameObject gameObject, Vector3[] rect) {
+			if (rect == null) {
+				return false;
 			}
-			
-			return false;
+
+			float x0 = rect[0].x;
+			float x1 = rect[1].x;
+			bool containsX = false;
+			float targetX = gameObject.transform.position.x;
+
+			if (x0 < x1) {
+				containsX = targetX <= x1 && targetX >= x0;
+			} else {
+				containsX = targetX >= x1 && targetX <= x0;
+			}
+
+			if (!containsX) {
+				return false;
+			}
+
+			float z0 = rect[0].z;
+			float z1 = rect[1].z;
+			bool containsZ = false;
+			float targetZ = gameObject.transform.position.z;
+
+			if (z0 < z1) {
+				containsZ = targetZ <= z1 && targetZ >= z0;
+			} else {
+				containsZ = targetZ <= z0 && targetZ >= z1;
+			}
+
+			return containsZ;
 		}
 	}
 }
