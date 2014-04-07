@@ -4,8 +4,8 @@ using EventBus;
 using SSGameEvents;
 
 public class StartScript : MonoBehaviour {
-	private Vector3 cameraStartPosition1 = new Vector3(0, 0, 0);
-	private Vector3 cameraStartPosition2 = new Vector3(0, 0, 0);
+	private Vector3 cameraStartPosition1 = new Vector3(0.75f, 71, -204);
+	private Vector3 cameraStartPosition2 = new Vector3(0.75f, 71, -204);
 
 	void Start () {
 		Dispatcher.Instance.Register (this);

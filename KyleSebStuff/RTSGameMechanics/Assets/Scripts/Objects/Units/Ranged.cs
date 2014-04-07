@@ -6,10 +6,12 @@ using Pathfinding;
 public class Ranged : Unit {
 
     public GameObject PROJECTILE;
+	public int damageInflicted;
 
     // Use this for initialization
     protected override void Start() {
         base.Start();
+		damageInflicted = 1;
         attackRange = 15f;
         speed = 15f;
         reloadSpeed = .75f;
