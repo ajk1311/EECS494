@@ -5,45 +5,51 @@ using RTS;
 
 public class CPU : DestructableBuilding {
 
-	public Texture unit1_icon;
-	public Texture unit2_icon;
-	public Texture unit3_icon;
+	public Texture unit1Icon;
+	public Texture unit2Icon;
+	public Texture unit3Icon;
 
-	private GUIModelManager.GUIModel CPUGuiModel;
-	// Use this for initialization
-	protected override void Start ()
-	{
-		base.Start ();
-		playerID = 1;
+	// TODO change for production
+	public Object cubePrefab;
+	public Object spherePrefab;
+
+	// GUI models
+	private GUIModelManager.GUIModel mUnitCreationModel;
+
+	public Vector3 spawnOffset = new Vector3(0, 0, 5);
+
+	protected override void Start() {
+		base.Start();
+		BuildUnitCreationModel();
 	}
 
-	protected override RTS.GUIModelManager.GUIModel GetGUIModel ()
-	{
-		CPUGuiModel = new GUIModelManager.GUIModel ();
-		CPUGuiModel.leftPanelButtons = new List<GUIModelManager.Button> ();
-		GUIModelManager.Button button1 = new GUIModelManager.Button ();
-		button1.icon = unit1_icon;
-		button1.clicked += () => {Debug.Log ("Creating unit 1 from CPU");};
-		CPUGuiModel.leftPanelButtons.Add (button1);
-
-		GUIModelManager.Button button2 = new GUIModelManager.Button ();
-		button2.icon = unit2_icon;
-		button2.clicked += () => {Debug.Log ("Creating unit 2 from CPU");};
-		CPUGuiModel.leftPanelButtons.Add (button2);
-
-		GUIModelManager.Button button3 = new GUIModelManager.Button ();
-		button3.icon = unit1_icon;
-		button3.clicked += () => {Debug.Log ("Creating unit 3 from CPU");};
-		CPUGuiModel.leftPanelButtons.Add (button3);
-
-		CPUGuiModel.centerPanelButtons = new List<GUIModelManager.Button> ();
-
-		CPUGuiModel.cached = false;
-		return CPUGuiModel;
+	protected override RTS.GUIModelManager.GUIModel GetGUIModel() {
+		// TODO different ones based on different states
+		return mUnitCreationModel;
 	}
 
-	public override void GameUpdate (float deltaTime)
-	{
-		base.GameUpdate (deltaTime);
+	void BuildUnitCreationModel() {
+		mUnitCreationModel = new GUIModelManager.GUIModel();
+
+		GUIModelManager.Button cubeButton = new GUIModelManager.Button();
+		cubeButton.icon = unit1Icon;
+		cubeButton.clicked += new GUIModelManager.OnClick(ProduceCube);
+
+		GUIModelManager.Button sphereButton = new GUIModelManager.Button();
+		sphereButton.icon = unit2Icon;
+		sphereButton.clicked += new GUIModelManager.OnClick(ProduceSphere);
+
+		mUnitCreationModel.AddButton(0, cubeButton);
+		mUnitCreationModel.AddButton(0, sphereButton);
+	}
+
+	void ProduceCube() {
+		GameObject cube = (GameObject) Instantiate(cubePrefab, transform.position + spawnOffset, Quaternion.identity);
+		cube.GetComponent<WorldObject>().playerID = PlayerID;
+	}
+
+	void ProduceSphere() {
+		GameObject sphere = (GameObject) Instantiate(spherePrefab, transform.position + spawnOffset, Quaternion.identity);
+		sphere.GetComponent<WorldObject>().playerID = PlayerID;
 	}
 }

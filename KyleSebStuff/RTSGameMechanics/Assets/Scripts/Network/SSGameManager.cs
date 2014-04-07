@@ -153,8 +153,8 @@ public class SSGameManager : MonoBehaviour {
 
 	/** We use the real Update() to simulate are own controlled game loop */
 	void Update() {
+		// We accept input on every real frame so we don't miss any mouse clicks
 		AcceptInput();
-		
 		mFrameLength += Time.deltaTime;
 		if (mFrameLength >= mFrameMaxLength) {
 			mFrameLength = 0;

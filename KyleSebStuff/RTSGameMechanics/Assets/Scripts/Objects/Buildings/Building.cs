@@ -7,15 +7,10 @@ public abstract class Building : WorldObject  {
 
 	private GUIModelManager.GUIModel guiModel;
 
-	protected override void Start() {
-		base.Start ();
-		guiModel = GetGUIModel();
-	}
-
 	public override void GameUpdate(float deltaTime) {
 		base.GameUpdate (deltaTime);
 		if (currentlySelected) {
-			GUIModelManager.CurrentModel = guiModel;
+			GUIModelManager.CurrentModel = GetGUIModel();
 		}
 		else {
 			GUIModelManager.CurrentModel = null;

@@ -25,7 +25,25 @@ namespace RTS {
 			public int centerPanelColumns = 3;
 			public List<Button> leftPanelButtons;
 			public List<Button> centerPanelButtons;
+
+			public GUIModel() {
+				cached = false;
+				leftPanelButtons = new List<Button>();
+				centerPanelButtons = new List<Button>();
+			}
+
+			public void AddButton(int panel, Button button) {
+				switch (panel) {
+				case 0:
+					leftPanelButtons.Add(button);
+					break;
+				case 1:
+					centerPanelButtons.Add(button);
+					break;
+				}
+			}
 		}
+
 		public delegate void OnClick();
 
 		public class Button {

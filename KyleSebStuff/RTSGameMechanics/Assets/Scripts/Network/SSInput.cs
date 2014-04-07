@@ -72,6 +72,9 @@ public static class SSInput {
 		return true;
     }
 
+	/**
+	 * Returns true if the player clicked a GUI button. Puts the panel and index of the button into clickPosition.
+	 */
 	public static bool GetGUIClick(int playerID, out Vector3 clickPosition) {
 		Command input;
 		if (!sDispatchTables[playerID - 1].TryGetValue(SSKeyCode.GUIClick, out input)) {
