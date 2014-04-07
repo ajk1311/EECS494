@@ -24,11 +24,8 @@ public static class CombinationManager {
 		}
 	}
 	
-	public static bool combine(int playerID, string desiredUnit) {
-
-		//TODO Get correct Assembler based on playerID
-		//TODO Attatch Assembler prefab to Player and Opponent
-		AssemblerScript script = GameObject.FindObjectOfType<AssemblerScript>();
+	public static bool combine(AssemblerScript script, string desiredUnit) {
+		int playerID = script.playerID;
 
 		List<GameObject> selectedUnits = SelectionManager.getSelectedUnits(playerID);
 
@@ -123,7 +120,7 @@ public static class CombinationManager {
 		KeyValuePair<string, int> pairGreenSphere = new KeyValuePair<string, int>("GreenSphereUnit", 3);
 		darkGreenSphereList.Add (pairGreenSphere);
 		
-		comboRef.Add ("DarkRedCubeUnit", darkGreenCubeList);
-		comboRef.Add ("DarkRedSphereUnit", darkGreenSphereList);
+		comboRef.Add ("DarkGreenCubeUnit", darkGreenCubeList);
+		comboRef.Add ("DarkGreenSphereUnit", darkGreenSphereList);
 	}
 }

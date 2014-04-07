@@ -7,8 +7,10 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	public Transform bitsUnitPrefab;
 
 	//Units
-	public Transform blueUnit;
-	public Transform greenUnit;
+	public Transform darkGreenCubeUnit;
+	public Transform darkGreenSphereUnit;
+	public Transform darkRedCubeUnit;
+	public Transform darkRedSphereUnit;
 
 	private Dictionary<string, KeyValuePair<int,int>> unitQueue;
 
@@ -22,7 +24,12 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 	
 	public void GameUpdate (float deltaTime) {
-
+		if(SSInput.GetKeyDown(playerID,SSKeyCode.Space)) {
+			CombinationManager.combine(this, "DarkGreenCubeUnit");
+			CombinationManager.combine(this, "DarkGreenSphereUnit");
+			CombinationManager.combine(this, "DarkRedCubeUnit");
+			CombinationManager.combine(this, "DarkRedSphereUnit");
+		}
 	}
 
 	public void addUnitToQue(string type, int amount) {
@@ -59,13 +66,21 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	void buildUnit(Vector3 pos, string type) {
 		//Instantiate new Unit
-		//Set unit to Selected if within view or always?
-		if(type == "Blue") {
-			Transform unit = Instantiate(blueUnit, pos, transform.rotation) as Transform;
+		//TODO Set unit to Selected if within view or always?
+		if(type == "DarkGreenCubeUnit") {
+			Transform unit = Instantiate(darkGreenCubeUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
-		else if(type == "Green") {
-			Transform unit = Instantiate(greenUnit, pos, transform.rotation) as Transform;
+		else if(type == "DarkGreenSphereUnit") {
+			Transform unit = Instantiate(darkGreenSphereUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "DarkRedCubeUnit") {
+			Transform unit = Instantiate(darkRedCubeUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "DarkRedSphereUnit") {
+			Transform unit = Instantiate(darkRedSphereUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
 	}
