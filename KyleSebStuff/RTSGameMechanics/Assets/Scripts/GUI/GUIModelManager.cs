@@ -55,6 +55,7 @@ namespace RTS {
 		}
 
 		public static void SetCurrentModel(int playerID, GUIModel model) {
+			Debug.Log("playerID: " + playerID);
 			sModels[playerID - 1] = model;
 		}
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using EventBus;
 using SSGameEvents;
+using RTS;
 
 public class TestStartScript : MonoBehaviour {
 	
@@ -20,7 +21,8 @@ public class TestStartScript : MonoBehaviour {
 	public void OnGameConnection(GameConnectionEvent connectionEvent)
 	{
 		Debug.Log("Game Connected, opponent is " + connectionEvent.opponentName);
-		
+
+		GUIModelManager.Init();
 		SelectionManager.Init();
 		
 		GameObject playerObject = GameObject.Find("Player");

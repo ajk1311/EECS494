@@ -4,27 +4,28 @@ using System.Collections.Generic;
 using System;
 
 public static class SelectionManager {
-
-	private static Vector3[] sSelectedSpace;
-
-	public static Vector3[] SelectedSpace {
-		get { return sSelectedSpace; }
-		set {
-			sSelectedSpace = value;
-			if (sSelectedSpace != null) {
-				Debug.Log("Selected space: " + sSelectedSpace[0] + ", " + sSelectedSpace[1]);
-			}
-		}
-	}
-
+	
+	private static List<Vector3[]> selectedSpaces;
 
     private static List<List<GameObject>> currentlySelectedObjects;
 
     public static void Init() {
+		selectedSpaces = new List<Vector3[]>();
+		selectedSpaces.Add(null);
+		selectedSpaces.Add(null);
+
         currentlySelectedObjects = new List<List<GameObject>>(2);
 		currentlySelectedObjects.Add(new List<GameObject>());
 		currentlySelectedObjects.Add(new List<GameObject>());
     }
+
+	public static Vector3[] GetSelectedSpace(int playerID) {
+		return selectedSpaces[playerID - 1];
+	}
+
+	public static void SetSelectedSpace(int playerID, Vector3[] space) {
+		selectedSpaces[playerID - 1] = space;
+	}
 
     public static int count(int playerID) {
         return currentlySelectedObjects[playerID -1].Count;
