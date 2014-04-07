@@ -21,11 +21,11 @@ namespace RTS {
         public static int ResourceBarHeight {
 			get { return Screen.height / 20; }
 		}
-        public static int OrderesBarHeight {
+        public static int OrdersBarHeight {
 			get { return Screen.height / 4; }
 		}
         public static Rect PlayingArea {
-			get { return new Rect(0, 0, Screen.width, Screen.height - OrderesBarHeight); }
+			get { return new Rect(0, 0, Screen.width, Screen.height - OrdersBarHeight); }
 		}
 
 		public static float TextWidth = GetScaledPixelSize(128);
@@ -38,7 +38,7 @@ namespace RTS {
 			//not the top-right of the screen like the drawing coordinates do
 			Vector3 mousePos = Input.mousePosition;
 			bool insideWidth = mousePos.x >= 0 && mousePos.x <= Screen.width;
-			bool insideHeight = mousePos.y >= OrderesBarHeight && mousePos.y <= Screen.height;
+			bool insideHeight = mousePos.y >= OrdersBarHeight && mousePos.y <= Screen.height;
 			return insideWidth && insideHeight;
 		}
 

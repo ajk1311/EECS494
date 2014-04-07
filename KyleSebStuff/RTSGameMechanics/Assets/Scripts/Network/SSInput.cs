@@ -71,4 +71,14 @@ public static class SSInput {
 		upPosition = new Vector3(input.x1, input.y1, input.z1);
 		return true;
     }
+
+	public static bool GetGUIClick(int playerID, out Vector3 clickPosition) {
+		Command input;
+		if (!sDispatchTables[playerID - 1].TryGetValue(SSKeyCode.GUIClick, out input)) {
+			clickPosition = Empty;
+			return false;
+		}
+		clickPosition = new Vector3(input.x0, input.y0, 0);
+		return true;
+	}
 }

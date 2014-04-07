@@ -153,6 +153,8 @@ public class SSGameManager : MonoBehaviour {
 
 	/** We use the real Update() to simulate are own controlled game loop */
 	void Update() {
+		AcceptInput();
+		
 		mFrameLength += Time.deltaTime;
 		if (mFrameLength >= mFrameMaxLength) {
 			mFrameLength = 0;
@@ -176,7 +178,6 @@ public class SSGameManager : MonoBehaviour {
 			/* On every frame of the communication turn, we actually render the game.
 			 * This is accomplished by calling GameUpdate on every updatable object that
 			 * has registered. We also accept and schedule user input */
-			AcceptInput();
 			foreach (IUpdatable unit in sUnits) {
 				unit.GameUpdate(mFrameMaxLength);
 			}
@@ -278,10 +279,12 @@ public class SSGameManager : MonoBehaviour {
 	// TODO add support for GUI clicks
 	void HandleMouseInput() {
 		if (Input.GetMouseButtonDown(0)) {
+			Debug.Log("mouse click down");
 			// Start tracking mouse 0
 			mMouse0Down = true;
 			mMouse0DownVector = Input.mousePosition;
 		} else if (Input.GetMouseButtonUp(0)) {
+			Debug.Log("mouse click up");
 			if (mMouse0Down) {
 				// If we were tracking mouse 0
 				if (Mathf.Abs (Input.mousePosition.x - mMouse0DownVector.x) > 2 &&
@@ -293,7 +296,7 @@ public class SSGameManager : MonoBehaviour {
 					Vector3 mouseInPlayingArea = new Vector3(
 						Mathf.Min(Mathf.Max(Input.mousePosition.x, padding), Screen.width - padding),
 						Mathf.Min(Mathf.Max(Input.mousePosition.y, 
-					                    GUIResources.OrderesBarHeight + padding), Screen.height - padding),
+					                    GUIResources.OrdersBarHeight + padding), Screen.height - padding),
 						Input.mousePosition.z);
 					// Get the universal world coordinates of the action
 					Vector3 downHit = RTSGameMechanics.FindHitPointOnMap(mMouse0DownVector);
@@ -305,8 +308,16 @@ public class SSGameManager : MonoBehaviour {
 				} else {
 					/* If we got here, the up action was close enough 
 					 * to the down action to be considered a click */
-					Vector3 hit = RTSGameMechanics.FindHitPoint();
-					ScheduleCommand(SSKeyCode.Mouse0Click, hit.x, hit.y, hit.z);
+					if(GUIResources.MouseInPlayingArea()) {
+						Vector3 hit = RTSGameMechanics.FindHitPoint();
+						ScheduleCommand(SSKeyCode.Mouse0Click, hit.x, hit.y, hit.z);
+					} else {
+						int[] button = GUIManager.GetButtonID(Input.mousePosition);
+						Debug.Log ("button clicked is in group: " + button[0] + " and id " + button[1]);
+						if(button != null) {
+							ScheduleCommand(SSKeyCode.GUIClick, button[0], button[1]);
+						}
+					}
 				}
 				// Reset
 				mMouse0Down = false;
@@ -338,7 +349,8 @@ public class SSGameManager : MonoBehaviour {
 		// Only clicks will need the coordinates to be passed
 		if (_keyCode == SSKeyCode.Mouse0Click ||
 		    _keyCode == SSKeyCode.Mouse1Click ||
-		    _keyCode == SSKeyCode.Mouse0Select) {
+		    _keyCode == SSKeyCode.Mouse0Select ||
+		    _keyCode == SSKeyCode.GUIClick) {
 			cmd.x0 = x0;
 			cmd.y0 = y0;
 			cmd.z0 = z0;

@@ -30,4 +30,6 @@ public static class SSKeyCode {
 
 	/** Right mouse button was clicked */
     public const int Mouse1Click = 7;
+
+	public const int GUIClick = 8;
 }

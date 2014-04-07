@@ -26,6 +26,10 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
             RightMouseClick(position);
 		} else if (SSInput.GetMouseDragSelection(playerID, out position, out position2)) {
 			LeftMouseDragSelection(position, position2);
+		} else if (SSInput.GetGUIClick(playerID, out position)) {
+			// TODO handle GUI click
+			Debug.Log ("execute click position: " + position);
+			GUIModelManager.ExecuteClick(position);
 		} else {
 			SelectionManager.selectedSpace = null;
 		}
