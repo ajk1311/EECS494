@@ -291,8 +291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6952a5465f4524236b04debe637c5799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redCpuPrefab: {fileID: 0}
-  greenCpuPrefab: {fileID: 0}
+  redCpuPrefab: {fileID: 100000, guid: 72987daf2d8cb469f98f39ad1b85c539, type: 2}
+  greenCpuPrefab: {fileID: 100000, guid: bf0a06c2837844f08a3656f987a19502, type: 2}
 --- !u!114 &645879594
 MonoBehaviour:
   m_ObjectHideFlags: 0
