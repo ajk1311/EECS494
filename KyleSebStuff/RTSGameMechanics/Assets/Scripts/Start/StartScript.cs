@@ -13,7 +13,7 @@ public class StartScript : MonoBehaviour {
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", false);
+		SSGameSetup.ConnectToGame("akausejr", true);
 	}
 	
 	[HandlesEvent]

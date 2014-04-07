@@ -29,7 +29,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 		} else if (SSInput.GetGUIClick(playerID, out position)) {
 			GUIModelManager.ExecuteClick(playerID, position);
 		} else {
-			SelectionManager.selectedSpace = null;
+			SelectionManager.SelectedSpace = null;
 		}
 
         //TODO Mouse Hover
@@ -37,49 +37,42 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void LeftMouseClickDown(Vector3 mousePosition) {
         //TODO If mouse in playing area
-        if (GUIResources.MouseInPlayingArea()) {
-            GameObject hitObject = RTSGameMechanics.FindHitObject(mousePosition);
-    
-            if (hitObject) {
-                if (hitObject.tag != "Map") {
-                    WorldObject worldObject = hitObject.GetComponent<WorldObject>();
-                    if (worldObject) {
-                        if (SelectionManager.isSelected(PlayerID, hitObject)) {
-                            //ignore that selected object we own
-                        } else {
-                            SelectionManager.deselectAllGameObjects(PlayerID);
-                            selectGameObject(hitObject);
-                        }
-                    }
-                } else {
-                    //deselect all units
-					SelectionManager.deselectAllGameObjects(PlayerID);
-                }
-            }
-        } else {
-            //TODO Not in Game bounds but in HUD/GUI
-        }
+		GameObject hitObject = RTSGameMechanics.FindHitObject(mousePosition);
+		if (hitObject) {
+			if (hitObject.tag != "Map") {
+				WorldObject worldObject = hitObject.GetComponent<WorldObject>();
+				if (worldObject) {
+					if (SelectionManager.isSelected(PlayerID, hitObject)) {
+						//ignore that selected object we own
+					} else {
+						SelectionManager.deselectAllGameObjects(PlayerID);
+						selectGameObject(hitObject);
+					}
+				}
+			} else {
+				//deselect all units
+				SelectionManager.deselectAllGameObjects(PlayerID);
+			}
+		}
     }
 
     private void RightMouseClick(Vector3 mousePosition) {
-        if (GUIResources.MouseInPlayingArea()) {
-			if (SelectionManager.count(PlayerID) > 0) {
-                GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
-                if(target.tag != "Map") {
-					SelectionManager.attackUnit(PlayerID, target);
-                } else {
-                    Vector3 destination = mousePosition;
-                    if (destination != MechanicResources.InvalidPosition) {
-						SelectionManager.moveUnits(PlayerID, destination);
-                    }
-                }
-            }
-        }
+		if (SelectionManager.count(PlayerID) > 0) {
+			GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
+			if(target.tag != "Map") {
+				SelectionManager.attackUnit(PlayerID, target);
+			} else {
+				Vector3 destination = mousePosition;
+				if (destination != MechanicResources.InvalidPosition) {
+					SelectionManager.moveUnits(PlayerID, destination);
+				}
+			}
+		}
     }
 
 	private void LeftMouseDragSelection(Vector3 downPosition, Vector3 upPosition) {
 		SelectionManager.deselectAllGameObjects(playerID);
-		SelectionManager.selectedSpace = new Vector3[] { downPosition, upPosition };
+		SelectionManager.SelectedSpace = new Vector3[] { downPosition, upPosition };
 	}
 
     private void selectGameObject(GameObject gameObject) {

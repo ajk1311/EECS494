@@ -4,8 +4,20 @@ using System.Collections.Generic;
 using System;
 
 public static class SelectionManager {
-	
-	public static Vector3[] selectedSpace;
+
+	private static Vector3[] sSelectedSpace;
+
+	public static Vector3[] SelectedSpace {
+		get { return sSelectedSpace; }
+		set {
+			sSelectedSpace = value;
+			if (sSelectedSpace != null) {
+				Debug.Log("Selected space: " + sSelectedSpace[0] + ", " + sSelectedSpace[1]);
+			}
+		}
+	}
+
+
     private static List<List<GameObject>> currentlySelectedObjects;
 
     public static void Init() {

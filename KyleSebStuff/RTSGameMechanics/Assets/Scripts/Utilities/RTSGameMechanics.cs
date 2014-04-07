@@ -36,9 +36,11 @@ namespace RTS {
         }
 
         public static bool IsWithin(GameObject gameObject, Vector3[] rect) {
-            if (rect == null) {
+			if (rect == null) {
                 return false;
             }
+
+			Debug.Log(gameObject.transform.position + ": [" + rect[0] + "," + rect[1] + "]");
 
             float x0 = rect[0].x;
             float x1 = rect[1].x;
