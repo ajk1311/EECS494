@@ -139,7 +139,7 @@ MonoBehaviour:
   reloadSpeed: 0
   reloading: 0
   attentionRange: 0
-  PROJECTILE: {fileID: 100000, guid: d3886161688af0144b4abbb1212f1f8a, type: 2}
+  PROJECTILE: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
   damageInflicted: 0
 --- !u!114 &11400002
 MonoBehaviour:
