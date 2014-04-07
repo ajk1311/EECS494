@@ -50,18 +50,20 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		string type = other.gameObject.GetComponent<UnitBitsScript> ().desiredUnit;
+		if(other.tag == "UnitBits") {
+			string type = other.gameObject.GetComponent<UnitBitsScript> ().desiredUnit;
 
-		int factor = unitQueue[type].Key;
-		int newCurrentAmount = unitQueue[type].Value - 1;
+			int factor = unitQueue[type].Key;
+			int newCurrentAmount = unitQueue[type].Value - 1;
 
-		unitQueue[type] = new KeyValuePair<int,int>(factor, newCurrentAmount);
+			unitQueue[type] = new KeyValuePair<int,int>(factor, newCurrentAmount);
 
-		if((newCurrentAmount % factor) == 0) {
-			buildUnit(posToBuildUnit(), type);
+			if((newCurrentAmount % factor) == 0) {
+				buildUnit(posToBuildUnit(), type);
+			}
+
+			Destroy(other.gameObject);
 		}
-
-		Destroy(other.gameObject);
 	}
 
 	void buildUnit(Vector3 pos, string type) {
