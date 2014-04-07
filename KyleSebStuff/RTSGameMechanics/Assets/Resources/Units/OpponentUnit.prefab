@@ -140,6 +140,7 @@ MonoBehaviour:
   reloading: 0
   attentionRange: 0
   PROJECTILE: {fileID: 100000, guid: d3886161688af0144b4abbb1212f1f8a, type: 2}
+  damageInflicted: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,7 +185,7 @@ MonoBehaviour:
     priority: 2
     addPoints: 0
     exactStartPoint: 1
-    exactEndPoint: 1
+    exactEndPoint: 3
     useRaycasting: 0
     mask:
       serializedVersion: 2

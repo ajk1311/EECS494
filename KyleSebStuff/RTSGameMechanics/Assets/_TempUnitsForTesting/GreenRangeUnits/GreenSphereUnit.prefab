@@ -185,7 +185,7 @@ MonoBehaviour:
     priority: 2
     addPoints: 0
     exactStartPoint: 1
-    exactEndPoint: 1
+    exactEndPoint: 3
     useRaycasting: 0
     mask:
       serializedVersion: 2

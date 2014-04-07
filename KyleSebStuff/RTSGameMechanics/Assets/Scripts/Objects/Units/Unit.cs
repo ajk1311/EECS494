@@ -98,6 +98,7 @@ public class Unit : WorldObject {
     protected void OnPathComplete(Path p) {
         if (!p.error) {
             path = p;
+			path.nnConstraint = NNConstraint.None;
             currentWaypoint = 0;
             pathComplete = true;
         } else

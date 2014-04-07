@@ -43,8 +43,8 @@ GameObject:
   - 143: {fileID: 14300000}
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400004}
-  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 10
   m_Name: GreenCubeUnit
   m_TagString: Untagged
@@ -185,7 +185,7 @@ MonoBehaviour:
     priority: 2
     addPoints: 0
     exactStartPoint: 1
-    exactEndPoint: 1
+    exactEndPoint: 3
     useRaycasting: 0
     mask:
       serializedVersion: 2
