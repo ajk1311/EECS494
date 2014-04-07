@@ -26,6 +26,8 @@ public static class CombinationManager {
 	
 	public static bool combine(int playerID, string desiredUnit) {
 
+		//TODO Get correct Assembler based on playerID
+		//TODO Attatch Assembler prefab to Player and Opponent
 		AssemblerScript script = GameObject.FindObjectOfType<AssemblerScript>();
 
 		List<GameObject> selectedUnits = SelectionManager.getSelectedUnits(playerID);
@@ -102,15 +104,26 @@ public static class CombinationManager {
 	}
 	
 	private static void generateCombinationReference() {
-		List< KeyValuePair<string,int>> greenList = new List< KeyValuePair<string,int>> ();
-		KeyValuePair<string, int> pairBlue = new KeyValuePair<string, int>("Blue", 3);
-		greenList.Add (pairBlue);
+		List< KeyValuePair<string,int>> darkRedCubeList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairRedCube = new KeyValuePair<string, int>("RedCubeUnit", 3);
+		darkRedCubeList.Add (pairRedCube);
 
-		List< KeyValuePair<string,int>> blueList = new List< KeyValuePair<string,int>> ();
-		KeyValuePair<string, int> pairGreen = new KeyValuePair<string, int>("Green", 3);
-		blueList.Add (pairGreen);
+		List< KeyValuePair<string,int>> darkRedSphereList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairRedSphere = new KeyValuePair<string, int>("RedSphereUnit", 3);
+		darkRedSphereList.Add (pairRedSphere);
 
-		comboRef.Add ("Green", greenList);
-		comboRef.Add ("Blue", blueList);
+		comboRef.Add ("DarkRedCubeUnit", darkRedCubeList);
+		comboRef.Add ("DarkRedSphereUnit", darkRedSphereList);
+
+		List< KeyValuePair<string,int>> darkGreenCubeList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairGreenCube = new KeyValuePair<string, int>("GreenCubeUnit", 3);
+		darkGreenCubeList.Add (pairGreenCube);
+		
+		List< KeyValuePair<string,int>> darkGreenSphereList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairGreenSphere = new KeyValuePair<string, int>("GreenSphereUnit", 3);
+		darkGreenSphereList.Add (pairGreenSphere);
+		
+		comboRef.Add ("DarkRedCubeUnit", darkGreenCubeList);
+		comboRef.Add ("DarkRedSphereUnit", darkGreenSphereList);
 	}
 }

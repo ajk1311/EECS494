@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2e42232d2038b47a6e0a636c74156a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Unit
+  objectName: DarkRedSphereUnit
   cost: 0
   hitPoints: 0
   maxHitPoints: 0

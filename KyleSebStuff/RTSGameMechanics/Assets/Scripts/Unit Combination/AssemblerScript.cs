@@ -20,16 +20,9 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		unitQueue = new Dictionary<string, KeyValuePair<int,int>> ();
 		SSGameManager.Register(this);
 	}
-
-	//TODO FOR TESTING
+	
 	public void GameUpdate (float deltaTime) {
-			if(Input.GetKeyDown(KeyCode.B)) {
-				CombinationManager.combine(playerID,"Blue");
-			}
 
-		if(Input.GetKeyDown(KeyCode.G)) {
-			CombinationManager.combine(playerID,"Green");
-		}
 	}
 
 	public void addUnitToQue(string type, int amount) {
