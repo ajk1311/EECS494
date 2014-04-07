@@ -279,12 +279,10 @@ public class SSGameManager : MonoBehaviour {
 	// TODO add support for GUI clicks
 	void HandleMouseInput() {
 		if (Input.GetMouseButtonDown(0)) {
-			Debug.Log("mouse click down");
 			// Start tracking mouse 0
 			mMouse0Down = true;
 			mMouse0DownVector = Input.mousePosition;
 		} else if (Input.GetMouseButtonUp(0)) {
-			Debug.Log("mouse click up");
 			if (mMouse0Down) {
 				// If we were tracking mouse 0
 				if (Mathf.Abs (Input.mousePosition.x - mMouse0DownVector.x) > 2 &&
@@ -313,7 +311,6 @@ public class SSGameManager : MonoBehaviour {
 						ScheduleCommand(SSKeyCode.Mouse0Click, hit.x, hit.y, hit.z);
 					} else {
 						int[] button = GUIManager.GetButtonID(Input.mousePosition);
-						Debug.Log ("button clicked is in group: " + button[0] + " and id " + button[1]);
 						if(button != null) {
 							ScheduleCommand(SSKeyCode.GUIClick, button[0], button[1]);
 						}

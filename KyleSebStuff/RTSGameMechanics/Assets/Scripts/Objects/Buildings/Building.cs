@@ -9,12 +9,7 @@ public abstract class Building : WorldObject  {
 
 	public override void GameUpdate(float deltaTime) {
 		base.GameUpdate (deltaTime);
-		if (currentlySelected) {
-			GUIModelManager.CurrentModel = GetGUIModel();
-		}
-		else {
-			GUIModelManager.CurrentModel = null;
-		}
+		GUIModelManager.SetCurrentModel(playerID, currentlySelected ? GetGUIModel() : null);
 	}
 
 	protected abstract GUIModelManager.GUIModel GetGUIModel();

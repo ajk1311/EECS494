@@ -27,9 +27,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 		} else if (SSInput.GetMouseDragSelection(playerID, out position, out position2)) {
 			LeftMouseDragSelection(position, position2);
 		} else if (SSInput.GetGUIClick(playerID, out position)) {
-			// TODO handle GUI click
-			Debug.Log ("execute click position: " + position);
-			GUIModelManager.ExecuteClick(position);
+			GUIModelManager.ExecuteClick(playerID, position);
 		} else {
 			SelectionManager.selectedSpace = null;
 		}
@@ -80,7 +78,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     }
 
 	private void LeftMouseDragSelection(Vector3 downPosition, Vector3 upPosition) {
-		// TODO selection not under GUI
+
 		SelectionManager.deselectAllGameObjects(playerID);
 		SelectionManager.selectedSpace = new Vector3[] { downPosition, upPosition };
 	}

@@ -2,6 +2,7 @@
 using System.Collections;
 using EventBus;
 using SSGameEvents;
+using RTS;
 
 public class StartScript : MonoBehaviour {
 	private Vector3 cameraStartPosition1 = new Vector3(4.7f, 55.45f, -191.2f);
@@ -12,14 +13,16 @@ public class StartScript : MonoBehaviour {
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", false);
+		SSGameSetup.ConnectToGame("akausejr", true);
 	}
 	
 	[HandlesEvent]
 	public void OnGameConnection(GameConnectionEvent connectionEvent) {
 		Debug.Log("Game Connected, opponent is " + connectionEvent.opponentName);
-
+		
+		GUIModelManager.Init();
 		SelectionManager.Init();
+		CombinationManager.Init();
 
 		GameObject playerObject = GameObject.Find("Player");
 		playerObject.GetComponent<PlayerScript>().id = connectionEvent.ID;

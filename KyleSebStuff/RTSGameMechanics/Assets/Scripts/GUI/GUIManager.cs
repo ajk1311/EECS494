@@ -64,7 +64,7 @@ public class GUIManager : MonoBehaviour {
     }
 
 	private void DrawCurrentGUIModel() {
-		curr_model = GUIModelManager.CurrentModel;
+		curr_model = GUIModelManager.GetCurrentModel(player.id);
 		if (curr_model == null) {
 			return;
 		}

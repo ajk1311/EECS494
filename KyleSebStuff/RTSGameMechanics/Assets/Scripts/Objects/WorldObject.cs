@@ -64,7 +64,6 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
     //TODO Selected Logic, stuff from Sebs Notes
 
     private void selectionLogic() {
-
         if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.selectedSpace)) {
             currentlySelected = true;
         }

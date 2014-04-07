@@ -3,21 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace RTS {
-	public static class GUIModelManager{
-
-		private static GUIModel currentGUIModel;
-
-		public static GUIModel CurrentModel {
-			get {
-				return currentGUIModel;
-			}
-			set {
-				if(currentGUIModel != null) {
-					currentGUIModel.cached = false;
-				}
-				currentGUIModel = value;
-			}
-		}
+	public static class GUIModelManager {
 
 		public class GUIModel {
 			public bool cached = false;
@@ -55,15 +41,35 @@ namespace RTS {
 				if (clicked != null) clicked();
 			}
 		}
+		
+		private static List<GUIModel> sModels;
 
-		public static void ExecuteClick(Vector3 position) {
+		public static void Init() {
+			sModels = new List<GUIModel>();
+			sModels.Add(null);
+			sModels.Add(null);
+		}
+
+		public static GUIModel GetCurrentModel(int playerID) {
+			return sModels != null ? sModels[playerID - 1] : null;
+		}
+
+		public static void SetCurrentModel(int playerID, GUIModel model) {
+			sModels[playerID - 1] = model;
+		}
+
+		public static void ExecuteClick(int playerID, Vector3 position) {
+			GUIModel currentModel = sModels[playerID - 1];
+			if (currentModel == null) {
+				return;
+			}
 			switch((int)position.x) {
-				case 0:
-					currentGUIModel.leftPanelButtons[(int)position.y].Click();
-					break;
-				case 1:
-					currentGUIModel.centerPanelButtons[(int)position.y].Click();
-					break;
+			case 0:
+				currentModel.leftPanelButtons[(int)position.y].Click();
+				break;
+			case 1:
+				currentModel.centerPanelButtons[(int)position.y].Click();
+				break;
 			}
 		}
 
