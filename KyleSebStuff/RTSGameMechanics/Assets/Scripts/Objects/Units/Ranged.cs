@@ -12,7 +12,7 @@ public class Ranged : Unit {
     protected override void Start() {
         base.Start();
 		damageInflicted = 1;
-        attackRange = 15f;
+        attackRange = 45f;
         speed = 15f;
         reloadSpeed = .75f;
         hitPoints = 5;

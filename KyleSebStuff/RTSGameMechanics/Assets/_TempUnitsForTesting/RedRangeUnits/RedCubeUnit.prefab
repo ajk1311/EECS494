@@ -134,7 +134,7 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   currentWaypoint: 0
   nextWaypointDistance: 3
-  speed: 0
+  speed: 50
   attackRange: 0
   reloadSpeed: 0
   reloading: 0
