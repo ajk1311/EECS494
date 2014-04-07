@@ -25,10 +25,13 @@ public static class CombinationManager {
 	}
 	
 	public static bool combine(int playerID, string desiredUnit) {
+
 		AssemblerScript script = GameObject.FindObjectOfType<AssemblerScript>();
 
 		List<GameObject> selectedUnits = SelectionManager.getSelectedUnits(playerID);
+
 		List<GameObject> comboUnits = new List<GameObject>();
+
 		List< KeyValuePair<string,int>> comboCounts = comboRef [desiredUnit];
 
 		int amount = getValidComboAmount(comboCounts, SelectionManager.getUnitCounts(playerID));
@@ -70,9 +73,9 @@ public static class CombinationManager {
 
 	private static int getValidComboAmount(List< KeyValuePair<string,int>> list, 
 	                                       Dictionary<string,int> myUnitCounts) {
-		int currentMax = 0;
+		int currentMax = 100;
 		bool canCreate = true;
-		
+
 		foreach(KeyValuePair<string,int> pair in list) {
 			if(myUnitCounts.ContainsKey(pair.Key)) {
 				int amountSelected = myUnitCounts[pair.Key];
@@ -80,6 +83,10 @@ public static class CombinationManager {
 				
 				if(amountPossible <= currentMax) {
 					currentMax = amountPossible;
+				}
+
+				if(amountPossible == 0) {
+					canCreate = false;
 				}
 			}
 			else {
@@ -95,6 +102,15 @@ public static class CombinationManager {
 	}
 	
 	private static void generateCombinationReference() {
-		
+		List< KeyValuePair<string,int>> greenList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairBlue = new KeyValuePair<string, int>("Blue", 3);
+		greenList.Add (pairBlue);
+
+		List< KeyValuePair<string,int>> blueList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairGreen = new KeyValuePair<string, int>("Green", 3);
+		blueList.Add (pairGreen);
+
+		comboRef.Add ("Green", greenList);
+		comboRef.Add ("Blue", blueList);
 	}
 }

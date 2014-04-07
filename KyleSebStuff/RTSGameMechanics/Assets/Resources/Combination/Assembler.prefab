@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400000}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Assembler
   m_TagString: Assembler
   m_Icon: {fileID: 0}
@@ -51,7 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40ac1106fed5422dafde078506bc320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 0
   bitsUnitPrefab: {fileID: 400000, guid: f73082583923f400989b28d645d55170, type: 2}
+  blueUnit: {fileID: 0}
+  greenUnit: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

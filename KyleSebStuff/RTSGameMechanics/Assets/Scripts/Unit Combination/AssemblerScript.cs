@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
-	int playerID;
+	public int playerID;
 	public Transform bitsUnitPrefab;
+
+	//Units
+	public Transform blueUnit;
+	public Transform greenUnit;
 
 	private Dictionary<string, KeyValuePair<int,int>> unitQueue;
 
@@ -17,8 +21,15 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		SSGameManager.Register(this);
 	}
 
+	//TODO FOR TESTING
 	public void GameUpdate (float deltaTime) {
-	
+			if(Input.GetKeyDown(KeyCode.B)) {
+				CombinationManager.combine(playerID,"Blue");
+			}
+
+		if(Input.GetKeyDown(KeyCode.G)) {
+			CombinationManager.combine(playerID,"Green");
+		}
 	}
 
 	public void addUnitToQue(string type, int amount) {
@@ -56,6 +67,14 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	void buildUnit(Vector3 pos, string type) {
 		//Instantiate new Unit
 		//Set unit to Selected if within view or always?
+		if(type == "Blue") {
+			Transform unit = Instantiate(blueUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "Green") {
+			Transform unit = Instantiate(greenUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
 	}
 
 	Vector3 posToBuildUnit() {

@@ -63,7 +63,6 @@ public static class SelectionManager {
 		
 		foreach(GameObject unit in currentlySelectedObjects[playerID-1]) {
 			string currentKey = unit.GetComponent<WorldObject>().objectName;
-			
 			if(unitCounts.ContainsKey(currentKey)) {
 				unitCounts[currentKey]++;
 			}
