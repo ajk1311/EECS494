@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DestructableBuilding : Building {
+public abstract class DestructableBuilding : Building {
 
 	public override void GameUpdate (float deltaTime)
 	{
@@ -14,4 +14,5 @@ public class DestructableBuilding : Building {
 		//change graphic
 		//make sure the building unit can no longer be clicked
 	}
+
 }
