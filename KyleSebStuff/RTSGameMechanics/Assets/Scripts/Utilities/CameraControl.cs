@@ -6,7 +6,7 @@ public class CameraControl : MonoBehaviour {
 
     public float ScrollWidth = 15;
     public float ScrollSpeed = 25;
-	public float PanningSpeed = 25;
+	public float PanningSpeed = 200;
     public float MaxCameraHeight = 20;
     public float MinCameraHeight = 5;
     private Vector3 movement, cameraDirection;
@@ -16,22 +16,26 @@ public class CameraControl : MonoBehaviour {
     }
     
     private void MoveCamera() {
+		if (GUIManager.Dragging) {
+			return;
+		}
+
         float xpos = Input.mousePosition.x;
         float ypos = Input.mousePosition.y;
         movement = new Vector3(0, 0, 0);
         
         //Horizontal camera movement
         if (xpos >= 0 && xpos < ScrollWidth) {
-            movement.x -= 1.5f;
+            movement.x -= 1f;
         } else if (xpos <= Screen.width && xpos > Screen.width - ScrollWidth) {
-            movement.x += 1.5f;
+            movement.x += 1f;
         }
         
         //Vertical camera movement
         if (ypos >= 0 && ypos < ScrollWidth) {
-            movement.z -= 1.5f;
+            movement.z -= 1f;
         } else if (ypos <= Screen.height && ypos > Screen.height - ScrollWidth) {
-            movement.z += 1.5f;
+            movement.z += 1f;
         }
         
 		//Zoom in and Zoom out with Scroll
@@ -44,6 +48,6 @@ public class CameraControl : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        rigidbody.velocity = movement * PanningSpeed;
+        rigidbody.velocity = movement * PanningSpeed * transform.position.y / MaxCameraHeight;
     }
 }
