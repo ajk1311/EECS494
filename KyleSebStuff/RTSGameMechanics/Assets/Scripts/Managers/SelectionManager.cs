@@ -49,6 +49,7 @@ public static class SelectionManager {
 
 	public static void moveUnits(int playerID, Vector3 destination) {
         foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
+			// TODO npe
             obj.GetComponent<Unit>().IssueMoveCommand(destination);
         }
     }
@@ -68,7 +69,7 @@ public static class SelectionManager {
 	}
 
 	public static void removeUnitFromList(int playerID, GameObject gameObject) {
-		currentlySelectedObjects [playerID - 1].Remove (gameObject);
+		currentlySelectedObjects[playerID - 1].Remove(gameObject);
 	}
 
 	public static Dictionary<string, int> getUnitCounts(int playerID) {

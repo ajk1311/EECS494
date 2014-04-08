@@ -66,6 +66,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     private void RightMouseClick(Vector3 mousePosition) {
 		if (SelectionManager.count(PlayerID) > 0) {
 			GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
+			// TODO npe
 			if(target.tag != "Map") {
 				SelectionManager.attackUnit(PlayerID, target);
 			} else {

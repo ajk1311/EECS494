@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 	protected virtual void Start () {
 		SSGameManager.Register(this);
         target = this.transform.parent.GetComponent<Unit>().currentTarget;
-		damageInflicted = this.transform.parent.GetComponent<Ranged> ().damageInflicted;
+		damageInflicted = this.transform.parent.GetComponent<Ranged>().damageInflicted;
 	}
 
 	public int PlayerID {
@@ -24,6 +24,7 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 			Destroy (gameObject);
 		}
 		else {
+			// TODO npe
 			transform.position = Vector3.MoveTowards(transform.position, RTSGameMechanics.FindTransform(target.transform, "Target").position, speed);
 		}
 	}
