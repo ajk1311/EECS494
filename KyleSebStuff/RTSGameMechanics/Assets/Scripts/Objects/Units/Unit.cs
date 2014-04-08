@@ -120,6 +120,10 @@ public class Unit : WorldObject {
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
+		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
+			currentlySelected = true;
+		}
+				
         if (moving && pathComplete) {
             CalculateBounds();
         }
