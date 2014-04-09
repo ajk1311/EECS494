@@ -32,15 +32,9 @@ public class StartScript : MonoBehaviour {
 		playerObject.GetComponent<PlayerScript>().id = connectionEvent.ID;
 		playerObject.GetComponent<UserInputManager>().playerID = connectionEvent.ID;
 
-
-//		playerObject.GetComponentInChildren<AssemblerScript>().playerID = connectionEvent.ID;
-
 		GameObject opponentObject = GameObject.Find("Opponent");
 		opponentObject.GetComponent<UserInputManager>().playerID = connectionEvent.opponentID;
 
-
-		opponentObject.GetComponentInChildren<AssemblerScript>().playerID = connectionEvent.opponentID;
-		
 		GameObject redCpu = (GameObject) Instantiate(redCpuPrefab);
 		GameObject greenCpu = (GameObject) Instantiate(greenCpuPrefab);
 

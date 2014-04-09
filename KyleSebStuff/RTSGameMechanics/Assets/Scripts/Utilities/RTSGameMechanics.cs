@@ -7,7 +7,7 @@ namespace RTS {
         public static GameObject FindHitObject(Vector3 position) {
             Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
             if (hitColliders.Length != 0) {
-                return hitColliders [0].gameObject;
+                return hitColliders[0].gameObject;
             }
             return null;
         }
@@ -39,10 +39,7 @@ namespace RTS {
 			if (rect == null) {
                 return false;
             }
-
-			Debug.Log(gameObject.transform.position + ": [" + rect[0] + "," + rect[1] + "]");
-
-            float x0 = rect[0].x;
+			float x0 = rect[0].x;
             float x1 = rect[1].x;
             bool containsX = false;
             float targetX = gameObject.transform.position.x;
