@@ -23,7 +23,9 @@ public class StartScript : MonoBehaviour {
 	[HandlesEvent]
 	public void OnGameConnection(GameConnectionEvent connectionEvent) {
 		Debug.Log("Game Connected, opponent is " + connectionEvent.opponentName);
-		
+
+		Random.seed = connectionEvent.randomSeed;
+
 		GUIModelManager.Init();
 		SelectionManager.Init();
 		CombinationManager.Init();

@@ -34,6 +34,9 @@ namespace SSProtoBufs {
 
 		[ProtoMember(7)]
 		public int opponentID;
+
+		[ProtoMember(8)]
+		public int seed;
     }
 
 	/** Signal telling players that the game is ready */

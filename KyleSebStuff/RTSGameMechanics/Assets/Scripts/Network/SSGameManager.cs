@@ -197,11 +197,11 @@ public class SSGameManager : MonoBehaviour {
 		UnityThreading.Thread.InBackground(() => AcceptCommands());
 
 		// Start listening for or sending resync data
-		if (mPlayerInfo.isHost) {
-			UnityThreading.Thread.InBackground(() => HostCorrectionLoop());
-		} else {
-			UnityThreading.Thread.InBackground(() => ClientCorrectionLoop());
-		}
+//		if (mPlayerInfo.isHost) {
+//			UnityThreading.Thread.InBackground(() => HostCorrectionLoop());
+//		} else {
+//			UnityThreading.Thread.InBackground(() => ClientCorrectionLoop());
+//		}
 	}
 
     /** Allows the game unit to be updated in the game loop */

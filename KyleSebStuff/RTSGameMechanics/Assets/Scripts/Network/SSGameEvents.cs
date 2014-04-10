@@ -18,6 +18,7 @@ namespace SSGameEvents {
 		public string name;
 		public int opponentID;
         public string opponentName;
+		public int randomSeed;
     }
 
 	/**
