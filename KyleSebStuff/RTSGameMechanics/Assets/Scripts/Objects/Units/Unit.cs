@@ -2,6 +2,7 @@
 using System.Collections;
 using RTS;
 using Pathfinding;
+using System.Collections.Generic;
 
 public class Unit : WorldObject {
 
@@ -175,14 +176,24 @@ public class Unit : WorldObject {
 //          currentTarget = hitColliders[0].gameObject;
 //          attacking = true;
 
+			List<GameObject> listOfStuffToKill = new List<GameObject>();
+
 			foreach(Collider obj in hitColliders) {
 				if(obj.transform.tag == "Kill" && obj.gameObject.layer != this.gameObject.layer) {
 					Debug.Log ("---------------Found Enemy---------");
-					currentTarget = obj.gameObject;
-					attacking = true;
-					idle = false;
+					listOfStuffToKill.Add(obj.gameObject);
 				}
 			}
+
+			if(listOfStuffToKill.Length > 0) {
+				foreach(GameObject obj in listOfStuffToKill) {
+					if(obj.GetComponent<WorldObject>()
+				}
+			}
+
+			currentTarget = obj.gameObject;
+			attacking = true;
+			idle = false;
       }
     }
 
