@@ -11,7 +11,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 
     void Start() {
-		SSGameManager.Register(this);
+//		SSGameManager.Register(this);
     }   
     
     public void GameUpdate(float deltaTime) {
