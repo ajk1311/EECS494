@@ -30,12 +30,17 @@ public class StartScript : MonoBehaviour {
 		SelectionManager.Init();
 		CombinationManager.Init();
 
+		UserInputManager myInputManager;
+		UserInputManager hisOrHerInputManager;
+
 		GameObject playerObject = GameObject.Find("Player");
 		playerObject.GetComponent<PlayerScript>().id = connectionEvent.ID;
-		playerObject.GetComponent<UserInputManager>().playerID = connectionEvent.ID;
+		myInputManager = (UserInputManager) playerObject.GetComponent<UserInputManager>();
+		myInputManager.playerID = connectionEvent.ID;
 
 		GameObject opponentObject = GameObject.Find("Opponent");
-		opponentObject.GetComponent<UserInputManager>().playerID = connectionEvent.opponentID;
+		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();
+		hisOrHerInputManager.playerID = connectionEvent.opponentID;
 
 		GameObject redCpu = (GameObject) Instantiate(redCpuPrefab);
 		GameObject greenCpu = (GameObject) Instantiate(greenCpuPrefab);
@@ -51,6 +56,8 @@ public class StartScript : MonoBehaviour {
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
 
+			SSGameManager.Register(myInputManager);
+			SSGameManager.Register(hisOrHerInputManager);
 		} else {
 			greenCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			redCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
@@ -58,6 +65,9 @@ public class StartScript : MonoBehaviour {
 
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
+
+			SSGameManager.Register(hisOrHerInputManager);
+			SSGameManager.Register(myInputManager);
 		}
 
 		SSGameSetup.Ready(connectionEvent.ID);
