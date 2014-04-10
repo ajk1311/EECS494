@@ -185,15 +185,19 @@ public class Unit : WorldObject {
 				}
 			}
 
-			if(listOfStuffToKill.Length > 0) {
+			if(listOfStuffToKill.Count > 0) {
+				long currentID = listOfStuffToKill[0].GetComponent<WorldObject>().ID;
+				GameObject finalTarget = listOfStuffToKill[0];
+				attacking = true;
+				idle = false;
+
 				foreach(GameObject obj in listOfStuffToKill) {
-					if(obj.GetComponent<WorldObject>()
+					if(obj.GetComponent<WorldObject>().ID < currentID) {
+						currentID = obj.GetComponent<WorldObject>().ID;
+						finalTarget = obj;
+					}
 				}
 			}
-
-			currentTarget = obj.gameObject;
-			attacking = true;
-			idle = false;
       }
     }
 
