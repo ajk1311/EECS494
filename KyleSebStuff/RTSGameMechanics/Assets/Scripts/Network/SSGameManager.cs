@@ -46,7 +46,7 @@ public class SSGameManager : MonoBehaviour {
 	public interface IWorldObjectProperties {
 
 		/** The unique id for this updatable unit */
-		long ID { get; set; }
+		int ID { get; set; }
 		
 		/** The id of the player the object belongs to */
 		int PlayerID { get; set; }
@@ -137,7 +137,7 @@ public class SSGameManager : MonoBehaviour {
 	private Vector3 mMouse0DownVector = InvalidPosition;
 
 	// Keeps track of the unit ids for each player
-	private static long sUnitUid = 0;
+	private static int sUnitUid = 0;
 
 	/** Begins the Lockstep loop */
 	public static void Start(Socket recvSocket, Socket resyncSocket, ClientInfo playerInfo) {
@@ -568,7 +568,7 @@ public class SSGameManager : MonoBehaviour {
 				Serializer.DeserializeWithLengthPrefix<Resync>(stream, PrefixStyle.Base128);
 
 			// Maps the unit info we receive for a merge operation
-			Dictionary<long, UnitInfo> hostWorld = new Dictionary<long, UnitInfo>();
+			Dictionary<int, UnitInfo> hostWorld = new Dictionary<int, UnitInfo>();
 			// Keeps track of the units that need to be destroyed
 			List<IWorldObjectProperties> toDestroy = new List<IWorldObjectProperties>();
 
@@ -598,7 +598,7 @@ public class SSGameManager : MonoBehaviour {
 
 			if (hostWorld.Count > 0) {
 				// If there are any remaining units in the host world, we need to create them
-				foreach (KeyValuePair<long, UnitInfo> hostWorldObj in hostWorld) {
+				foreach (KeyValuePair<int, UnitInfo> hostWorldObj in hostWorld) {
 					UnityThreading.Thread.InForeground(() => {
 						// TODO create unit
 					});

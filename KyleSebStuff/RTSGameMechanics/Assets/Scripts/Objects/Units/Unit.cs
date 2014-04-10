@@ -16,7 +16,7 @@ public class Unit : WorldObject {
     protected Vector3 oldEnemyPosition;
     public GameObject currentTarget = null;
     public int currentWaypoint = 0;
-    public float nextWaypointDistance = 0.1f;
+    public float nextWaypointDistance = 0.5f;
     public float speed;
     public float attackRange;
     public float reloadSpeed;
@@ -65,13 +65,15 @@ public class Unit : WorldObject {
         idle = false;
     }
 
-    protected virtual void Pursuit() {
+    protected virtual void Pursuit(float deltaTime) {
         if (WithinAttackRange()) {
             if (!reloading)
                 AttackHandler();
         } else {
-            if (oldEnemyPosition != currentTarget.transform.position) {
-                transform.position = Vector3.MoveTowards(transform.position, currentTarget.transform.position, speed * Time.deltaTime);
+            if ((Int3) oldEnemyPosition != (Int3) currentTarget.transform.position) {
+				Int3 direction = (Int3) (currentTarget.transform.position - transform.position).normalized;
+				direction *= speed * deltaTime;
+				transform.Translate((Vector3) direction);
             } else {
                 StartMovement(currentTarget.transform.position);
             }
@@ -87,10 +89,8 @@ public class Unit : WorldObject {
     }
 
     protected virtual bool WithinAttackRange() {
-        if (Vector3.Distance(currentTarget.transform.position, transform.position) <= attackRange) {
-            return true;
-        }
-        return false;
+		float distance = ((Int3) currentTarget.transform.position - (Int3) transform.position).magnitude / Int3.FloatPrecision;
+		return distance <= attackRange;
     }
 
     protected void OnPathComplete(Path p) {
@@ -128,7 +128,7 @@ public class Unit : WorldObject {
 
         if (attacking) {
             if (currentTarget) {
-                Pursuit();
+                Pursuit(deltaTime);
             } else {
                 FinishAttacking();
             }
@@ -147,15 +147,16 @@ public class Unit : WorldObject {
                     return;
                 }
 
-                Vector3 direction = (path.vectorPath [currentWaypoint] - transform.position).normalized;
-                direction *= speed * deltaTime;
-                
+				Int3 direction = (Int3) (path.vectorPath[currentWaypoint] - transform.position).normalized;
+				direction *= speed * deltaTime;
+
 //				transform.position = Vector3.MoveTowards(transform.position, path.vectorPath[currentWaypoint], speed*deltaTime);
-				transform.Translate(direction);
+				transform.Translate((Vector3) direction);
 
                 //Check if we are close enough to the next waypoint
                 //If we are, proceed to follow the next waypoint
-                if (Vector3.Distance(transform.position, path.vectorPath [currentWaypoint]) < nextWaypointDistance) {
+				float distance = ((Int3) transform.position - (Int3) path.vectorPath[currentWaypoint]).magnitude / Int3.FloatPrecision;
+                if (distance < nextWaypointDistance) {
                     currentWaypoint++;
                     return;
                 }
