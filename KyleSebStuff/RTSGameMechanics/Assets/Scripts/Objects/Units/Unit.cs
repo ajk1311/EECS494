@@ -114,14 +114,6 @@ public class Unit : WorldObject {
         idle = true;
     }
 
-	void OnTriggerStay(Collider obj) {
-		if(obj.GetComponent<Unit>() != null) {
-			Vector3 direction = Vector3.Normalize(obj.transform.position - transform.position) * -1;
-			direction.y = 0;
-			transform.Translate(direction);
-		}
-	}
-
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
@@ -174,15 +166,15 @@ public class Unit : WorldObject {
         base.TakeDamage(damage);
     }
 
-    //TODO: Make attention work
-//    public virtual void ScanForEnemies() {
-//        int layerMask = RTSGameMechanics.GetAttentionPhysicsLayer(this.gameObject.layer);
-//      Collider[] hitColliders = Physics.OverlapSphere(transform.position, attentionRange, layerMask);
-//        if(hitColliders.Length > 0){
-//          currentTarget = hitColliders[0].gameObject;
-//          attacking = true;
-//      }
-//    }
+//    TODO: Make attention work
+    public virtual void ScanForEnemies() {
+        int layerMask = RTSGameMechanics.GetAttentionPhysicsLayer(this.gameObject.layer);
+      	Collider[] hitColliders = Physics.OverlapSphere(transform.position, 20, layerMask);
+        if(hitColliders.Length > 0){
+          currentTarget = hitColliders[0].gameObject;
+          attacking = true;
+      }
+    }
 
     //TODO: Handle Getting Attacked
 }
