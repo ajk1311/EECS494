@@ -48,7 +48,7 @@ GameObject:
   - 135: {fileID: 13500000}
   m_Layer: 11
   m_Name: RedCubeUnit
-  m_TagString: Untagged
+  m_TagString: Kill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,8 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 3
-  penalty: 100
-  randomStep: 0
+  penalty: 10000
+  randomStep: 5000
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
