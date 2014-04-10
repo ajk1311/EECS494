@@ -6,10 +6,6 @@ public class UnitBitsScript : MonoBehaviour, SSGameManager.IUpdatable {
 	private float speed = 5;
 	public string desiredUnit;
 
-	public int PlayerID {
-		get { return 0; }
-	}
-
 	void Start() {
 		SSGameManager.Register(this);
 	}

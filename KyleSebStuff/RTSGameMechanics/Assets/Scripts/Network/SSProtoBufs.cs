@@ -23,13 +23,16 @@ namespace SSProtoBufs {
         [ProtoMember(3)]
         public int port;
 
-        [ProtoMember(4)]
+		[ProtoMember(4)]
+		public int resyncPort;
+
+        [ProtoMember(5)]
         public bool isHost;
 
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int playerID;
 
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public int opponentID;
     }
 
@@ -123,5 +126,36 @@ namespace SSProtoBufs {
 		public static Command NewEmptyCommand(int _tick) {
 			return new Command { tick = _tick, keyCode = SSKeyCode.Empty };
 		}
+	}
+
+	[ProtoContract]
+	public class Resync {
+		[ProtoMember(1)]
+		public List<UnitInfo> units;
+
+		public Resync() {
+			units = new List<UnitInfo>();
+		}
+	}
+	
+	[ProtoContract]
+	public class UnitInfo {
+		[ProtoMember(1)]
+		public long id;
+
+		[ProtoMember(2)]
+		public int playerID;
+
+		[ProtoMember(3)]
+		public int hp;
+
+		[ProtoMember(4)]
+		public float x;
+
+		[ProtoMember(5)]
+		public float y;
+
+		[ProtoMember(6)]
+		public float z;
 	}
 }

@@ -84,14 +84,21 @@ public class SSGameSetup {
             AddressFamily.InterNetwork,
             SocketType.Dgram,
             ProtocolType.Udp);
+		Socket localResyncSocket = new Socket(
+			AddressFamily.InterNetwork,
+			SocketType.Dgram,
+			ProtocolType.Udp);
         localSocket.Bind(new IPEndPoint(IPAddress.Any, 0));
+		localResyncSocket.Bind(new IPEndPoint(IPAddress.Any, 0));
         ClientInfo localInfo = new ClientInfo {
             name = name,
-            port = ((IPEndPoint)localSocket.LocalEndPoint).Port
+            port = ((IPEndPoint) localSocket.LocalEndPoint).Port,
+			resyncPort = ((IPEndPoint) localResyncSocket.LocalEndPoint).Port
         };
         return new MyClientInfo {
             wrapped = localInfo,
-            socket = localSocket
+            socket = localSocket,
+			resyncSocket = localResyncSocket
         };
     }
 
@@ -136,7 +143,8 @@ public class SSGameSetup {
 			}
 		}
 		BroadcastReady(true, localInfo);
-		UnityThreading.Thread.InForeground(() => SSGameManager.Start(localInfo.socket, mRemoteInfo) );
+		UnityThreading.Thread.InForeground(() =>
+			SSGameManager.Start(localInfo.socket, localInfo.resyncSocket, mRemoteInfo) );
 	}
 
 	/** Tells anyone listening that the game is ready to start */
@@ -177,5 +185,6 @@ public class SSGameSetup {
     private class MyClientInfo {
         public ClientInfo wrapped;
         public Socket socket;
+		public Socket resyncSocket;
     }
 }

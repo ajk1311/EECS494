@@ -14,10 +14,6 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 		damageInflicted = this.transform.parent.GetComponent<Ranged>().damageInflicted;
 	}
 
-	public int PlayerID {
-		get { return 0; }
-	}
-
 	// Update is called once per frame
 	public virtual void GameUpdate(float deltaTime) {
 		if(target == null) {
