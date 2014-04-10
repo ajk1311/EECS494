@@ -18,9 +18,9 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     protected bool currentlySelected = false;
     protected bool alreadySelected = false;
     
-	private long uid;
+	public int uid;
 
-	public long ID {
+	public int ID {
 		get { return uid; }
 		set { uid = value; }
 	}

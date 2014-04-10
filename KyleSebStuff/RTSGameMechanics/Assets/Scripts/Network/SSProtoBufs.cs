@@ -144,7 +144,7 @@ namespace SSProtoBufs {
 	[ProtoContract]
 	public class UnitInfo {
 		[ProtoMember(1)]
-		public long id;
+		public int id;
 
 		[ProtoMember(2)]
 		public int playerID;
