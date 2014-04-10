@@ -133,9 +133,9 @@ public class Unit : WorldObject {
             }
         }
         //TODO: Make Attention Work
-//      if (idle) {
-//          ScanForEnemies();
-//      }
+      if (idle) {
+          ScanForEnemies();
+      }
 
         if (!moving) {
             return;
@@ -168,11 +168,21 @@ public class Unit : WorldObject {
 
 //    TODO: Make attention work
     public virtual void ScanForEnemies() {
-        int layerMask = RTSGameMechanics.GetAttentionPhysicsLayer(this.gameObject.layer);
-      	Collider[] hitColliders = Physics.OverlapSphere(transform.position, 20, layerMask);
+//ß        int layerMask = RTSGameMechanics.GetAttentionPhysicsLayer(this.gameObject.layer);
+      	Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10);
         if(hitColliders.Length > 0){
-          currentTarget = hitColliders[0].gameObject;
-          attacking = true;
+//			Debug.Log ("---------------Found Enemy---------");
+//          currentTarget = hitColliders[0].gameObject;
+//          attacking = true;
+
+			foreach(Collider obj in hitColliders) {
+				if(obj.transform.tag == "Kill" && obj.gameObject.layer != this.gameObject.layer) {
+					Debug.Log ("---------------Found Enemy---------");
+					currentTarget = obj.gameObject;
+					attacking = true;
+					idle = false;
+				}
+			}
       }
     }
 
