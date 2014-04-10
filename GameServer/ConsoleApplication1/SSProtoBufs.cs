@@ -16,14 +16,20 @@ namespace SSProtoBufs
         [ProtoMember(3)]
         public int port;
 
-        [ProtoMember(4)]
+		[ProtoMember(4)]
+		public int resyncPort;
+
+        [ProtoMember(5)]
         public bool isHost;
 
-		[ProtoMember(5)]
+		[ProtoMember(6)]
 		public int playerID;
 
-		[ProtoMember(6)]
+		[ProtoMember(7)]
 		public int opponentID;
+
+		[ProtoMember(8)]
+		public int seed;
     }
 
 	[ProtoContract]

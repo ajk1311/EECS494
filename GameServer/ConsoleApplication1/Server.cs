@@ -130,6 +130,9 @@ namespace GameServer {
 
         /** Tells two players about one another. They engage in necessary game handshakes from then on */
         static void HookupPlayers(Socket incomingSocket, ClientInfo incoming, ClientInfoWrapper waiting) {
+			// Determine the random seed that both players will use
+			int randomSeed = new Random().Next();
+
             // Send the game host his/her necessary information
             using (Socket hostSocket = incomingSocket)
 			using (NetworkStream hostStream = new NetworkStream(hostSocket)) {
@@ -139,7 +142,8 @@ namespace GameServer {
 					port = waiting.info.port,
 					playerID = 1,
 					opponentID = 2,
-					isHost = true
+					isHost = true,
+					seed = randomSeed
 				};
 				Console.WriteLine("Sending info about " + waiting.info.name + " to " + incoming.name);
 				Serializer.SerializeWithLengthPrefix(hostStream, hostInfo, PrefixStyle.Base128);
@@ -155,7 +159,8 @@ namespace GameServer {
 					port = incoming.port,
 					playerID = 2,
 					opponentID = 1,
-					isHost = false
+					isHost = false,
+					seed = randomSeed
 				};
 				Console.WriteLine("Sending info about " + incoming.name + " to " + waiting.info.name);
 				Serializer.SerializeWithLengthPrefix(clientStream, clientInfo, PrefixStyle.Base128);

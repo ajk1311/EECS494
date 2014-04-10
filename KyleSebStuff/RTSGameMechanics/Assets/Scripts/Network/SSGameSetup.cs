@@ -72,7 +72,8 @@ public class SSGameSetup {
 			ID = mRemoteInfo.playerID,
 			opponentName = mRemoteInfo.name,
 			opponentID = mRemoteInfo.opponentID,
-			success = true
+			success = true,
+			randomSeed = mRemoteInfo.seed
 		};
 		Dispatcher.Instance.Post(connectionEvent);
 		WaitForReady(localInfo);
