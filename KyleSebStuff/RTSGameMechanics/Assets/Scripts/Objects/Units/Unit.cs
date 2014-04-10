@@ -3,7 +3,6 @@ using System.Collections;
 using RTS;
 using Pathfinding;
 
-[RequireComponent(typeof(CharacterController))]
 public class Unit : WorldObject {
 
     protected Vector3 destination;
@@ -12,12 +11,11 @@ public class Unit : WorldObject {
     protected bool attacking = false;
     protected bool idle = true;
     protected Seeker seeker;
-    protected CharacterController characterController;
     protected Path path;
     protected Vector3 oldEnemyPosition;
     public GameObject currentTarget = null;
     public int currentWaypoint = 0;
-    public float nextWaypointDistance = 3;
+    public float nextWaypointDistance = 0.1f;
     public float speed;
     public float attackRange;
     public float reloadSpeed;
@@ -31,7 +29,6 @@ public class Unit : WorldObject {
     protected override void Start() {
         base.Start();
         seeker = GetComponent<Seeker>();
-        characterController = GetComponent<CharacterController>();
     }
 
     public bool isMoving() {
@@ -117,6 +114,14 @@ public class Unit : WorldObject {
         idle = true;
     }
 
+	void OnTriggerStay(Collider obj) {
+		if(obj.GetComponent<Unit>() != null) {
+			Vector3 direction = Vector3.Normalize(obj.transform.position - transform.position) * -1;
+			direction.y = 0;
+			transform.Translate(direction);
+		}
+	}
+
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
@@ -151,7 +156,9 @@ public class Unit : WorldObject {
 
                 Vector3 direction = (path.vectorPath [currentWaypoint] - transform.position).normalized;
                 direction *= speed * deltaTime;
-                characterController.Move(direction);
+                
+//				transform.position = Vector3.MoveTowards(transform.position, path.vectorPath[currentWaypoint], speed*deltaTime);
+				transform.Translate(direction);
 
                 //Check if we are close enough to the next waypoint
                 //If we are, proceed to follow the next waypoint
