@@ -14,10 +14,6 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	private Dictionary<string, KeyValuePair<int,int>> unitQueue;
 
-	public int PlayerID {
-		get { return playerID; }
-	}
-
 	void Start() {
 		unitQueue = new Dictionary<string, KeyValuePair<int,int>> ();
 		SSGameManager.Register(this);

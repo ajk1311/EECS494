@@ -17,7 +17,7 @@ public static class CombinationManager {
 		
 		foreach(KeyValuePair<string,  List< KeyValuePair<string,int>>> obj in comboRef) {
 			int amount = getValidComboAmount(obj.Value, myUnitCounts);
-			if(amount != null) {
+			if(amount != 0) {
 				KeyValuePair<string,int> pair = new KeyValuePair<string, int>(obj.Key, amount);
 				availableCombinations.Add(pair);
 			}

@@ -2,7 +2,7 @@
 using System.Collections;
 using RTS;
 
-public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
+public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManager.IWorldObjectProperties {
     
     //Public variables
     public string objectName;
@@ -18,8 +18,26 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable {
     protected bool currentlySelected = false;
     protected bool alreadySelected = false;
     
+	private long uid;
+
+	public long ID {
+		get { return uid; }
+		set { uid = value; }
+	}
+
 	public int PlayerID {
 		get { return playerID; }
+		set { playerID = value; }
+	}
+
+	public int HitPoints {
+		get { return hitPoints; }
+		set { hitPoints = value; }
+	}
+
+	public Vector3 WorldPosition {
+		get { return transform.position; }
+		set { transform.position = value; }
 	}
 
     /*** Game Engine methods, all can be overridden by subclass ***/

@@ -35,24 +35,27 @@ public class SSGameManager : MonoBehaviour {
 	 */
 	public interface IUpdatable {
 
-        //=============== Properties ===============// 
-
-		/** The id of the player the object belongs to */
-		int PlayerID { get; }
-
-        /** Returns whether the updateable object can move or not */
-        bool CanMove { get; }
-
-        //=============== Methods ===============// 
-
 		/** Called once per object per successful iteration of the Lockstep loop */
 		void GameUpdate(float deltaTime);
+	}
 
-        /** Returns a hash of the current position of the updatable object */
-        string GetPositionHash();
+	/**
+	 * Interface that contains the properties that each visible, movable, interactable,
+	 * world object should provide. 
+	 */
+	public interface IWorldObjectProperties {
 
-        /** Sets the unit's position in the world */
-        void SetWorldPosition(Vector3 position);
+		/** The unique id for this updatable unit */
+		long ID { get; set; }
+		
+		/** The id of the player the object belongs to */
+		int PlayerID { get; set; }
+		
+		/** The current health of this updatable unity */
+		int HitPoints { get; set; }
+		
+		/** The updatable unit's position in the world */
+		Vector3 WorldPosition { get; set; }
 	}
 
 	/**
@@ -88,11 +91,15 @@ public class SSGameManager : MonoBehaviour {
 	/** Where we are sending packets to */
 	private IPEndPoint mRemoteEndpoint;
 
+	/** Where we send packets for the resync protocol */ 
+	private IPEndPoint mResyncEndpoint;
+
 	/** The info about ourselves we got from the game server */
 	private ClientInfo mPlayerInfo;
 
 	/** The Sockets that send and receive packets */
 	private Socket mSender, mReceiver;
+	private Socket mResyncSender, mResyncReceiver;
 
 	/** 
 	 * Queues up the commands we have yet to be ack'd for per tick 
@@ -129,19 +136,30 @@ public class SSGameManager : MonoBehaviour {
 	private bool mMouse1Down = false;
 	private Vector3 mMouse0DownVector = InvalidPosition;
 
+	// Keeps track of the unit ids for each player
+	private static long sUnitUid = 0;
+
 	/** Begins the Lockstep loop */
-	public static void Start(Socket recvSocket, ClientInfo playerInfo) {
+	public static void Start(Socket recvSocket, Socket resyncSocket, ClientInfo playerInfo) {
 		// Need Unity to call appropriate MonoBehaviour callbacks for us
 		SSGameManager instance = new GameObject("GameManager").AddComponent<SSGameManager>();
 		instance.mPlayerInfo = playerInfo;
 		instance.mReceiver = recvSocket;
 		instance.mSender = new Socket(
-			AddressFamily.InterNetwork, 
-			SocketType.Dgram, 
+			AddressFamily.InterNetwork,
+			SocketType.Dgram,
+			ProtocolType.Udp);
+		instance.mResyncReceiver = resyncSocket;
+		instance.mResyncSender = new Socket(
+			AddressFamily.InterNetwork,
+			SocketType.Dgram,
 			ProtocolType.Udp);
 		instance.mRemoteEndpoint = new IPEndPoint(
 			IPAddress.Parse(playerInfo.address), 
 			playerInfo.port);
+		instance.mResyncEndpoint = new IPEndPoint(
+			IPAddress.Parse(playerInfo.address),
+			playerInfo.resyncPort);
 		SSInput.Init();
 	}
 
@@ -177,10 +195,20 @@ public class SSGameManager : MonoBehaviour {
 
 		// Start accepting commands in a background thread
 		UnityThreading.Thread.InBackground(() => AcceptCommands());
+
+		// Start listening for or sending resync data
+		if (mPlayerInfo.isHost) {
+			UnityThreading.Thread.InBackground(() => HostCorrectionLoop());
+		} else {
+			UnityThreading.Thread.InBackground(() => ClientCorrectionLoop());
+		}
 	}
 
     /** Allows the game unit to be updated in the game loop */
     public static void Register(IUpdatable gameUnit) {
+		if (gameUnit is IWorldObjectProperties) {
+			((IWorldObjectProperties) gameUnit).ID = ++sUnitUid;
+		}
         sUnits.Add(gameUnit);
     }
 
@@ -467,44 +495,132 @@ public class SSGameManager : MonoBehaviour {
 		return max;
 	}
 
+	/** Network resynchronization **/
+
+	/** Loop that runs on the host machine that periodically sends a world checksum */
     void HostCorrectionLoop() {
-        Socket socket = new Socket(
-            AddressFamily.InterNetwork,
-            SocketType.Dgram,
-            ProtocolType.Udp);
         // TODO end condition
+		byte[] buf = new byte[1];
         while (true) {
+			// Only send the resync periodically
             Thread.Sleep(CorrectionLoopLength);
+			mResyncSender.SendTo(GenerateWorldHash(), mResyncEndpoint);
+			mResyncReceiver.Receive(buf);
+			if (buf[0] == 1) {
+				// The client is out of sync, we need to send a resync
+				SendResync();
+			}
         }
     }
 
+	/** Sends the information about the entire game world to the client */
+	void SendResync() {
+		Resync resync = new Resync();
+		foreach (IUpdatable unit in sUnits) {
+			if (unit is IWorldObjectProperties) {
+				IWorldObjectProperties properties = (IWorldObjectProperties) unit;
+				Vector3 position = properties.WorldPosition;
+				UnitInfo info = new UnitInfo() {
+					id = properties.ID,
+					playerID = properties.PlayerID,
+					hp = properties.HitPoints,
+					x = position.x,
+					y = position.y,
+					z = position.z
+				};
+				resync.units.Add(info);
+			}
+		}
+		using (MemoryStream stream = new MemoryStream()) {
+			Serializer.SerializeWithLengthPrefix(stream, resync, PrefixStyle.Base128);
+			mResyncSender.SendTo(stream.ToArray(), mResyncEndpoint);
+		}
+	}
+
+	/** Loop that runs on the client machine that receives world checksums and determines desyncs */
     void ClientCorrectionLoop() {
-        Socket socket = new Socket(
-            AddressFamily.InterNetwork,
-            SocketType.Dgram,
-            ProtocolType.Udp);
         // TODO end condition
         byte[] buf = new byte[32 * sizeof(char)];
         while (true) {
-            int sz = socket.Receive(buf);
+			// Read the hash of the host's world state
+            mResyncReceiver.Receive(buf);
+			// Generate our own world's hash
             byte[] hash = GenerateWorldHash();
-            if (!UnsafeCompare(buf, hash)) {
+            if (!HashesEqual(buf, hash)) {
                 // The two worlds differ, so we need to let the host know
-                socket.SendTo(new byte[] { 1 }, mRemoteEndpoint);
-
+				mResyncSender.SendTo(new byte[] { 1 }, mResyncEndpoint);
+				DoResync();
             } else {
                 // Otherwise, the simulation is equal and we can proceed
-                socket.SendTo(new byte[] { 0 }, mRemoteEndpoint);
+				mResyncSender.SendTo(new byte[] { 0 }, mResyncEndpoint);
             }
         }
     }
 
+	/** Performs the synchronization of this game world with the host's game world */
+	void DoResync() {
+		byte[] buf = new byte[4096];
+		// Receive the host's world information
+		int sz = mResyncReceiver.Receive(buf);
+		using (MemoryStream stream = new MemoryStream(buf, 0, sz)) {
+			// Deserialize into a nice and friendly protobuf object
+			Resync resync = 
+				Serializer.DeserializeWithLengthPrefix<Resync>(stream, PrefixStyle.Base128);
+
+			// Maps the unit info we receive for a merge operation
+			Dictionary<long, UnitInfo> hostWorld = new Dictionary<long, UnitInfo>();
+			// Keeps track of the units that need to be destroyed
+			List<IWorldObjectProperties> toDestroy = new List<IWorldObjectProperties>();
+
+			/** Execute the merge **/
+
+			foreach (UnitInfo info in resync.units) {
+				hostWorld.Add(info.id, info);
+			}
+
+			UnitInfo match;
+			foreach (IUpdatable unit in sUnits) {
+				if (unit is IWorldObjectProperties) {
+					IWorldObjectProperties properties = (IWorldObjectProperties) unit;
+					if (hostWorld.TryGetValue(properties.ID, out match)) {
+						hostWorld.Remove(match.id);
+						// Update the existing unit
+						UnityThreading.Thread.InForeground(() => {
+							properties.HitPoints = match.hp;
+							properties.WorldPosition = new Vector3(match.x, match.y, match.z);
+						});
+					} else {
+						// The unit doesn't exist in the host world, so delete it
+						toDestroy.Add(properties);
+					}
+				}
+			}
+
+			if (hostWorld.Count > 0) {
+				// If there are any remaining units in the host world, we need to create them
+				foreach (KeyValuePair<long, UnitInfo> hostWorldObj in hostWorld) {
+					UnityThreading.Thread.InForeground(() => {
+						// TODO create unit
+					});
+				}
+			}
+
+			if (toDestroy.Count > 0) {
+				// Destroy any units that don't belong in the world
+				foreach (IWorldObjectProperties properties in toDestroy) {
+					properties.HitPoints = 0;
+				}
+			}
+		}
+	}
+
+	/** Creates a checksum value that represents the state of all the units in the world */
     byte[] GenerateWorldHash() {
         string worldState = "";
         foreach (IUpdatable unit in sUnits) {
-            if (unit.CanMove) {
-                worldState += unit.GetPositionHash();
-            }
+			if (unit is IWorldObjectProperties) {
+				worldState += GenerateUnitHash((IWorldObjectProperties) unit);
+			}
         }
         using (MD5 hashSlingingSlasher = MD5.Create()) {
             return hashSlingingSlasher
@@ -512,40 +628,41 @@ public class SSGameManager : MonoBehaviour {
         }
     }
 
-    // Copyright (c) 2008-2013 Hafthor Stefansson
-    // Distributed under the MIT/X11 software license
-    // Ref: http://www.opensource.org/licenses/mit-license.php.
-    static unsafe bool UnsafeCompare(byte[] a1, byte[] a2) {
-        if (a1 == null || a2 == null || a1.Length != a2.Length) {
-            return false;
-        }
-        fixed (byte* p1 = a1, p2 = a2) {
-            byte* x1 = p1, x2 = p2;
-            int l = a1.Length;
-            for (int i = 0; i < l / 8; i++, x1 += 8, x2 += 8) {
-                if (*((long*)x1) != *((long*)x2)) { 
-                    return false;
-                }
-            }
-            if ((l & 4) != 0) {
-                if (*((int*)x1) != *((int*)x2)) {
-                    return false;
-                }
-                x1 += 4; 
-                x2 += 4;
-            }
-            if ((l & 2) != 0) { 
-                if (*((short*)x1) != *((short*)x2)) { 
-                    return false;
-                }
-                x1 += 2; x2 += 2; 
-            }
-            if ((l & 1) != 0) { 
-                if (*((byte*)x1) != *((byte*)x2)) {
-                    return false; 
-                }
-            }
-            return true;
-        }
-    }
+	static readonly string FloatStringFormat = "F10";
+
+	/** Creates a checksum for an individual unit */
+	string GenerateUnitHash(IWorldObjectProperties properties) {
+		return properties.HitPoints + 
+			properties.WorldPosition.x.ToString(FloatStringFormat) +
+			properties.WorldPosition.y.ToString(FloatStringFormat) +
+			properties.WorldPosition.z.ToString(FloatStringFormat);
+	}
+
+	/**
+	 * Returns if the contents of two byte array hashes are equal. It's a
+	 * simple for loop, so it's probably not the most efficient, but it works.
+	 */
+	bool HashesEqual(byte[] lhs, byte[] rhs) {
+		if (lhs == rhs) {
+			return true;
+		}
+
+		if (lhs == null || rhs == null) {
+			return false;
+		}
+
+		int len = lhs.Length;
+
+		if (len != rhs.Length) {
+			return false;
+		}
+
+		for (int i = 0; i < len; i++) {
+			if (lhs[i] != rhs[i]) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
