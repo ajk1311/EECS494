@@ -1,12 +1,21 @@
-﻿using UnityEngine;
+﻿// From Unity
+using UnityEngine;
 
+// From System
+using System;
+using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Collections.Generic;
-using SSProtoBufs;
-using ProtoBuf;
+using System.Security.Cryptography;
+using System.Text;
+
+// From us
 using RTS;
-using System.IO;
+using ProtoBuf;
+using SSProtoBufs;
 
 /**
  * Class that ensures synchronization between the game's players. It implements 
@@ -26,11 +35,24 @@ public class SSGameManager : MonoBehaviour {
 	 */
 	public interface IUpdatable {
 
+        //=============== Properties ===============// 
+
 		/** The id of the player the object belongs to */
 		int PlayerID { get; }
 
+        /** Returns whether the updateable object can move or not */
+        bool CanMove { get; }
+
+        //=============== Methods ===============// 
+
 		/** Called once per object per successful iteration of the Lockstep loop */
 		void GameUpdate(float deltaTime);
+
+        /** Returns a hash of the current position of the updatable object */
+        string GetPositionHash();
+
+        /** Sets the unit's position in the world */
+        void SetWorldPosition(Vector3 position);
 	}
 
 	/**
@@ -49,6 +71,12 @@ public class SSGameManager : MonoBehaviour {
 	 * the connection to the opponent will be considered dead and the game must end
 	 */
 	private static readonly int MaxTimeoutLoopCount = 200; // iterations
+
+    /**
+     * The amount of time to wait between sending host position correction packets. This number
+     * can't be too small, otherwise the game will spend too much time rendering useless unit corrections.
+     */
+    private static readonly int CorrectionLoopLength = 5 * 1000; // ms
 
 	/** Used to emulate null checking for Vector3s */
 	private static readonly Vector3 InvalidPosition = 
@@ -150,6 +178,16 @@ public class SSGameManager : MonoBehaviour {
 		// Start accepting commands in a background thread
 		UnityThreading.Thread.InBackground(() => AcceptCommands());
 	}
+
+    /** Allows the game unit to be updated in the game loop */
+    public static void Register(IUpdatable gameUnit) {
+        sUnits.Add(gameUnit);
+    }
+
+    /** Removes a unit from the game loop. Should be done OnDestory */
+    public static void Unregister(IUpdatable gameUnit) {
+        sUnits.Remove(gameUnit);
+    }
 
 	/** We use the real Update() to simulate are own controlled game loop */
 	void Update() {
@@ -429,13 +467,85 @@ public class SSGameManager : MonoBehaviour {
 		return max;
 	}
 
-	/** Allows the game unit to be updated in the game loop */
-	public static void Register(IUpdatable gameUnit) {
-		sUnits.Add(gameUnit);
-	}
+    void HostCorrectionLoop() {
+        Socket socket = new Socket(
+            AddressFamily.InterNetwork,
+            SocketType.Dgram,
+            ProtocolType.Udp);
+        // TODO end condition
+        while (true) {
+            Thread.Sleep(CorrectionLoopLength);
+        }
+    }
 
-	/** Removes a unit from the game loop. Should be done OnDestory */
-	public static void Unregister(IUpdatable gameUnit) {
-		sUnits.Remove(gameUnit);
-	}
+    void ClientCorrectionLoop() {
+        Socket socket = new Socket(
+            AddressFamily.InterNetwork,
+            SocketType.Dgram,
+            ProtocolType.Udp);
+        // TODO end condition
+        byte[] buf = new byte[32 * sizeof(char)];
+        while (true) {
+            int sz = socket.Receive(buf);
+            byte[] hash = GenerateWorldHash();
+            if (!UnsafeCompare(buf, hash)) {
+                // The two worlds differ, so we need to let the host know
+                socket.SendTo(new byte[] { 1 }, mRemoteEndpoint);
+
+            } else {
+                // Otherwise, the simulation is equal and we can proceed
+                socket.SendTo(new byte[] { 0 }, mRemoteEndpoint);
+            }
+        }
+    }
+
+    byte[] GenerateWorldHash() {
+        string worldState = "";
+        foreach (IUpdatable unit in sUnits) {
+            if (unit.CanMove) {
+                worldState += unit.GetPositionHash();
+            }
+        }
+        using (MD5 hashSlingingSlasher = MD5.Create()) {
+            return hashSlingingSlasher
+                .ComputeHash(Encoding.UTF8.GetBytes(worldState));
+        }
+    }
+
+    // Copyright (c) 2008-2013 Hafthor Stefansson
+    // Distributed under the MIT/X11 software license
+    // Ref: http://www.opensource.org/licenses/mit-license.php.
+    static unsafe bool UnsafeCompare(byte[] a1, byte[] a2) {
+        if (a1 == null || a2 == null || a1.Length != a2.Length) {
+            return false;
+        }
+        fixed (byte* p1 = a1, p2 = a2) {
+            byte* x1 = p1, x2 = p2;
+            int l = a1.Length;
+            for (int i = 0; i < l / 8; i++, x1 += 8, x2 += 8) {
+                if (*((long*)x1) != *((long*)x2)) { 
+                    return false;
+                }
+            }
+            if ((l & 4) != 0) {
+                if (*((int*)x1) != *((int*)x2)) {
+                    return false;
+                }
+                x1 += 4; 
+                x2 += 4;
+            }
+            if ((l & 2) != 0) { 
+                if (*((short*)x1) != *((short*)x2)) { 
+                    return false;
+                }
+                x1 += 2; x2 += 2; 
+            }
+            if ((l & 1) != 0) { 
+                if (*((byte*)x1) != *((byte*)x2)) {
+                    return false; 
+                }
+            }
+            return true;
+        }
+    }
 }
