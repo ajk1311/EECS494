@@ -53,10 +53,6 @@ public static class GridManager {
 
 
 		grid[existingIndex[0]][existingIndex[1]].Add(wo);
-
-		if (grid[existingIndex[0]][existingIndex[1]].Count > 0) {
-			Debug.Log("Success!");
-		}
 	}
 
 	public static void RemoveFromGrid(WorldObject wo) {
