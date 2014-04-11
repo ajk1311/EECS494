@@ -47,10 +47,8 @@ public static class GridManager {
 
 		position.x /= SpaceSize;
 		position.z /= SpaceSize;
-		existingIndex[0] = (int) Mathf.Floor(((Vector3) position).x);
-		existingIndex[1] = (int) Mathf.Floor(((Vector3) position).z);
-
-
+		existingIndex[0] = (int) System.Math.Floor(((Vector3) position).x);
+		existingIndex[1] = (int) System.Math.Floor(((Vector3) position).z);
 
 		grid[existingIndex[0]][existingIndex[1]].Add(wo);
 	}
@@ -90,10 +88,10 @@ public static class GridManager {
 		int x = existingIndex[0];
 		int z = existingIndex[1];
 
-		int leftBound = (int) Mathf.Max(x - radius, 0);
-		int topBound = (int) Mathf.Min(z + radius, grid[0].Count);
-		int rightBound = (int) Mathf.Min(x + radius, grid.Count);
-		int bottomBound = (int) Mathf.Max(z - radius, 0);
+		int leftBound = System.Math.Max(x - radius, 0);
+		int topBound = System.Math.Min(z + radius, grid[0].Count);
+		int rightBound = System.Math.Min(x + radius, grid.Count);
+		int bottomBound = System.Math.Max(z - radius, 0);
 
 		List<WorldObject> results = new List<WorldObject>();
 
@@ -105,4 +103,18 @@ public static class GridManager {
 
 		return results;
 	} 
+
+	public static void PrintGrid() {
+		Debug.Log("================ Printing Grid ================");
+		for (int i = 0, w = grid.Count; i < w; i++) {
+			for (int j = 0, h = grid[i].Count; j < h; j++) {
+				string message = "[" + i + ", " + j + "]: ";
+				for (int k = 0, g = grid[i][j].Count; k < g; k++) {
+					message += grid[i][j][k].ID;
+					if (k == g - 1) message += ", ";
+				}
+				Debug.Log(message);
+			}
+		}
+	}
 }

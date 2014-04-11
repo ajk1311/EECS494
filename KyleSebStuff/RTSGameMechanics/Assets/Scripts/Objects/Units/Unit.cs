@@ -147,10 +147,10 @@ public class Unit : WorldObject {
                 FinishAttacking();
             }
         }
-        //TODO: Make Attention Work
-      if (idle) {
-          ScanForEnemies();
-      }
+
+		if (idle) {
+			ScanForEnemies();
+		}
 
         if (!moving) {
             return;
@@ -192,12 +192,10 @@ public class Unit : WorldObject {
 
 		if(potentialEnemies.Count > 0) {
 			foreach(WorldObject obj in potentialEnemies) {
-				if(obj.transform.tag == "Kill" && obj.gameObject.layer != this.gameObject.layer) {
-					if(obj.ID < currentID) {
-						currentID = obj.ID;
-						finalTarget = obj.gameObject;
-						foundEnemy = true;
-					}
+				if(obj.gameObject.layer != this.gameObject.layer && obj.ID < currentID) {
+					currentID = obj.ID;
+					finalTarget = obj.gameObject;
+					foundEnemy = true;
 				}
 			}
 		}
