@@ -7,7 +7,16 @@ namespace RTS {
         public static GameObject FindHitObject(Vector3 position) {
             Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
             if (hitColliders.Length != 0) {
-                return hitColliders[0].gameObject;
+				GameObject finalGameObject = hitColliders[0].gameObject;
+				int currentID = hitColliders[0].gameObject.GetComponent<WorldObject>().ID;
+				foreach(Collider col in hitColliders) {
+					if(col.gameObject.GetComponent<WorldObject>().ID < currentID) {
+						finalGameObject = col.gameObject;
+						currentID = col.gameObject.GetComponent<WorldObject>().ID;
+					}
+				}
+
+				return finalGameObject;
             }
             return null;
         }
