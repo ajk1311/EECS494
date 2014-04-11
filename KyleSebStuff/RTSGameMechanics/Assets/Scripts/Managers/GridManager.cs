@@ -6,7 +6,7 @@ public static class GridManager {
 	
 	private const int SpaceSize = 2;
 
-	private static List<List<List<WorldObject>>> grid;
+	private static List<List<List<Unit>>> grid;
 
 	private static Dictionary<int, int[]> indexCache = new Dictionary<int, int[]>();
 
@@ -20,18 +20,18 @@ public static class GridManager {
 		int gridRows = (int) (mapWidth / SpaceSize);
 		int gridColumns = (int) (mapHeight / SpaceSize);
 
-		grid = new List<List<List<WorldObject>>>();
+		grid = new List<List<List<Unit>>>();
 
 		for (int i = 0; i < gridRows; i++) {
-			List<List<WorldObject>> innerList = new List<List<WorldObject>>();
+			List<List<Unit>> innerList = new List<List<Unit>>();
 			for(int j = 0; j < gridColumns; j++) {
-				innerList.Add(new List<WorldObject>());
+				innerList.Add(new List<Unit>());
 			}
 			grid.Add(innerList);
 		}
 	}
 
-	public static int[] UpdatePosition(Int3 position, WorldObject wo) {
+	public static int[] UpdatePosition(Int3 position, Unit wo) {
 		bool cacheHit = true;
 		int[] existingIndex;
 		if (!indexCache.TryGetValue(wo.ID, out existingIndex)) {
@@ -41,27 +41,25 @@ public static class GridManager {
 		}
 
 		if (cacheHit) {
-			List<WorldObject> group = grid[existingIndex[0]][existingIndex[1]];
+			List<Unit> group = grid[existingIndex[0]][existingIndex[1]];
 			group.Remove(wo);
 		}
 
-		position.x /= SpaceSize;
-		position.z /= SpaceSize;
-		existingIndex[0] = (int) System.Math.Floor(((Vector3) position).x);
-		existingIndex[1] = (int) System.Math.Floor(((Vector3) position).z);
+		existingIndex[0] = position.x / SpaceSize / Int3.Precision;
+		existingIndex[1] = position.z / SpaceSize / Int3.Precision;
 
 		grid[existingIndex[0]][existingIndex[1]].Add(wo);
 
 		return new int[] { existingIndex[0], existingIndex[1] };
 	}
 
-	public static void RemoveFromGrid(WorldObject wo) {
+	public static void RemoveFromGrid(Unit wo) {
 		int[] existingIndex;
 		if (!indexCache.TryGetValue(wo.ID, out existingIndex)) {
 			throw new System.Exception("Trying to remove a unit from the grid that is not on it");
 		}
 
-		List<WorldObject> group = grid[existingIndex[0]][existingIndex[1]];
+		List<Unit> group = grid[existingIndex[0]][existingIndex[1]];
 		group.Remove(wo);
 
 		indexCache.Remove(wo.ID);
@@ -74,14 +72,14 @@ public static class GridManager {
 		return grid[x][z].Count > 0;
 	}
 
-	public static List<WorldObject> GetGridOccupants(int x, int z) {
+	public static List<Unit> GetGridOccupants(int x, int z) {
 		if (x < 0 || z < 0) {
 			throw new System.IndexOutOfRangeException("Must pass positive coordinates to GridManager");
 		}
-		return new List<WorldObject>(grid[x][z]);
+		return new List<Unit>(grid[x][z]);
 	}
 
-	public static List<WorldObject> GetObjectsInRadius(WorldObject wo, int radius) {
+	public static List<Unit> GetObjectsInRadius(Unit wo, int radius) {
 		int[] existingIndex;
 		if (!indexCache.TryGetValue(wo.ID, out existingIndex)) {
 			throw new System.Exception("Unit with id " + wo.ID + " is off the grid!");
@@ -95,7 +93,7 @@ public static class GridManager {
 		int rightBound = System.Math.Min(x + radius, grid.Count);
 		int bottomBound = System.Math.Max(z - radius, 0);
 
-		List<WorldObject> results = new List<WorldObject>();
+		List<Unit> results = new List<Unit>();
 
 		for (int i = leftBound; i <= rightBound; i++) {
 			for (int j = topBound; j >= bottomBound; j--) {
@@ -110,7 +108,7 @@ public static class GridManager {
 		Debug.Log("================ Printing Grid ================");
 		for (int i = 0, w = grid.Count; i < w; i++) {
 			for (int j = 0, h = grid[i].Count; j < h; j++) {
-				List<WorldObject> group = grid[i][j];
+				List<Unit> group = grid[i][j];
 				if (group.Count > 0) {
 					string message = "[" + i + ", " + j + "]: ";
 					for (int k = 0, g = grid[i][j].Count; k < g; k++) {

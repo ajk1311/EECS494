@@ -29,11 +29,11 @@ public class Unit : WorldObject {
 	public Int3 intPosition;
 
 	protected void intMoveTo(Int3 destination, float deltaTime) {
-		Debug.Log ("intMoveTO destination: " + destination);
+//		Debug.Log ("intMoveTO destination: " + destination);
 		Int3 difference = destination - intPosition;
-		Debug.Log ("Difference between position and destination: " + difference);
-		Int3 direction = difference.NormalizeTo (1);
-		Debug.Log("Normalized direction int vector: " + direction);
+//		Debug.Log ("Difference between position and destination: " + difference);
+		Int3 direction = Normalize(difference);
+//		Debug.Log("Normalized direction int vector: " + direction);
 		direction *= speed * deltaTime;
 		intPosition += direction;
 		Debug.Log("Int position after movement: " + intPosition);
@@ -163,10 +163,9 @@ public class Unit : WorldObject {
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
-		Int3 currentPosition = new Int3(transform.position);
-		if(currentPosition != lastPosition) {
-			lastPosition = currentPosition;
-			gridIndex = GridManager.UpdatePosition(lastPosition, this);
+		if(intPosition != lastPosition) {
+			lastPosition = intPosition;
+			gridIndex = GridManager.UpdatePosition(intPosition, this);
 		}
 
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
@@ -238,9 +237,16 @@ public class Unit : WorldObject {
 		}
 
 		if(foundEnemy) {
-			idle = false;
-			attacking = true;
-			currentTarget = finalTarget;
+//			idle = false;
+//			attacking = true;
+//			currentTarget = finalTarget;
+			Debug.Log("=========== Found enemy in range ============");
+			Unit unit = finalTarget.GetComponent<Unit>();
+			if (unit != null) {
+				Debug.Log("\tID=" + unit.ID);
+				Debug.Log("\tposition=" + unit.intPosition);
+				Debug.Log("\tgridIndex=[" + unit.gridIndex[0] + "," + unit.gridIndex[1] + "]");
+			}
 		}
 	}
 }
