@@ -5,7 +5,7 @@ using Pathfinding;
 
 public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 
-	protected GameObject target;
+	protected WorldObject target;
 	public float speed = 0;
 	public int damageInflicted;
 

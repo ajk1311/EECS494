@@ -48,15 +48,15 @@ public static class SelectionManager {
     }
 
 	public static void moveUnits(int playerID, Vector3 destination) {
-        foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
-			Unit unit = obj.GetComponent<Unit>();
-			if (unit != null) {
-				unit.IssueMoveCommand(destination);
-			}
+        
+
+
+		foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
+            obj.GetComponent<Unit>().IssueMoveCommand(destination);
         }
     }
 
-	public static void attackUnit(int playerID, GameObject target) {
+	public static void attackUnit(int playerID, WorldObject target) {
         foreach (GameObject obj in currentlySelectedObjects[playerID -1]) {
             obj.GetComponent<Unit>().IssueAttackCommand(target);
         }
@@ -71,7 +71,7 @@ public static class SelectionManager {
 	}
 
 	public static void removeUnitFromList(int playerID, GameObject gameObject) {
-		currentlySelectedObjects[playerID - 1].Remove(gameObject);
+		currentlySelectedObjects [playerID - 1].Remove (gameObject);
 	}
 
 	public static Dictionary<string, int> getUnitCounts(int playerID) {

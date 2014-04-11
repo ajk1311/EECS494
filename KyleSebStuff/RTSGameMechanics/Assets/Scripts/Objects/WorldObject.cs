@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using RTS;
+using Pathfinding;
 
 public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManager.IWorldObjectProperties {
     
@@ -19,6 +20,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     protected bool alreadySelected = false;
     
 	public int uid;
+	public Int3 intPosition;
 
 	public int ID {
 		get { return uid; }
@@ -47,14 +49,17 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     }
     
     protected virtual void Start() {
+		intPosition = new Int3(transform.position);
 		SSGameManager.Register(this);
+		GridManager.UpdatePosition(intPosition, this);
     }
 
 	protected virtual void OnDestroy() {
 		if(currentlySelected) {
 			SelectionManager.removeUnitFromList(playerID, this.gameObject);
 		}
-
+		
+		GridManager.RemoveFromGrid(this);
 		SSGameManager.Unregister(this);
 	}
 
