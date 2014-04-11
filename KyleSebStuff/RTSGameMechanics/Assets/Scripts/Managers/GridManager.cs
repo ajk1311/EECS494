@@ -11,12 +11,20 @@ public static class GridManager {
 	private static Dictionary<int, int[]> indexCache = new Dictionary<int, int[]>();
 
 	public static void Init() {
-		GameObject map = GameObject.Find("NewMap");
-		Vector3 mapDimensions = map.transform.localScale;
+		GameObject origin = GameObject.Find("__Origin__");
+		GameObject upperBound = GameObject.Find("__UpperMapBound__");
+
+		float mapWidth = upperBound.transform.position.x - origin.transform.position.x;
+		float mapHeight = upperBound.transform.position.z - origin.transform.position.z;
+
+		int gridRows = (int) (mapWidth / SpaceSize);
+		int gridColumns = (int) (mapHeight / SpaceSize);
+
 		grid = new List<List<List<WorldObject>>>();
-		for (int i = 0; i < (int) mapDimensions.x / SpaceSize; i++) {
+
+		for (int i = 0; i < gridRows; i++) {
 			List<List<WorldObject>> innerList = new List<List<WorldObject>>();
-			for(int j = 0; j < (int) mapDimensions.z / SpaceSize; j++) {
+			for(int j = 0; j < gridColumns; j++) {
 				innerList.Add(new List<WorldObject>());
 			}
 			grid.Add(innerList);
@@ -41,6 +49,8 @@ public static class GridManager {
 		position.z /= SpaceSize;
 		existingIndex[0] = (int) Mathf.Floor(((Vector3) position).x);
 		existingIndex[1] = (int) Mathf.Floor(((Vector3) position).z);
+
+		Debug.Log("Calculated grid position for object with id " + wo.ID + ": [" + existingIndex[0] + ", " + existingIndex[1] + "]");
 
 		grid[existingIndex[0]][existingIndex[1]].Add(wo);
 	}
