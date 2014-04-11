@@ -98,9 +98,6 @@ public class Unit : WorldObject {
 
     protected virtual bool WithinAttackRange() {
 		float distance = ((Int3) currentTarget.transform.position - (Int3) transform.position).magnitude / Int3.FloatPrecision;
-		Debug.Log ("---------Entered WithinAttackRange--------------");
-		Debug.Log ("distance: " + distance);
-		Debug.Log ("attackrange: " + distance);
 		return distance <= attackRange;
     }
 
@@ -144,18 +141,14 @@ public class Unit : WorldObject {
         }
 
         if (attacking) {
-			Debug.Log ("------entered attacking--------");
             if (currentTarget) {
-				Debug.Log ("------about to pursue--------");
                 Pursuit(deltaTime);
             } else {
-				Debug.Log ("------finished attacking--------");
                 FinishAttacking();
             }
         }
         //TODO: Make Attention Work
       if (idle) {
-			Debug.Log ("------you are idle, scan for enemies--------");
           ScanForEnemies();
       }
 
@@ -190,7 +183,6 @@ public class Unit : WorldObject {
     }
 
     public virtual void ScanForEnemies() {
-		Debug.Log ("Scanning for enemies");
 		bool foundEnemy = false;
 		int currentID = int.MaxValue;
 		GameObject finalTarget = null;
@@ -199,10 +191,8 @@ public class Unit : WorldObject {
 			GridManager.GetObjectsInRadius(this, attackRange);
 
 		if(potentialEnemies.Count > 0) {
-			Debug.Log ("PotentialEnemies Count is Greater than 0");
 			foreach(WorldObject obj in potentialEnemies) {
 				if(obj.transform.tag == "Kill" && obj.gameObject.layer != this.gameObject.layer) {
-					Debug.Log ("Found enemy to kill");
 					if(obj.ID < currentID) {
 						currentID = obj.ID;
 						finalTarget = obj.gameObject;
@@ -213,7 +203,6 @@ public class Unit : WorldObject {
 		}
 
 		if(foundEnemy) {
-			Debug.Log ("set target to found enemey");
 			idle = false;
 			attacking = true;
 			currentTarget = finalTarget;

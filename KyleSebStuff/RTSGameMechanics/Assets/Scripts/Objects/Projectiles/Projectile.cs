@@ -17,7 +17,6 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 
 	public virtual void GameUpdate(float deltaTime) {
 		if(target == null) {
-			Debug.Log ("----------DESTROYED THE BULET-------------");
 			Destroy(gameObject);
 		} else {
 			Vector3 targetPosition = RTSGameMechanics.FindTransform(target.transform, "Target").position;
