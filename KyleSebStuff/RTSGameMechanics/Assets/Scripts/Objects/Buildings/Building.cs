@@ -10,7 +10,6 @@ public abstract class Building : WorldObject  {
 	public override void GameUpdate(float deltaTime) {
 		base.GameUpdate(deltaTime);
 		if (currentlySelected) {
-			Debug.Log("Currently selected building: " + name);
 			GUIModelManager.SetCurrentModel(playerID, GetGUIModel());
 		} else {
 			GUIModelManager.SetCurrentModel(playerID, null);
