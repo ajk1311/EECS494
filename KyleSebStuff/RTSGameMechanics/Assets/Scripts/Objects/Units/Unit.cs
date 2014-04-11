@@ -73,7 +73,7 @@ public class Unit : WorldObject {
                 AttackHandler();
         } else {
             if (oldEnemyPosition != currentTarget.intPosition) {
-				intPosition = IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, speed * deltaTime);
+				intPosition += IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, speed * deltaTime);
 				transform.position = (Vector3) intPosition;
             } else {
                 StartMovement(currentTarget.transform.position);
@@ -152,8 +152,9 @@ public class Unit : WorldObject {
                     return;
                 }
 				Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
-
-				intPosition = IntPhysics.MoveTowards(intPosition, nextWayPoint, speed * deltaTime);
+				Debug.Log ("Current intPosition: " + intPosition);
+				intPosition += IntPhysics.MoveTowards(intPosition, nextWayPoint, speed * deltaTime);
+				Debug.Log ("Final intPosition: " + intPosition);
 				transform.position = (Vector3) intPosition;
 
 				if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
