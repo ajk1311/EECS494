@@ -13,7 +13,7 @@ public class Unit : WorldObject {
     protected bool idle = true;
     protected Seeker seeker;
     protected Path path;
-    protected Vector3 oldEnemyPosition;
+    protected Int3 oldEnemyPosition;
     public GameObject currentTarget = null;
     public int currentWaypoint = 0;
     public float nextWaypointDistance = 0.5f;
@@ -78,14 +78,14 @@ public class Unit : WorldObject {
             if (!reloading)
                 AttackHandler();
         } else {
-            if ((Int3) oldEnemyPosition != (Int3) currentTarget.transform.position) {
-				Int3 direction = (Int3) (currentTarget.transform.position - transform.position).normalized;
+            if (oldEnemyPosition != (Int3) currentTarget.transform.position) {
+				Int3 direction =  ((Int3) currentTarget.transform.position - (Int3) transform.position).NormalizeTo(1);
 				direction *= speed * deltaTime;
 				transform.Translate((Vector3) direction);
             } else {
                 StartMovement(currentTarget.transform.position);
             }
-            oldEnemyPosition = currentTarget.transform.position;
+            oldEnemyPosition = (Int3) currentTarget.transform.position;
         }
     }
 
@@ -161,7 +161,7 @@ public class Unit : WorldObject {
                     return;
                 }
 
-				Int3 direction = (Int3) (path.vectorPath[currentWaypoint] - transform.position).normalized;
+				Int3 direction = ((Int3) path.vectorPath[currentWaypoint] - (Int3) transform.position).NormalizeTo(1);
 				direction *= speed * deltaTime;
 
 				transform.Translate((Vector3) direction);

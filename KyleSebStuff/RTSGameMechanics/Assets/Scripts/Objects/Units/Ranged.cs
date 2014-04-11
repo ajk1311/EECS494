@@ -5,7 +5,7 @@ using Pathfinding;
 
 public class Ranged : Unit {
 
-    public GameObject PROJECTILE;
+    public GameObject Projectile;
 	public int damageInflicted;
 
     // Use this for initialization
@@ -27,9 +27,12 @@ public class Ranged : Unit {
         base.AttackHandler();
         //Stop moving in order to attack
         moving = false;
-        Vector3 projectilePosition = Vector3.MoveTowards(transform.position, currentTarget.transform.position, 1f);
-        projectilePosition.y += 1;
-        GameObject projectile = (GameObject)Instantiate(PROJECTILE, projectilePosition, Quaternion.identity);
+//        Vector3 projectilePosition = Vector3.MoveTowards(transform.position, currentTarget.transform.position, 1f);
+
+		Int3 direction = ((Int3) currentTarget.transform.position - (Int3) transform.position).NormalizeTo(1);
+        direction.y += 1;
+
+		GameObject projectile = (GameObject) Instantiate(Projectile, (Vector3) direction, Quaternion.identity);
         projectile.transform.parent = this.transform;
         reloading = true;
         Invoke("Reload", reloadSpeed);
