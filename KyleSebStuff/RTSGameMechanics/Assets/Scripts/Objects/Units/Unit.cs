@@ -22,6 +22,7 @@ public class Unit : WorldObject {
     public float reloadSpeed;
     public bool reloading = false;
     public float attentionRange;
+	public Int3 lastPosition;	
 
     protected override void Awake() {
         base.Awake();
@@ -30,6 +31,7 @@ public class Unit : WorldObject {
     protected override void Start() {
         base.Start();
         seeker = GetComponent<Seeker>();
+		lastPosition = new Int3 (transform.position);
     }
 
     public bool isMoving() {
@@ -118,6 +120,12 @@ public class Unit : WorldObject {
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
+		Int3 currentPosition = new Int3 (transform.position);
+		if(currentPosition != lastPosition) {
+			lastPosition = currentPosition;
+//			GridManager.updatePosition(lastPosition, playerID);
+		}
+
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
 			currentlySelected = true;
 		}
@@ -168,41 +176,30 @@ public class Unit : WorldObject {
         base.TakeDamage(damage);
     }
 
-//    TODO: Make attention work
     public virtual void ScanForEnemies() {
-//ß        int layerMask = RTSGameMechanics.GetAttentionPhysicsLayer(this.gameObject.layer);
-      	Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10);
-        if(hitColliders.Length > 0){
-//			Debug.Log ("---------------Found Enemy---------");
-//          currentTarget = hitColliders[0].gameObject;
-//          attacking = true;
+		bool foundEnemy = false;
+		List<GameObject> potentialEnemies = new List<GameObject>();
+		int currentID = int.MaxValue;
+		GameObject finalTarget;
 
-			List<GameObject> listOfStuffToKill = new List<GameObject>();
+//		potentialEnemies = GridManager.GetObjectsInradius(playerID, attackRange);
 
-			foreach(Collider obj in hitColliders) {
+		if(potentialEnemies.Count > 0) {
+			foreach(GameObject obj in potentialEnemies) {
 				if(obj.transform.tag == "Kill" && obj.gameObject.layer != this.gameObject.layer) {
-					Debug.Log ("---------------Found Enemy---------");
-					listOfStuffToKill.Add(obj.gameObject);
-				}
-			}
-
-			if(listOfStuffToKill.Count > 0) {
-				long currentID = listOfStuffToKill[0].GetComponent<WorldObject>().ID;
-				GameObject finalTarget = listOfStuffToKill[0];
-
-				foreach(GameObject obj in listOfStuffToKill) {
 					if(obj.GetComponent<WorldObject>().ID < currentID) {
 						currentID = obj.GetComponent<WorldObject>().ID;
 						finalTarget = obj;
+						foundEnemy = true;
 					}
 				}
-
-				currentTarget = finalTarget;
-				attacking = true;
-				idle = false;
 			}
-      }
-    }
+		}
 
-    //TODO: Handle Getting Attacked
+		if(foundEnemy) {
+			idle = false;
+			attacking = true;
+			currentTarget = finalTarget;
+		}
+	}
 }
