@@ -49,8 +49,10 @@ public static class SelectionManager {
 
 	public static void moveUnits(int playerID, Vector3 destination) {
         foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
-			// TODO npe
-            obj.GetComponent<Unit>().IssueMoveCommand(destination);
+			Unit unit = obj.GetComponent<Unit>();
+			if (unit != null) {
+				unit.IssueMoveCommand(destination);
+			}
         }
     }
 
