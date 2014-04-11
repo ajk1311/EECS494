@@ -29,13 +29,29 @@ public class Unit : WorldObject {
 	public Int3 intPosition;
 
 	protected void intMoveTo(Int3 destination, float deltaTime) {
+		Debug.Log ("intMoveTO destination: " + destination);
 		Int3 difference = destination - intPosition;
+		Debug.Log ("Difference between position and destination: " + difference);
 		Int3 direction = difference.NormalizeTo (1);
 		Debug.Log("Normalized direction int vector: " + direction);
 		direction *= speed * deltaTime;
 		intPosition += direction;
 		Debug.Log("Int position after movement: " + intPosition);
 		transform.position = (Vector3) intPosition;
+	}
+
+	public Int3 Normalize(Int3 vector) {
+		float magn = vector.magnitude;
+		
+		if (magn == 0) {
+			return vector;
+		}
+		
+		vector.x = (int) System.Math.Round(vector.x / magn * Int3.FloatPrecision);
+		vector.y = (int) System.Math.Round(vector.y / magn * Int3.FloatPrecision);
+		vector.z = (int) System.Math.Round(vector.z / magn * Int3.FloatPrecision);
+		
+		return vector;
 	}
 
 	protected float intDistanceTo(Int3 target) {
@@ -50,8 +66,9 @@ public class Unit : WorldObject {
     // Use this for initialization
     protected override void Start() {
         base.Start();
+		intPosition = new Int3 (transform.position);
+		lastPosition = intPosition;
         seeker = GetComponent<Seeker>();
-		lastPosition = new Int3(transform.position);
 		gridIndex = GridManager.UpdatePosition(lastPosition, this);
     }
 
