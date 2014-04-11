@@ -5,8 +5,7 @@ public static class IntPhysics {
 
 	public static Int3 MoveTowards(Int3 source, Int3 destination, float maxDistance) {
 		Int3 direction = Normalize(destination - source);
-		Debug.Log ("Direction: " + direction);
-		return direction * maxDistance;
+		return source + direction * maxDistance;
 	}
 
 	public static Int3 Normalize(Int3 vector) {

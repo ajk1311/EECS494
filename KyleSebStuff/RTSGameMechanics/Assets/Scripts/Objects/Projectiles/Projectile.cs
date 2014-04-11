@@ -9,25 +9,26 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 	public float speed = 0;
 	public int damageInflicted;
 
+	private Int3 intPosition;
+
 	protected virtual void Start () {
 		SSGameManager.Register(this);
-        target = this.transform.parent.GetComponent<Unit>().currentTarget;
-		damageInflicted = this.transform.parent.GetComponent<Ranged>().damageInflicted;
+		intPosition = new Int3(transform.position);
+        target = transform.parent.GetComponent<Unit>().currentTarget;
+		damageInflicted = transform.parent.GetComponent<Ranged>().damageInflicted;
 	}
 
 	public virtual void GameUpdate(float deltaTime) {
 		if(target == null) {
 			Destroy(gameObject);
 		} else {
-			Vector3 targetPosition = RTSGameMechanics.FindTransform(target.transform, "Target").position;
-			float distance = ((Int3) transform.position - (Int3) targetPosition).magnitude / Int3.FloatPrecision;
-			if (distance < 0.1f) {
-				target.GetComponent<WorldObject>().TakeDamage(damageInflicted);
+			Int3 targetPosition = (Int3) RTSGameMechanics.FindTransform(target.transform, "Target").position;
+			if (IntPhysics.IsCloseEnough(intPosition, targetPosition, 0.5f)) {
+				target.TakeDamage(damageInflicted);
 				Destroy(gameObject);
 			} else {
-				Int3 direction = (Int3) ((Vector3) ((Int3) targetPosition - (Int3) transform.position)).normalized;
-				direction *= speed * deltaTime;
-				transform.Translate((Vector3) direction);
+				intPosition = IntPhysics.MoveTowards(intPosition, targetPosition, speed * deltaTime);
+				transform.position = (Vector3) intPosition;
 			}
 		}
 	}
