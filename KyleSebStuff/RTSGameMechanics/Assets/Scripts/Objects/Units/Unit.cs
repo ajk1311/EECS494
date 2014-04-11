@@ -24,7 +24,25 @@ public class Unit : WorldObject {
     public float attentionRange;
 	public Int3 lastPosition;	
 
+	
 	public int[] gridIndex;
+	public Int3 intPosition;
+
+	protected void intMoveTo(Int3 destination, float deltaTime) {
+		Int3 difference = destination - intPosition;
+		Int3 direction = difference.NormalizeTo (1);
+		Debug.Log("Normalized direction int vector: " + direction);
+		direction *= speed * deltaTime;
+		intPosition += direction;
+		Debug.Log("Int position after movement: " + intPosition);
+		transform.position = (Vector3) intPosition;
+	}
+
+	protected float intDistanceTo(Int3 target) {
+		Int3 difference = intPosition - target;
+		float magnitude = difference.magnitude;
+		return magnitude / Int3.FloatPrecision;
+	}
 
     protected override void Awake() {
         base.Awake();
@@ -162,17 +180,17 @@ public class Unit : WorldObject {
                     ReachedDestination();
                     return;
                 }
-
-				Int3 difference = (Int3) path.vectorPath[currentWaypoint] - (Int3) transform.position;
-				Int3 direction = (Int3) ((Vector3) difference).normalized;
-				direction *= speed * deltaTime;
-
-				transform.Translate((Vector3) direction);
+				intMoveTo((Int3) path.vectorPath[currentWaypoint], deltaTime);
+//				Int3 difference = (Int3) path.vectorPath[currentWaypoint] - (Int3) transform.position;
+//				Int3 direction = (Int3) ((Vector3) difference).normalized;
+//				direction *= speed * deltaTime;
+//
+//				transform.Translate((Vector3) direction);
 
                 //Check if we are close enough to the next waypoint
                 //If we are, proceed to follow the next waypoint
-				float distance = ((Int3) transform.position - (Int3) path.vectorPath[currentWaypoint]).magnitude / Int3.FloatPrecision;
-                if (distance < nextWaypointDistance) {
+//				float distance = (intPosition - (Int3) path.vectorPath[currentWaypoint]).magnitude / Int3.FloatPrecision;
+                if (intDistanceTo((Int3) path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
                     currentWaypoint++;
                     return;
                 }

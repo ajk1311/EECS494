@@ -21,9 +21,9 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     private void MouseActivity() {
 		Vector3 position, position2;
 
-		if (SSInput.GetKeyDown(playerID, SSKeyCode.DownArrow)) {
-			GridManager.PrintGrid();
-		}
+//		if (SSInput.GetKeyDown(playerID, SSKeyCode.DownArrow)) {
+//			GridManager.PrintGrid();
+//		}
 
         if (SSInput.GetMouseClick(PlayerID, 0, out position)) {
             LeftMouseClickDown(position);
