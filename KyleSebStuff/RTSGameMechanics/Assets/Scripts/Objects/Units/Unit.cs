@@ -79,7 +79,7 @@ public class Unit : WorldObject {
                 AttackHandler();
         } else {
             if (oldEnemyPosition != (Int3) currentTarget.transform.position) {
-				Int3 direction =  ((Int3) currentTarget.transform.position - (Int3) transform.position).NormalizeTo(1);
+				Int3 direction =  (Int3) ((Vector3) ((Int3) currentTarget.transform.position - (Int3) transform.position)).normalized;
 				direction *= speed * deltaTime;
 				transform.Translate((Vector3) direction);
             } else {
@@ -161,7 +161,8 @@ public class Unit : WorldObject {
                     return;
                 }
 
-				Int3 direction = ((Int3) path.vectorPath[currentWaypoint] - (Int3) transform.position).NormalizeTo(1);
+				Int3 difference = (Int3) path.vectorPath[currentWaypoint] - (Int3) transform.position;
+				Int3 direction = (Int3) ((Vector3) difference).normalized;
 				direction *= speed * deltaTime;
 
 				transform.Translate((Vector3) direction);
