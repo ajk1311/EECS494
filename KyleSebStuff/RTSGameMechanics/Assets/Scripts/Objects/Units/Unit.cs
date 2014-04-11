@@ -16,7 +16,7 @@ public class Unit : WorldObject {
     protected Int3 oldEnemyPosition;
     public GameObject currentTarget = null;
     public int currentWaypoint = 0;
-    public float nextWaypointDistance = 0.5f;
+    public float nextWaypointDistance = 0.1f;
     public float speed;
     public int attackRange;
     public float reloadSpeed;
@@ -29,6 +29,7 @@ public class Unit : WorldObject {
 	public Int3 intPosition;
 	public int IntX;
 	public int IntZ;
+	public long longNextWaypointDistance = 100;
 
 	protected void intMoveTo(Int3 destination, float deltaTime) {
 //		Debug.Log ("intMoveTO destination: " + destination);
@@ -212,7 +213,11 @@ public class Unit : WorldObject {
                 //Check if we are close enough to the next waypoint
                 //If we are, proceed to follow the next waypoint
 //				float distance = (intPosition - (Int3) path.vectorPath[currentWaypoint]).magnitude / Int3.FloatPrecision;
-                if (intDistanceTo((Int3) path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
+//                if (intDistanceTo((Int3) path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
+
+				Int3 difference = intPosition - (Int3) path.vectorPath[currentWaypoint];
+				long differenceMag = difference.sqrMagnitudeLong;
+				if (differenceMag < (longNextWaypointDistance * longNextWaypointDistance)) {
                     currentWaypoint++;
                     return;
                 }
