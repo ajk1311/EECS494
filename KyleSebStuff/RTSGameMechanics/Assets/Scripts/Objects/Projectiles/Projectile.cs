@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 				target.GetComponent<WorldObject>().TakeDamage(damageInflicted);
 				Destroy(gameObject);
 			} else {
-				Int3 direction = (Int3) (targetPosition - transform.position).normalized;
+				Int3 direction = (Int3) ((Vector3) ((Int3) targetPosition - (Int3) transform.position)).normalized;
 				direction *= speed * deltaTime;
 				transform.Translate((Vector3) direction);
 			}

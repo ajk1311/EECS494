@@ -27,9 +27,8 @@ public class Ranged : Unit {
         base.AttackHandler();
         //Stop moving in order to attack
         moving = false;
-//        Vector3 projectilePosition = Vector3.MoveTowards(transform.position, currentTarget.transform.position, 1f);
 
-		Int3 direction = ((Int3) currentTarget.transform.position - (Int3) transform.position).NormalizeTo(1);
+		Int3 direction = (Int3) ((Vector3) ((Int3) currentTarget.transform.position - (Int3) transform.position)).normalized;
         direction.y += 1;
 
 		GameObject projectile = (GameObject) Instantiate(Projectile, (Vector3) direction, Quaternion.identity);
