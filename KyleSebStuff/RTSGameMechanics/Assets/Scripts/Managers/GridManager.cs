@@ -50,9 +50,13 @@ public static class GridManager {
 		existingIndex[0] = (int) Mathf.Floor(((Vector3) position).x);
 		existingIndex[1] = (int) Mathf.Floor(((Vector3) position).z);
 
-		Debug.Log("Calculated grid position for object with id " + wo.ID + ": [" + existingIndex[0] + ", " + existingIndex[1] + "]");
+
 
 		grid[existingIndex[0]][existingIndex[1]].Add(wo);
+
+		if (grid[existingIndex[0]][existingIndex[1]].Count > 0) {
+			Debug.Log("Success!");
+		}
 	}
 
 	public static void RemoveFromGrid(WorldObject wo) {
@@ -90,15 +94,15 @@ public static class GridManager {
 		int x = existingIndex[0];
 		int z = existingIndex[1];
 
-		int leftBound = (int) Mathf.Min(x - radius, 0);
-		int topBound = (int) Mathf.Max(z + radius, grid[0].Count);
-		int rightBound = (int) Mathf.Max(x + radius, grid.Count);
-		int bottomBound = (int) Mathf.Min(z - radius, 0);
+		int leftBound = (int) Mathf.Max(x - radius, 0);
+		int topBound = (int) Mathf.Min(z + radius, grid[0].Count);
+		int rightBound = (int) Mathf.Min(x + radius, grid.Count);
+		int bottomBound = (int) Mathf.Max(z - radius, 0);
 
 		List<WorldObject> results = new List<WorldObject>();
 
-		for (int i = topBound; i <= bottomBound; i--) {
-			for (int j = leftBound; j <= rightBound; j++) {
+		for (int i = leftBound; i <= rightBound; i++) {
+			for (int j = topBound; j >= bottomBound; j--) {
 				results.AddRange(grid[i][j]);
 			}
 		}
