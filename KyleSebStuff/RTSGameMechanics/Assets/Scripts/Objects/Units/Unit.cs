@@ -223,14 +223,14 @@ public class Unit : WorldObject {
 		int currentID = int.MaxValue;
 		GameObject finalTarget = null;
 
-		List<WorldObject> potentialEnemies = 
+		List<Unit> potentialEnemies = 
 			GridManager.GetObjectsInRadius(this, attackRange);
 
 		if(potentialEnemies.Count > 0) {
-			foreach(WorldObject obj in potentialEnemies) {
-				if(obj.gameObject.layer != this.gameObject.layer && obj.ID < currentID) {
-					currentID = obj.ID;
-					finalTarget = obj.gameObject;
+			foreach(Unit unit in potentialEnemies) {
+				if(unit.gameObject.layer != gameObject.layer && unit.ID < currentID) {
+					currentID = unit.ID;
+					finalTarget = unit.gameObject;
 					foundEnemy = true;
 				}
 			}
