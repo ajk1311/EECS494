@@ -32,6 +32,7 @@ public class Unit : WorldObject {
         base.Start();
         seeker = GetComponent<Seeker>();
 		lastPosition = new Int3(transform.position);
+		GridManager.UpdatePosition(lastPosition, this);
     }
 
 	protected override void OnDestroy() {
