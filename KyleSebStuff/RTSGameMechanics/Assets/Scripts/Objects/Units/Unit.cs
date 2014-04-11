@@ -18,7 +18,7 @@ public class Unit : WorldObject {
     public int currentWaypoint = 0;
     public float nextWaypointDistance = 0.5f;
     public float speed;
-    public float attackRange;
+    public int attackRange;
     public float reloadSpeed;
     public bool reloading = false;
     public float attentionRange;
@@ -31,8 +31,12 @@ public class Unit : WorldObject {
     protected override void Start() {
         base.Start();
         seeker = GetComponent<Seeker>();
-		lastPosition = new Int3 (transform.position);
+		lastPosition = new Int3(transform.position);
     }
+
+	protected override void OnDestroy() {
+		GridManager.RemoveFromGrid(this);
+	}
 
     public bool isMoving() {
         return moving;
@@ -120,10 +124,10 @@ public class Unit : WorldObject {
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
-		Int3 currentPosition = new Int3 (transform.position);
+		Int3 currentPosition = new Int3(transform.position);
 		if(currentPosition != lastPosition) {
 			lastPosition = currentPosition;
-//			GridManager.updatePosition(lastPosition, playerID);
+			GridManager.UpdatePosition(lastPosition, this);
 		}
 
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
@@ -158,7 +162,6 @@ public class Unit : WorldObject {
 				Int3 direction = (Int3) (path.vectorPath[currentWaypoint] - transform.position).normalized;
 				direction *= speed * deltaTime;
 
-//				transform.position = Vector3.MoveTowards(transform.position, path.vectorPath[currentWaypoint], speed*deltaTime);
 				transform.Translate((Vector3) direction);
 
                 //Check if we are close enough to the next waypoint
@@ -178,18 +181,18 @@ public class Unit : WorldObject {
 
     public virtual void ScanForEnemies() {
 		bool foundEnemy = false;
-		List<GameObject> potentialEnemies = new List<GameObject>();
 		int currentID = int.MaxValue;
 		GameObject finalTarget = null;
 
-//		potentialEnemies = GridManager.GetObjectsInradius(playerID, attackRange);
+		List<WorldObject> potentialEnemies = 
+			GridManager.GetObjectsInRadius(this, attackRange);
 
 		if(potentialEnemies.Count > 0) {
-			foreach(GameObject obj in potentialEnemies) {
+			foreach(WorldObject obj in potentialEnemies) {
 				if(obj.transform.tag == "Kill" && obj.gameObject.layer != this.gameObject.layer) {
-					if(obj.GetComponent<WorldObject>().ID < currentID) {
-						currentID = obj.GetComponent<WorldObject>().ID;
-						finalTarget = obj;
+					if(obj.ID < currentID) {
+						currentID = obj.ID;
+						finalTarget = obj.gameObject;
 						foundEnemy = true;
 					}
 				}
