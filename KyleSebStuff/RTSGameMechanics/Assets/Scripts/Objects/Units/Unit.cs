@@ -180,7 +180,7 @@ public class Unit : WorldObject {
 		bool foundEnemy = false;
 		List<GameObject> potentialEnemies = new List<GameObject>();
 		int currentID = int.MaxValue;
-		GameObject finalTarget;
+		GameObject finalTarget = null;
 
 //		potentialEnemies = GridManager.GetObjectsInradius(playerID, attackRange);
 
