@@ -3,22 +3,13 @@ using System.Collections;
 
 namespace RTS {
     public static class RTSGameMechanics {
-        //change this to use world coordinates
-        public static GameObject FindHitObject(Vector3 position) {
-            Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
-            if (hitColliders.Length != 0) {
-				GameObject finalGameObject = hitColliders[0].gameObject;
-				int currentID = hitColliders[0].gameObject.GetComponent<WorldObject>().ID;
-				foreach(Collider col in hitColliders) {
-					if(col.gameObject.GetComponent<WorldObject>().ID < currentID) {
-						finalGameObject = col.gameObject;
-						currentID = col.gameObject.GetComponent<WorldObject>().ID;
-					}
-				}
-
-				return finalGameObject;
-            }
-            return null;
+		//change this to use world coordinates
+		public static GameObject FindHitObject(Vector3 position) {
+			Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
+			if (hitColliders.Length != 0) {
+				return hitColliders[0].gameObject;
+			}
+			return null;
         }
 
         public static Vector3 FindHitPoint() {
