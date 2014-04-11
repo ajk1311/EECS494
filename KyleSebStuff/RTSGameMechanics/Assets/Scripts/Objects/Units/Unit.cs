@@ -27,6 +27,8 @@ public class Unit : WorldObject {
 	
 	public int[] gridIndex;
 	public Int3 intPosition;
+	public int IntX;
+	public int IntZ;
 
 	protected void intMoveTo(Int3 destination, float deltaTime) {
 //		Debug.Log ("intMoveTO destination: " + destination);
@@ -36,6 +38,8 @@ public class Unit : WorldObject {
 //		Debug.Log("Normalized direction int vector: " + direction);
 		direction *= speed * deltaTime;
 		intPosition += direction;
+		IntX = intPosition.x;
+		IntZ = intPosition.z;
 		Debug.Log("Int position after movement: " + intPosition);
 		transform.position = (Vector3) intPosition;
 	}
@@ -67,6 +71,8 @@ public class Unit : WorldObject {
     protected override void Start() {
         base.Start();
 		intPosition = new Int3 (transform.position);
+		IntX = intPosition.x;
+		IntZ = intPosition.z;
 		lastPosition = intPosition;
         seeker = GetComponent<Seeker>();
 		gridIndex = GridManager.UpdatePosition(lastPosition, this);
@@ -227,10 +233,10 @@ public class Unit : WorldObject {
 			GridManager.GetObjectsInRadius(this, attackRange);
 
 		if(potentialEnemies.Count > 0) {
-			foreach(Unit unit in potentialEnemies) {
-				if(unit.gameObject.layer != gameObject.layer && unit.ID < currentID) {
-					currentID = unit.ID;
-					finalTarget = unit.gameObject;
+			foreach(WorldObject obj in potentialEnemies) {
+				if(obj.gameObject.layer != this.gameObject.layer && obj.ID < currentID) {
+					currentID = obj.ID;
+					finalTarget = obj.gameObject;
 					foundEnemy = true;
 				}
 			}
