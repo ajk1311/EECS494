@@ -117,7 +117,8 @@ public class SSGameManager : MonoBehaviour {
 	private Dictionary<int, Queue<Command>> mOpponentCmds;
 
 	private int mLatency;
-	private int mCurrentTick;
+	// TODO make private
+	public int mCurrentTick;
 	// Max tick == the highest received ack
 	private int mMaxTick;
 	private float mTickLength;
