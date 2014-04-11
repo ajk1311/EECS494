@@ -31,7 +31,7 @@ public static class GridManager {
 		}
 	}
 
-	public static void UpdatePosition(Int3 position, WorldObject wo) {
+	public static int[] UpdatePosition(Int3 position, WorldObject wo) {
 		bool cacheHit = true;
 		int[] existingIndex;
 		if (!indexCache.TryGetValue(wo.ID, out existingIndex)) {
@@ -51,6 +51,8 @@ public static class GridManager {
 		existingIndex[1] = (int) System.Math.Floor(((Vector3) position).z);
 
 		grid[existingIndex[0]][existingIndex[1]].Add(wo);
+
+		return new int[] { existingIndex[0], existingIndex[1] };
 	}
 
 	public static void RemoveFromGrid(WorldObject wo) {
@@ -108,12 +110,15 @@ public static class GridManager {
 		Debug.Log("================ Printing Grid ================");
 		for (int i = 0, w = grid.Count; i < w; i++) {
 			for (int j = 0, h = grid[i].Count; j < h; j++) {
-				string message = "[" + i + ", " + j + "]: ";
-				for (int k = 0, g = grid[i][j].Count; k < g; k++) {
-					message += grid[i][j][k].ID;
-					if (k == g - 1) message += ", ";
+				List<WorldObject> group = grid[i][j];
+				if (group.Count > 0) {
+					string message = "[" + i + ", " + j + "]: ";
+					for (int k = 0, g = grid[i][j].Count; k < g; k++) {
+						message += grid[i][j][k].ID;
+						if (k == g - 1) message += ", ";
+					}
+					Debug.Log(message);
 				}
-				Debug.Log(message);
 			}
 		}
 	}

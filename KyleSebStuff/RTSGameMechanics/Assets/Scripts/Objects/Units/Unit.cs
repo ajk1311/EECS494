@@ -24,6 +24,8 @@ public class Unit : WorldObject {
     public float attentionRange;
 	public Int3 lastPosition;	
 
+	public int[] gridIndex;
+
     protected override void Awake() {
         base.Awake();
     }
@@ -32,7 +34,7 @@ public class Unit : WorldObject {
         base.Start();
         seeker = GetComponent<Seeker>();
 		lastPosition = new Int3(transform.position);
-		GridManager.UpdatePosition(lastPosition, this);
+		gridIndex = GridManager.UpdatePosition(lastPosition, this);
     }
 
 	protected override void OnDestroy() {
@@ -129,7 +131,7 @@ public class Unit : WorldObject {
 		Int3 currentPosition = new Int3(transform.position);
 		if(currentPosition != lastPosition) {
 			lastPosition = currentPosition;
-			GridManager.UpdatePosition(lastPosition, this);
+			gridIndex = GridManager.UpdatePosition(lastPosition, this);
 		}
 
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
