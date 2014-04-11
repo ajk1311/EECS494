@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using RTS;
+using Pathfinding;
 
 public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 
@@ -20,8 +21,10 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 			Destroy (gameObject);
 		}
 		else {
-			// TODO npe
-			transform.position = Vector3.MoveTowards(transform.position, RTSGameMechanics.FindTransform(target.transform, "Target").position, speed);
+			Vector3 targetPosition = RTSGameMechanics.FindTransform(target.transform, "Target").position;
+			Int3 direction = (Int3) (targetPosition - transform.position).normalized;
+			direction *= speed * deltaTime;
+			transform.Translate((Vector3) direction);
 		}
 	}
 

@@ -36,6 +36,7 @@ public class Unit : WorldObject {
     }
 
 	protected override void OnDestroy() {
+		base.OnDestroy();
 		GridManager.RemoveFromGrid(this);
 	}
 
