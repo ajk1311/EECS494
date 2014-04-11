@@ -98,6 +98,9 @@ public class Unit : WorldObject {
 
     protected virtual bool WithinAttackRange() {
 		float distance = ((Int3) currentTarget.transform.position - (Int3) transform.position).magnitude / Int3.FloatPrecision;
+		Debug.Log ("---------Entered WithinAttackRange--------------");
+		Debug.Log ("distance: " + distance);
+		Debug.Log ("attackrange: " + distance);
 		return distance <= attackRange;
     }
 
@@ -141,14 +144,18 @@ public class Unit : WorldObject {
         }
 
         if (attacking) {
+			Debug.Log ("------entered attacking--------");
             if (currentTarget) {
+				Debug.Log ("------about to pursue--------");
                 Pursuit(deltaTime);
             } else {
+				Debug.Log ("------finished attacking--------");
                 FinishAttacking();
             }
         }
         //TODO: Make Attention Work
       if (idle) {
+			Debug.Log ("------you are idle, scan for enemies--------");
           ScanForEnemies();
       }
 

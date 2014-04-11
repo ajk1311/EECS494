@@ -26,6 +26,7 @@ public class Ranged : Unit {
     protected override void AttackHandler() {
         base.AttackHandler();
         //Stop moving in order to attack
+		Debug.Log ("---------Entered AttackHandler-------");
         moving = false;
 
 		Int3 direction = (Int3) ((Vector3) ((Int3) currentTarget.transform.position - (Int3) transform.position)).normalized;
