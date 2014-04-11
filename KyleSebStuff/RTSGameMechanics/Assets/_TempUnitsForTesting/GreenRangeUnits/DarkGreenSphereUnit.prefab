@@ -201,6 +201,7 @@ MonoBehaviour:
   hitPoints: 0
   maxHitPoints: 0
   playerID: 0
+  uid: 0
   currentTarget: {fileID: 0}
   currentWaypoint: 0
   nextWaypointDistance: 3
@@ -209,7 +210,7 @@ MonoBehaviour:
   reloadSpeed: 0
   reloading: 0
   attentionRange: 0
-  PROJECTILE: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
+  Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
   damageInflicted: 0
 --- !u!135 &13500000
 SphereCollider:
