@@ -26,6 +26,7 @@ public class StartScript : MonoBehaviour {
 
 		Random.seed = connectionEvent.randomSeed;
 
+		GridManager.Init();
 		GUIModelManager.Init();
 		SelectionManager.Init();
 		CombinationManager.Init();
