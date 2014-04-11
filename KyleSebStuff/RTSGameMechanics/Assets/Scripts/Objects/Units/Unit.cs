@@ -14,9 +14,9 @@ public class Unit : WorldObject {
     protected Seeker seeker;
     protected Path path;
     protected Int3 oldEnemyPosition;
-    public GameObject currentTarget = null;
+    public WorldObject currentTarget = null;
     public int currentWaypoint = 0;
-    public float nextWaypointDistance = 0.1f;
+    public float nextWaypointDistance = 0.5f;
     public float speed;
     public int attackRange;
     public float reloadSpeed;
@@ -24,65 +24,15 @@ public class Unit : WorldObject {
     public float attentionRange;
 	public Int3 lastPosition;	
 
-	
-	public int[] gridIndex;
-	public Int3 intPosition;
-	public int IntX;
-	public int IntZ;
-	public long longNextWaypointDistance = 100;
-
-	protected void intMoveTo(Int3 destination, float deltaTime) {
-//		Debug.Log ("intMoveTO destination: " + destination);
-		Int3 difference = destination - intPosition;
-//		Debug.Log ("Difference between position and destination: " + difference);
-		Int3 direction = Normalize(difference);
-//		Debug.Log("Normalized direction int vector: " + direction);
-		direction *= speed * deltaTime;
-		intPosition += direction;
-		IntX = intPosition.x;
-		IntZ = intPosition.z;
-		Debug.Log("Int position after movement: " + intPosition);
-		transform.position = (Vector3) intPosition;
-	}
-
-	public Int3 Normalize(Int3 vector) {
-		float magn = vector.magnitude;
-		
-		if (magn == 0) {
-			return vector;
-		}
-		
-		vector.x = (int) System.Math.Round(vector.x / magn * Int3.FloatPrecision);
-		vector.y = (int) System.Math.Round(vector.y / magn * Int3.FloatPrecision);
-		vector.z = (int) System.Math.Round(vector.z / magn * Int3.FloatPrecision);
-		
-		return vector;
-	}
-
-	protected float intDistanceTo(Int3 target) {
-		Int3 difference = intPosition - target;
-		float magnitude = difference.magnitude;
-		return magnitude / Int3.FloatPrecision;
-	}
-
     protected override void Awake() {
         base.Awake();
     }
     // Use this for initialization
     protected override void Start() {
         base.Start();
-		intPosition = new Int3 (transform.position);
-		IntX = intPosition.x;
-		IntZ = intPosition.z;
 		lastPosition = intPosition;
         seeker = GetComponent<Seeker>();
-		gridIndex = GridManager.UpdatePosition(lastPosition, this);
     }
-
-	protected override void OnDestroy() {
-		base.OnDestroy();
-		GridManager.RemoveFromGrid(this);
-	}
 
     public bool isMoving() {
         return moving;
@@ -100,7 +50,7 @@ public class Unit : WorldObject {
         this.attacking = attacking;
     }
 
-    public void IssueAttackCommand(GameObject target) {
+    public void IssueAttackCommand(WorldObject target) {
         currentTarget = target;
         attacking = true;
     }
@@ -122,10 +72,9 @@ public class Unit : WorldObject {
             if (!reloading)
                 AttackHandler();
         } else {
-            if (oldEnemyPosition != (Int3) currentTarget.transform.position) {
-				Int3 direction =  (Int3) ((Vector3) ((Int3) currentTarget.transform.position - (Int3) transform.position)).normalized;
-				direction *= speed * deltaTime;
-				transform.Translate((Vector3) direction);
+            if (oldEnemyPosition != currentTarget.intPosition) {
+				intPosition = IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, speed * deltaTime);
+				transform.position = (Vector3) intPosition;
             } else {
                 StartMovement(currentTarget.transform.position);
             }
@@ -137,12 +86,10 @@ public class Unit : WorldObject {
     }
 
     protected virtual void AttackHandler() {
-
     }
 
     protected virtual bool WithinAttackRange() {
-		float distance = ((Int3) currentTarget.transform.position - (Int3) transform.position).magnitude / Int3.FloatPrecision;
-		return distance <= attackRange;
+		return GridManager.IsWithinRange(this, currentTarget, attackRange);
     }
 
     protected void OnPathComplete(Path p) {
@@ -172,9 +119,10 @@ public class Unit : WorldObject {
 
 		if(intPosition != lastPosition) {
 			lastPosition = intPosition;
-			gridIndex = GridManager.UpdatePosition(intPosition, this);
+			GridManager.UpdatePosition(intPosition, this);
 		}
 
+		// TODO check for floating point calculations
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
 			currentlySelected = true;
 		}
@@ -203,21 +151,12 @@ public class Unit : WorldObject {
                     ReachedDestination();
                     return;
                 }
-				intMoveTo((Int3) path.vectorPath[currentWaypoint], deltaTime);
-//				Int3 difference = (Int3) path.vectorPath[currentWaypoint] - (Int3) transform.position;
-//				Int3 direction = (Int3) ((Vector3) difference).normalized;
-//				direction *= speed * deltaTime;
-//
-//				transform.Translate((Vector3) direction);
+				Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
 
-                //Check if we are close enough to the next waypoint
-                //If we are, proceed to follow the next waypoint
-//				float distance = (intPosition - (Int3) path.vectorPath[currentWaypoint]).magnitude / Int3.FloatPrecision;
-//                if (intDistanceTo((Int3) path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
+				intPosition = IntPhysics.MoveTowards(intPosition, nextWayPoint, speed * deltaTime);
+				transform.position = (Vector3) intPosition;
 
-				Int3 difference = intPosition - (Int3) path.vectorPath[currentWaypoint];
-				long differenceMag = difference.sqrMagnitudeLong;
-				if (differenceMag < (longNextWaypointDistance * longNextWaypointDistance)) {
+				if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
                     currentWaypoint++;
                     return;
                 }
@@ -232,16 +171,16 @@ public class Unit : WorldObject {
     public virtual void ScanForEnemies() {
 		bool foundEnemy = false;
 		int currentID = int.MaxValue;
-		GameObject finalTarget = null;
+		WorldObject finalTarget = null;
 
-		List<Unit> potentialEnemies = 
+		List<WorldObject> potentialEnemies = 
 			GridManager.GetObjectsInRadius(this, attackRange);
 
 		if(potentialEnemies.Count > 0) {
 			foreach(WorldObject obj in potentialEnemies) {
-				if(obj.gameObject.layer != this.gameObject.layer && obj.ID < currentID) {
+				if(obj.gameObject.layer != gameObject.layer && obj.ID < currentID) {
 					currentID = obj.ID;
-					finalTarget = obj.gameObject;
+					finalTarget = obj;
 					foundEnemy = true;
 				}
 			}
@@ -251,13 +190,13 @@ public class Unit : WorldObject {
 //			idle = false;
 //			attacking = true;
 //			currentTarget = finalTarget;
-			Debug.Log("=========== Found enemy in range ============");
-			Unit unit = finalTarget.GetComponent<Unit>();
-			if (unit != null) {
-				Debug.Log("\tID=" + unit.ID);
-				Debug.Log("\tposition=" + unit.intPosition);
-				Debug.Log("\tgridIndex=[" + unit.gridIndex[0] + "," + unit.gridIndex[1] + "]");
-			}
+//			Debug.Log("=========== Found enemy in range ============");
+//			Unit unit = finalTarget.GetComponent<Unit>();
+//			if (unit != null) {
+//				Debug.Log("\tID=" + unit.ID);
+//				Debug.Log("\tposition=" + unit.intPosition);
+//				Debug.Log("\tgridIndex=[" + unit.gridIndex[0] + "," + unit.gridIndex[1] + "]");
+//			}
 		}
 	}
 }
