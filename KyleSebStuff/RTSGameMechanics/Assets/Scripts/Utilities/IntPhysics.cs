@@ -5,6 +5,7 @@ public static class IntPhysics {
 
 	public static Int3 MoveTowards(Int3 source, Int3 destination, float maxDistance) {
 		Int3 direction = Normalize(destination - source);
+		Debug.Log ("Direction: " + direction);
 		return direction * maxDistance;
 	}
 
@@ -25,6 +26,6 @@ public static class IntPhysics {
 	public static bool IsCloseEnough(Int3 source, Int3 target, float threshold) {
 		long longThreshold = (long) System.Math.Round(threshold * Int3.FloatPrecision);
 		Int3 distancVector = source - target;
-		return distancVector.sqrMagnitudeLong >= (longThreshold * longThreshold);
+		return distancVector.sqrMagnitudeLong <= (longThreshold * longThreshold);
 	}
 }
