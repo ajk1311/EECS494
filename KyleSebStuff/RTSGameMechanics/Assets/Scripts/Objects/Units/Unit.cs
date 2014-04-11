@@ -152,14 +152,12 @@ public class Unit : WorldObject {
                     return;
                 }
 				Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
-				Debug.Log ("Current intPosition: " + intPosition);
 				intPosition += IntPhysics.MoveTowards(intPosition, nextWayPoint, speed * deltaTime);
-				Debug.Log ("Final intPosition: " + intPosition);
 				transform.position = (Vector3) intPosition;
 
 				if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
+					Debug.Log("Moving to next waypoint");
                     currentWaypoint++;
-                    return;
                 }
             }
         }
