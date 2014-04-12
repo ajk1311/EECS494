@@ -80,7 +80,8 @@ public class Unit : WorldObject {
 			if (oldEnemyPosition != currentTarget.intPosition) {
 				following = true;
 				targetPathRequested = false;
-				intPosition = IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, speed * deltaTime);
+				intPosition = IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, 
+				                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
 				transform.position = (Vector3) intPosition;
 			} else if (!targetPathRequested) {
                 StartMovement((Vector3) currentTarget.intPosition);
@@ -162,7 +163,10 @@ public class Unit : WorldObject {
                     return;
                 }
 				Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
-				intPosition = IntPhysics.MoveTowards(intPosition, nextWayPoint, speed * deltaTime);
+				int intSpeed = (int) System.Math.Round(speed * Int3.FloatPrecision);
+				int intTime = (int) System.Math.Round (deltaTime * Int3.FloatPrecision);
+				intPosition = IntPhysics.MoveTowards(intPosition, nextWayPoint, 
+				                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
 				transform.position = (Vector3) intPosition;
 
 				if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {

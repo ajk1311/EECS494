@@ -27,7 +27,8 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 				target.TakeDamage(damageInflicted);
 				Destroy(gameObject);
 			} else {
-				intPosition = IntPhysics.MoveTowards(intPosition, targetPosition, speed * deltaTime);
+				intPosition = IntPhysics.MoveTowards(intPosition, targetPosition, 
+				                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
 				transform.position = (Vector3) intPosition;
 			}
 		}

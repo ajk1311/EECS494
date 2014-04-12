@@ -27,4 +27,11 @@ public static class IntPhysics {
 		Int3 distancVector = source - target;
 		return distancVector.sqrMagnitudeLong <= (longThreshold * longThreshold);
 	}
+
+	public static float FloatSafeMultiply(float f1, float f2) {
+		int i1 = (int) System.Math.Round(f1 * Int3.FloatPrecision);
+		int i2 = (int) System.Math.Round(f2 * Int3.FloatPrecision);
+		int product = i1 * i2;
+		return (float) product / Int3.FloatPrecision / Int3.FloatPrecision;
+	}
 }
