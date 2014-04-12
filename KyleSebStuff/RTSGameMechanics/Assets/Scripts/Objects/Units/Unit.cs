@@ -7,10 +7,12 @@ using System.Collections.Generic;
 public class Unit : WorldObject {
 
     protected Vector3 destination;
+	protected bool targetPathRequested = false;
     protected bool pathComplete = false;
     protected bool moving = false;
     protected bool attacking = false;
     protected bool idle = true;
+	protected bool following = false;
     protected Seeker seeker;
     protected Path path;
     protected Int3 oldEnemyPosition;
@@ -62,21 +64,27 @@ public class Unit : WorldObject {
     }
 
     private void StartMovement(Vector3 destination) {
-        seeker.StartPath(transform.position, destination, OnPathComplete);
+		seeker.StartPath(transform.position, destination, OnPathComplete);
         moving = true;
         idle = false;
     }
 
     protected virtual void Pursuit(float deltaTime) {
         if (WithinAttackRange()) {
-            if (!reloading)
+			following = false;
+			moving = false;
+            if (!reloading) {
                 AttackHandler();
+			}
         } else {
             if (oldEnemyPosition != currentTarget.intPosition) {
 				intPosition = IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, speed * deltaTime);
+				following = true;
+				targetPathRequested = false;
 				transform.position = (Vector3) intPosition;
-            } else {
+			} else if (!targetPathRequested) {
                 StartMovement(currentTarget.transform.position);
+				targetPathRequested = true;
             }
             oldEnemyPosition = (Int3) currentTarget.transform.position;
         }
@@ -98,8 +106,9 @@ public class Unit : WorldObject {
 			path.nnConstraint = NNConstraint.None;
             currentWaypoint = 0;
             pathComplete = true;
-        } else
+        } else {
             pathComplete = false;
+		}
     }
 
     public void ReachedDestination() {
@@ -145,7 +154,7 @@ public class Unit : WorldObject {
 
         if (!moving) {
             return;
-        } else {
+        } else if(!following) {
             if (pathComplete) {
                 if (currentWaypoint >= path.vectorPath.Count) {
                     ReachedDestination();
