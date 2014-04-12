@@ -66,7 +66,7 @@ public class SSGameManager : MonoBehaviour {
 	private static readonly int DefaultLatency = 4; // ticks
 
 	/** The default length of one frame in the communication turn */
-	private static readonly float DefaultFrameLength = 1f / 60f; // ms	
+	private static readonly float DefaultFrameLength = 1f / 50f; // ms	
 
 	/**
 	 * When we don't receive acks for our commands, we must retry sending them to the
