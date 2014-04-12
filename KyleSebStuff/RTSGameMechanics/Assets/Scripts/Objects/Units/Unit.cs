@@ -77,17 +77,18 @@ public class Unit : WorldObject {
                 AttackHandler();
 			}
         } else {
-            if (oldEnemyPosition != currentTarget.intPosition) {
-				intPosition = IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, speed * deltaTime);
+			if (oldEnemyPosition != currentTarget.intPosition) {
 				following = true;
 				targetPathRequested = false;
+				intPosition = IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, speed * deltaTime);
 				transform.position = (Vector3) intPosition;
 			} else if (!targetPathRequested) {
-                StartMovement(currentTarget.transform.position);
+                StartMovement((Vector3) currentTarget.intPosition);
 				targetPathRequested = true;
+				following = false;
             }
-            oldEnemyPosition = (Int3) currentTarget.transform.position;
-        }
+		}
+		oldEnemyPosition = currentTarget.intPosition;
     }
 
     protected virtual void Reload() {
