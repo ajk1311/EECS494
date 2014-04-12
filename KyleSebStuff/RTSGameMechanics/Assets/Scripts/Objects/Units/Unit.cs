@@ -194,9 +194,10 @@ public class Unit : WorldObject {
 		}
 
 		if(foundEnemy) {
-//			idle = false;
-//			attacking = true;
-//			currentTarget = finalTarget;
+			idle = false;
+			attacking = true;
+			currentTarget = finalTarget;
+			oldEnemyPosition = currentTarget.intPosition;
 //			Debug.Log("=========== Found enemy in range ============");
 //			Unit unit = finalTarget.GetComponent<Unit>();
 //			if (unit != null) {
