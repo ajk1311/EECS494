@@ -19,6 +19,18 @@ public class Unit : WorldObject {
 	public int currentWaypoint = 0;
 	public float nextWaypointDistance = 0.5f;
 	protected Int3 destination;
+	protected Int3 intDirection;
+
+	public Int3 IntDirection {
+		get {
+			if (moving && pathComplete) {
+				Int3 nextWayPoint = path.vectorPath[currentWaypoint];
+				Int3 difference = nextWayPoint - intPosition;
+				return new Int3(System.Math.Sign(difference.x), 0, System.Math.Sign(difference.z));
+			}
+			return Int3.zero;
+		}
+	}
 
 	// Targeting state
     public WorldObject currentTarget = null;
@@ -33,6 +45,7 @@ public class Unit : WorldObject {
     protected override void Start() {
         base.Start();
 		destination = intPosition;
+		intDirection = Int3.zero;
 		seeker = GetComponent<Seeker>();
 		lastTargetDestination = MechanicResources.InvalidIntPosition;
     }
@@ -94,11 +107,15 @@ public class Unit : WorldObject {
 		}
     }
 
-	private bool TargetApproaching() {
+	private bool TargetApproaching(Unit target) {
+		Debug.Log("Is target approaching?");
 		int relativeX = currentTarget.intPosition.x - intPosition.x;
+		Debug.Log("Relative x = " + System.Math.Sign(relativeX));
 		int relativeZ = currentTarget.intPosition.z - intPosition.z;
-		return System.Math.Sign(relativeX) != System.Math.Sign(currentTarget.intDirection.x) && 
-			System.Math.Sign(relativeZ) != System.Math.Sign(currentTarget.intDirection.z);
+		Debug.Log("Relative z = " + System.Math.Sign(relativeZ));
+		Debug.Log("Target's direction = " + target.IntDirection);
+		return System.Math.Sign(relativeX) != target.IntDirection.x && 
+			System.Math.Sign(relativeZ) != System.Math.Sign(target.IntDirection.z);
 	}
 
     protected virtual void Reload() {
