@@ -15,9 +15,7 @@ public class StartScript : MonoBehaviour {
 	public Object redCpuPrefab;
 	public Object greenCpuPrefab;
 	public Object assembler;
-
-	public WorldObject[] objs;
-
+	
 	void Start() {
 		Dispatcher.Instance.Register(this);
 		SSGameSetup.ConnectToGame("akausejr", false);
