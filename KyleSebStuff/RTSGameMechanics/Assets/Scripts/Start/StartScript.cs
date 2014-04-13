@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EventBus;
 using SSGameEvents;
 using RTS;
+using Parse;
 
 public class StartScript : MonoBehaviour {
 	private Vector3 cameraStartPosition1 = new Vector3(200, 55, 35);
@@ -20,6 +21,9 @@ public class StartScript : MonoBehaviour {
 	void Start() {
 		Dispatcher.Instance.Register(this);
 		SSGameSetup.ConnectToGame("akausejr", false);
+		ParseObject testObject = new ParseObject ("TestObject");
+		testObject ["foo"] = "bar";
+		testObject.SaveAsync ();
 	}
 	
 	[HandlesEvent]
