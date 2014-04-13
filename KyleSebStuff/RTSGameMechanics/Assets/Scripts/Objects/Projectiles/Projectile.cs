@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using RTS;
 using Pathfinding;
@@ -27,7 +27,7 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 				target.TakeDamage(damageInflicted);
 				Destroy(gameObject);
 			} else {
-				intPosition = IntPhysics.MoveTowards(intPosition, targetPosition, 
+				intPosition += IntPhysics.DisplacementTo(intPosition, targetPosition, 
 				                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
 				transform.position = (Vector3) intPosition;
 			}

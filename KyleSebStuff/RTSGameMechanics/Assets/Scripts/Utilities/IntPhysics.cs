@@ -3,9 +3,9 @@ using Pathfinding;
 
 public static class IntPhysics {
 
-	public static Int3 MoveTowards(Int3 source, Int3 destination, float maxDistance) {
+	public static Int3 DisplacementTo(Int3 source, Int3 destination, float maxDistance) {
 		Int3 direction = Normalize(destination - source);
-		return source + direction * maxDistance;
+		return direction * maxDistance;
 	}
 
 	public static Int3 Normalize(Int3 vector) {

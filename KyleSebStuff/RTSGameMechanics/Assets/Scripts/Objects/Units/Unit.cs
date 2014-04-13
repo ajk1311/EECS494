@@ -74,6 +74,7 @@ public class Unit : WorldObject {
     protected virtual void Pursuit(float deltaTime) {
         if (WithinAttackRange()) {
 			moving = false;
+			lastTargetDestination = MechanicResources.InvalidIntPosition;
             if (!reloading) {
                 AttackHandler();
 			}
@@ -82,13 +83,23 @@ public class Unit : WorldObject {
 			if (unit == null) {
 				// Target is a building, so just go to it
 				StartMovement((Vector3) currentTarget.intPosition);
-			} else if (lastTargetDestination != unit.destination){
-				// Target is a unit and has changed destinations
-				StartMovement((Vector3) unit.destination);
+			} else if (lastTargetDestination != unit.destination) {
+				if (TargetApproaching()) {
+					StartMovement((Vector3) currentTarget.intPosition);
+				} else {
+					StartMovement((Vector3) unit.destination);
+				}
 				lastTargetDestination = unit.destination;
 			}
 		}
     }
+
+	private bool TargetApproaching() {
+		int relativeX = currentTarget.intPosition.x - intPosition.x;
+		int relativeZ = currentTarget.intPosition.z - intPosition.z;
+		return System.Math.Sign(relativeX) != System.Math.Sign(currentTarget.intDirection.x) && 
+			System.Math.Sign(relativeZ) != System.Math.Sign(currentTarget.intDirection.z);
+	}
 
     protected virtual void Reload() {
     }
@@ -153,10 +164,10 @@ public class Unit : WorldObject {
 				return;
 			}
 			Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
-			int intSpeed = (int) System.Math.Round(speed * Int3.FloatPrecision);
-			int intTime = (int) System.Math.Round (deltaTime * Int3.FloatPrecision);
-			intPosition = IntPhysics.MoveTowards(intPosition, nextWayPoint, 
+			Int3 delta = IntPhysics.DisplacementTo(intPosition, nextWayPoint, 
 			                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
+			intDirection = new Int3(System.Math.Sign(delta.x), 0, System.Math.Sign(delta.z));
+			intPosition += delta;
 			transform.position = (Vector3) intPosition;
 			
 			if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
@@ -186,6 +197,7 @@ public class Unit : WorldObject {
 			idle = false;
 			attacking = true;
 			currentTarget = finalTarget;
+			lastTargetDestination = MechanicResources.InvalidIntPosition;
 		}
 	}
 }
