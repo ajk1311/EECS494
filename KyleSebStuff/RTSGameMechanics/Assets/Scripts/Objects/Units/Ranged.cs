@@ -37,12 +37,12 @@ public class Ranged : Unit {
         //Stop moving in order to attack
         moving = false;
 
-		Vector3 projectilePosition = transform.position + new Vector3(0, 1, 0);
+		Int3 projectilePosition = intPosition + new Int3(0, 1, 0);
 
-		GameObject projectile = (GameObject) Instantiate(Projectile, projectilePosition, Quaternion.identity);
-        projectile.transform.parent = this.transform;
+		GameObject projectile = (GameObject) Instantiate(Projectile, (Vector3) projectilePosition, Quaternion.identity);
+		projectile.GetComponent<Projectile>().target = currentTarget;
+		projectile.GetComponent<Projectile>().damageInflicted = damageInflicted;
         reloading = true;
-//        Invoke("Reload", reloadSpeed);
     }
 
     protected override void Reload() {
