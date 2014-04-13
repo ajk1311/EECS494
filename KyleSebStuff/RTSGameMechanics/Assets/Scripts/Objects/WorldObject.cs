@@ -19,7 +19,6 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     
 	public Int3 intPosition;
 	public Int3 lastPosition;
-	public Int3 intDirection;
 
 	public int ID {
 		get { return uid; }
@@ -51,7 +50,6 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		currentlySelected = alreadySelected = false;
 		intPosition = new Int3(transform.position);
 		lastPosition = intPosition;
-		intDirection = Int3.zero;
 		SSGameManager.Register(this);
 		GridManager.UpdatePosition(intPosition, this);
     }
