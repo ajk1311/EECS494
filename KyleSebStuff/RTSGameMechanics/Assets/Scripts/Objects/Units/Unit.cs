@@ -61,6 +61,7 @@ public class Unit : WorldObject {
     public void IssueMoveCommand(Vector3 destination) {
         attacking = false;
         currentTarget = null;
+		this.destination = (Int3) destination;
         StartMovement(destination);
     }
 
@@ -84,6 +85,7 @@ public class Unit : WorldObject {
 			} else if (lastTargetDestination != unit.destination){
 				// Target is a unit and has changed destinations
 				StartMovement((Vector3) unit.destination);
+				lastTargetDestination = unit.destination;
 			}
 		}
     }
@@ -118,7 +120,9 @@ public class Unit : WorldObject {
     public void FinishAttacking() {
         attacking = false;
         moving = false;
-        idle = true;
+		idle = true;
+		lastTargetDestination = 
+			MechanicResources.InvalidIntPosition;
     }
 
     public override void GameUpdate(float deltaTime) {
