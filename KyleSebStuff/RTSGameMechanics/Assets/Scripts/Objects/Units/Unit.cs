@@ -6,34 +6,35 @@ using System.Collections.Generic;
 
 public class Unit : WorldObject {
 
-    protected Vector3 destination;
-	protected bool targetPathRequested = false;
+	// State variables
     protected bool pathComplete = false;
     protected bool moving = false;
     protected bool attacking = false;
-    protected bool idle = true;
-	protected bool following = false;
+	protected bool idle = true;
+	public bool reloading = false;
+
+	// Pathfinding variables
     protected Seeker seeker;
     protected Path path;
-    protected Int3 oldEnemyPosition;
-    public WorldObject currentTarget = null;
-    public int currentWaypoint = 0;
-    public float nextWaypointDistance = 0.5f;
-    public float speed;
-    public int attackRange;
-    public float reloadSpeed;
-    public bool reloading = false;
-    public float attentionRange;
-	public Int3 lastPosition;	
+	public int currentWaypoint = 0;
+	public float nextWaypointDistance = 0.5f;
+	protected Int3 destination;
 
-    protected override void Awake() {
-        base.Awake();
-    }
-    // Use this for initialization
+	// Targeting state
+    public WorldObject currentTarget = null;
+	public Int3 lastTargetDestination;
+
+    // Attributes
+    public float speed;
+    public int attackRadius;
+    public float reloadSpeed;
+    public float attentionRange;
+
     protected override void Start() {
         base.Start();
-		lastPosition = intPosition;
-        seeker = GetComponent<Seeker>();
+		destination = intPosition;
+		seeker = GetComponent<Seeker>();
+		lastTargetDestination = MechanicResources.InvalidIntPosition;
     }
 
     public bool isMoving() {
@@ -71,25 +72,20 @@ public class Unit : WorldObject {
 
     protected virtual void Pursuit(float deltaTime) {
         if (WithinAttackRange()) {
-			following = false;
 			moving = false;
             if (!reloading) {
                 AttackHandler();
 			}
         } else {
-			if (oldEnemyPosition != currentTarget.intPosition) {
-				following = true;
-				targetPathRequested = false;
-				intPosition = IntPhysics.MoveTowards(intPosition, currentTarget.intPosition, 
-				                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
-				transform.position = (Vector3) intPosition;
-			} else if (!targetPathRequested) {
-                StartMovement((Vector3) currentTarget.intPosition);
-				targetPathRequested = true;
-				following = false;
-            }
+			Unit unit = currentTarget.GetComponent<Unit>();
+			if (unit == null) {
+				// Target is a building, so just go to it
+				StartMovement((Vector3) currentTarget.intPosition);
+			} else if (lastTargetDestination != unit.destination){
+				// Target is a unit and has changed destinations
+				StartMovement((Vector3) unit.destination);
+			}
 		}
-		oldEnemyPosition = currentTarget.intPosition;
     }
 
     protected virtual void Reload() {
@@ -99,7 +95,7 @@ public class Unit : WorldObject {
     }
 
     protected virtual bool WithinAttackRange() {
-		return GridManager.IsWithinRange(this, currentTarget, attackRange);
+		return GridManager.IsWithinRange(this, currentTarget, attackRadius);
     }
 
     protected void OnPathComplete(Path p) {
@@ -128,19 +124,10 @@ public class Unit : WorldObject {
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
-		if(intPosition != lastPosition) {
-			lastPosition = intPosition;
-			GridManager.UpdatePosition(intPosition, this);
-		}
-
 		// TODO check for floating point calculations
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
 			currentlySelected = true;
 		}
-				
-        if (moving && pathComplete) {
-            CalculateBounds();
-        }
 
         if (attacking) {
             if (currentTarget) {
@@ -154,62 +141,47 @@ public class Unit : WorldObject {
 			ScanForEnemies();
 		}
 
-        if (!moving) {
-            return;
-        } else if(!following) {
-            if (pathComplete) {
-                if (currentWaypoint >= path.vectorPath.Count) {
-                    ReachedDestination();
-                    return;
-                }
-				Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
-				int intSpeed = (int) System.Math.Round(speed * Int3.FloatPrecision);
-				int intTime = (int) System.Math.Round (deltaTime * Int3.FloatPrecision);
-				intPosition = IntPhysics.MoveTowards(intPosition, nextWayPoint, 
-				                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
-				transform.position = (Vector3) intPosition;
+		if (moving && pathComplete) {
+			CalculateBounds();
 
-				if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
-                    currentWaypoint++;
-                }
-            }
-        }
-    }
-
-    public override void TakeDamage(int damage) {
-        base.TakeDamage(damage);
+			if (currentWaypoint >= path.vectorPath.Count) {
+				ReachedDestination();
+				return;
+			}
+			Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
+			int intSpeed = (int) System.Math.Round(speed * Int3.FloatPrecision);
+			int intTime = (int) System.Math.Round (deltaTime * Int3.FloatPrecision);
+			intPosition = IntPhysics.MoveTowards(intPosition, nextWayPoint, 
+			                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
+			transform.position = (Vector3) intPosition;
+			
+			if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
+				currentWaypoint++;
+			}
+		}
     }
 
     public virtual void ScanForEnemies() {
-		bool foundEnemy = false;
-		int currentID = int.MaxValue;
+		int lowestID = int.MaxValue;
 		WorldObject finalTarget = null;
 
 		List<WorldObject> potentialEnemies = 
-			GridManager.GetObjectsInRadius(this, attackRange);
+			GridManager.GetObjectsInRadius(this, attackRadius);
 
-		if(potentialEnemies.Count > 0) {
-			foreach(WorldObject obj in potentialEnemies) {
-				if(obj.gameObject.layer != gameObject.layer && obj.ID < currentID) {
-					currentID = obj.ID;
-					finalTarget = obj;
-					foundEnemy = true;
-				}
+		WorldObject potentialEnemy;
+		for (int i = 0, sz = potentialEnemies.Count; i < sz; i++) {
+			potentialEnemy = potentialEnemies[i];
+			if (potentialEnemy.gameObject.layer != gameObject.layer && 
+			    potentialEnemy.ID < lowestID) {
+				lowestID = potentialEnemy.ID;
+				finalTarget = potentialEnemy;
 			}
 		}
 
-		if(foundEnemy) {
+		if(finalTarget != null) {
 			idle = false;
 			attacking = true;
 			currentTarget = finalTarget;
-			oldEnemyPosition = currentTarget.intPosition;
-//			Debug.Log("=========== Found enemy in range ============");
-//			Unit unit = finalTarget.GetComponent<Unit>();
-//			if (unit != null) {
-//				Debug.Log("\tID=" + unit.ID);
-//				Debug.Log("\tposition=" + unit.intPosition);
-//				Debug.Log("\tgridIndex=[" + unit.gridIndex[0] + "," + unit.gridIndex[1] + "]");
-//			}
 		}
 	}
 }

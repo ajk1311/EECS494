@@ -4,23 +4,21 @@ using RTS;
 using Pathfinding;
 
 public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManager.IWorldObjectProperties {
-    
-    //Public variables
-    public string objectName;
+	
+	public int uid;
+	public int playerID;
+
     public int cost;
     public int hitPoints;
-    public int maxHitPoints;
+	public int maxHitPoints;
+	public string objectName;
     
-    //Variables accessible by subclass
-
-    //TODO player scripts
-    public int playerID;
-    protected Bounds selectionBounds;
-    protected bool currentlySelected = false;
-    protected bool alreadySelected = false;
+	protected bool alreadySelected;
+	protected bool currentlySelected;
+	protected Bounds selectionBounds;
     
-	public int uid;
 	public Int3 intPosition;
+	public Int3 lastPosition;
 
 	public int ID {
 		get { return uid; }
@@ -49,7 +47,9 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     }
     
     protected virtual void Start() {
+		currentlySelected = alreadySelected = false;
 		intPosition = new Int3(transform.position);
+		lastPosition = intPosition;
 		SSGameManager.Register(this);
 		GridManager.UpdatePosition(intPosition, this);
     }
@@ -58,12 +58,15 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		if(currentlySelected) {
 			SelectionManager.removeUnitFromList(playerID, this.gameObject);
 		}
-		
 		GridManager.RemoveFromGrid(this);
 		SSGameManager.Unregister(this);
 	}
 
 	public virtual void GameUpdate(float deltaTime) {
+		if(intPosition != lastPosition) {
+			lastPosition = intPosition;
+			GridManager.UpdatePosition(intPosition, this);
+		}
 		selectionLogic();
 	}
     
@@ -74,18 +77,14 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		}
     }
     
-    /*** Public methods ***/
-
-    public void setCurrentlySelected(bool data) {
-        currentlySelected = data;
+    public void setCurrentlySelected(bool currentlySelected) {
+		currentlySelected = currentlySelected;
     }
 
     public bool isSelected() {
         return currentlySelected;
     }
-
-    //TODO Selected Logic, stuff from Sebs Notes
-
+	
     private void selectionLogic() {
         if (currentlySelected && !alreadySelected) {
 			SelectionManager.addSelectedGameObject(PlayerID, this.gameObject);
@@ -129,9 +128,9 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
         GUI.Box(selectBox, "");
     }
 
-    public virtual void TakeDamage(int damage){
+    public virtual void TakeDamage(int damage) {
         hitPoints -= damage;
-        if(hitPoints <= 0){
+        if (hitPoints <= 0) {
             Destroy(gameObject);
         }
     }
