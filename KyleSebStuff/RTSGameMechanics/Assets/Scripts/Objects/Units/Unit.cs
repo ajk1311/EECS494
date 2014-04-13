@@ -79,7 +79,9 @@ public class Unit : WorldObject {
     }
 
     private void StartMovement(Vector3 destination) {
-		seeker.StartPath(transform.position, destination, OnPathComplete);
+		Path newPath = seeker.GetNewPath((Vector3) intPosition, destination);
+		seeker.StartPath(newPath, OnPathComplete);
+		AstarPath.WaitForPath(newPath);
         moving = true;
         idle = false;
     }
