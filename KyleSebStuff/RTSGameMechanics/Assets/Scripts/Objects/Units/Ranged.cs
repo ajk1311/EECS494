@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using RTS;
 using Pathfinding;
@@ -13,7 +13,7 @@ public class Ranged : Unit {
     protected override void Start() {
         base.Start();
 		damageInflicted = 1;
-        attackRange = 10;
+        attackRadius = 10;
         speed = 15f;
         reloadSpeed = 0.75f;
         hitPoints = 5;

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Pathfinding;
 
 namespace RTS{
     public static class MechanicResources{
-        private static Vector3 invalidPosition = new Vector3(-99999, -99999, -99999);
-        public static Vector3 InvalidPosition { get { return invalidPosition; } }
+        public static readonly Vector3 InvalidPosition = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+		public static readonly Int3 InvalidIntPosition = new Int3(int.MinValue,      int.MinValue,   int.MinValue);
     }
 }
