@@ -24,7 +24,7 @@ public class Unit : WorldObject {
 	public Int3 IntDirection {
 		get {
 			if (moving && pathComplete) {
-				Int3 nextWayPoint = path.vectorPath[currentWaypoint];
+				Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
 				Int3 difference = nextWayPoint - intPosition;
 				return new Int3(System.Math.Sign(difference.x), 0, System.Math.Sign(difference.z));
 			}
@@ -97,7 +97,7 @@ public class Unit : WorldObject {
 				// Target is a building, so just go to it
 				StartMovement((Vector3) currentTarget.intPosition);
 			} else if (lastTargetDestination != unit.destination) {
-				if (TargetApproaching()) {
+				if (TargetApproaching(unit)) {
 					StartMovement((Vector3) currentTarget.intPosition);
 				} else {
 					StartMovement((Vector3) unit.destination);
