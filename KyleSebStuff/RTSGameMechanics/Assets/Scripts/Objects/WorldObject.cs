@@ -63,7 +63,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 	}
 
 	public virtual void GameUpdate(float deltaTime) {
-		if(intPosition != lastPosition) {
+		if (intPosition != lastPosition) {
 			lastPosition = intPosition;
 			GridManager.UpdatePosition(intPosition, this);
 		}
@@ -78,7 +78,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     }
     
     public void setCurrentlySelected(bool currentlySelected) {
-		currentlySelected = currentlySelected;
+		this.currentlySelected = currentlySelected;
     }
 
     public bool isSelected() {
