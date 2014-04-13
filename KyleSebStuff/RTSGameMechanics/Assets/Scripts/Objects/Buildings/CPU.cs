@@ -47,9 +47,9 @@ public class CPU : DestructableBuilding {
 		tier3.text = "Tier 3";
 		tier3.clicked += new GUIModelManager.OnClick(Tier3Clicked);
 
-		mTierSelectionModel.AddButton(tier1);
-		mTierSelectionModel.AddButton(tier2);
-		mTierSelectionModel.AddButton(tier3);
+		mTierSelectionModel.AddButton(0, tier1);
+		mTierSelectionModel.AddButton(0, tier2);
+		mTierSelectionModel.AddButton(0, tier3);
 	}
 
 	void Tier1Clicked() {
