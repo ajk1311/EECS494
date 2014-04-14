@@ -6,11 +6,11 @@ using RTS;
 using Parse;
 
 public class StartScript : MonoBehaviour {
-	private Vector3 cameraStartPosition1 = new Vector3(200, 55, 35);
-	private Vector3 cameraStartPosition2 = new Vector3(200, 55, 330);
+	private Vector3 cameraStartPosition1 = new Vector3(75, 60, 150);
+	private Vector3 cameraStartPosition2 = new Vector3(725, 60, 150);
 
-	private Vector3 assembler1Pos = new Vector3 (200, 0, 45);
-	private Vector3 assembler2Pos = new Vector3 (200, 0, 355);
+	private Vector3 assembler1Pos = new Vector3 (50, 0, 200);
+	private Vector3 assembler2Pos = new Vector3 (750, 0, 200);
 
 	public Object redCpuPrefab;
 	public Object greenCpuPrefab;
