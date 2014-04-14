@@ -18,11 +18,11 @@ public static class ParseManager {
 	}
 
 	public static void LogEvent(ParseEvent parseEvent, int player, string arg1, string arg2 = null) {
-//		if(player != playerID) {
-//			Debug.Log ("id not the same");
-//			Debug.Log ("event playerID "
-//			return;
-//		}
+		if(player != playerID) {
+			Debug.Log ("id not the same");
+			Debug.Log ("event playerID "
+			return;
+		}
 		switch(parseEvent) {
 			case ParseEvent.NewTierAchieved:
 				ParseObject tierAchievement = new ParseObject("NewTierAchieved");

@@ -100,7 +100,7 @@ public class CPU : DestructableBuilding {
 
 	void ProduceCube() {
 		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Cube", "CPU");
 		Debug.Log ("click here");
 		Int3 spawnPosition = intPosition + spawnOffset;
 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
@@ -109,7 +109,7 @@ public class CPU : DestructableBuilding {
 
 	void ProduceSphere() {
 		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Sphere", "CPU");
 		Int3 spawnPosition = intPosition + spawnOffset;
 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
