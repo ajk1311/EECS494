@@ -6,9 +6,11 @@ namespace RTS {
 	public static class GUIModelManager {
 
 		public class GUIModel {
+			public static readonly int MaxColumns = 3;
+
 			public bool cached = false;
-			public int leftPanelColumns = 3;
-			public int centerPanelColumns = 3;
+			public int leftPanelColumns = MaxColumns;
+			public int centerPanelColumns = MaxColumns;
 			public List<Button> leftPanelButtons;
 			public List<Button> centerPanelButtons;
 
