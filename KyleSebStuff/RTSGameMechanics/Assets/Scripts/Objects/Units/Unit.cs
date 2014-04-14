@@ -169,6 +169,7 @@ public class Unit : WorldObject {
 					if (!reloading) AttackHandler();
 				} else {
 					pursuing = true;
+					idle = attacking = false;
 					lastTargetDestination =
 						MechanicResources.InvalidIntPosition;
 					Pursuit(deltaTime);
