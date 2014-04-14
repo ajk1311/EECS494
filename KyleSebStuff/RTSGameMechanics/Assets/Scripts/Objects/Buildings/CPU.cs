@@ -95,12 +95,13 @@ public class CPU : DestructableBuilding {
 		GUIModelManager.Button random = new GUIModelManager.Button();
 		random.text = "Randomize";
 		random.clicked += new GUIModelManager.OnClick(ProduceRandomUnit);
-		
 		model.AddButton(1, random);
 	}
 
 	void ProduceCube() {
 		// TODO check resources
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
+		Debug.Log ("click here");
 		Int3 spawnPosition = intPosition + spawnOffset;
 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		cube.GetComponent<WorldObject>().playerID = PlayerID;
@@ -108,6 +109,7 @@ public class CPU : DestructableBuilding {
 
 	void ProduceSphere() {
 		// TODO check resources
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
 		Int3 spawnPosition = intPosition + spawnOffset;
 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		sphere.GetComponent<WorldObject>().playerID = PlayerID;

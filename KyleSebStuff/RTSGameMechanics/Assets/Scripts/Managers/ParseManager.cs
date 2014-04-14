@@ -17,10 +17,12 @@ public static class ParseManager {
 		playerID = player;
 	}
 
-	public static void LogEvent(ParseEvent parseEvent, int player, string arg1, string arg2) {
-		if(player != playerID) {
-			return;
-		}
+	public static void LogEvent(ParseEvent parseEvent, int player, string arg1, string arg2 = null) {
+//		if(player != playerID) {
+//			Debug.Log ("id not the same");
+//			Debug.Log ("event playerID "
+//			return;
+//		}
 		switch(parseEvent) {
 			case ParseEvent.NewTierAchieved:
 				ParseObject tierAchievement = new ParseObject("NewTierAchieved");
@@ -57,7 +59,7 @@ public static class ParseManager {
 				towerCapture["id"] = arg2;
 				towerCapture["captured"] = DateTime.Now;
 				towerCapture["gameID"] = gameID;
-
+				break;
 			case ParseEvent.TowerLoss:
 				var query = ParseObject.GetQuery("towerCapture")
 					.WhereEqualTo("player", playerID)
@@ -71,14 +73,16 @@ public static class ParseManager {
 					captureEvent["lost"] = DateTime.Now;
 					captureEvent.SaveAsync();
 				});
-			
+				break;
 			case ParseEvent.UnitCreation:
 				ParseObject unitCreation = new ParseObject("unitCreation");
 				unitCreation["type"] = arg1;
 				unitCreation["method"] = arg2;
 				unitCreation["player"] = playerID;
 				unitCreation["gameID"] = gameID;
+				Debug.Log ("got in here");
 				unitCreation.SaveAsync();
+				break;
 			default:
 				return;
 		}
