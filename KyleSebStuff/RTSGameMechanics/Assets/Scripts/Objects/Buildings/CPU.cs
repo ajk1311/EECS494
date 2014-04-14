@@ -15,7 +15,6 @@ public class CPU : DestructableBuilding {
 	public Object spherePrefab;
 
 	// GUI models
-	private GUIModelManager.GUIModel mCurrentModel;
 	private GUIModelManager.GUIModel mTierSelectionModel;
 	private GUIModelManager.GUIModel mTier1UnitCreationModel;
 
@@ -26,16 +25,13 @@ public class CPU : DestructableBuilding {
 		base.Start();
 		BuildTierSelectionModel();
 		BuildTier1UnitCreationModel();
-		mCurrentModel = mTierSelectionModel;
 		spawnOffset = new Int3(0, 0, spawnOffsetZ * Int3.Precision);
 	}
 
-	protected override void OnUnselected() {
-		mCurrentModel = mTierSelectionModel;
-	}
+	protected override GUIModelManager.GUIModel GetGUIModel(){ return null; }
 
-	protected override GUIModelManager.GUIModel GetGUIModel() {
-		return mCurrentModel;
+	public override void OnSelectionChanged(bool selected) {
+		GUIModelManager.SetCurrentModel(playerID, selected ? mTierSelectionModel : null);
 	}
 
 	void BuildTierSelectionModel() {
@@ -63,7 +59,7 @@ public class CPU : DestructableBuilding {
 
 	void Tier1Clicked() {
 		// TODO check if unlocked
-		mCurrentModel = mTier1UnitCreationModel;
+		GUIModelManager.SetCurrentModel(playerID, mTier1UnitCreationModel);
 	}
 
 	void Tier2Clicked() {

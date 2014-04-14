@@ -97,15 +97,20 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     private void selectionLogic() {
         if (currentlySelected && !alreadySelected) {
 			SelectionManager.addSelectedGameObject(PlayerID, this.gameObject);
+			OnSelectionChanged(true);
             //draw gui
             //set other vars as need to true
         } else if (!currentlySelected && alreadySelected) {
 			SelectionManager.deselectGameObject(PlayerID,this.gameObject);
+			OnSelectionChanged(false);
             //Dont draw gui
             //set other vars to false
         }
         alreadySelected = currentlySelected;
     }
+
+	public virtual void OnSelectionChanged(bool selected) {
+	}
     
 	private void fogOfWarLogic() {
 		GameObject fogTileCheck = FogOfWarManager.getMyFogTile (intPosition);

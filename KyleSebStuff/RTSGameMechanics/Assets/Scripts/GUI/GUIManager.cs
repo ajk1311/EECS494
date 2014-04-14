@@ -69,8 +69,6 @@ public class GUIManager : MonoBehaviour {
 		}
 
 		if(!mCurrentGuiModel.cached) {
-			Debug.Log("GuiModel not cached");
-
 			float panelWidth = Screen.width / 3;
 
 			float innerPadding = GUIResources.GetScaledPixelSize(2);
@@ -191,7 +189,7 @@ public class GUIManager : MonoBehaviour {
 		GUI.Box(rect, "", style);
 	}
 
-	public static int [] GetButtonID(Vector3 mousePos) {
+	public static int[] GetButtonID(Vector3 mousePos) {
 		int[] button = new int[2];
 		Vector2 mousePos2D = new Vector2 (mousePos.x, Screen.height - mousePos.y);
 		for(int i = 0; i < mCurrentGuiModel.leftPanelButtons.Count; i++) {
@@ -201,7 +199,6 @@ public class GUIManager : MonoBehaviour {
 				return button;
 			}
 		}
-
 		for(int i = 0; i < mCurrentGuiModel.centerPanelButtons.Count; i++) {
 			if(mCurrentGuiModel.centerPanelButtons[i].rect.Contains(mousePos2D)) {
 				button[0] = 1;

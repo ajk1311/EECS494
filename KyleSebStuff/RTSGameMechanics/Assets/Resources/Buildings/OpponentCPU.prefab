@@ -146,8 +146,8 @@ MonoBehaviour:
   unit1Icon: {fileID: 2800000, guid: c40917336929440c7befcef48126d24d, type: 3}
   unit2Icon: {fileID: 2800000, guid: 31277c9e2320e496a9752034d7a7e37a, type: 3}
   unit3Icon: {fileID: 0}
-  cubePrefab: {fileID: 100004, guid: 488d21b8e3413436892e8c8721707174, type: 2}
-  spherePrefab: {fileID: 100004, guid: ec925971794ad42b4900befa428100d1, type: 2}
+  cubePrefab: {fileID: 100004, guid: 9caf8a3319c7a45f79be635b7faee10b, type: 2}
+  spherePrefab: {fileID: 100004, guid: 606c58dae08934307ab19dda79b73c68, type: 2}
   spawnOffsetZ: -10
 --- !u!1001 &100100000
 Prefab:
