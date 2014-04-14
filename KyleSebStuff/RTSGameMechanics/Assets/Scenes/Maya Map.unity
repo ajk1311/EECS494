@@ -793,8 +793,8 @@ MonoBehaviour:
   selectBoxSkin: {fileID: 11400000, guid: 6dc85bd1e4057a84db1f2a650e65eba0, type: 2}
   ordersSkin: {fileID: 11400000, guid: f466893f4fad0164ca6f9d13931accb2, type: 2}
   resourceSkin: {fileID: 11400000, guid: ddacf3ce4faac234788ac186b51e2be3, type: 2}
-  powerIcon: {fileID: 0}
-  memoryIcon: {fileID: 0}
+  powerIcon: {fileID: 2800000, guid: 9c046ce6448bfa1469002aec3cc22f44, type: 3}
+  memoryIcon: {fileID: 2800000, guid: cdd926b9fc4895a46bdd141476873576, type: 3}
 --- !u!114 &471585560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2417,32 +2417,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1745741956}
   m_GameObject: {fileID: 1508477124}
   m_Mesh: {fileID: 4300004, guid: c7de07d8dbf341f48bb84f8b937826bd, type: 3}
---- !u!1 &1512561073
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1512561074}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1512561074
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1512561073}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 734.590393, y: 0, z: 203.527832}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
 --- !u!1 &1531029515
 GameObject:
   m_ObjectHideFlags: 0
