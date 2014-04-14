@@ -53,7 +53,7 @@ public class StartScript : MonoBehaviour {
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
 		GameObject assembler2 = (GameObject)Instantiate (assembler, assembler2Pos, Quaternion.identity);
-		int count;
+		int count = 0;
 		if (connectionEvent.ID == 1) {
 			var query = ParseObject.GetQuery("GameID");
 			query.CountAsync().ContinueWith(t =>

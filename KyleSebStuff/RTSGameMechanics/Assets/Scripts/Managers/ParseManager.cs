@@ -7,14 +7,14 @@ public static class ParseManager {
 
 	private static int playerID;
 	private static int gameID;
-	public static enum ParseEvent{ NewTierAchieved, BuildingDestroyed, Combination, Upgrade, TowerCapture, UnitCreation };
+	public enum ParseEvent{ NewTierAchieved, BuildingDestroyed, Combination, Upgrade, TowerCapture, UnitCreation };
 
-	public void Init(int ID) {
-		gameID = 
-		playerID = ID;
+	public static void Init(int player, int GameID) {
+		gameID = GameID;
+		playerID = player;
 	}
 
-	public void LogEvent(ParseEvent parseEvent) {
+	public static void LogEvent(ParseEvent parseEvent) {
 		switch(parseEvent) {
 
 			case ParseEvent.NewTierAchieved:
