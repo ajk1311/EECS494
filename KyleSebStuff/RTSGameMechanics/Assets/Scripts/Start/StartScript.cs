@@ -53,18 +53,17 @@ public class StartScript : MonoBehaviour {
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
 		GameObject assembler2 = (GameObject)Instantiate (assembler, assembler2Pos, Quaternion.identity);
-
+		int count;
 		if (connectionEvent.ID == 1) {
 			var query = ParseObject.GetQuery("GameID");
 			query.CountAsync().ContinueWith(t =>
 			{
-				int count = t.Result;
+				count = t.Result;
 				ParseObject gameID = new ParseObject("GameID");
 				gameID["ID"] = count++;
 				gameID.SaveAsync();
 			});
-
-
+			ParseManager.Init(connectionEvent.ID, count);
 			greenCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			redCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			Camera.main.transform.position = cameraStartPosition1;
@@ -75,6 +74,12 @@ public class StartScript : MonoBehaviour {
 			SSGameManager.Register(myInputManager);
 			SSGameManager.Register(hisOrHerInputManager);
 		} else {
+			var query = ParseObject.GetQuery("GameID");
+			query.CountAsync().ContinueWith(t =>
+			{
+				count = t.Result;
+			});
+			ParseManager.Init(connectionEvent.ID, count + 1);
 			greenCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			redCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			Camera.main.transform.position = cameraStartPosition2;
