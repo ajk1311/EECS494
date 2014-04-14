@@ -10,8 +10,8 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400006}
-  m_Layer: 10
-  m_Name: DarkGreenSphereUnit
+  m_Layer: 11
+  m_Name: OrangeHeapUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400004}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 49530898185734769bac8aa0c2cfe02f, type: 2}
+  - {fileID: 2100000, guid: 5ffb88c6025e5437fad2fc6484abd41d, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   cost: 0
   hitPoints: 0
   maxHitPoints: 0
-  objectName: DarkGreenSphereUnit
+  objectName: OrangeHeapUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
   reloading: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
   attackRadius: 0
   reloadSpeed: 0
   attentionRange: 0
-  Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
+  Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
   damageInflicted: 0
 --- !u!136 &13600000
 CapsuleCollider:

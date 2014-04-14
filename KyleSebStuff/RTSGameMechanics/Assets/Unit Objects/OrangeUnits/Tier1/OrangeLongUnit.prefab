@@ -28,7 +28,7 @@ GameObject:
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
   m_Layer: 11
-  m_Name: Sphere
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,10 +43,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400006}
-  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   m_Layer: 11
-  m_Name: RedSphereUnit
+  m_Name: OrangeLongUnit
   m_TagString: Kill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +80,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 192.292664, y: -6.7949295e-05, z: 59.5132751}
+  m_LocalPosition: {x: 194.632629, y: -6.77108765e-05, z: 59.5831146}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -114,7 +113,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -146,10 +145,9 @@ MonoBehaviour:
   cost: 0
   hitPoints: 0
   maxHitPoints: 0
-  objectName: RedSphereUnit
+  objectName: OrangeLongUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
-  objectCollider: {fileID: 0}
   reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: 3
@@ -160,18 +158,6 @@ MonoBehaviour:
   attentionRange: 0
   Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
   damageInflicted: 0
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  priority: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

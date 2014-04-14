@@ -13,7 +13,7 @@ GameObject:
   - 96: {fileID: 9600000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: GreenBall
+  m_Name: MagentaBall
   m_TagString: Projectiles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,19 +85,19 @@ TrailRenderer:
   m_Colors:
     m_Color[0]:
       serializedVersion: 2
-      rgba: 4278213375
+      rgba: 4292346111
     m_Color[1]:
       serializedVersion: 2
-      rgba: 3137378815
+      rgba: 3154051292
     m_Color[2]:
       serializedVersion: 2
-      rgba: 2449529087
+      rgba: 2455568745
     m_Color[3]:
       serializedVersion: 2
-      rgba: 1426121727
+      rgba: 1426063360
     m_Color[4]:
       serializedVersion: 2
-      rgba: 63743
+      rgba: 16748784
   m_MinVertexDistance: .100000001
   m_Autodestruct: 0
 --- !u!114 &11400000
@@ -111,8 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e881f7b5352c0c48b37364e2a63b5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
   speed: 20
   damageInflicted: 30
+  playerID: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
