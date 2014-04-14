@@ -17,8 +17,6 @@ public class StartScript : MonoBehaviour {
 	public Object greenCpuPrefab;
 	public Object assembler;
 
-	public WorldObject[] objs;
-
 	void Start() {
 		Dispatcher.Instance.Register(this);
 		SSGameSetup.ConnectToGame("akausejr", true);
@@ -34,6 +32,7 @@ public class StartScript : MonoBehaviour {
 		GUIModelManager.Init();
 		SelectionManager.Init();
 		CombinationManager.Init();
+		FogOfWarManager.Init();
 
 		UserInputManager myInputManager;
 		UserInputManager hisOrHerInputManager;
@@ -42,6 +41,8 @@ public class StartScript : MonoBehaviour {
 		playerObject.GetComponent<PlayerScript>().id = connectionEvent.ID;
 		myInputManager = (UserInputManager) playerObject.GetComponent<UserInputManager>();
 		myInputManager.playerID = connectionEvent.ID;
+		FogOfWarManager.playerID = connectionEvent.ID;
+
 
 		GameObject opponentObject = GameObject.Find("Opponent");
 		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();

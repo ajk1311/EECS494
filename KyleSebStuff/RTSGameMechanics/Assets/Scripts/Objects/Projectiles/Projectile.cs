@@ -4,18 +4,17 @@ using RTS;
 using Pathfinding;
 
 public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
-
-	protected WorldObject target;
+	
+	public WorldObject target;
 	public float speed = 0;
 	public int damageInflicted;
+	public int playerID;
 
 	private Int3 intPosition;
 
 	protected virtual void Start () {
 		SSGameManager.Register(this);
 		intPosition = new Int3(transform.position);
-        target = transform.parent.GetComponent<Unit>().currentTarget;
-		damageInflicted = transform.parent.GetComponent<Ranged>().damageInflicted;
 	}
 
 	public virtual void GameUpdate(float deltaTime) {

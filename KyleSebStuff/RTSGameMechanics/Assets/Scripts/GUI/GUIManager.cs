@@ -55,7 +55,6 @@ public class GUIManager : MonoBehaviour {
 		}
     }
     
-    /*** Private Worker Methods ***/
     private void DrawOrdersBar() {
         GUI.skin = ordersSkin;
         GUI.BeginGroup(new Rect(0, Screen.height - GUIResources.OrdersBarHeight, Screen.width, GUIResources.OrdersBarHeight));
@@ -92,21 +91,26 @@ public class GUIManager : MonoBehaviour {
 			curr_model.cached = true;
 		}
 
-//		GUI.BeginGroup(new Rect(0, (3.0f/4.0f) * Screen.height, Screen.width, panel_height));
-		
+		GUIModelManager.Button temp;
+
 		//draw left panel icons
 		for (int i = 0, len = curr_model.leftPanelButtons.Count; i < len; i++) {
-//			float button_x = (i % curr_model.leftPanelColumns) * left_icon_width;
-//			float button_y = (i / 3) * icon_height;
-			GUI.Button (curr_model.leftPanelButtons[i].rect, curr_model.leftPanelButtons[i].icon);
+			temp = curr_model.leftPanelButtons[i];
+			if (temp.text != null) {
+				GUI.Button(temp.rect, temp.text);
+			} else {
+				GUI.Button(temp.rect, temp.icon);
+			}
 		}
 		//draw center panel icons
 		for (int i = 0, len = curr_model.centerPanelButtons.Count; i < len; i++) {
-//			float button_x = left_panel_width + (i % curr_model.centerPanelColumns) * center_icon_width;
-//			float button_y = (i / 3) * icon_height;
-			GUI.Button (curr_model.centerPanelButtons[i].rect, curr_model.centerPanelButtons[i].icon);
+			temp = curr_model.centerPanelButtons[i];
+			if (temp.text != null) {
+				GUI.Button(temp.rect, temp.text);
+			} else {
+				GUI.Button(temp.rect, temp.icon);
+			}
 		}
-//		GUI.EndGroup();
 	}
     
     private void DrawResourceBar() {

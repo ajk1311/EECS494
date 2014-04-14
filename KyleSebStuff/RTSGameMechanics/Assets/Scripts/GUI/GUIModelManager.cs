@@ -33,6 +33,7 @@ namespace RTS {
 		public delegate void OnClick();
 
 		public class Button {
+			public string text;
 			public Texture icon;
 			public event OnClick clicked;
 			public Rect rect = new Rect (0, 0, 0, 0);
