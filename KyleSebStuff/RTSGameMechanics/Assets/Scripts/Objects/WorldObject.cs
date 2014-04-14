@@ -23,7 +23,6 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 	public GameObject currentFogTile;
 
 	public Renderer objectRenderer;
-	public Collider objectCollider;
 
 	public int ID {
 		get { return uid; }
@@ -60,7 +59,6 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		currentFogTile = FogOfWarManager.getMyFogTile (intPosition);
 		FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, playerID);
 		objectRenderer = GetComponentInChildren<Renderer>();
-		objectCollider = GetComponentInChildren<Collider>();
     }
 
 	protected virtual void OnDestroy() {
@@ -117,11 +115,9 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 
 		if(FogOfWarManager.isVisible(currentFogTile, playerID)) {
 			objectRenderer.enabled = true;
-			objectCollider.enabled = true;
 		}
 		else {
 			objectRenderer.enabled = false;
-			objectCollider.enabled = false;
 		}
 	}
 

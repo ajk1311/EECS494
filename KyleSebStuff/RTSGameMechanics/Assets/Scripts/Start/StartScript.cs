@@ -20,7 +20,7 @@ public class StartScript : MonoBehaviour {
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", true);
+		SSGameSetup.ConnectToGame("akausejr", false);
 		ParseObject testObject = new ParseObject ("TestObject");
 		testObject ["foo"] = "bar";
 		testObject.SaveAsync ();
