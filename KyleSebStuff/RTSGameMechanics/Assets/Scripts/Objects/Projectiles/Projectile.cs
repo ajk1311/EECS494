@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 	public WorldObject target;
 	public float speed = 0;
 	public int damageInflicted;
+	public int playerID;
 
 	private Int3 intPosition;
 
@@ -29,6 +30,14 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 				                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
 				transform.position = (Vector3) intPosition;
 			}
+		}
+
+		GameObject fogTile = FogOfWarManager.getMyFogTile (intPosition);
+		if(FogOfWarManager.isVisible(fogTile, playerID)) {
+			renderer.enabled = true;
+		}
+		else {
+			renderer.enabled = false;
 		}
 	}
 

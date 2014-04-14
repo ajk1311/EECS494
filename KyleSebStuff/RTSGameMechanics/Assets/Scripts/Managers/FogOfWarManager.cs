@@ -66,7 +66,10 @@ public static class FogOfWarManager {
 		if (oldFogTile != null) {
 			removeUnitFromFogTile (oldFogTile, pID);
 		}
-		addUnitToFogTile (newFogTile, pID);
+
+		if(newFogTile != null) {
+			addUnitToFogTile (newFogTile, pID);
+		}
 	}
 
 	private static void removeUnitFromFogTile(GameObject fogTile, int pID) {
@@ -94,7 +97,7 @@ public static class FogOfWarManager {
 	public static bool isVisible(GameObject fogTile, int ID) {
 		int count = fogTile.GetComponent<FogScript> ().friendlyUnitCount;
 
-		if(ID == playerID) {
+		if(ID == playerID && count > 0) {
 			//always show friendly units
 			return true;
 		}

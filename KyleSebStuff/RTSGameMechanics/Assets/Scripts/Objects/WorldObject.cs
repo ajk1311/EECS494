@@ -67,6 +67,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		}
 		GridManager.RemoveFromGrid(this);
 		SSGameManager.Unregister(this);
+		FogOfWarManager.updateFogTileUnitCount (currentFogTile, null, playerID);
 	}
 
 	public virtual void GameUpdate(float deltaTime) {

@@ -42,6 +42,7 @@ public class Ranged : Unit {
 		GameObject projectile = (GameObject) Instantiate(Projectile, (Vector3) projectilePosition, Quaternion.identity);
 		projectile.GetComponent<Projectile>().target = currentTarget;
 		projectile.GetComponent<Projectile>().damageInflicted = damageInflicted;
+		projectile.GetComponent<Projectile> ().playerID = playerID;
         reloading = true;
     }
 
