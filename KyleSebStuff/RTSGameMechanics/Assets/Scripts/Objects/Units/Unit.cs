@@ -24,7 +24,7 @@ public class Unit : WorldObject {
 
 	public Int3 IntDirection {
 		get {
-			if (moving && pathComplete && path.vectorPath.Count > 0) {
+			if (moving && pathComplete && path.vectorPath.Count > 0 && currentWaypoint != path.vectorPath.Count) {
 				Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
 				Int3 difference = nextWayPoint - intPosition;
 				return new Int3(System.Math.Sign(difference.x), 0, System.Math.Sign(difference.z));
