@@ -31,14 +31,6 @@ public class Projectile : MonoBehaviour, SSGameManager.IUpdatable {
 				transform.position = (Vector3) intPosition;
 			}
 		}
-
-		GameObject fogTile = FogOfWarManager.getMyFogTile (intPosition);
-		if(FogOfWarManager.isVisible(fogTile, playerID)) {
-			renderer.enabled = true;
-		}
-		else {
-			renderer.enabled = false;
-		}
 	}
 
 	protected virtual void OnDestroy() {
