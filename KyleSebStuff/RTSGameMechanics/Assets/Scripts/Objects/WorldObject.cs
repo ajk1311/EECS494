@@ -20,6 +20,10 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 	public Int3 intPosition;
 	public Int3 lastPosition;
 
+	public GameObject currentFogTile;
+
+	public Renderer objectRenderer;
+
 	public int ID {
 		get { return uid; }
 		set { uid = value; }
@@ -52,6 +56,9 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		lastPosition = intPosition;
 		SSGameManager.Register(this);
 		GridManager.UpdatePosition(intPosition, this);
+		currentFogTile = FogOfWarManager.getMyFogTile (intPosition);
+		FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, playerID);
+		objectRenderer = GetComponentInChildren<Renderer>();
     }
 
 	protected virtual void OnDestroy() {
@@ -60,6 +67,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		}
 		GridManager.RemoveFromGrid(this);
 		SSGameManager.Unregister(this);
+		FogOfWarManager.updateFogTileUnitCount (currentFogTile, null, playerID);
 	}
 
 	public virtual void GameUpdate(float deltaTime) {
@@ -68,6 +76,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 			GridManager.UpdatePosition(intPosition, this);
 		}
 		selectionLogic();
+		fogOfWarLogic();
 	}
     
     protected virtual void OnGUI() {
@@ -98,6 +107,21 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
         alreadySelected = currentlySelected;
     }
     
+	private void fogOfWarLogic() {
+		GameObject fogTileCheck = FogOfWarManager.getMyFogTile (intPosition);
+		if(fogTileCheck != currentFogTile) {
+			FogOfWarManager.updateFogTileUnitCount(currentFogTile, fogTileCheck, playerID);
+			currentFogTile = fogTileCheck;
+		}
+
+		if(FogOfWarManager.isVisible(currentFogTile, playerID)) {
+			objectRenderer.enabled = true;
+		}
+		else {
+			objectRenderer.enabled = false;
+		}
+	}
+
 //  public virtual void SetHoverState(GameObject hoverObject) {
 //      //only handle input if owned by a human player and currently selected
 //      if(player && player.human && currentlySelected) {

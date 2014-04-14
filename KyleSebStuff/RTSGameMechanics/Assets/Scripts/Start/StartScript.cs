@@ -15,10 +15,10 @@ public class StartScript : MonoBehaviour {
 	public Object redCpuPrefab;
 	public Object greenCpuPrefab;
 	public Object assembler;
-	
+
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", false);
+		SSGameSetup.ConnectToGame("akausejr", true);
 		ParseObject testObject = new ParseObject ("TestObject");
 		testObject ["foo"] = "bar";
 		testObject.SaveAsync ();
@@ -34,6 +34,7 @@ public class StartScript : MonoBehaviour {
 		GUIModelManager.Init();
 		SelectionManager.Init();
 		CombinationManager.Init();
+		FogOfWarManager.Init();
 
 		UserInputManager myInputManager;
 		UserInputManager hisOrHerInputManager;
@@ -42,6 +43,8 @@ public class StartScript : MonoBehaviour {
 		playerObject.GetComponent<PlayerScript>().id = connectionEvent.ID;
 		myInputManager = (UserInputManager) playerObject.GetComponent<UserInputManager>();
 		myInputManager.playerID = connectionEvent.ID;
+		FogOfWarManager.playerID = connectionEvent.ID;
+
 
 		GameObject opponentObject = GameObject.Find("Opponent");
 		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();

@@ -55,7 +55,6 @@ public class GUIManager : MonoBehaviour {
 		}
     }
     
-    /*** Private Worker Methods ***/
     private void DrawOrdersBar() {
         GUI.skin = ordersSkin;
         GUI.BeginGroup(new Rect(0, Screen.height - GUIResources.OrdersBarHeight, Screen.width, GUIResources.OrdersBarHeight));

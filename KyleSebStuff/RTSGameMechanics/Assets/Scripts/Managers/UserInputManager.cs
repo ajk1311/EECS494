@@ -72,7 +72,12 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 			GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
 			// TODO npe
 			if(target.tag != "Map") {
-				SelectionManager.attackUnit(PlayerID, target.GetComponent<WorldObject>());
+				PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
+				FogScript fog = target.GetComponent<WorldObject>().currentFogTile.GetComponent<FogScript>();
+				if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
+				    (player.id != playerID && fog.enemyUnitCount > 0)) {
+					SelectionManager.attackUnit(PlayerID, target.GetComponent<WorldObject>());
+				}		
 			} else {
 				Vector3 destination = mousePosition;
 				if (destination != MechanicResources.InvalidPosition) {

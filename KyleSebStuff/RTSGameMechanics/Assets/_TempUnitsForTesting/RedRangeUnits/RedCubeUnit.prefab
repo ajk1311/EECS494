@@ -25,6 +25,8 @@ GameObject:
   - 4: {fileID: 400002}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
+  - 54: {fileID: 5400000}
+  - 136: {fileID: 13600000}
   m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
@@ -43,8 +45,6 @@ GameObject:
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
-  - 54: {fileID: 5400000}
-  - 135: {fileID: 13500000}
   m_Layer: 11
   m_Name: RedCubeUnit
   m_TagString: Kill
@@ -120,9 +120,9 @@ Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
+  m_GameObject: {fileID: 100002}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 1.00000001e-07
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
@@ -141,19 +141,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2e42232d2038b47a6e0a636c74156a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: RedCubeUnit
+  uid: 0
+  playerID: 0
   cost: 0
   hitPoints: 0
   maxHitPoints: 0
-  playerID: 0
-  uid: 0
-  currentTarget: {fileID: 0}
+  objectName: RedCubeUnit
+  currentFogTile: {fileID: 0}
+  objectRenderer: {fileID: 0}
+  objectCollider: {fileID: 0}
+  reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: 3
+  currentTarget: {fileID: 0}
   speed: 50
-  attackRange: 0
+  attackRadius: 0
   reloadSpeed: 0
-  reloading: 0
   attentionRange: 0
   Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
   damageInflicted: 0
@@ -197,18 +200,19 @@ MonoBehaviour:
     tagsChange: -1
     tagsSet: -1
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
---- !u!135 &13500000
-SphereCollider:
+--- !u!136 &13600000
+CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
+  m_GameObject: {fileID: 100002}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
   m_Radius: .75
-  m_Center: {x: 0, y: .5, z: 0}
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

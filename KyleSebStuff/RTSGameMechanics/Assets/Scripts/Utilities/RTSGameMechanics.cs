@@ -3,14 +3,24 @@ using System.Collections;
 
 namespace RTS {
     public static class RTSGameMechanics {
-		//change this to use world coordinates
 		public static GameObject FindHitObject(Vector3 position) {
 			Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
-			if (hitColliders.Length != 0) {
-				return hitColliders[0].gameObject;
-			}
-			return null;
-        }
+			GameObject returnObj = null;
+			int currentID = int.MaxValue;
+
+				if (hitColliders.Length != 0) {
+					if(hitColliders.Length == 1)
+						return hitColliders[0].gameObject.transform.root.gameObject;
+				
+					foreach(Collider obj in hitColliders) {
+						WorldObject script = obj.gameObject.transform.root.GetComponent<WorldObject>();
+						if(script != null && script.ID < currentID) {
+							returnObj = obj.transform.root.gameObject;
+						}
+					}
+				}
+				return returnObj;
+		}
 
         public static Vector3 FindHitPoint() {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
