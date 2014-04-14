@@ -13,7 +13,7 @@ GameObject:
   - 96: {fileID: 9600000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: RedBall
+  m_Name: OrangeBall
   m_TagString: Projectiles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,8 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e881f7b5352c0c48b37364e2a63b5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
   speed: 20
   damageInflicted: 30
+  playerID: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

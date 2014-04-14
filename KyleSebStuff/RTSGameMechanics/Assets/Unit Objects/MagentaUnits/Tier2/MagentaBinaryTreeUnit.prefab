@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,8 +27,8 @@ GameObject:
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
-  m_Layer: 11
-  m_Name: Sphere
+  m_Layer: 10
+  m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,12 +42,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400004}
-  - 114: {fileID: 11400006}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
-  m_Layer: 11
-  m_Name: RedSphereUnit
-  m_TagString: Kill
+  m_Layer: 10
+  m_Name: MagentaBinaryTreeUnit
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .5, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
@@ -81,8 +80,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 192.292664, y: -6.7949295e-05, z: 59.5132751}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 65.8274384, y: 5.96046448e-06, z: 214.547882}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 400002}
   - {fileID: 400000}
@@ -99,7 +98,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: c2176e42c7b0a4ac9b67222abd36df60, type: 2}
+  - {fileID: 2100000, guid: 49530898185734769bac8aa0c2cfe02f, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -114,7 +113,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -146,10 +145,9 @@ MonoBehaviour:
   cost: 0
   hitPoints: 0
   maxHitPoints: 0
-  objectName: RedSphereUnit
+  objectName: MagentaBinaryTreeUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
-  objectCollider: {fileID: 0}
   reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: 3
@@ -158,21 +156,9 @@ MonoBehaviour:
   attackRadius: 0
   reloadSpeed: 0
   attentionRange: 0
-  Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
+  Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
   damageInflicted: 0
 --- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  priority: 1
---- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -210,7 +196,7 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: .75
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000

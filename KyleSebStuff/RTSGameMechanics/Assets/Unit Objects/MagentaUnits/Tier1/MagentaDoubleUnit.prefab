@@ -43,10 +43,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400006}
-  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   m_Layer: 10
-  m_Name: GreenSphereUnit
+  m_Name: MagentaDoubleUnit
   m_TagString: Kill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,10 +145,9 @@ MonoBehaviour:
   cost: 0
   hitPoints: 0
   maxHitPoints: 0
-  objectName: GreenSphereUnit
+  objectName: MagentaDoubleUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
-  objectCollider: {fileID: 0}
   reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: 3
@@ -160,18 +158,6 @@ MonoBehaviour:
   attentionRange: 0
   Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
   damageInflicted: 0
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77f586f285b3847808d79083bd19ef1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  priority: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
