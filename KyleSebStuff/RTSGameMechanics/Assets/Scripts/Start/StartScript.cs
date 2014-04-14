@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using EventBus;
 using SSGameEvents;
 using RTS;
@@ -20,10 +21,7 @@ public class StartScript : MonoBehaviour {
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", false);
-		ParseObject testObject = new ParseObject ("TestObject");
-		testObject ["foo"] = "bar";
-		testObject.SaveAsync ();
+		SSGameSetup.ConnectToGame("akausejr", true);
 	}
 	
 	[HandlesEvent]
@@ -56,6 +54,16 @@ public class StartScript : MonoBehaviour {
 		GameObject assembler2 = (GameObject)Instantiate (assembler, assembler2Pos, Quaternion.identity);
 
 		if (connectionEvent.ID == 1) {
+			var query = ParseObject.GetQuery("GameID");
+			query.CountAsync().ContinueWith(t =>
+			{
+				int count = t.Result;
+				ParseObject gameID = new ParseObject("GameID");
+				gameID["ID"] = count++;
+				gameID.SaveAsync();
+			});
+
+
 			greenCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			redCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			Camera.main.transform.position = cameraStartPosition1;
