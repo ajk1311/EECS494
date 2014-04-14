@@ -57,7 +57,7 @@ public static class ParseManager {
 				towerCapture["id"] = arg2;
 				towerCapture["captured"] = DateTime.Now;
 				towerCapture["gameID"] = gameID;
-
+				break;
 			case ParseEvent.TowerLoss:
 				var query = ParseObject.GetQuery("towerCapture")
 					.WhereEqualTo("player", playerID)
@@ -71,7 +71,7 @@ public static class ParseManager {
 					captureEvent["lost"] = DateTime.Now;
 					captureEvent.SaveAsync();
 				});
-			
+				break;
 			case ParseEvent.UnitCreation:
 				ParseObject unitCreation = new ParseObject("unitCreation");
 				unitCreation["type"] = arg1;
@@ -79,6 +79,7 @@ public static class ParseManager {
 				unitCreation["player"] = playerID;
 				unitCreation["gameID"] = gameID;
 				unitCreation.SaveAsync();
+				break;
 			default:
 				return;
 		}
