@@ -144,7 +144,7 @@ MonoBehaviour:
   detailedGizmos: 0
   saveGetNearestHints: 1
   startEndModifier:
-    priority: 2
+    priority: 1
     addPoints: 0
     exactStartPoint: 1
     exactEndPoint: 3
@@ -182,6 +182,7 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   speed: 50
   attackRadius: 0
+  pursuitRadius: 0
   reloadSpeed: 0
   attentionRange: 0
   Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}

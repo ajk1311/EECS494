@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using EventBus;
 using SSGameEvents;
 using RTS;
 using Parse;
 
 public class StartScript : MonoBehaviour {
-	private Vector3 cameraStartPosition1 = new Vector3(200, 55, 35);
-	private Vector3 cameraStartPosition2 = new Vector3(200, 55, 330);
+	private Vector3 cameraStartPosition1 = new Vector3(75, 60, 150);
+	private Vector3 cameraStartPosition2 = new Vector3(725, 60, 150);
 
-	private Vector3 assembler1Pos = new Vector3 (200, 0, 45);
-	private Vector3 assembler2Pos = new Vector3 (200, 0, 355);
+	private Vector3 assembler1Pos = new Vector3 (50, 0, 200);
+	private Vector3 assembler2Pos = new Vector3 (750, 0, 200);
 
 	public Object redCpuPrefab;
 	public Object greenCpuPrefab;
 	public Object assembler;
+
+	public WorldObject[] objs;
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
@@ -43,7 +44,6 @@ public class StartScript : MonoBehaviour {
 		myInputManager.playerID = connectionEvent.ID;
 		FogOfWarManager.playerID = connectionEvent.ID;
 
-
 		GameObject opponentObject = GameObject.Find("Opponent");
 		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();
 		hisOrHerInputManager.playerID = connectionEvent.opponentID;
@@ -53,17 +53,8 @@ public class StartScript : MonoBehaviour {
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
 		GameObject assembler2 = (GameObject)Instantiate (assembler, assembler2Pos, Quaternion.identity);
-		int count = 0;
+
 		if (connectionEvent.ID == 1) {
-			var query = ParseObject.GetQuery("GameID");
-			query.CountAsync().ContinueWith(t =>
-			{
-				count = t.Result;
-				ParseObject gameID = new ParseObject("GameID");
-				gameID["ID"] = count++;
-				gameID.SaveAsync();
-			});
-			ParseManager.Init(connectionEvent.ID, count);
 			greenCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			redCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			Camera.main.transform.position = cameraStartPosition1;
@@ -74,12 +65,6 @@ public class StartScript : MonoBehaviour {
 			SSGameManager.Register(myInputManager);
 			SSGameManager.Register(hisOrHerInputManager);
 		} else {
-			var query = ParseObject.GetQuery("GameID");
-			query.CountAsync().ContinueWith(t =>
-			{
-				count = t.Result;
-			});
-			ParseManager.Init(connectionEvent.ID, count + 1);
 			greenCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			redCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			Camera.main.transform.position = cameraStartPosition2;

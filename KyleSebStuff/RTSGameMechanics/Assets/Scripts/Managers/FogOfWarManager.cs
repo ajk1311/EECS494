@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using Pathfinding;
+using RTS;
 
 public static class FogOfWarManager {
 
@@ -23,17 +24,10 @@ public static class FogOfWarManager {
 	public static void Init() {
 		fogObject = (GameObject) Resources.Load("FogOfWar/Fog");
 
-		//init all the planes on the map
-		GameObject origin = GameObject.Find("__Origin__");
-		GameObject upperBound = GameObject.Find("__UpperMapBound__");
-		
-		float mapWidth = upperBound.transform.position.x - origin.transform.position.x;
-		float mapHeight = upperBound.transform.position.z - origin.transform.position.z; 
-
 		planeAmount = 7;
 		fogHeight = 0.25f;
-		planeSizeX = (int) (mapWidth / planeAmount);
-		planeSizeZ = (int) (mapHeight / planeAmount);
+		planeSizeX = (int) (RTSGameMechanics.GetMapSizes().x / planeAmount);
+		planeSizeZ = (int) (RTSGameMechanics.GetMapSizes().z / planeAmount);
 
 		gridOfFog = new List<List<GameObject>>();
 
@@ -54,7 +48,6 @@ public static class FogOfWarManager {
 	public static GameObject getMyFogTile(Int3 pos) {
 		int zCord = pos.z / planeSizeZ / Int3.Precision;
 		int xCord = pos.x / planeSizeX / Int3.Precision;
-
 		return gridOfFog[zCord][xCord];
 	}
 
