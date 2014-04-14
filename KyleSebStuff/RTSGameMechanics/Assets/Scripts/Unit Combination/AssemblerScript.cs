@@ -8,10 +8,12 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	public Transform bitsUnitPrefab;
 
 	//Units
-	public Transform darkGreenCubeUnit;
-	public Transform darkGreenSphereUnit;
-	public Transform darkRedCubeUnit;
-	public Transform darkRedSphereUnit;
+	public Transform magentaHeapUnit;
+	public Transform magentaStaticUnit;
+	public Transform magentaBinaryTreeUnit;
+	public Transform orangeStaticUnit;
+	public Transform orangeHeapUnit;
+	public Transform orangeBinaryTreeUnit;
 
 	private Dictionary<string, KeyValuePair<int,int>> unitQueue;
 
@@ -25,10 +27,12 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	
 	public void GameUpdate (float deltaTime) {
 		if(SSInput.GetKeyDown(playerID,SSKeyCode.Space)) {
-			CombinationManager.combine(this, "DarkGreenCubeUnit");
-			CombinationManager.combine(this, "DarkGreenSphereUnit");
-			CombinationManager.combine(this, "DarkRedCubeUnit");
-			CombinationManager.combine(this, "DarkRedSphereUnit");
+			CombinationManager.combine(this, "MagentaHeapUnit");
+			CombinationManager.combine(this, "MagentaStaticUnit");
+			CombinationManager.combine(this, "MagentaBinaryTreeUnit");
+			CombinationManager.combine(this, "OrangeStaticUnit");
+			CombinationManager.combine(this, "OrangeHeapUnit");
+			CombinationManager.combine(this, "OrangeBinaryTreeUnit");
 		}
 	}
 
@@ -63,20 +67,28 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	void buildUnit(Vector3 pos, string type) {
 		//Instantiate new Unit
 		//TODO Set unit to Selected if within view or always?
-		if(type == "DarkGreenCubeUnit") {
-			Transform unit = Instantiate(darkGreenCubeUnit, pos, transform.rotation) as Transform;
+		if(type == "MagentaHeapUnit") {
+			Transform unit = Instantiate(magentaHeapUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
-		else if(type == "DarkGreenSphereUnit") {
-			Transform unit = Instantiate(darkGreenSphereUnit, pos, transform.rotation) as Transform;
+		else if(type == "MagentaStaticUnit") {
+			Transform unit = Instantiate(magentaStaticUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
-		else if(type == "DarkRedCubeUnit") {
-			Transform unit = Instantiate(darkRedCubeUnit, pos, transform.rotation) as Transform;
+		else if(type == "MagentaBinaryTreeUnit") {
+			Transform unit = Instantiate(magentaBinaryTreeUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
-		else if(type == "DarkRedSphereUnit") {
-			Transform unit = Instantiate(darkRedSphereUnit, pos, transform.rotation) as Transform;
+		else if(type == "OrangeHeapUnit") {
+			Transform unit = Instantiate(orangeHeapUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "OrangeStaticUnit") {
+			Transform unit = Instantiate(orangeStaticUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "OrangeBinaryTreeUnit") {
+			Transform unit = Instantiate(orangeBinaryTreeUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
 	}

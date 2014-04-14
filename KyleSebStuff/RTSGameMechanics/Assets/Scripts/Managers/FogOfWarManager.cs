@@ -56,9 +56,6 @@ public static class FogOfWarManager {
 		int zCord = pos.z / planeSizeZ / Int3.Precision;
 		int xCord = pos.x / planeSizeX / Int3.Precision;
 
-		Debug.Log ("zCord: " + zCord);
-		Debug.Log ("xCord: " + xCord);
-
 		return gridOfFog[zCord][xCord];
 	}
 
