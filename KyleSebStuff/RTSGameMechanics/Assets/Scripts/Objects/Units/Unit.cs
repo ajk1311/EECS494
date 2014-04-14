@@ -70,12 +70,12 @@ public class Unit : WorldObject {
 
     public void IssueAttackCommand(WorldObject target) {
         currentTarget = target;
-        attacking = true;
+        pursuing = true;
     }
 
     public void IssueMoveCommand(Vector3 destination) {
-        attacking = false;
-        currentTarget = null;
+		currentTarget = null;
+		attacking = pursuing = false;
 		this.destination = (Int3) destination;
         StartMovement(destination);
     }
