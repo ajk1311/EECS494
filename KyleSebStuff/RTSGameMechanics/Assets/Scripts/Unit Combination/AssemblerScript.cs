@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,7 +15,10 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	private Dictionary<string, KeyValuePair<int,int>> unitQueue;
 
+	public Int3 intPosition;
+
 	void Start() {
+		intPosition = (Int3) transform.position;
 		unitQueue = new Dictionary<string, KeyValuePair<int,int>> ();
 		SSGameManager.Register(this);
 	}
@@ -41,14 +45,11 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	public void createUnitBits(Vector3 pos, string desiredUnit) {
 		Transform bitsUnit = Instantiate (bitsUnitPrefab, pos, transform.rotation) as Transform;
-		bitsUnit.GetComponent<UnitBitsScript> ().destination = transform.position;
-		bitsUnit.GetComponent<UnitBitsScript> ().desiredUnit = desiredUnit;
+		bitsUnit.GetComponent<UnitBitsScript>().assemblerScript = this;
+		bitsUnit.GetComponent<UnitBitsScript>().desiredUnit = desiredUnit;
 	}
 
-	void OnTriggerEnter(Collider other) {
-		if(other.tag == "UnitBits") {
-			string type = other.gameObject.GetComponent<UnitBitsScript> ().desiredUnit;
-
+	public void ReachedAssembler(string type) {
 			int factor = unitQueue[type].Key;
 			int newCurrentAmount = unitQueue[type].Value - 1;
 
@@ -56,9 +57,6 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 			if((newCurrentAmount % factor) == 0) {
 				buildUnit(posToBuildUnit(), type);
-			}
-
-			Destroy(other.gameObject);
 		}
 	}
 
