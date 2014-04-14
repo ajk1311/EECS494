@@ -9,11 +9,11 @@ public class StartScript : MonoBehaviour {
 	private Vector3 cameraStartPosition1 = new Vector3(75, 60, 150);
 	private Vector3 cameraStartPosition2 = new Vector3(725, 60, 150);
 
-	private Vector3 assembler1Pos = new Vector3 (50, 0, 200);
-	private Vector3 assembler2Pos = new Vector3 (750, 0, 200);
+	private Vector3 assembler1Pos = new Vector3 (50, 1, 190);
+	private Vector3 assembler2Pos = new Vector3 (750, 1, 190);
 
-	public Object redCpuPrefab;
-	public Object greenCpuPrefab;
+	public Object magentaCpuPrefab;
+	public Object orangeCpuPrefab;
 	public Object assembler;
 
 	public WorldObject[] objs;
@@ -51,15 +51,15 @@ public class StartScript : MonoBehaviour {
 		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();
 		hisOrHerInputManager.playerID = connectionEvent.opponentID;
 
-		GameObject redCpu = (GameObject) Instantiate(redCpuPrefab);
-		GameObject greenCpu = (GameObject) Instantiate(greenCpuPrefab);
+		GameObject magentaCpu = (GameObject) Instantiate(magentaCpuPrefab);
+		GameObject orangeCpu = (GameObject) Instantiate(orangeCpuPrefab);
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
 		GameObject assembler2 = (GameObject)Instantiate (assembler, assembler2Pos, Quaternion.identity);
 
 		if (connectionEvent.ID == 1) {
-			greenCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
-			redCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
+			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			Camera.main.transform.position = cameraStartPosition1;
 
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
@@ -68,8 +68,8 @@ public class StartScript : MonoBehaviour {
 			SSGameManager.Register(myInputManager);
 			SSGameManager.Register(hisOrHerInputManager);
 		} else {
-			greenCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
-			redCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
+			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			Camera.main.transform.position = cameraStartPosition2;
 
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;

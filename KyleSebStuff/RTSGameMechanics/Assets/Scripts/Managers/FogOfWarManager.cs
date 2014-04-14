@@ -36,7 +36,7 @@ public static class FogOfWarManager {
 		for (int i = 0; i < planeAmount; i++) {
 			List<GameObject> innerList = new List<GameObject>();
 			for(int j = 0; j < planeAmount; j++) {
-				Vector3 pos = new Vector3(initialX + j*planeSizeX, 0.25f, initialZ + i*planeSizeZ);
+				Vector3 pos = new Vector3(initialX + j*planeSizeX, 1.1f, initialZ + i*planeSizeZ);
 				GameObject fogTile = GameObject.Instantiate (fogObject, pos, Quaternion.identity) as GameObject;
 				fogTile.transform.localScale = new Vector3(planeSizeX*fogTile.transform.localScale.x, 0.25f, planeSizeZ*fogTile.transform.localScale.z);
 				innerList.Add(fogTile);
