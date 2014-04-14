@@ -20,13 +20,14 @@ public class CPU : DestructableBuilding {
 	private GUIModelManager.GUIModel mTier1UnitCreationModel;
 
 	public int spawnOffsetZ;
-	public Int3 spawnOffset = new Int3(0, 0, 10 * Int3.Precision);
+	public Int3 spawnOffset;
 
 	protected override void Start() {
 		base.Start();
 		BuildTierSelectionModel();
 		BuildTier1UnitCreationModel();
 		mCurrentModel = mTierSelectionModel;
+		spawnOffset = new Int3(0, 0, spawnOffsetZ * Int3.Precision);
 	}
 
 	protected override void OnUnselected() {
