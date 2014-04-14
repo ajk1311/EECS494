@@ -5,9 +5,9 @@ using Parse;
 
 public static class ParseManager {
 
-	private int playerID;
-	private int gameID;
-	public enum ParseEvent{ NewTierAchieved, BuildingDestroyed, Combination, Upgrade, TowerCapture, UnitCreation };
+	private static int playerID;
+	private static int gameID;
+	public static enum ParseEvent{ NewTierAchieved, BuildingDestroyed, Combination, Upgrade, TowerCapture, UnitCreation };
 
 	public void Init(int ID) {
 		gameID = 
