@@ -190,6 +190,9 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	public static int[] GetButtonID(Vector3 mousePos) {
+		if (mCurrentGuiModel == null) {
+			return null;
+		}
 		int[] button = new int[2];
 		Vector2 mousePos2D = new Vector2 (mousePos.x, Screen.height - mousePos.y);
 		for(int i = 0; i < mCurrentGuiModel.leftPanelButtons.Count; i++) {

@@ -67,7 +67,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 		if (SelectionManager.count(PlayerID) > 0) {
 			GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
 			// TODO npe
-			if(target.tag != "Map") {
+			if(target != null && target.tag != "Map") {
 				PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
 				FogScript fog = target.GetComponent<WorldObject>().currentFogTile.GetComponent<FogScript>();
 				if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
