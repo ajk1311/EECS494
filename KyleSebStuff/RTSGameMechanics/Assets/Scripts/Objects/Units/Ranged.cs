@@ -36,9 +36,7 @@ public class Ranged : Unit {
         base.AttackHandler();
         //Stop moving in order to attack
         moving = false;
-
 		Int3 projectilePosition = intPosition + new Int3(0, 1, 0);
-
 		GameObject projectile = (GameObject) Instantiate(Projectile, (Vector3) projectilePosition, Quaternion.identity);
 		projectile.GetComponent<Projectile>().target = currentTarget;
 		projectile.GetComponent<Projectile>().damageInflicted = damageInflicted;

@@ -9,6 +9,7 @@ public class Unit : WorldObject {
 	// State variables
     protected bool pathComplete = false;
     protected bool moving = false;
+	protected bool pursuing = false;
     protected bool attacking = false;
 	protected bool idle = true;
 	public bool reloading = false;
@@ -39,6 +40,7 @@ public class Unit : WorldObject {
     // Attributes
     public float speed;
     public int attackRadius;
+	public int pursuitRadius;
     public float reloadSpeed;
     public float attentionRange;
 
@@ -87,12 +89,10 @@ public class Unit : WorldObject {
     }
 
     protected virtual void Pursuit(float deltaTime) {
-        if (WithinAttackRange()) {
-			moving = false;
+		if (WithinAttackRange()) {
+			attacking = true;
+			moving = pursuing = false;
 			lastTargetDestination = MechanicResources.InvalidIntPosition;
-            if (!reloading) {
-                AttackHandler();
-			}
         } else {
 			Unit unit = currentTarget.GetComponent<Unit>();
 			if (unit == null) {
@@ -110,14 +110,11 @@ public class Unit : WorldObject {
     }
 
 	private bool TargetApproaching(Unit target) {
-		Debug.Log("Is target approaching?");
 		int relativeX = currentTarget.intPosition.x - intPosition.x;
-		Debug.Log("Relative x = " + System.Math.Sign(relativeX));
 		int relativeZ = currentTarget.intPosition.z - intPosition.z;
-		Debug.Log("Relative z = " + System.Math.Sign(relativeZ));
-		Debug.Log("Target's direction = " + target.IntDirection);
-		return System.Math.Sign(relativeX) != target.IntDirection.x && 
-			System.Math.Sign(relativeZ) != System.Math.Sign(target.IntDirection.z);
+		Int3 direction = target.IntDirection;
+		return System.Math.Sign(relativeX) != direction.x && 
+			System.Math.Sign(relativeZ) != direction.z;
 	}
 
     protected virtual void Reload() {
@@ -147,10 +144,9 @@ public class Unit : WorldObject {
         idle = true;
     }
 
-    public void FinishAttacking() {
-        attacking = false;
-        moving = false;
+	public void FinishAttacking() {
 		idle = true;
+		moving = pursuing = attacking = false;
 		lastTargetDestination = 
 			MechanicResources.InvalidIntPosition;
     }
@@ -163,9 +159,13 @@ public class Unit : WorldObject {
 			currentlySelected = true;
 		}
 
+		if (pursuing) {
+			Pursuit(deltaTime);
+		}
+
         if (attacking) {
-            if (currentTarget) {
-                Pursuit(deltaTime);
+            if (currentTarget && !reloading) {
+				AttackHandler();
             } else {
                 FinishAttacking();
             }
@@ -200,7 +200,7 @@ public class Unit : WorldObject {
 		WorldObject finalTarget = null;
 
 		List<WorldObject> potentialEnemies = 
-			GridManager.GetObjectsInRadius(this, attackRadius);
+			GridManager.GetObjectsInRadius(this, pursuitRadius);
 
 		WorldObject potentialEnemy;
 		for (int i = 0, sz = potentialEnemies.Count; i < sz; i++) {
@@ -214,7 +214,7 @@ public class Unit : WorldObject {
 
 		if(finalTarget != null) {
 			idle = false;
-			attacking = true;
+			pursuing = true;
 			currentTarget = finalTarget;
 			lastTargetDestination = MechanicResources.InvalidIntPosition;
 		}
