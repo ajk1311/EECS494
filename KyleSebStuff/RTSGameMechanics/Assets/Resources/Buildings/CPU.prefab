@@ -138,18 +138,17 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 0
+  hitPoints: 10
   maxHitPoints: 10
   objectName: 
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
-  objectCollider: {fileID: 0}
   unit1Icon: {fileID: 2800000, guid: c40917336929440c7befcef48126d24d, type: 3}
   unit2Icon: {fileID: 2800000, guid: 31277c9e2320e496a9752034d7a7e37a, type: 3}
   unit3Icon: {fileID: 0}
   cubePrefab: {fileID: 100004, guid: 9caf8a3319c7a45f79be635b7faee10b, type: 2}
   spherePrefab: {fileID: 100004, guid: 606c58dae08934307ab19dda79b73c68, type: 2}
-  spawnOffset: {x: 0, y: 0, z: 10}
+  spawnOffsetZ: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

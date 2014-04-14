@@ -17,7 +17,7 @@ public class GUIManager : MonoBehaviour {
     public Texture2D memoryIcon;
 
 	//Dragging GUI variables
-	private static GUIModelManager.GUIModel curr_model;
+	private static GUIModelManager.GUIModel mCurrentGuiModel;
 	private GUIStyle mDragStyle = new GUIStyle();
 	private Vector2 mDragLocationStart;
 	private Vector2 mDragLocationEnd;
@@ -63,39 +63,55 @@ public class GUIManager : MonoBehaviour {
     }
 
 	private void DrawCurrentGUIModel() {
-		curr_model = GUIModelManager.GetCurrentModel(player.id);
-		if (curr_model == null) {
+		mCurrentGuiModel = GUIModelManager.GetCurrentModel(player.id);
+		if (mCurrentGuiModel == null) {
 			return;
 		}
-		float panel_height = Screen.height / 4.0f;
-		float icon_height = panel_height / 3;
 
-		float left_panel_width = Screen.width / 3.0f;
-		float center_panel_width = Screen.width / 3.0f;
-		
-		float left_icon_width = left_panel_width / curr_model.leftPanelColumns;
-		float center_icon_width = center_panel_width / curr_model.centerPanelColumns;
-		
-		if(!curr_model.cached) {
-			for (int i = 0, len = curr_model.leftPanelButtons.Count; i < len; i++) {
-				float button_x = (i % curr_model.leftPanelColumns) * left_icon_width;
-				float button_y = (3.0f/4.0f) * Screen.height + (i / 3) * icon_height;
-				curr_model.leftPanelButtons[i].rect = new Rect(button_x, button_y, left_icon_width, icon_height);
+		if(!mCurrentGuiModel.cached) {
+			Debug.Log("GuiModel not cached");
+
+			float panelWidth = Screen.width / 3;
+
+			float innerPadding = GUIResources.GetScaledPixelSize(2);
+			float verticalPadding = GUIResources.GetScaledPixelSize(24);
+			float horizontalPadding = GUIResources.GetScaledPixelSize(36);
+			
+			float buttonHeight = GUIResources.GetScaledPixelSize(48);
+			float buttonMinWidth = GUIResources.GetScaledPixelSize(100);
+			
+			float leftButtonWidth = (panelWidth - 1.5f * horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.leftPanelColumns;
+			float centerButtonWidth = (panelWidth - horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.centerPanelColumns;
+
+			float initialX = horizontalPadding;
+			float initialY = Screen.height - GUIResources.OrdersBarHeight + verticalPadding;
+
+			for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
+				int row = i / mCurrentGuiModel.leftPanelColumns;
+				int column = i % mCurrentGuiModel.leftPanelColumns;
+				float buttonX = initialX + column * leftButtonWidth + (column  > 0 ? innerPadding : 0);
+				float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
+				mCurrentGuiModel.leftPanelButtons[i].rect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
 			}
-			for (int i = 0, len = curr_model.centerPanelButtons.Count; i < len; i++) {
-				float button_x = left_panel_width + (i % curr_model.centerPanelColumns) * center_icon_width;
-				float button_y = (3.0f/4.0f) * Screen.height + (i / 3) * icon_height;
-				curr_model.centerPanelButtons[i].rect = new Rect(button_x, button_y, center_icon_width, icon_height);
+
+			initialX = panelWidth + horizontalPadding / 2;
+			for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
+				int row = i / mCurrentGuiModel.centerPanelColumns;
+				int column = i % mCurrentGuiModel.centerPanelColumns;
+				float buttonX = initialX + column * centerButtonWidth + (column > 0 ? innerPadding : 0);
+				float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
+				mCurrentGuiModel.centerPanelButtons[i].rect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
 				
 			}
-			curr_model.cached = true;
+
+			mCurrentGuiModel.cached = true;
 		}
 
 		GUIModelManager.Button temp;
 
 		//draw left panel icons
-		for (int i = 0, len = curr_model.leftPanelButtons.Count; i < len; i++) {
-			temp = curr_model.leftPanelButtons[i];
+		for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
+			temp = mCurrentGuiModel.leftPanelButtons[i];
 			if (temp.text != null) {
 				GUI.Button(temp.rect, temp.text);
 			} else {
@@ -103,8 +119,8 @@ public class GUIManager : MonoBehaviour {
 			}
 		}
 		//draw center panel icons
-		for (int i = 0, len = curr_model.centerPanelButtons.Count; i < len; i++) {
-			temp = curr_model.centerPanelButtons[i];
+		for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
+			temp = mCurrentGuiModel.centerPanelButtons[i];
 			if (temp.text != null) {
 				GUI.Button(temp.rect, temp.text);
 			} else {
@@ -178,16 +194,16 @@ public class GUIManager : MonoBehaviour {
 	public static int [] GetButtonID(Vector3 mousePos) {
 		int[] button = new int[2];
 		Vector2 mousePos2D = new Vector2 (mousePos.x, Screen.height - mousePos.y);
-		for(int i = 0; i < curr_model.leftPanelButtons.Count; i++) {
-			if(curr_model.leftPanelButtons[i].rect.Contains(mousePos2D)) {
+		for(int i = 0; i < mCurrentGuiModel.leftPanelButtons.Count; i++) {
+			if(mCurrentGuiModel.leftPanelButtons[i].rect.Contains(mousePos2D)) {
 				button[0] = 0;
 				button[1] = i;
 				return button;
 			}
 		}
 
-		for(int i = 0; i < curr_model.centerPanelButtons.Count; i++) {
-			if(curr_model.centerPanelButtons[i].rect.Contains(mousePos2D)) {
+		for(int i = 0; i < mCurrentGuiModel.centerPanelButtons.Count; i++) {
+			if(mCurrentGuiModel.centerPanelButtons[i].rect.Contains(mousePos2D)) {
 				button[0] = 1;
 				button[1] = i;
 				return button;
