@@ -164,8 +164,15 @@ public class Unit : WorldObject {
 		}
 
         if (attacking) {
-            if (currentTarget && !reloading) {
-				AttackHandler();
+            if (currentTarget) {
+				if (WithinAttackRange()) {
+					if (!reloading) AttackHandler();
+				} else {
+					pursuing = true;
+					lastTargetDestination =
+						MechanicResources.InvalidIntPosition;
+					Pursuit(deltaTime);
+				}
             } else {
                 FinishAttacking();
             }
