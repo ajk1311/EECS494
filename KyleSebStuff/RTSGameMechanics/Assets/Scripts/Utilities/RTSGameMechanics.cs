@@ -3,6 +3,16 @@ using System.Collections;
 
 namespace RTS {
     public static class RTSGameMechanics {
+
+		public static Vector3 GetMapSizes() {
+			GameObject origin = GameObject.Find("__Origin__");
+			GameObject upperBound = GameObject.Find("__UpperMapBound__");
+			
+			float mapWidth = upperBound.transform.position.x - origin.transform.position.x;
+			float mapHeight = upperBound.transform.position.z - origin.transform.position.z; 
+			return new Vector3 (mapWidth, 0, mapHeight);
+		}
+
 		public static GameObject FindHitObject(Vector3 position) {
 			Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
 			GameObject returnObj = null;

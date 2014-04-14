@@ -310,6 +310,11 @@ MonoBehaviour:
   PanningSpeed: 100
   MaxCameraHeight: 100
   MinCameraHeight: 5
+  MapHeight: 0
+  MapWidth: 0
+  LeftTopCorner: {x: 0, y: 0, z: 0}
+  RightTopCorner: {x: 0, y: 0, z: 0}
+  RightBottomCorner: {x: 0, y: 0, z: 0}
 --- !u!54 &645879595
 Rigidbody:
   m_ObjectHideFlags: 0
