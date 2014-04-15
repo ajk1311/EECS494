@@ -259,7 +259,6 @@ public class GUIManager : MonoBehaviour {
         GUI.Label(new Rect(textLeft, topPos, GUIResources.TextWidth, GUIResources.TextHeight), text);
     }
 
-<<<<<<< HEAD
     /*
      * Drag Select GUI
      */
