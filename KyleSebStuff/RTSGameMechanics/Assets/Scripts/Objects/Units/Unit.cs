@@ -24,7 +24,7 @@ public class Unit : WorldObject {
 
 	public Int3 IntDirection {
 		get {
-			if (moving && pathComplete) {
+			if (moving && pathComplete && path.vectorPath.Count > 0 && currentWaypoint != path.vectorPath.Count) {
 				Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
 				Int3 difference = nextWayPoint - intPosition;
 				return new Int3(System.Math.Sign(difference.x), 0, System.Math.Sign(difference.z));
@@ -70,12 +70,12 @@ public class Unit : WorldObject {
 
     public void IssueAttackCommand(WorldObject target) {
         currentTarget = target;
-        attacking = true;
+        pursuing = true;
     }
 
     public void IssueMoveCommand(Vector3 destination) {
-        attacking = false;
-        currentTarget = null;
+		currentTarget = null;
+		attacking = pursuing = false;
 		this.destination = (Int3) destination;
         StartMovement(destination);
     }
@@ -89,6 +89,9 @@ public class Unit : WorldObject {
     }
 
     protected virtual void Pursuit(float deltaTime) {
+		if (currentTarget == null) {
+			FinishAttacking();
+		}
 		if (WithinAttackRange()) {
 			attacking = true;
 			moving = pursuing = false;
@@ -164,8 +167,16 @@ public class Unit : WorldObject {
 		}
 
         if (attacking) {
-            if (currentTarget && !reloading) {
-				AttackHandler();
+            if (currentTarget) {
+				if (WithinAttackRange()) {
+					if (!reloading) AttackHandler();
+				} else {
+					pursuing = true;
+					idle = attacking = false;
+					lastTargetDestination =
+						MechanicResources.InvalidIntPosition;
+					Pursuit(deltaTime);
+				}
             } else {
                 FinishAttacking();
             }

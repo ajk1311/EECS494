@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400006}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: OrangeHeapUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400004}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
   detailedGizmos: 0
   saveGetNearestHints: 1
   startEndModifier:
-    priority: 2
+    priority: 1
     addPoints: 0
     exactStartPoint: 1
     exactEndPoint: 3
@@ -182,6 +182,7 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   speed: 50
   attackRadius: 0
+  pursuitRadius: 0
   reloadSpeed: 0
   attentionRange: 0
   Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}

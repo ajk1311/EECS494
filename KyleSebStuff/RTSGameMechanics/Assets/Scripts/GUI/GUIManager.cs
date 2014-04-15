@@ -167,72 +167,71 @@ public class GUIManager : MonoBehaviour {
         GUI.EndGroup();
     }
 
-    private void DrawCurrentGUIModel() {
-        mCurrentGuiModel = GUIModelManager.GetCurrentModel(player.id);
-        if (mCurrentGuiModel == null) {
-            return;
-        }
 
-        if (!mCurrentGuiModel.cached) {
-            Debug.Log("GuiModel not cached");
+	private void DrawCurrentGUIModel() {
+		mCurrentGuiModel = GUIModelManager.GetCurrentModel(player.id);
+		if (mCurrentGuiModel == null) {
+			return;
+		}
 
-            float panelWidth = Screen.width / 3;
+		if(!mCurrentGuiModel.cached) {
+			float panelWidth = Screen.width / 3;
 
-            float innerPadding = GUIResources.GetScaledPixelSize(2);
-            float verticalPadding = GUIResources.GetScaledPixelSize(24);
-            float horizontalPadding = GUIResources.GetScaledPixelSize(36);
-            
-            float buttonHeight = GUIResources.GetScaledPixelSize(48);
-            float buttonMinWidth = GUIResources.GetScaledPixelSize(100);
-            
-            float leftButtonWidth = (panelWidth - 1.5f * horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.leftPanelColumns;
-            float centerButtonWidth = (panelWidth - horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.centerPanelColumns;
+			float innerPadding = GUIResources.GetScaledPixelSize(2);
+			float verticalPadding = GUIResources.GetScaledPixelSize(24);
+			float horizontalPadding = GUIResources.GetScaledPixelSize(36);
+			
+			float buttonHeight = GUIResources.GetScaledPixelSize(48);
+			float buttonMinWidth = GUIResources.GetScaledPixelSize(100);
+			
+			float leftButtonWidth = (panelWidth - 1.5f * horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.leftPanelColumns;
+			float centerButtonWidth = (panelWidth - horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.centerPanelColumns;
 
-            float initialX = horizontalPadding;
-            float initialY = Screen.height - GUIResources.OrdersBarHeight + verticalPadding;
+			float initialX = horizontalPadding;
+			float initialY = Screen.height - GUIResources.OrdersBarHeight + verticalPadding;
 
-            for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
-                int row = i / mCurrentGuiModel.leftPanelColumns;
-                int column = i % mCurrentGuiModel.leftPanelColumns;
-                float buttonX = initialX + column * leftButtonWidth + (column > 0 ? innerPadding : 0);
-                float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
-                mCurrentGuiModel.leftPanelButtons [i].rect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
-            }
+			for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
+				int row = i / mCurrentGuiModel.leftPanelColumns;
+				int column = i % mCurrentGuiModel.leftPanelColumns;
+				float buttonX = initialX + column * leftButtonWidth + (column  > 0 ? innerPadding : 0);
+				float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
+				mCurrentGuiModel.leftPanelButtons[i].rect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
+			}
 
-            initialX = panelWidth + horizontalPadding / 2;
-            for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
-                int row = i / mCurrentGuiModel.centerPanelColumns;
-                int column = i % mCurrentGuiModel.centerPanelColumns;
-                float buttonX = initialX + column * centerButtonWidth + (column > 0 ? innerPadding : 0);
-                float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
-                mCurrentGuiModel.centerPanelButtons [i].rect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
-                
-            }
+			initialX = panelWidth + horizontalPadding / 2;
+			for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
+				int row = i / mCurrentGuiModel.centerPanelColumns;
+				int column = i % mCurrentGuiModel.centerPanelColumns;
+				float buttonX = initialX + column * centerButtonWidth + (column > 0 ? innerPadding : 0);
+				float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
+				mCurrentGuiModel.centerPanelButtons[i].rect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
+				
+			}
 
-            mCurrentGuiModel.cached = true;
-        }
+			mCurrentGuiModel.cached = true;
+		}
 
-        GUIModelManager.Button temp;
+		GUIModelManager.Button temp;
 
-        //draw left panel icons
-        for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
-            temp = mCurrentGuiModel.leftPanelButtons [i];
-            if (temp.text != null) {
-                GUI.Button(temp.rect, temp.text);
-            } else {
-                GUI.Button(temp.rect, temp.icon);
-            }
-        }
-        //draw center panel icons
-        for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
-            temp = mCurrentGuiModel.centerPanelButtons [i];
-            if (temp.text != null) {
-                GUI.Button(temp.rect, temp.text);
-            } else {
-                GUI.Button(temp.rect, temp.icon);
-            }
-        }
-    }
+		//draw left panel icons
+		for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
+			temp = mCurrentGuiModel.leftPanelButtons[i];
+			if (temp.text != null) {
+				GUI.Button(temp.rect, temp.text);
+			} else {
+				GUI.Button(temp.rect, temp.icon);
+			}
+		}
+		//draw center panel icons
+		for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
+			temp = mCurrentGuiModel.centerPanelButtons[i];
+			if (temp.text != null) {
+				GUI.Button(temp.rect, temp.text);
+			} else {
+				GUI.Button(temp.rect, temp.icon);
+			}
+		}
+	}
     
     private void DrawResourceBar() {
         GUI.skin = resourceSkin;
@@ -260,6 +259,7 @@ public class GUIManager : MonoBehaviour {
         GUI.Label(new Rect(textLeft, topPos, GUIResources.TextWidth, GUIResources.TextHeight), text);
     }
 
+<<<<<<< HEAD
     /*
      * Drag Select GUI
      */

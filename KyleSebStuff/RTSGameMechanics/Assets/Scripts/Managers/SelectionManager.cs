@@ -48,9 +48,6 @@ public static class SelectionManager {
     }
 
 	public static void moveUnits(int playerID, Vector3 destination) {
-        
-
-
 		foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
             obj.GetComponent<Unit>().IssueMoveCommand(destination);
         }
@@ -58,7 +55,9 @@ public static class SelectionManager {
 
 	public static void attackUnit(int playerID, WorldObject target) {
         foreach (GameObject obj in currentlySelectedObjects[playerID -1]) {
-            obj.GetComponent<Unit>().IssueAttackCommand(target);
+			if (obj != null) {
+				obj.GetComponent<Unit>().IssueAttackCommand(target);
+			}
         }
     }
 

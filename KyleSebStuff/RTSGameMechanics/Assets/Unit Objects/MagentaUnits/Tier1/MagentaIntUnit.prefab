@@ -12,7 +12,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MagentaIntUnit
   m_TagString: Kill
   m_Icon: {fileID: 0}
@@ -154,6 +154,7 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   speed: 50
   attackRadius: 0
+  pursuitRadius: 0
   reloadSpeed: 0
   attentionRange: 0
   Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
@@ -173,7 +174,7 @@ MonoBehaviour:
   detailedGizmos: 0
   saveGetNearestHints: 1
   startEndModifier:
-    priority: 2
+    priority: 1
     addPoints: 0
     exactStartPoint: 1
     exactEndPoint: 3
