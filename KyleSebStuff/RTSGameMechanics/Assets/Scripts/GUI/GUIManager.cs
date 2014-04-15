@@ -19,11 +19,11 @@ public class GUIManager : MonoBehaviour {
     //Cursors
     public GUISkin mouseCursorSkin;
     public Texture2D activeCursor;
-    public Texture2D selectCursor;
     public Texture2D leftCursor;
     public Texture2D rightCursor;
     public Texture2D upCursor;
     public Texture2D downCursor;
+    public Texture2D[] selectCursors;
     public Texture2D[] attackCursors;
     public Texture2D[] moveCursors;
     public Texture2D[] captureCursors;
@@ -63,6 +63,7 @@ public class GUIManager : MonoBehaviour {
 
     void Update() {
         checkIfDragging();
+        MouseHover();
     }
     
     void OnGUI() {
@@ -86,10 +87,11 @@ public class GUIManager : MonoBehaviour {
         activeCursorState = cursorState;
         switch(cursorState) {
         case CursorState.Select:
-            activeCursor = selectCursor;
+            currentCursorFrame = (int)(Time.time * 10) % selectCursors.Length;
+            activeCursor = selectCursors[currentCursorFrame];
             break;
         case CursorState.Attack:
-            currentCursorFrame = (int)Time.time % attackCursors.Length;
+            currentCursorFrame = (int)(Time.time * 5) % attackCursors.Length;
             activeCursor = attackCursors[currentCursorFrame];
             break;
         case CursorState.Capture:
@@ -128,7 +130,11 @@ public class GUIManager : MonoBehaviour {
     private void UpdateCursorAnimation() {
         //Sequence animation for cursor (based on more than one image for the cursor)
         //Change once per second, loops through array of images
-        if(activeCursorState == CursorState.Move) {
+        if (activeCursorState == CursorState.Select) {
+            currentCursorFrame = (int)(Time.time * 10) % selectCursors.Length;
+            activeCursor = selectCursors[currentCursorFrame];
+        }
+        else if(activeCursorState == CursorState.Move) {
             currentCursorFrame = (int)Time.time % moveCursors.Length;
             activeCursor = moveCursors[currentCursorFrame];
         } else if(activeCursorState == CursorState.Attack) {
@@ -157,6 +163,24 @@ public class GUIManager : MonoBehaviour {
         return new Rect(leftPos, topPos, activeCursor.width, activeCursor.height);
     }
 
+    private void MouseHover() {
+        if (GUIResources.MouseInPlayingArea()) {
+            GameObject hoverObject = RTSGameMechanics.FindHitObject();
+            if (hoverObject) {
+                if (player.SelectedObject)
+                    player.SelectedObject.SetHoverState(hoverObject);
+                else if (hoverObject.name != "Ground") {
+                    Player owner = hoverObject.transform.root.GetComponent<Player>();
+                    if (owner) {
+                        Unit unit = hoverObject.transform.parent.GetComponent<Unit>();
+                        Building building = hoverObject.transform.parent.GetComponent<Building>();
+                        if (owner.username == player.username && (unit || building)) 
+                            player.hud.SetCursorState(CursorState.Select);
+                    }
+                }
+            }
+        }
+    }
     /*
      * Drawing the Order and Resource GUIS
      */
