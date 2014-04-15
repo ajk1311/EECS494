@@ -798,21 +798,21 @@ MonoBehaviour:
   moveCommandCursor: {fileID: 100000, guid: f7fb293b3cf39424f930405266186924, type: 2}
   mouseCursorSkin: {fileID: 11400000, guid: 9486bfb29864ace4b948e2c883b5e63f, type: 2}
   activeCursor: {fileID: 0}
-  leftCursor: {fileID: 2800000, guid: 70e5574d993041740b997a49bc58a1b7, type: 3}
-  rightCursor: {fileID: 2800000, guid: 851a857302a6ec74685ea9a9610ddce7, type: 3}
-  upCursor: {fileID: 2800000, guid: 3e5124cf88840a241b9c36173d569c0a, type: 3}
-  downCursor: {fileID: 2800000, guid: 030f1fa48055e5346a11e668fb6973fc, type: 3}
+  leftCursor: {fileID: 2800000, guid: 3c5f59674a0aeb2438ac00ef9ba31beb, type: 3}
+  rightCursor: {fileID: 2800000, guid: 73c6a3e189824894a8be88bb82052ce5, type: 3}
+  upCursor: {fileID: 2800000, guid: 7fd6094b979d1ce41aa397af819b54ae, type: 3}
+  downCursor: {fileID: 2800000, guid: f82cd334b751f674fbb69f8788e3ffd1, type: 3}
   selectCursors:
-  - {fileID: 2800000, guid: 370b5a31c91b5f245927e9f388b5a150, type: 3}
-  - {fileID: 2800000, guid: c67db9bf8ea6e7c4b86ae3cb7085a650, type: 3}
-  - {fileID: 2800000, guid: d7653309016a0144ebb1ec50dec0651b, type: 3}
-  - {fileID: 2800000, guid: 380f57e68368d5b4987ae7523a3d7fec, type: 3}
-  - {fileID: 2800000, guid: a53e6a8c15c61474cb52a34b0b626c99, type: 3}
-  - {fileID: 2800000, guid: 11e68440f157cdb44963ef928f86e922, type: 3}
-  - {fileID: 2800000, guid: a53e6a8c15c61474cb52a34b0b626c99, type: 3}
-  - {fileID: 2800000, guid: 380f57e68368d5b4987ae7523a3d7fec, type: 3}
-  - {fileID: 2800000, guid: d7653309016a0144ebb1ec50dec0651b, type: 3}
-  - {fileID: 2800000, guid: c67db9bf8ea6e7c4b86ae3cb7085a650, type: 3}
+  - {fileID: 2800000, guid: c62f2c4d9176d544da8bde5b02b05870, type: 3}
+  - {fileID: 2800000, guid: 0d94f3c77fa07df4b9412d9b4456ece8, type: 3}
+  - {fileID: 2800000, guid: 91f93a883c408c84098329bc308ad8fa, type: 3}
+  - {fileID: 2800000, guid: 81bef31af68646b48b91f36bf82f6339, type: 3}
+  - {fileID: 2800000, guid: d616be20760f0494fa489295b1892271, type: 3}
+  - {fileID: 2800000, guid: 3cee8de8e22a2db408bc38d68ae9b9a7, type: 3}
+  - {fileID: 2800000, guid: d616be20760f0494fa489295b1892271, type: 3}
+  - {fileID: 2800000, guid: 81bef31af68646b48b91f36bf82f6339, type: 3}
+  - {fileID: 2800000, guid: 91f93a883c408c84098329bc308ad8fa, type: 3}
+  - {fileID: 2800000, guid: 0d94f3c77fa07df4b9412d9b4456ece8, type: 3}
   attackCursors:
   - {fileID: 2800000, guid: 4b46cbda4ccebc042a477671c6f20728, type: 3}
   - {fileID: 2800000, guid: 12fef01e012244143a802647198991d7, type: 3}
@@ -833,6 +833,7 @@ MonoBehaviour:
   captureCursors:
   - {fileID: 2800000, guid: ad46c2c9ea794e0488e5e95dcbc23ac5, type: 3}
   - {fileID: 2800000, guid: 47032cc3f3042d94e892379ed584c8dd, type: 3}
+  dragSelectSkin: {fileID: 11400000, guid: 4b654a65e4b95064b8ef47c9f43ac330, type: 2}
 --- !u!114 &471585560
 MonoBehaviour:
   m_ObjectHideFlags: 0

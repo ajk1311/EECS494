@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 23: {fileID: 2300000}
+  - 23: {fileID: 0}
   - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: MoveCursor
@@ -28,27 +28,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!23 &2300000
-Renderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2100000, guid: 035234d3a7aff144090d47f3f3116eca, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -60,7 +39,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8efb61bc21ce84b9c75e1bcdda84d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveCursors:
+  moveCommandSkin: {fileID: 11400000, guid: 2444016a9c06a7249bfb0dbd1237a8be, type: 2}
+  moveCommandCursors:
   - {fileID: 2800000, guid: 997a04ec58e7ead4fb9d344d71af8283, type: 3}
   - {fileID: 2800000, guid: 7e37c0b02797541479467331fb1656b4, type: 3}
   - {fileID: 2800000, guid: b1c6e4ae629996149bd8fdd7fd4e47f5, type: 3}
@@ -73,6 +53,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 71d9319396eb3344fa09995341dfe519, type: 3}
   - {fileID: 2800000, guid: b1c6e4ae629996149bd8fdd7fd4e47f5, type: 3}
   - {fileID: 2800000, guid: 7e37c0b02797541479467331fb1656b4, type: 3}
+  activeCursor: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
