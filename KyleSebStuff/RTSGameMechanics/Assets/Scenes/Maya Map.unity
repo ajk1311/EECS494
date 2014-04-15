@@ -795,6 +795,22 @@ MonoBehaviour:
   resourceSkin: {fileID: 11400000, guid: ddacf3ce4faac234788ac186b51e2be3, type: 2}
   powerIcon: {fileID: 2800000, guid: 9c046ce6448bfa1469002aec3cc22f44, type: 3}
   memoryIcon: {fileID: 2800000, guid: cdd926b9fc4895a46bdd141476873576, type: 3}
+  mouseCursorSkin: {fileID: 11400000, guid: 9486bfb29864ace4b948e2c883b5e63f, type: 2}
+  activeCursor: {fileID: 0}
+  selectCursor: {fileID: 2800000, guid: 8873c779640b6b6438b16a17cd75f9d9, type: 3}
+  leftCursor: {fileID: 2800000, guid: 70e5574d993041740b997a49bc58a1b7, type: 3}
+  rightCursor: {fileID: 2800000, guid: 851a857302a6ec74685ea9a9610ddce7, type: 3}
+  upCursor: {fileID: 2800000, guid: 3e5124cf88840a241b9c36173d569c0a, type: 3}
+  downCursor: {fileID: 2800000, guid: 030f1fa48055e5346a11e668fb6973fc, type: 3}
+  attackCursors:
+  - {fileID: 2800000, guid: 3d9b04e6ed697ae4c9c30d4894a26795, type: 3}
+  - {fileID: 2800000, guid: b870c4e7e54824347b87f052287f98e2, type: 3}
+  moveCursors:
+  - {fileID: 2800000, guid: c2219d21498369446a0c53ae97ff34ea, type: 3}
+  - {fileID: 2800000, guid: 3f5f5aa81c4a5f946af33f0559573d70, type: 3}
+  captureCursors:
+  - {fileID: 2800000, guid: ad46c2c9ea794e0488e5e95dcbc23ac5, type: 3}
+  - {fileID: 2800000, guid: 47032cc3f3042d94e892379ed584c8dd, type: 3}
 --- !u!114 &471585560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1157,6 +1173,7 @@ MonoBehaviour:
   LeftTopCorner: {x: 0, y: 0, z: 0}
   RightTopCorner: {x: 0, y: 0, z: 0}
   RightBottomCorner: {x: 0, y: 0, z: 0}
+  guiManager: {fileID: 471585559}
 --- !u!54 &645879595
 Rigidbody:
   m_ObjectHideFlags: 0
