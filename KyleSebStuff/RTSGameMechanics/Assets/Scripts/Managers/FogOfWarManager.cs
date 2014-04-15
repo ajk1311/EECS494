@@ -9,25 +9,21 @@ public static class FogOfWarManager {
 
 	public static int playerID;
 
-	private static int planeSizeX;
-	private static int planeSizeZ;
-	private static int planeAmount;
-	private static float fogHeight;
+    private static readonly int TileSize = 80;
+	private static readonly float fogHeight = 30f;
 
 	private static List<List<GameObject>> gridOfFog;
 
 	private static GameObject fogObject;
 
-	private static int gridRows;
-	private static int gridColumns;
-
 	public static void Init() {
 		fogObject = (GameObject) Resources.Load("FogOfWar/Fog");
 
-		planeAmount = 7;
-		fogHeight = 0.25f;
-		planeSizeX = (int) (RTSGameMechanics.GetMapSizes().x / planeAmount);
-		planeSizeZ = (int) (RTSGameMechanics.GetMapSizes().z / planeAmount);
+        GameObject origin = GameObject.Find("__Origin__");
+        GameObject upperBound = GameObject.Find("__UpperMapBound__");
+
+        float mapWidth = upperBound.transform.position.x - origin.transform.position.x;
+        float mapHeight = upperBound.transform.position.z - origin.transform.position.z;
 
 		gridOfFog = new List<List<GameObject>>();
 

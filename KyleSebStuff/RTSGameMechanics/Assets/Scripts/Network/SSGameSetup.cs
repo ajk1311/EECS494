@@ -21,7 +21,7 @@ using SSProtoBufs;
  * 5) The game is ready, start the game manager for the Locksetp loop
  */
 public class SSGameSetup {
-	private static readonly string ServerIP = "35.2.242.163";
+	private static readonly string ServerIP = "35.2.245.199";
     private static readonly int ServerPort = 9191;
 
     private static bool mConnected = false;

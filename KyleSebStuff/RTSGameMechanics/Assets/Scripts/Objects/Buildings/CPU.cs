@@ -59,6 +59,7 @@ public class CPU : DestructableBuilding {
 
 	void Tier1Clicked() {
 		// TODO check if unlocked
+        Debug.Log("Tier 1 clicked");
 		GUIModelManager.SetCurrentModel(playerID, mTier1UnitCreationModel);
 	}
 
@@ -100,8 +101,8 @@ public class CPU : DestructableBuilding {
 
 	void ProduceCube() {
 		// TODO check resources
+        Debug.Log("Produce cube clicked");
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Cube", "CPU");
-		Debug.Log ("click here");
 		Int3 spawnPosition = intPosition + spawnOffset;
 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		cube.GetComponent<WorldObject>().playerID = PlayerID;

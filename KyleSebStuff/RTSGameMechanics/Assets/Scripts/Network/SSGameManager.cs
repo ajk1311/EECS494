@@ -174,7 +174,6 @@ public class SSGameManager : MonoBehaviour {
 		mFramesPerTick = mLatency;
 		mFrameLength = 0f;
 		mFrameMaxLength = DefaultFrameLength;
-		Debug.Log("mFrameMaxLength=" + mFrameMaxLength);
 
 
 		mPlayerCmds = new Dictionary<int,Queue<Command>>();
@@ -352,8 +351,8 @@ public class SSGameManager : MonoBehaviour {
 		} else if (Input.GetMouseButtonUp(0)) {
 			if (mMouse0Down) {
 				// If we were tracking mouse 0
-				if (Mathf.Abs (Input.mousePosition.x - mMouse0DownVector.x) > 2 &&
-				    Mathf.Abs (Input.mousePosition.y - mMouse0DownVector.y) > 2) {
+				if (Mathf.Abs(Input.mousePosition.x - mMouse0DownVector.x) > 2 &&
+				    Mathf.Abs(Input.mousePosition.y - mMouse0DownVector.y) > 2) {
 					/* If the user dragged the mouse the allowed distance from the start,
 					 * then the action is considered a drag */
 					float padding = GUIResources.GetScaledPixelSize(4);
