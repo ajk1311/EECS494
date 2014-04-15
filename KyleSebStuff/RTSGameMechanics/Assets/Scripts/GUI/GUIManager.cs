@@ -17,6 +17,7 @@ public class GUIManager : MonoBehaviour {
     public Texture2D memoryIcon;
 
     //Cursors
+    public GameObject moveCommandCursor;
     public GUISkin mouseCursorSkin;
     public Texture2D activeCursor;
     public Texture2D leftCursor;
@@ -25,10 +26,13 @@ public class GUIManager : MonoBehaviour {
     public Texture2D downCursor;
     public Texture2D[] selectCursors;
     public Texture2D[] attackCursors;
-    public Texture2D[] moveCursors;
+    public Texture2D[] hoverEnemyCursors;
     public Texture2D[] captureCursors;
     private CursorState activeCursorState;
     private int currentCursorFrame = 0;
+    private bool attackingCommandCursor;
+    private Vector3 destination;
+
 
     //Dragging GUI variables
     private static GUIModelManager.GUIModel mCurrentGuiModel;
@@ -63,7 +67,6 @@ public class GUIManager : MonoBehaviour {
 
     void Update() {
         checkIfDragging();
-        MouseHover();
     }
     
     void OnGUI() {
@@ -83,48 +86,56 @@ public class GUIManager : MonoBehaviour {
     /*
      * Drawing the Mouse Cursors
      */
-    public void SetCursorState(CursorState cursorState){
-        activeCursorState = cursorState;
-        switch(cursorState) {
-        case CursorState.Select:
-            currentCursorFrame = (int)(Time.time * 10) % selectCursors.Length;
-            activeCursor = selectCursors[currentCursorFrame];
-            break;
-        case CursorState.Attack:
-            currentCursorFrame = (int)(Time.time * 5) % attackCursors.Length;
-            activeCursor = attackCursors[currentCursorFrame];
-            break;
-        case CursorState.Capture:
-            currentCursorFrame = (int)Time.time % captureCursors.Length;
-            activeCursor = captureCursors[currentCursorFrame];
-            break;
-        case CursorState.Move:
-            currentCursorFrame = (int)Time.time % moveCursors.Length;
-            activeCursor = moveCursors[currentCursorFrame];
-            break;
-        case CursorState.PanLeft:
-            activeCursor = leftCursor;
-            break;
-        case CursorState.PanRight:
-            activeCursor = rightCursor;
-            break;
-        case CursorState.PanUp:
-            activeCursor = upCursor;
-            break;
-        case CursorState.PanDown:
-            activeCursor = downCursor;
-            break;
-        default: break;
+    public void SetCursorState(CursorState cursorState) {
+        if (!attackingCommandCursor) {
+            activeCursorState = cursorState;
+            switch (cursorState) {
+                case CursorState.Select:
+                    currentCursorFrame = (int)(Time.time * 10) % selectCursors.Length;
+                    activeCursor = selectCursors [currentCursorFrame];
+                    break;
+                case CursorState.Attack:
+                    attackingCommandCursor = true;
+                    currentCursorFrame = (int)(Time.time * 5) % attackCursors.Length;
+                    activeCursor = attackCursors [currentCursorFrame];
+                    Invoke("FinishAttackCursor", 1.5f);
+                    break;
+                case CursorState.HoverEnemy:
+                    currentCursorFrame = (int)(Time.time * 5) % hoverEnemyCursors.Length;
+                    activeCursor = hoverEnemyCursors [currentCursorFrame];
+                    break;
+                case CursorState.Capture:
+                    currentCursorFrame = (int)Time.time % captureCursors.Length;
+                    activeCursor = captureCursors [currentCursorFrame];
+                    break;
+                case CursorState.Move:
+                    CreateMoveCursor();
+                    break;
+                case CursorState.PanLeft:
+                    activeCursor = leftCursor;
+                    break;
+                case CursorState.PanRight:
+                    activeCursor = rightCursor;
+                    break;
+                case CursorState.PanUp:
+                    activeCursor = upCursor;
+                    break;
+                case CursorState.PanDown:
+                    activeCursor = downCursor;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     private void DrawMouseCursor() {
-            GUI.skin = mouseCursorSkin;
-            GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
-            UpdateCursorAnimation();
-            Rect cursorPosition = GetCursorDrawPosition();
-            GUI.Label(cursorPosition, activeCursor);
-            GUI.EndGroup();
+        GUI.skin = mouseCursorSkin;
+        GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
+        UpdateCursorAnimation();
+        Rect cursorPosition = GetCursorDrawPosition();
+        GUI.Label(cursorPosition, activeCursor);
+        GUI.EndGroup();
     }
 
     private void UpdateCursorAnimation() {
@@ -132,17 +143,13 @@ public class GUIManager : MonoBehaviour {
         //Change once per second, loops through array of images
         if (activeCursorState == CursorState.Select) {
             currentCursorFrame = (int)(Time.time * 10) % selectCursors.Length;
-            activeCursor = selectCursors[currentCursorFrame];
-        }
-        else if(activeCursorState == CursorState.Move) {
-            currentCursorFrame = (int)Time.time % moveCursors.Length;
-            activeCursor = moveCursors[currentCursorFrame];
-        } else if(activeCursorState == CursorState.Attack) {
-            currentCursorFrame = (int)Time.time % attackCursors.Length;
-            activeCursor = attackCursors[currentCursorFrame];
-        } else if(activeCursorState == CursorState.Capture) {
-            currentCursorFrame = (int)Time.time % captureCursors.Length;
-            activeCursor = captureCursors[currentCursorFrame];
+            activeCursor = selectCursors [currentCursorFrame];
+        } else if (activeCursorState == CursorState.Attack) {
+            currentCursorFrame = (int)(Time.time * 5) % attackCursors.Length;
+            activeCursor = attackCursors [currentCursorFrame];
+        } else if (activeCursorState == CursorState.HoverEnemy) {
+            currentCursorFrame = (int)(Time.time * 10) % hoverEnemyCursors.Length;
+            activeCursor = hoverEnemyCursors [currentCursorFrame];
         }
     }
     
@@ -152,35 +159,29 @@ public class GUIManager : MonoBehaviour {
         //Screen draw coordinates are inverted
         float topPos = Screen.height - Input.mousePosition.y; 
         //Adjust position base on the type of cursor being shown
-        if(activeCursorState == CursorState.PanRight) 
+        if (activeCursorState == CursorState.PanRight) 
             leftPos = Screen.width - activeCursor.width;
-        else if(activeCursorState == CursorState.PanDown) 
+        else if (activeCursorState == CursorState.PanDown) 
             topPos = Screen.height - activeCursor.height;
-        else if(activeCursorState == CursorState.Move || activeCursorState == CursorState.Select || activeCursorState == CursorState.Capture) {
+        else if (activeCursorState == CursorState.Move || activeCursorState == CursorState.Select || activeCursorState == CursorState.Capture) {
             topPos -= activeCursor.height / 2;
             leftPos -= activeCursor.width / 2;
         }
         return new Rect(leftPos, topPos, activeCursor.width, activeCursor.height);
     }
 
-    private void MouseHover() {
-        if (GUIResources.MouseInPlayingArea()) {
-            GameObject hoverObject = RTSGameMechanics.FindHitObject();
-            if (hoverObject) {
-                if (player.SelectedObject)
-                    player.SelectedObject.SetHoverState(hoverObject);
-                else if (hoverObject.name != "Ground") {
-                    Player owner = hoverObject.transform.root.GetComponent<Player>();
-                    if (owner) {
-                        Unit unit = hoverObject.transform.parent.GetComponent<Unit>();
-                        Building building = hoverObject.transform.parent.GetComponent<Building>();
-                        if (owner.username == player.username && (unit || building)) 
-                            player.hud.SetCursorState(CursorState.Select);
-                    }
-                }
-            }
-        }
+    public void SetDestination(Vector3 destination){
+        this.destination = destination;
     }
+
+    void FinishAttackCursor() {
+        attackingCommandCursor = false;
+    }
+
+    private void CreateMoveCursor() {
+        Instantiate(moveCommandCursor, destination, Quaternion.identity);
+    }
+
     /*
      * Drawing the Order and Resource GUIS
      */
@@ -191,71 +192,70 @@ public class GUIManager : MonoBehaviour {
         GUI.EndGroup();
     }
 
+    private void DrawCurrentGUIModel() {
+        mCurrentGuiModel = GUIModelManager.GetCurrentModel(player.id);
+        if (mCurrentGuiModel == null) {
+            return;
+        }
 
-	private void DrawCurrentGUIModel() {
-		mCurrentGuiModel = GUIModelManager.GetCurrentModel(player.id);
-		if (mCurrentGuiModel == null) {
-			return;
-		}
+        if (!mCurrentGuiModel.cached) {
+            float panelWidth = Screen.width / 3;
 
-		if(!mCurrentGuiModel.cached) {
-			float panelWidth = Screen.width / 3;
+            float innerPadding = GUIResources.GetScaledPixelSize(2);
+            float verticalPadding = GUIResources.GetScaledPixelSize(24);
+            float horizontalPadding = GUIResources.GetScaledPixelSize(36);
+            
+            float buttonHeight = GUIResources.GetScaledPixelSize(48);
+            float buttonMinWidth = GUIResources.GetScaledPixelSize(100);
+            
+            float leftButtonWidth = (panelWidth - 1.5f * horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.leftPanelColumns;
+            float centerButtonWidth = (panelWidth - horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.centerPanelColumns;
 
-			float innerPadding = GUIResources.GetScaledPixelSize(2);
-			float verticalPadding = GUIResources.GetScaledPixelSize(24);
-			float horizontalPadding = GUIResources.GetScaledPixelSize(36);
-			
-			float buttonHeight = GUIResources.GetScaledPixelSize(48);
-			float buttonMinWidth = GUIResources.GetScaledPixelSize(100);
-			
-			float leftButtonWidth = (panelWidth - 1.5f * horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.leftPanelColumns;
-			float centerButtonWidth = (panelWidth - horizontalPadding - innerPadding * (mCurrentGuiModel.leftPanelColumns - 1)) / mCurrentGuiModel.centerPanelColumns;
+            float initialX = horizontalPadding;
+            float initialY = Screen.height - GUIResources.OrdersBarHeight + verticalPadding;
 
-			float initialX = horizontalPadding;
-			float initialY = Screen.height - GUIResources.OrdersBarHeight + verticalPadding;
+            for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
+                int row = i / mCurrentGuiModel.leftPanelColumns;
+                int column = i % mCurrentGuiModel.leftPanelColumns;
+                float buttonX = initialX + column * leftButtonWidth + (column > 0 ? innerPadding : 0);
+                float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
+                mCurrentGuiModel.leftPanelButtons [i].rect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
+            }
 
-			for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
-				int row = i / mCurrentGuiModel.leftPanelColumns;
-				int column = i % mCurrentGuiModel.leftPanelColumns;
-				float buttonX = initialX + column * leftButtonWidth + (column  > 0 ? innerPadding : 0);
-				float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
-				mCurrentGuiModel.leftPanelButtons[i].rect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
-			}
+            initialX = panelWidth + horizontalPadding / 2;
+            for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
+                int row = i / mCurrentGuiModel.centerPanelColumns;
+                int column = i % mCurrentGuiModel.centerPanelColumns;
+                float buttonX = initialX + column * centerButtonWidth + (column > 0 ? innerPadding : 0);
+                float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
+                mCurrentGuiModel.centerPanelButtons [i].rect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
+                
+            }
 
-			initialX = panelWidth + horizontalPadding / 2;
-			for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
-				int row = i / mCurrentGuiModel.centerPanelColumns;
-				int column = i % mCurrentGuiModel.centerPanelColumns;
-				float buttonX = initialX + column * centerButtonWidth + (column > 0 ? innerPadding : 0);
-				float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
-				mCurrentGuiModel.centerPanelButtons[i].rect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
-				
-			}
+            mCurrentGuiModel.cached = true;
+        }
 
-			mCurrentGuiModel.cached = true;
-		}
+        GUIModelManager.Button temp;
 
-		GUIModelManager.Button temp;
-
-		//draw left panel icons
-		for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
-			temp = mCurrentGuiModel.leftPanelButtons[i];
-			if (temp.text != null) {
-				GUI.Button(temp.rect, temp.text);
-			} else {
-				GUI.Button(temp.rect, temp.icon);
-			}
-		}
-		//draw center panel icons
-		for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
-			temp = mCurrentGuiModel.centerPanelButtons[i];
-			if (temp.text != null) {
-				GUI.Button(temp.rect, temp.text);
-			} else {
-				GUI.Button(temp.rect, temp.icon);
-			}
-		}
-	}
+        //draw left panel icons
+        for (int i = 0, len = mCurrentGuiModel.leftPanelButtons.Count; i < len; i++) {
+            temp = mCurrentGuiModel.leftPanelButtons [i];
+            if (temp.text != null) {
+                GUI.Button(temp.rect, temp.text);
+            } else {
+                GUI.Button(temp.rect, temp.icon);
+            }
+        }
+        //draw center panel icons
+        for (int i = 0, len = mCurrentGuiModel.centerPanelButtons.Count; i < len; i++) {
+            temp = mCurrentGuiModel.centerPanelButtons [i];
+            if (temp.text != null) {
+                GUI.Button(temp.rect, temp.text);
+            } else {
+                GUI.Button(temp.rect, temp.icon);
+            }
+        }
+    }
     
     private void DrawResourceBar() {
         GUI.skin = resourceSkin;

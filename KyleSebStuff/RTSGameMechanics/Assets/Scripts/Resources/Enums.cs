@@ -13,6 +13,7 @@
         PanRight,
         PanUp,
         PanDown,
-        Capture
+        Capture,
+        Default
     }
 }
