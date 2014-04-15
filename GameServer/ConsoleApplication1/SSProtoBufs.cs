@@ -30,6 +30,9 @@ namespace SSProtoBufs
 
 		[ProtoMember(8)]
 		public int seed;
+
+        [ProtoMember(9)]
+        public int gameID;
     }
 
 	[ProtoContract]
