@@ -11,8 +11,7 @@ public static class FogOfWarManager {
 	
 	private static int planeSizeX;
 	private static int planeSizeZ;
-	private static int planeAmountX;
-	private static int planeAmountZ;
+	private static int planeAmount;
 	private static float fogHeight;
 	
 	private static List<List<GameObject>> gridOfFog;
@@ -23,23 +22,22 @@ public static class FogOfWarManager {
 	private static int gridColumns;
 	
 	public static void Init() {
-		fogObject = (GameObject) Resources.Load("FogOfWar/NoFog");
+		fogObject = (GameObject) Resources.Load("FogOfWar/FogTile");
 		
-		planeAmountX = 5;
-		planeAmountZ = 10;
-		fogHeight = 80.0f;
-		planeSizeX = (int) (RTSGameMechanics.GetMapSizes().x / planeAmountX);
-		planeSizeZ = (int) (RTSGameMechanics.GetMapSizes().z / planeAmountZ);
+		planeAmount = 5;
+		fogHeight = 0f;
+		planeSizeX = (int) (RTSGameMechanics.GetMapSizes().x / planeAmount);
+		planeSizeZ = (int) (RTSGameMechanics.GetMapSizes().z / planeAmount);
 		
 		gridOfFog = new List<List<GameObject>>();
 		
 		int initialX = planeSizeX / 2;
 		int initialZ = planeSizeZ / 2;
-		for (int i = 0; i < planeAmountZ; i++) {
+		for (int i = 0; i < planeAmount; i++) {
 			List<GameObject> innerList = new List<GameObject>();
-			for(int j = 0; j < planeAmountX; j++) {
+			for(int j = 0; j < planeAmount; j++) {
 				Vector3 pos = new Vector3(initialX + j*planeSizeX, fogHeight, initialZ + i*planeSizeZ);
-				GameObject fogTile = GameObject.Instantiate(fogObject, pos, Quaternion.identity) as GameObject;
+				GameObject fogTile = GameObject.Instantiate (fogObject, pos, Quaternion.identity) as GameObject;
 				innerList.Add(fogTile);
 			}
 			gridOfFog.Add(innerList);
