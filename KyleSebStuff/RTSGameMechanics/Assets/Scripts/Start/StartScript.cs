@@ -12,8 +12,17 @@ public class StartScript : MonoBehaviour {
 	private Vector3 assembler1Pos = new Vector3 (50, 1, 190);
 	private Vector3 assembler2Pos = new Vector3 (750, 1, 190);
 
+    private Vector3 magentaDefensiveTower1 = new Vector3(610, 1, 272.5f);
+    private Vector3 magentaDefensiveTower2 = new Vector3(710, 1, 200);
+    private Vector3 magentaDefensiveTower3 = new Vector3(610, 1, 127.5f);
+    private Vector3 orangeDefensiveTower1 = new Vector3(190, 1, 272.5f);
+    private Vector3 orangeDefensiveTower2 = new Vector3(90, 1, 200);
+    private Vector3 orangeDefensiveTower3 = new Vector3(190, 1, 127.5f);
+
 	public Object magentaCpuPrefab;
 	public Object orangeCpuPrefab;
+    public Object orangeDefensiveTower;
+    public Object magentaDefensiveTower;
 	public Object assembler;
 
 	public WorldObject[] objs;
@@ -34,7 +43,7 @@ public class StartScript : MonoBehaviour {
 		SelectionManager.Init();
 		CombinationManager.Init();
 		FogOfWarManager.Init();
-        ParseManager.Init(connectionEvent.ID, connectionEvent.gameID);
+//		ParseManager.Init (connectionEvent.ID, connectionEvent.gameID);
 
 		UserInputManager myInputManager;
 		UserInputManager hisOrHerInputManager;
@@ -51,24 +60,45 @@ public class StartScript : MonoBehaviour {
 
 		GameObject magentaCpu = (GameObject) Instantiate(magentaCpuPrefab);
 		GameObject orangeCpu = (GameObject) Instantiate(orangeCpuPrefab);
+        List<GameObject> orangeDefensiveTowers = new List<GameObject>();
+        orangeDefensiveTowers.Add((GameObject)Instantiate(orangeDefensiveTower, orangeDefensiveTower1, Quaternion.identity));
+        orangeDefensiveTowers.Add((GameObject)Instantiate(orangeDefensiveTower, orangeDefensiveTower2, Quaternion.identity));
+        orangeDefensiveTowers.Add((GameObject)Instantiate(orangeDefensiveTower, orangeDefensiveTower3, Quaternion.identity));
+        List<GameObject> magentaDefensiveTowers = new List<GameObject>();
+        magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower1, Quaternion.identity));
+        magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower2, Quaternion.identity));
+        magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower3, Quaternion.identity));
+
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
+		assembler1.name = "assembler1";
 		GameObject assembler2 = (GameObject)Instantiate (assembler, assembler2Pos, Quaternion.identity);
+		assembler2.name = "assembler2";
 
 		if (connectionEvent.ID == 1) {
 			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
+            foreach(GameObject gameObject in orangeDefensiveTowers)
+                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+            foreach(GameObject gameObject in magentaDefensiveTowers)
+                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			Camera.main.transform.position = cameraStartPosition1;
 
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
+
 		} else {
 			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+            foreach(GameObject gameObject in orangeDefensiveTowers)
+                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
+            foreach(GameObject gameObject in magentaDefensiveTowers)
+                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			Camera.main.transform.position = cameraStartPosition2;
 
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
+
 		}
 
 		SSGameSetup.Ready(connectionEvent.ID);

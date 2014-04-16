@@ -7,11 +7,13 @@
     public enum CursorState {
         Select,
         Move,
+        HoverEnemy,
         Attack,
         PanLeft,
         PanRight,
         PanUp,
         PanDown,
-        Capture
+        Capture,
+        Default
     }
 }

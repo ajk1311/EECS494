@@ -3839,7 +3839,7 @@ MonoBehaviour:
   unit3Icon: {fileID: 0}
   cubePrefab: {fileID: 100004, guid: 488d21b8e3413436892e8c8721707174, type: 2}
   spherePrefab: {fileID: 100004, guid: ec925971794ad42b4900befa428100d1, type: 2}
-  spawnOffsetZ: 10
+  spawnOffsetX: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

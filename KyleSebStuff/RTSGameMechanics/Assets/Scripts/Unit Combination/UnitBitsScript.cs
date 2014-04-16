@@ -4,9 +4,10 @@ using System.Collections;
 
 public class UnitBitsScript : MonoBehaviour, SSGameManager.IUpdatable {
 	public AssemblerScript assemblerScript;
-	private float speed = 45;
+	private float speed = 5;
 	public string desiredUnit;
 	private Int3 intPosition;
+	public Int3 destination;
 
 	void Start() {
 		intPosition = (Int3) transform.position;
@@ -14,10 +15,10 @@ public class UnitBitsScript : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 	
 	public void GameUpdate (float deltaTime) {
-		intPosition += IntPhysics.DisplacementTo(intPosition, assemblerScript.intPosition,
+		intPosition += IntPhysics.DisplacementTo(intPosition, destination,
 		                                         IntPhysics.FloatSafeMultiply(speed, deltaTime));
 		transform.position = (Vector3) intPosition;
-		if (IntPhysics.IsCloseEnough(intPosition, assemblerScript.intPosition, 0.5f)) {
+		if (IntPhysics.IsCloseEnough(intPosition, destination, 3.0f)) {
 			assemblerScript.ReachedAssembler(desiredUnit);
 			Destroy(gameObject);
 		}

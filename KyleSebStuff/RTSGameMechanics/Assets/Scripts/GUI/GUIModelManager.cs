@@ -30,6 +30,17 @@ namespace RTS {
 					break;
 				}
 			}
+
+			public void ClearButtons(int panel) {
+				switch(panel) {
+					case 0:
+						leftPanelButtons.Clear();
+						break;
+					case 1:
+						centerPanelButtons.Clear();
+						break;
+				}
+			}
 		}
 
 		public delegate void OnClick();

@@ -51,6 +51,7 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		Transform bitsUnit = Instantiate (bitsUnitPrefab, pos, transform.rotation) as Transform;
 		bitsUnit.GetComponent<UnitBitsScript>().assemblerScript = this;
 		bitsUnit.GetComponent<UnitBitsScript>().desiredUnit = desiredUnit;
+		bitsUnit.GetComponent<UnitBitsScript> ().destination = (Int3) CombinationManager.spawnPoint [playerID - 1];
 	}
 
 	public void ReachedAssembler(string type) {
@@ -64,7 +65,7 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		}
 	}
 
-	void buildUnit(Vector3 pos, string type) {
+	public void buildUnit(Vector3 pos, string type) {
 		//Instantiate new Unit
 		//TODO Set unit to Selected if within view or always?
 		if(type == "MagentaHeapUnit") {
@@ -94,7 +95,7 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 
 	Vector3 posToBuildUnit() {
-		return transform.position;
+		return CombinationManager.spawnPoint[playerID-1];
 	}
 
 	void OnDestroy() {

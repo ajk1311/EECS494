@@ -133,7 +133,53 @@ public static class GridManager {
 		}
 		return xWithinRange && zWithinRange;
 	}
-	
+
+	public static Int3 FindNextAvailPos(Int3 source, int width) {
+		int x = source.x / 2 / Int3.Precision;
+		int z = source.z / 2 / Int3.Precision;
+
+		while(true) {
+			if(x >= 400) {
+				break;
+			}
+			for(int i = 0; i < width/2; i++) {
+				if(z+i > 200) {
+					break;
+				}
+				if(grid[x][z+i].Count == 0) {
+					return new Int3(x*2 + 1, 1, (z+i)*2 + 1) * Int3.Precision;
+				}
+				if(z-i < 0) {
+					break;
+				}
+				else if (grid[x][z-i].Count == 0){
+					return new Int3(x*2 + 1, 1, (z-i)*2 + 1) * Int3.Precision;
+				}
+			}
+			x++;
+		}
+		return source + new Int3(1, 0, 1) * Int3.Precision;
+	}
+
+	public static List<Int3> GetDestinationCluster(Int3 destination, int unitCount) {
+		int spacing = 2;
+		int edgeLength = Mathf.CeilToInt(Mathf.Sqrt (unitCount));
+		List<Int3> destinationCluster = new List<Int3> ();
+		int x = Mathf.Max((destination.x / 2 / Int3.Precision) - edgeLength/2, 0);
+		int z = Mathf.Max(destination.z / 2 / Int3.Precision - edgeLength/2, 0);
+
+		int xCoord = 0;
+		int zCoord = 0;
+		for(int i = 0; i < edgeLength; i++) {
+			for(int j = 0; j < edgeLength; j++) {
+				xCoord = Mathf.Min(400, (x + i*spacing)*2 + 1);
+				zCoord = Mathf.Min(200, (z + j*spacing)*2 + 1);
+				destinationCluster.Add(new Int3(xCoord, 1, zCoord) * Int3.Precision);
+			}
+		}
+		return destinationCluster;
+	}
+
 	public static void PrintGrid() {
 		Debug.Log("================ Printing Grid ================");
 		for (int i = 0, w = grid.Count; i < w; i++) {
