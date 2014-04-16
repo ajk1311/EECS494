@@ -8,37 +8,36 @@ using RTS;
 public static class FogOfWarManager {
 
 	public static int playerID;
-
+	
 	private static int planeSizeX;
 	private static int planeSizeZ;
 	private static int planeAmount;
 	private static float fogHeight;
-
+	
 	private static List<List<GameObject>> gridOfFog;
-
+	
 	private static GameObject fogObject;
-
+	
 	private static int gridRows;
 	private static int gridColumns;
-
+	
 	public static void Init() {
-		fogObject = (GameObject) Resources.Load("FogOfWar/Fog");
-
-		planeAmount = 7;
-		fogHeight = 0.25f;
+		fogObject = (GameObject) Resources.Load("FogOfWar/FogTile");
+		
+		planeAmount = 5;
+		fogHeight = 0f;
 		planeSizeX = (int) (RTSGameMechanics.GetMapSizes().x / planeAmount);
 		planeSizeZ = (int) (RTSGameMechanics.GetMapSizes().z / planeAmount);
-
+		
 		gridOfFog = new List<List<GameObject>>();
-
+		
 		int initialX = planeSizeX / 2;
 		int initialZ = planeSizeZ / 2;
 		for (int i = 0; i < planeAmount; i++) {
 			List<GameObject> innerList = new List<GameObject>();
 			for(int j = 0; j < planeAmount; j++) {
-				Vector3 pos = new Vector3(initialX + j*planeSizeX, 1.1f, initialZ + i*planeSizeZ);
+				Vector3 pos = new Vector3(initialX + j*planeSizeX, fogHeight, initialZ + i*planeSizeZ);
 				GameObject fogTile = GameObject.Instantiate (fogObject, pos, Quaternion.identity) as GameObject;
-				fogTile.transform.localScale = new Vector3(planeSizeX*fogTile.transform.localScale.x, 0.25f, planeSizeZ*fogTile.transform.localScale.z);
 				innerList.Add(fogTile);
 			}
 			gridOfFog.Add(innerList);
@@ -53,33 +52,33 @@ public static class FogOfWarManager {
 
 	public static void updateFogTileUnitCount(GameObject oldFogTile, GameObject newFogTile, int pID) {
 		if (oldFogTile != null) {
-			removeUnitFromFogTile (oldFogTile, pID);
+			removeUnitFromFogTile(oldFogTile, pID);
 		}
 
 		if(newFogTile != null) {
-			addUnitToFogTile (newFogTile, pID);
+			addUnitToFogTile(newFogTile, pID);
 		}
 	}
 
 	private static void removeUnitFromFogTile(GameObject fogTile, int pID) {
 		if(pID == playerID) {
-			if(fogTile.GetComponent<FogScript> ().friendlyUnitCount != 0) {
-				fogTile.GetComponent<FogScript> ().friendlyUnitCount--;
+			if(fogTile.GetComponent<FogScript>().friendlyUnitCount != 0) {
+				fogTile.GetComponent<FogScript>().friendlyUnitCount--;
 			}
 		}
 		else {
-			if(fogTile.GetComponent<FogScript> ().enemyUnitCount != 0) {
-				fogTile.GetComponent<FogScript> ().enemyUnitCount--;
+			if(fogTile.GetComponent<FogScript>().enemyUnitCount != 0) {
+				fogTile.GetComponent<FogScript>().enemyUnitCount--;
 			}
 		}
 	}
 
 	private static void addUnitToFogTile(GameObject fogTile, int pID) {
 		if(pID == playerID) {
-			fogTile.GetComponent<FogScript> ().friendlyUnitCount++;
+			fogTile.GetComponent<FogScript>().friendlyUnitCount++;
 		}
 		else {
-			fogTile.GetComponent<FogScript> ().enemyUnitCount++;
+			fogTile.GetComponent<FogScript>().enemyUnitCount++;
 		}
 	}
 
