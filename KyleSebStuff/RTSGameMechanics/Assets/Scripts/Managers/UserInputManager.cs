@@ -3,20 +3,13 @@ using System.Collections;
 using RTS;
 
 public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
-
-<<<<<<< HEAD
-	public int playerID;
-	public int PlayerID {
-		get { return playerID; }
-	}	
-=======
+	
     public int playerID;
     public GUIManager guiManager;
 
     public int PlayerID {
         get { return playerID; }
     }
->>>>>>> b4d4403a22691e5971943629ddf4b929ca55d891
 
     void Start() {
         guiManager = this.GetComponent<GUIManager>();
@@ -62,7 +55,6 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void LeftMouseClickDown(Vector3 mousePosition) {
         //TODO If mouse in playing area
-<<<<<<< HEAD
 		GameObject hitObject = RTSGameMechanics.FindHitObject(mousePosition);
 		if (hitObject) {
 			if (hitObject.tag != "Map") {
@@ -100,56 +92,17 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 				if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
 				    (player.id != playerID && fog.enemyUnitCount > 0)) {
 					SelectionManager.attackUnit(PlayerID, target.GetComponent<WorldObject>());
+					guiManager.SetCursorState(CursorState.Attack);
 				}		
 			} else {
 				Vector3 destination = mousePosition;
 				if (destination != MechanicResources.InvalidPosition) {
 					SelectionManager.moveUnits(PlayerID, destination);
+					guiManager.SetCursorState(CursorState.Move);
+					guiManager.SetDestination(destination);
 				}
 			}
 		}
-=======
-        GameObject hitObject = RTSGameMechanics.FindHitObject(mousePosition);
-        if (hitObject) {
-            if (hitObject.tag != "Map") {
-                WorldObject worldObject = hitObject.GetComponent<WorldObject>();
-                if (worldObject) {
-                    if (SelectionManager.isSelected(PlayerID, hitObject)) {
-                        //ignore that selected object we own
-                    } else {
-                        SelectionManager.deselectAllGameObjects(PlayerID);
-                        selectGameObject(hitObject);
-                    }
-                }
-            } else {
-                //deselect all units
-                SelectionManager.deselectAllGameObjects(PlayerID);
-            }
-        }
-    }
-
-    private void RightMouseClick(Vector3 mousePosition) {
-        if (SelectionManager.count(PlayerID) > 0) {
-            GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
-            // TODO npe
-            if (target != null && target.tag != "Map") {
-                PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
-                FogScript fog = target.GetComponent<WorldObject>().currentFogTile.GetComponent<FogScript>();
-                if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
-                    (player.id != playerID && fog.enemyUnitCount > 0)) {
-                    SelectionManager.attackUnit(PlayerID, target.GetComponent<WorldObject>());
-                    guiManager.SetCursorState(CursorState.Attack);
-                }       
-            } else {
-                Vector3 destination = mousePosition;
-                if (destination != MechanicResources.InvalidPosition) {
-                    SelectionManager.moveUnits(PlayerID, destination);
-                    guiManager.SetCursorState(CursorState.Move);
-                    guiManager.SetDestination(destination);
-                }
-            }
-        }
->>>>>>> b4d4403a22691e5971943629ddf4b929ca55d891
     }
 
     private void LeftMouseDragSelection(Vector3 downPosition, Vector3 upPosition) {
