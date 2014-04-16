@@ -829,7 +829,17 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 5dba62f0191ad0044b3adcc1a00ee561, type: 3}
   - {fileID: 2800000, guid: 12fef01e012244143a802647198991d7, type: 3}
   - {fileID: 2800000, guid: 4b46cbda4ccebc042a477671c6f20728, type: 3}
-  hoverEnemyCursors: []
+  hoverEnemyCursors:
+  - {fileID: 2800000, guid: 2916a2ceef4b6f7408782e42d59c57af, type: 3}
+  - {fileID: 2800000, guid: dfca0f3e3c48db242a3a24ab2026a553, type: 3}
+  - {fileID: 2800000, guid: c1677df9bfb6ba848ad0a58f10a519ca, type: 3}
+  - {fileID: 2800000, guid: 7dd62ec8eba692544b0bd0779a22d5fe, type: 3}
+  - {fileID: 2800000, guid: 8f883deb7f49f5049969f61b46a99bd5, type: 3}
+  - {fileID: 2800000, guid: 4cc6dd1e7ec0a664087c2f02747733cb, type: 3}
+  - {fileID: 2800000, guid: 8f883deb7f49f5049969f61b46a99bd5, type: 3}
+  - {fileID: 2800000, guid: 7dd62ec8eba692544b0bd0779a22d5fe, type: 3}
+  - {fileID: 2800000, guid: c1677df9bfb6ba848ad0a58f10a519ca, type: 3}
+  - {fileID: 2800000, guid: dfca0f3e3c48db242a3a24ab2026a553, type: 3}
   captureCursors:
   - {fileID: 2800000, guid: ad46c2c9ea794e0488e5e95dcbc23ac5, type: 3}
   - {fileID: 2800000, guid: 47032cc3f3042d94e892379ed584c8dd, type: 3}
@@ -1171,10 +1181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6952a5465f4524236b04debe637c5799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magentaCpuPrefab: {fileID: 0}
-  orangeCpuPrefab: {fileID: 0}
-  orangeDefensiveTower: {fileID: 0}
-  magentaDefensiveTower: {fileID: 0}
+  magentaCpuPrefab: {fileID: 100000, guid: 72987daf2d8cb469f98f39ad1b85c539, type: 2}
+  orangeCpuPrefab: {fileID: 100000, guid: bf0a06c2837844f08a3656f987a19502, type: 2}
+  orangeDefensiveTower: {fileID: 100242, guid: a9fbc70efb328ec47ad0e36e92fde41a, type: 3}
+  magentaDefensiveTower: {fileID: 100242, guid: 1a5081ef5537952469fb8799bb850b89,
+    type: 3}
   assembler: {fileID: 100000, guid: 533b8727794814980877ba41020d78b7, type: 2}
   objs: []
 --- !u!114 &645879594
