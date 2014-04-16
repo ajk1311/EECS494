@@ -18,14 +18,14 @@ public class CPU : DestructableBuilding {
 	private GUIModelManager.GUIModel mTierSelectionModel;
 	private GUIModelManager.GUIModel mTier1UnitCreationModel;
 
-	public int spawnOffsetZ;
+	public int spawnOffsetX;
 	public Int3 spawnOffset;
 
 	protected override void Start() {
 		base.Start();
 		BuildTierSelectionModel();
 		BuildTier1UnitCreationModel();
-		spawnOffset = new Int3(0, 0, spawnOffsetZ * Int3.Precision);
+		spawnOffset = new Int3(spawnOffsetX * Int3.Precision, 0, 0);
 	}
 
 	protected override GUIModelManager.GUIModel GetGUIModel(){ return null; }
@@ -100,17 +100,18 @@ public class CPU : DestructableBuilding {
 
 	void ProduceCube() {
 		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Cube", "CPU");
-		Debug.Log ("click here");
-		Int3 spawnPosition = intPosition + spawnOffset;
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
+		Debug.Log ("source is: " + intPosition);
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 2);
 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
+		Debug.Log ("free space is: " + spawnPosition);
 		cube.GetComponent<WorldObject>().playerID = PlayerID;
 	}
 
 	void ProduceSphere() {
 		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Sphere", "CPU");
-		Int3 spawnPosition = intPosition + spawnOffset;
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 2);
 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
 	}

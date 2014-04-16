@@ -1,17 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 
 public static class CombinationManager {
 	
 	static Dictionary<string,  List< KeyValuePair<string,int>>> comboRef;
+
+	public static bool[] creatingCombination;
+	public static string[] desiredUnit;
+	public static Vector3[] spawnPoint;
 	
 	public static void Init() {
 		comboRef = new Dictionary<string,  List< KeyValuePair<string,int>>> ();
+		creatingCombination = new bool[2];
+		desiredUnit = new string[2];
+		spawnPoint = new Vector3[2];
 		generateCombinationReference ();
 	}
 	
-	public static void getAvailableCombinations(int playerID) {
+	public static List<KeyValuePair<string,int>> getAvailableCombinations(int playerID) {
 		List<KeyValuePair<string,int>> availableCombinations = new List<KeyValuePair<string,int>> ();
 		Dictionary<string,int> myUnitCounts = SelectionManager.getUnitCounts(playerID);
 		
@@ -22,8 +30,9 @@ public static class CombinationManager {
 				availableCombinations.Add(pair);
 			}
 		}
+		return availableCombinations;
 	}
-	
+
 	public static bool combine(AssemblerScript script, string desiredUnit) {
 		int playerID = script.playerID;
 

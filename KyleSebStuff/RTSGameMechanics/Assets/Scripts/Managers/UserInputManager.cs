@@ -5,10 +5,9 @@ using RTS;
 public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
 	public int playerID;
-
 	public int PlayerID {
 		get { return playerID; }
-	}
+	}	
 
     void Start() {
 		SSGameManager.Register(this);
@@ -57,6 +56,17 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 					}
 				}
 			} else {
+				//check if player is selecting a spawn point for a new combination unit
+				if(CombinationManager.creatingCombination[playerID-1] == true) {
+					GameObject assembler = GameObject.Find("assembler" + playerID.ToString());
+					AssemblerScript script = assembler.GetComponent<AssemblerScript>();		
+					///////////////////////
+					CombinationManager.spawnPoint[playerID-1] = mousePosition;
+					CombinationManager.combine(script, CombinationManager.desiredUnit[playerID-1]);
+					//TODO need to make calls to combination manager for combination animation
+//					script.buildUnit(mousePosition, CombinationManager.desiredUnit[playerID-1]);
+					CombinationManager.creatingCombination[playerID-1] = false;
+				}
 				//deselect all units
 				SelectionManager.deselectAllGameObjects(PlayerID);
 			}
@@ -67,7 +77,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 		if (SelectionManager.count(PlayerID) > 0) {
 			GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
 			// TODO npe
-			if(target.tag != "Map") {
+			if(target != null && target.tag != "Map") {
 				PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
 				FogScript fog = target.GetComponent<WorldObject>().currentFogTile.GetComponent<FogScript>();
 				if ((player.id == playerID && fog.friendlyUnitCount > 0) ||

@@ -20,7 +20,7 @@ public class StartScript : MonoBehaviour {
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", false);
+		SSGameSetup.ConnectToGame("akausejr", true);
 	}
 	
 	[HandlesEvent]
@@ -34,6 +34,7 @@ public class StartScript : MonoBehaviour {
 		SelectionManager.Init();
 		CombinationManager.Init();
 		FogOfWarManager.Init();
+//		ParseManager.Init (connectionEvent.ID, connectionEvent.gameID);
 
 		UserInputManager myInputManager;
 		UserInputManager hisOrHerInputManager;
@@ -52,7 +53,9 @@ public class StartScript : MonoBehaviour {
 		GameObject orangeCpu = (GameObject) Instantiate(orangeCpuPrefab);
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
+		assembler1.name = "assembler1";
 		GameObject assembler2 = (GameObject)Instantiate (assembler, assembler2Pos, Quaternion.identity);
+		assembler2.name = "assembler2";
 
 		if (connectionEvent.ID == 1) {
 			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
@@ -62,8 +65,6 @@ public class StartScript : MonoBehaviour {
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
 
-			SSGameManager.Register(myInputManager);
-			SSGameManager.Register(hisOrHerInputManager);
 		} else {
 			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
@@ -72,8 +73,6 @@ public class StartScript : MonoBehaviour {
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
 
-			SSGameManager.Register(hisOrHerInputManager);
-			SSGameManager.Register(myInputManager);
 		}
 
 		SSGameSetup.Ready(connectionEvent.ID);
