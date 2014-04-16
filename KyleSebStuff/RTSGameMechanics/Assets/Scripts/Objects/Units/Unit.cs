@@ -89,7 +89,7 @@ public class Unit : WorldObject {
     }
 
     protected virtual void Pursuit(float deltaTime) {
-		if(currentTarget == null) {
+		if (currentTarget == null) {
 			FinishAttacking();
 		}
 		if (WithinAttackRange()) {
