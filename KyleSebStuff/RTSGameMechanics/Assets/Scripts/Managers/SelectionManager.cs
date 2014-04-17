@@ -40,12 +40,13 @@ public static class SelectionManager {
 
 	public static void addSelectedGameObject(int playerID, GameObject gameObject) {
 		if(currentlySelectedObjects[playerID-1].Count == 0) {
+			currentlySelectedObjects[playerID -1].Add(gameObject);
 			CreateGUIModel(playerID, gameObject.GetComponent<WorldObject>());
 		}
 		else {
+			currentlySelectedObjects[playerID -1].Add(gameObject);
 			UpdateGUIModel(playerID, gameObject.GetComponent<WorldObject>());
 		}
-		currentlySelectedObjects[playerID -1].Add(gameObject);
     }
 
 	private static void CreateGUIModel(int playerID, WorldObject wo) {
@@ -83,12 +84,14 @@ public static class SelectionManager {
 		selectionModels[playerID-1].AddButton(1, button);
 	}
 	public static void deselectGameObject(int playerID, GameObject obj) {
+		GUIModelManager.SetCurrentModel (playerID, null);
 		if (!currentlySelectedObjects[playerID -1].Remove(obj)) {
 			Debug.Log("Removed a non-selected object");
 		}
     }
 
 	public static void deselectAllGameObjects(int playerID) {
+		GUIModelManager.SetCurrentModel (playerID, null);
         foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
             obj.GetComponent<WorldObject>().setCurrentlySelected(false);
         }
@@ -96,11 +99,15 @@ public static class SelectionManager {
 
 	public static void moveUnits(int playerID, Vector3 destination) {
 		List<GameObject> selectedUnits = currentlySelectedObjects [playerID - 1];
-		List<Int3> destinationCluster = GridManager.GetDestinationCluster ((Int3) destination, selectedUnits.Count);
-		for(int i = 0; i < selectedUnits.Count; i++) {
-			if(selectedUnits[i] != null) {
-				selectedUnits[i].GetComponent<Unit>().IssueMoveCommand((Vector3)destinationCluster[i]);
-			}
+//		List<Int3> destinationCluster = GridManager.GetDestinationCluster ((Int3) destination, selectedUnits.Count);
+//		for(int i = 0; i < selectedUnits.Count; i++) {
+//			if(selectedUnits[i] != null) {
+//				selectedUnits[i].GetComponent<Unit>().IssueMoveCommand((Vector3)destinationCluster[i]);
+//			}
+//		}
+
+		foreach( GameObject obj in selectedUnits) {
+			obj.GetComponent<Unit>().IssueMoveCommand(destination);
 		}
     }
 
