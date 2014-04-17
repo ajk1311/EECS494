@@ -23,6 +23,10 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     private void MouseActivity() {
         Vector3 position, position2;
 
+        if (SSInput.GetKeyDown(playerID, SSKeyCode.DownArrow)) {
+            Debug.Log("Down arrow");
+        }
+
         if (SSInput.GetMouseClick(PlayerID, 0, out position)) {
             LeftMouseClickDown(position);
         }
@@ -108,8 +112,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void LeftMouseDragSelection(Vector3 downPosition, Vector3 upPosition) {
         SelectionManager.deselectAllGameObjects(playerID);
-        SelectionManager.SetSelectedSpace(playerID, new Vector3[]
-        {
+        SelectionManager.SetSelectedSpace(playerID, new Vector3[] {
             downPosition,
             upPosition
         });
@@ -117,12 +120,10 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void selectGameObject(GameObject gameObject) {
         WorldObject worldObject = gameObject.GetComponent<WorldObject>();
-
         if (worldObject.PlayerID == playerID) {
             worldObject.setCurrentlySelected(true);
         } else {
             //select enemy object
         }
-    }
-    
+    }   
 }

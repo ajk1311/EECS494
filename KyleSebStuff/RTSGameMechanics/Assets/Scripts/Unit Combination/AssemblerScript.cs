@@ -3,7 +3,7 @@ using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 
-public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
+public class AssemblerScript : MonoBehaviour {
 	public int playerID;
 	public Transform bitsUnitPrefab;
 
@@ -22,18 +22,6 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	void Start() {
 		intPosition = (Int3) transform.position;
 		unitQueue = new Dictionary<string, KeyValuePair<int,int>> ();
-		SSGameManager.Register(this);
-	}
-	
-	public void GameUpdate (float deltaTime) {
-		if(SSInput.GetKeyDown(playerID,SSKeyCode.Space)) {
-			CombinationManager.combine(this, "MagentaHeapUnit");
-			CombinationManager.combine(this, "MagentaStaticUnit");
-			CombinationManager.combine(this, "MagentaBinaryTreeUnit");
-			CombinationManager.combine(this, "OrangeStaticUnit");
-			CombinationManager.combine(this, "OrangeHeapUnit");
-			CombinationManager.combine(this, "OrangeBinaryTreeUnit");
-		}
 	}
 
 	public void addUnitToQue(string type, int amount) {
@@ -96,9 +84,5 @@ public class AssemblerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	Vector3 posToBuildUnit() {
 		return CombinationManager.spawnPoint[playerID-1];
-	}
-
-	void OnDestroy() {
-		SSGameManager.Unregister(this);
 	}
 }
