@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Pathfinding;
 using System.Collections.Generic;
+using RTS;
 
 public static class GridManager {
 	
@@ -139,11 +140,11 @@ public static class GridManager {
 		int z = source.z / 2 / Int3.Precision;
 
 		while(true) {
-			if(x >= 400) {
+			if(x >= (int)RTSGameMechanics.GetMapSizes ().x) {
 				break;
 			}
 			for(int i = 0; i < width/2; i++) {
-				if(z+i > 200) {
+				if(z+i > (int)RTSGameMechanics.GetMapSizes().z) {
 					break;
 				}
 				if(grid[x][z+i].Count == 0) {
@@ -172,8 +173,8 @@ public static class GridManager {
 		int zCoord = 0;
 		for(int i = 0; i < edgeLength; i++) {
 			for(int j = 0; j < edgeLength; j++) {
-				xCoord = Mathf.Min(800, (x + i*spacing)*2 + 1);
-				zCoord = Mathf.Min(400, (z + j*spacing)*2 + 1);
+				xCoord = Mathf.Min((int)RTSGameMechanics.GetMapSizes().x, (x + i*spacing)*2 + 1);
+				zCoord = Mathf.Min((int)RTSGameMechanics.GetMapSizes().z, (z + j*spacing)*2 + 1);
 				destinationCluster.Add(new Int3(xCoord, 1, zCoord) * Int3.Precision);
 			}
 		}

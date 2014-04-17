@@ -23,6 +23,10 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     private void MouseActivity() {
         Vector3 position, position2;
 
+        if (SSInput.GetKey(playerID, SSKeyCode.DownArrow)) {
+            Debug.Log("Down arrow");
+        }
+
         if (SSInput.GetMouseClick(PlayerID, 0, out position)) {
             LeftMouseClickDown(position);
         }
@@ -67,18 +71,26 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 						selectGameObject(hitObject);
 					}
 				}
-			} else {
-				//check if player is selecting a spawn point for a new combination unit
-				if(CombinationManager.creatingCombination[playerID-1] == true) {
-					GameObject assembler = GameObject.Find("assembler" + playerID.ToString());
-					AssemblerScript script = assembler.GetComponent<AssemblerScript>();		
-					CombinationManager.spawnPoint[playerID-1] = mousePosition;
-					CombinationManager.combine(script, CombinationManager.desiredUnit[playerID-1]);
-					CombinationManager.creatingCombination[playerID-1] = false;
-				}
-				//deselect all units
-				SelectionManager.deselectAllGameObjects(PlayerID);
-			}
+            } else if (SSInput.GetKey(playerID, SSKeyCode.A) && SelectionManager.getSelectedUnits(playerID).Count > 0) { 
+                // Issue attack move
+                Vector3 destination = mousePosition;
+                if (destination != MechanicResources.InvalidPosition) {
+                    SelectionManager.moveUnits(playerID, destination);
+                    guiManager.SetDestination(destination);
+                    guiManager.SetCursorState(CursorState.Move);
+                }
+            } else {
+                //check if player is selecting a spawn point for a new combination unit
+                if (CombinationManager.creatingCombination[playerID - 1] == true) {
+                    GameObject assembler = GameObject.Find("assembler" + playerID.ToString());
+                    AssemblerScript script = assembler.GetComponent<AssemblerScript>();
+                    CombinationManager.spawnPoint[playerID - 1] = mousePosition;
+                    CombinationManager.combine(script, CombinationManager.desiredUnit[playerID - 1]);
+                    CombinationManager.creatingCombination[playerID - 1] = false;
+                }
+                //deselect all units
+                SelectionManager.deselectAllGameObjects(PlayerID);
+            }
 		}
     }
 
@@ -108,8 +120,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void LeftMouseDragSelection(Vector3 downPosition, Vector3 upPosition) {
         SelectionManager.deselectAllGameObjects(playerID);
-        SelectionManager.SetSelectedSpace(playerID, new Vector3[]
-        {
+        SelectionManager.SetSelectedSpace(playerID, new Vector3[] {
             downPosition,
             upPosition
         });
@@ -117,12 +128,10 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void selectGameObject(GameObject gameObject) {
         WorldObject worldObject = gameObject.GetComponent<WorldObject>();
-
         if (worldObject.PlayerID == playerID) {
             worldObject.setCurrentlySelected(true);
         } else {
             //select enemy object
         }
-    }
-    
+    }   
 }

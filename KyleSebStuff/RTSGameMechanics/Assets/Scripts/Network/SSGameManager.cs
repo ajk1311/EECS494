@@ -325,20 +325,26 @@ public class SSGameManager : MonoBehaviour {
 
 	/** Detects and process user input from the Unity engine */
 	void AcceptInput() {
-		if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKey(KeyCode.A)) {
+            ScheduleCommand(SSKeyCode.A);
+        }
+		if (Input.GetKey(KeyCode.Space)) {
 			ScheduleCommand(SSKeyCode.Space);
-		} else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-			ScheduleCommand(SSKeyCode.LeftArrow);
-		} else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-			ScheduleCommand(SSKeyCode.RightArrow);
-		} else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-			ScheduleCommand(SSKeyCode.UpArrow);
-		} else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-			ScheduleCommand(SSKeyCode.DownArrow);
-		} else {
-			// Handling mouse input is trickier, so it gets its own method
-			HandleMouseInput();
 		}
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+			ScheduleCommand(SSKeyCode.LeftArrow);
+		}
+        if (Input.GetKey(KeyCode.RightArrow)) {
+			ScheduleCommand(SSKeyCode.RightArrow);
+		}
+        if (Input.GetKey(KeyCode.UpArrow)) {
+			ScheduleCommand(SSKeyCode.UpArrow);
+		}
+        if (Input.GetKey(KeyCode.DownArrow)) {
+			ScheduleCommand(SSKeyCode.DownArrow);
+		}
+        // Handling mouse input is trickier, so it gets its own method
+        HandleMouseInput();
 	}
 
 	/** Detects and schedules mouse clicks and drags */
@@ -388,7 +394,7 @@ public class SSGameManager : MonoBehaviour {
 			}
 		} 
 		// Do the same for mouse 1, but ignore drags
-		else if (Input.GetMouseButtonDown(1)) {
+		if (Input.GetMouseButtonDown(1)) {
 			mMouse1Down = true;
 		} else if (Input.GetMouseButtonUp(1)) {
 			if (mMouse1Down) {
