@@ -5,14 +5,12 @@ using RTS;
 public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 	
     public int playerID;
-    public GUIManager guiManager;
 
     public int PlayerID {
         get { return playerID; }
     }
 
     void Start() {
-        guiManager = this.GetComponent<GUIManager>();
         SSGameManager.Register(this);
     }
     
@@ -22,10 +20,6 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
     private void MouseActivity() {
         Vector3 position, position2;
-
-        if (SSInput.GetKey(playerID, SSKeyCode.DownArrow)) {
-            Debug.Log("Down arrow");
-        }
 
         if (SSInput.GetMouseClick(PlayerID, 0, out position)) {
             LeftMouseClickDown(position);
@@ -44,18 +38,9 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
         if (SSInput.GetGUIClick(playerID, out position)) {
             GUIModelManager.ExecuteClick(playerID, position);
         }
-        MouseHover(position);
     }
 
-    private void MouseHover(Vector3 mousePosition) {
-        if (GUIResources.MouseInPlayingArea()) {
-            GameObject hoverObject = RTSGameMechanics.FindHitObject(mousePosition);
-            if (hoverObject) {
-                if (hoverObject.GetComponent<WorldObject>().playerID != playerID)
-                    guiManager.SetCursorState(CursorState.HoverEnemy);
-            }
-        }
-    }
+    
 
     private void LeftMouseClickDown(Vector3 mousePosition) {
         //TODO If mouse in playing area
@@ -76,8 +61,6 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                 Vector3 destination = mousePosition;
                 if (destination != MechanicResources.InvalidPosition) {
                     SelectionManager.moveUnits(playerID, destination);
-                    guiManager.SetDestination(destination);
-                    guiManager.SetCursorState(CursorState.Move);
                 }
             } else {
                 //check if player is selecting a spawn point for a new combination unit
@@ -104,15 +87,12 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 				if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
 				    (player.id != playerID && fog.enemyUnitCount > 0)) {
 					SelectionManager.attackUnit(PlayerID, target.GetComponent<WorldObject>());
-					guiManager.SetCursorState(CursorState.Attack);
-				}		
+				}
 			} else {
 				Debug.Log (mousePosition);
 				Vector3 destination = mousePosition;
 				if (destination != MechanicResources.InvalidPosition) {
 					SelectionManager.moveUnits(PlayerID, destination);
-					guiManager.SetDestination(destination);
-					guiManager.SetCursorState(CursorState.Move);
 				}
 			}
 		}
