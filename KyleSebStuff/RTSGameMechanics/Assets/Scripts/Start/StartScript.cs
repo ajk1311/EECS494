@@ -78,10 +78,10 @@ public class StartScript : MonoBehaviour {
 		if (connectionEvent.ID == 1) {
 			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
-            foreach(GameObject gameObject in orangeDefensiveTowers)
-                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
-            foreach(GameObject gameObject in magentaDefensiveTowers)
-                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
+//            foreach(GameObject gameObject in orangeDefensiveTowers)
+//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+//            foreach(GameObject gameObject in magentaDefensiveTowers)
+//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			Camera.main.transform.position = cameraStartPosition1;
 
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
@@ -90,10 +90,10 @@ public class StartScript : MonoBehaviour {
 		} else {
 			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
-            foreach(GameObject gameObject in orangeDefensiveTowers)
-                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
-            foreach(GameObject gameObject in magentaDefensiveTowers)
-                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+//            foreach(GameObject gameObject in orangeDefensiveTowers)
+//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
+//            foreach(GameObject gameObject in magentaDefensiveTowers)
+//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			Camera.main.transform.position = cameraStartPosition2;
 
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;

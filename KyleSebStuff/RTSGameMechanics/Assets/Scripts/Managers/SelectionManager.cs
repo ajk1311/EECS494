@@ -40,12 +40,13 @@ public static class SelectionManager {
 
 	public static void addSelectedGameObject(int playerID, GameObject gameObject) {
 		if(currentlySelectedObjects[playerID-1].Count == 0) {
+			currentlySelectedObjects[playerID -1].Add(gameObject);
 			CreateGUIModel(playerID, gameObject.GetComponent<WorldObject>());
 		}
 		else {
+			currentlySelectedObjects[playerID -1].Add(gameObject);
 			UpdateGUIModel(playerID, gameObject.GetComponent<WorldObject>());
 		}
-		currentlySelectedObjects[playerID -1].Add(gameObject);
     }
 
 	private static void CreateGUIModel(int playerID, WorldObject wo) {
