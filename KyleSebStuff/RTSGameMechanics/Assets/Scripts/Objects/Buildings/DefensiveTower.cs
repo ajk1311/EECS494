@@ -20,6 +20,7 @@ public class DefensiveTower : Building {
     public Transform Projectile;
 
     protected override void Start() {
+        base.Start();
     }
 
     protected override GUIModelManager.GUIModel GetGUIModel() {
