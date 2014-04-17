@@ -15,41 +15,36 @@ public class AssemblerScript : MonoBehaviour {
 	public Transform orangeHeapUnit;
 	public Transform orangeBinaryTreeUnit;
 
-	private Dictionary<string, KeyValuePair<int,int>> unitQueue;
+	private Dictionary<int, KeyValuePair<int,int>> unitQueue;
 
 	public Int3 intPosition;
 
 	void Start() {
 		intPosition = (Int3) transform.position;
-		unitQueue = new Dictionary<string, KeyValuePair<int,int>> ();
+		unitQueue = new Dictionary<int, KeyValuePair<int,int>> ();
 	}
 
-	public void addUnitToQue(string type, int amount) {
-		if(unitQueue.ContainsKey(type)) {
-			int currentAmount = unitQueue[type].Value;
-			unitQueue[type] = new KeyValuePair<int,int>(amount, currentAmount + amount);
-		}
-		else {
-			KeyValuePair<int,int>  pair2 =  new KeyValuePair<int, int>(amount,amount);
-			unitQueue.Add(type, pair2);
-		}
+	public void addUnitToQue(int combinationID, int amount) {
+		KeyValuePair<int,int>  pair2 =  new KeyValuePair<int, int>(amount,amount);
+		unitQueue.Add(combinationID, pair2);
 	}
 
-	public void createUnitBits(Vector3 pos, string desiredUnit) {
+	public void createUnitBits(Vector3 pos, string desiredUnit, int combinationID) {
 		Transform bitsUnit = Instantiate (bitsUnitPrefab, pos, transform.rotation) as Transform;
 		bitsUnit.GetComponent<UnitBitsScript>().assemblerScript = this;
 		bitsUnit.GetComponent<UnitBitsScript>().desiredUnit = desiredUnit;
 		bitsUnit.GetComponent<UnitBitsScript> ().destination = (Int3) CombinationManager.spawnPoint [playerID - 1];
+		bitsUnit.GetComponent<UnitBitsScript> ().combinationID = combinationID;
 	}
 
-	public void ReachedAssembler(string type) {
-			int factor = unitQueue[type].Key;
-			int newCurrentAmount = unitQueue[type].Value - 1;
+	public void ReachedAssembler(int id, Vector3 pos, string type) {
+		int factor = unitQueue[id].Key;
+		int newCurrentAmount = unitQueue[id].Value - 1;
 
-			unitQueue[type] = new KeyValuePair<int,int>(factor, newCurrentAmount);
+		unitQueue[id] = new KeyValuePair<int,int>(factor, newCurrentAmount);
 
-			if((newCurrentAmount % factor) == 0) {
-				buildUnit(posToBuildUnit(), type);
+		if((newCurrentAmount % factor) == 0) {
+			buildUnit(pos, type);
 		}
 	}
 
