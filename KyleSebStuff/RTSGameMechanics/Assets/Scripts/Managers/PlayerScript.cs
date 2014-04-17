@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerScript : MonoBehaviour {
+public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	public int id;
 	public string playerName;
@@ -9,30 +9,30 @@ public class PlayerScript : MonoBehaviour {
 	private int memory = 0;
 	private int maxMemory = 0;
 
-	void Start () {
+	void Start() {
 		power = 15;
         memory = 0;
         maxMemory = 30;
 	}
 
-	void Update() {
-	
-	}
+    public void GameUpdate(float deltaTime) {
+
+    }
 
     //Public Getters and Setters
     public int getPower(){
         return power;
     }
 
-    public void setPower(int power){
+    public void setPower(int power) {
         this.power = power;
     }
 
-    public int getMemory(){
+    public int getMemory() {
         return memory;
     }
 
-    public void setMemory(int memory){
+    public void setMemory(int memory) {
         this.memory = memory;
     }
 
@@ -40,7 +40,7 @@ public class PlayerScript : MonoBehaviour {
         return maxMemory;
     }
 
-    public void setMaxMemory(int maxMemory){
+    public void setMaxMemory(int maxMemory) {
         this.maxMemory = maxMemory;
     }
 }

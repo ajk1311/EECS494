@@ -26,7 +26,7 @@ public class MoveCommandCursor : MonoBehaviour {
         GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
         UpdateCursorAnimation();
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        Rect cursorPosition = new Rect(screenPosition.x, screenPosition.y, activeCursor.width, activeCursor.height);
+        Rect cursorPosition = new Rect(screenPosition.x, Screen.height - screenPosition.y, activeCursor.width, activeCursor.height);
         GUI.Label(cursorPosition, activeCursor);
         GUI.EndGroup();
     }

@@ -70,7 +70,72 @@ public class GUIManager : MonoBehaviour {
     }
 
     void Update() {
+        MouseHover();
         checkIfDragging();
+        if (!isDragging && Input.GetMouseButtonUp(1)) {
+            DoRightClick();
+        }
+    }
+
+    private void MouseHover() {
+        if (!GUIResources.MouseInPlayingArea()) {
+            return;
+        }
+        Vector3 hitPoint = RTSGameMechanics.FindHitPoint();
+        GameObject hoverObject = RTSGameMechanics.FindHitObject(hitPoint);
+        if (hoverObject != null && hoverObject.tag != "Map") {
+            WorldObject obj = hoverObject.GetComponent<WorldObject>();
+            if (obj != null && obj.playerID != player.id) {
+                SetCursorState(CursorState.HoverEnemy);
+            }
+        }
+    }
+
+    /*
+     * Drag Select GUI
+     */
+    private void checkIfDragging() {
+        if (Input.GetMouseButtonDown(0) && GUIResources.MouseInPlayingArea()) {
+            dragLocationStart = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            checkSelect = true;
+        }
+
+        if (Input.GetMouseButtonUp(0)) {
+            if (!isDragging && GUIResources.MouseInPlayingArea()) {
+                DoLeftClick();
+            }
+            checkSelect = false;
+            isDragging = false;
+        }
+
+        if (checkSelect) {
+            if (Mathf.Abs(Input.mousePosition.x - dragLocationStart.x) > 2 &&
+                Mathf.Abs(Input.mousePosition.y - dragLocationStart.y) > 2) {
+                checkSelect = false;
+                isDragging = true;
+            }
+        }
+    }
+
+    private void DoLeftClick() {
+        if (Input.GetKey(KeyCode.A) && SelectionManager.getSelectedUnits(player.id).Count > 0) {
+            SetDestination(RTSGameMechanics.FindHitPoint());
+            SetCursorState(CursorState.Move);
+        }
+    }
+
+    private void DoRightClick() {
+        Vector3 hitPoint = RTSGameMechanics.FindHitPoint();
+        GameObject target = RTSGameMechanics.FindHitObject(hitPoint);
+        if (target != null && target.tag != "Map") {
+            FogScript fog = target.GetComponent<WorldObject>().currentFogTile.GetComponent<FogScript>();
+            if (fog.friendlyUnitCount > 0) {
+                SetCursorState(CursorState.Attack);
+            }
+        } else if (Input.mousePosition != MechanicResources.InvalidPosition) {
+            SetDestination(RTSGameMechanics.FindHitPoint());
+            SetCursorState(CursorState.Move);
+        }
     }
     
     void OnGUI() {
@@ -167,10 +232,10 @@ public class GUIManager : MonoBehaviour {
             leftPos = Screen.width - activeCursor.width;
         else if (activeCursorState == CursorState.PanDown) 
             topPos = Screen.height - activeCursor.height;
-        else if (activeCursorState == CursorState.Move || activeCursorState == CursorState.Select || activeCursorState == CursorState.Capture) {
-            topPos -= activeCursor.height / 2;
-            leftPos -= activeCursor.width / 2;
-        }
+//        else if (activeCursorState == CursorState.Move || activeCursorState == CursorState.Select || activeCursorState == CursorState.Capture) {
+//            topPos -= activeCursor.height / 2;
+//            leftPos -= activeCursor.width / 2;
+//        }
         return new Rect(leftPos, topPos, activeCursor.width, activeCursor.height);
     }
 
@@ -310,29 +375,6 @@ public class GUIManager : MonoBehaviour {
         }
         GUI.DrawTexture(new Rect(iconLeft, topPos, GUIResources.IconWidth, GUIResources.IconHeight), resourceIcon);
         GUI.Label(new Rect(textLeft, topPos, GUIResources.TextWidth, GUIResources.TextHeight), text);
-    }
-
-    /*
-     * Drag Select GUI
-     */
-    private void checkIfDragging() {
-        if (Input.GetMouseButtonDown(0)) {
-            dragLocationStart = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            checkSelect = true;
-        }
-        
-        if (Input.GetMouseButtonUp(0)) {
-            checkSelect = false;
-            isDragging = false;
-        }
-        
-        if (checkSelect) {
-            if (Mathf.Abs(Input.mousePosition.x - dragLocationStart.x) > 2 && 
-                Mathf.Abs(Input.mousePosition.y - dragLocationStart.y) > 2) {
-                checkSelect = false;
-                isDragging = true;
-            }
-        }
     }
 
     public void DragBox(Vector2 topLeft, Vector2 bottomRight, GUISkin dragSkin) {

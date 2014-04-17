@@ -83,7 +83,7 @@ namespace GameServer {
 		}
 
 		private void Receiver() {
-			byte[] buf = new byte[128];
+			byte[] buf = new byte[1024];
 			while (true) {
 				int sz = mRecvSocket.Receive(buf);
 				DataPacket packet = Serializer.Deserialize<DataPacket>(new MemoryStream(buf, 0, sz));

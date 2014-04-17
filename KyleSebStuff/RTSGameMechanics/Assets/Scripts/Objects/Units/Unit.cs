@@ -11,6 +11,8 @@ public class Unit : WorldObject {
     protected bool moving = false;
 	protected bool pursuing = false;
     protected bool attacking = false;
+    protected bool attackMove = false;
+    protected bool isTargetBuilding = false;
 	protected bool idle = true;
 	public bool reloading = false;
 
@@ -69,13 +71,16 @@ public class Unit : WorldObject {
     }
 
     public void IssueAttackCommand(WorldObject target) {
-        currentTarget = target;
+        idle = false;
         pursuing = true;
+        currentTarget = target;
+        lastTargetDestination = MechanicResources.InvalidIntPosition;
     }
 
-    public void IssueMoveCommand(Vector3 destination) {
-		currentTarget = null;
-		attacking = pursuing = false;
+    public void IssueMoveCommand(Vector3 destination, bool attackMove_ = false) {
+        if (attacking || pursuing) {
+            FinishAttacking();
+        }
 		this.destination = (Int3) destination;
         StartMovement(destination);
     }
@@ -99,8 +104,11 @@ public class Unit : WorldObject {
         } else {
 			Unit unit = currentTarget.GetComponent<Unit>();
 			if (unit == null) {
-				// Target is a building, so just go to it
-				StartMovement((Vector3) currentTarget.intPosition);
+                if (!isTargetBuilding) {
+                    // Target is a building, so just go to it
+                    isTargetBuilding = true;
+                    StartMovement((Vector3)currentTarget.intPosition);
+                }
 			} else if (lastTargetDestination != unit.destination) {
 				if (TargetApproaching(unit)) {
 					StartMovement((Vector3) currentTarget.intPosition);
@@ -142,14 +150,13 @@ public class Unit : WorldObject {
     }
 
     public void ReachedDestination() {
-        pathComplete = false;
-        moving = false;
+        moving = pathComplete = attackMove = false;
         idle = true;
     }
 
 	public void FinishAttacking() {
 		idle = true;
-		moving = pursuing = attacking = false;
+		moving = pursuing = attacking = attackMove = isTargetBuilding = false;
 		lastTargetDestination = 
 			MechanicResources.InvalidIntPosition;
     }
@@ -182,7 +189,7 @@ public class Unit : WorldObject {
             }
         }
 
-		if (idle) {
+		if (idle || (attackMove && !pursuing && !attacking)) {
 			ScanForEnemies();
 		}
 

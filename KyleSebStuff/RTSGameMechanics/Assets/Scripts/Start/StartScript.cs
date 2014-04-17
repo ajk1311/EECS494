@@ -43,7 +43,7 @@ public class StartScript : MonoBehaviour {
 		SelectionManager.Init();
 		CombinationManager.Init();
 		FogOfWarManager.Init();
-//		ParseManager.Init (connectionEvent.ID, connectionEvent.gameID);
+		ParseManager.Init(connectionEvent.ID, connectionEvent.gameID);
 
 		UserInputManager myInputManager;
 		UserInputManager hisOrHerInputManager;

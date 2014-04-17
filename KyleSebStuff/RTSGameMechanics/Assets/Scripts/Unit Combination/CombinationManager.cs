@@ -10,6 +10,7 @@ public static class CombinationManager {
 	public static bool[] creatingCombination;
 	public static string[] desiredUnit;
 	public static Vector3[] spawnPoint;
+	public static int currentCombinationID;
 	
 	public static void Init() {
 		comboRef = new Dictionary<string,  List< KeyValuePair<string,int>>> ();
@@ -17,6 +18,7 @@ public static class CombinationManager {
 		desiredUnit = new string[2];
 		spawnPoint = new Vector3[2];
 		generateCombinationReference ();
+		currentCombinationID = 0;
 	}
 	
 	public static List<KeyValuePair<string,int>> getAvailableCombinations(int playerID) {
@@ -34,6 +36,8 @@ public static class CombinationManager {
 	}
 
 	public static bool combine(AssemblerScript script, string desiredUnit) {
+		currentCombinationID++;
+
 		int playerID = script.playerID;
 
 		List<GameObject> selectedUnits = SelectionManager.getSelectedUnits(playerID);
@@ -63,7 +67,7 @@ public static class CombinationManager {
 		}
 
 		//Que a Unit for Assembler to Start looking to Create
-		script.addUnitToQue (desiredUnit, unitCount);
+		script.addUnitToQue (currentCombinationID, unitCount);
 
 		foreach(GameObject obj in comboUnits) {
 			//Save position of Unit
@@ -73,7 +77,7 @@ public static class CombinationManager {
 			GameObject.Destroy(obj);
 
 			//Instantiate unitBits with position of destroyed unit
-			script.createUnitBits(pos, desiredUnit);
+			script.createUnitBits(pos, desiredUnit, currentCombinationID);
 		}
 
 		return true;

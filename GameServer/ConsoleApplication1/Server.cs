@@ -3,8 +3,10 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Parse;
 using ProtoBuf;
 using SSProtoBufs;
 
@@ -19,6 +21,8 @@ namespace GameServer {
         static readonly int SOCKET_TIMEOUT = 5000; // ms
 
         static void Main(string[] args) {
+            ParseClient.Initialize("hGJD7LejehsZm6DDuMftsJF2p06hvTe6WiiW6yrl", 
+                "pCA8EV5cleqiPn3adFC5aJIDuH22AVt1qt9t63DN");
             try {
                 TcpListener tcpListener = new TcpListener(GetLocalIP(), SERVER_PORT);
                 tcpListener.Start();
@@ -133,6 +137,18 @@ namespace GameServer {
 			// Determine the random seed that both players will use
 			int randomSeed = new Random().Next();
 
+            // Create a new game object on Parse and tell the players about the id
+            ParseQuery<ParseObject> games = ParseObject.GetQuery("GameID");
+            int newGameID = 0;
+            games.CountAsync().ContinueWith(t => {
+                int count = t.Result;
+                newGameID = count + 1;
+            }).Wait();
+
+            ParseObject newGame = new ParseObject("GameID");
+            newGame["ID"] = newGameID;
+            newGame.SaveAsync().Wait();
+
             // Send the game host his/her necessary information
             using (Socket hostSocket = incomingSocket)
 			using (NetworkStream hostStream = new NetworkStream(hostSocket)) {
@@ -143,7 +159,8 @@ namespace GameServer {
 					playerID = 1,
 					opponentID = 2,
 					isHost = true,
-					seed = randomSeed
+					seed = randomSeed,
+                    gameID = newGameID
 				};
 				Console.WriteLine("Sending info about " + waiting.info.name + " to " + incoming.name);
 				Serializer.SerializeWithLengthPrefix(hostStream, hostInfo, PrefixStyle.Base128);
@@ -160,7 +177,8 @@ namespace GameServer {
 					playerID = 2,
 					opponentID = 1,
 					isHost = false,
-					seed = randomSeed
+					seed = randomSeed,
+                    gameID = newGameID
 				};
 				Console.WriteLine("Sending info about " + incoming.name + " to " + waiting.info.name);
 				Serializer.SerializeWithLengthPrefix(clientStream, clientInfo, PrefixStyle.Base128);

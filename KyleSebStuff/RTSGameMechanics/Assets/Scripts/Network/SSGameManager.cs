@@ -174,7 +174,6 @@ public class SSGameManager : MonoBehaviour {
 		mFramesPerTick = mLatency;
 		mFrameLength = 0f;
 		mFrameMaxLength = DefaultFrameLength;
-		Debug.Log("mFrameMaxLength=" + mFrameMaxLength);
 
 
 		mPlayerCmds = new Dictionary<int,Queue<Command>>();
@@ -326,20 +325,26 @@ public class SSGameManager : MonoBehaviour {
 
 	/** Detects and process user input from the Unity engine */
 	void AcceptInput() {
-		if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKey(KeyCode.A)) {
+            ScheduleCommand(SSKeyCode.A);
+        }
+		if (Input.GetKey(KeyCode.Space)) {
 			ScheduleCommand(SSKeyCode.Space);
-		} else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-			ScheduleCommand(SSKeyCode.LeftArrow);
-		} else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-			ScheduleCommand(SSKeyCode.RightArrow);
-		} else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-			ScheduleCommand(SSKeyCode.UpArrow);
-		} else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-			ScheduleCommand(SSKeyCode.DownArrow);
-		} else {
-			// Handling mouse input is trickier, so it gets its own method
-			HandleMouseInput();
 		}
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+			ScheduleCommand(SSKeyCode.LeftArrow);
+		}
+        if (Input.GetKey(KeyCode.RightArrow)) {
+			ScheduleCommand(SSKeyCode.RightArrow);
+		}
+        if (Input.GetKey(KeyCode.UpArrow)) {
+			ScheduleCommand(SSKeyCode.UpArrow);
+		}
+        if (Input.GetKey(KeyCode.DownArrow)) {
+			ScheduleCommand(SSKeyCode.DownArrow);
+		}
+        // Handling mouse input is trickier, so it gets its own method
+        HandleMouseInput();
 	}
 
 	/** Detects and schedules mouse clicks and drags */
@@ -352,8 +357,8 @@ public class SSGameManager : MonoBehaviour {
 		} else if (Input.GetMouseButtonUp(0)) {
 			if (mMouse0Down) {
 				// If we were tracking mouse 0
-				if (Mathf.Abs (Input.mousePosition.x - mMouse0DownVector.x) > 2 &&
-				    Mathf.Abs (Input.mousePosition.y - mMouse0DownVector.y) > 2) {
+				if (Mathf.Abs(Input.mousePosition.x - mMouse0DownVector.x) > 2 &&
+				    Mathf.Abs(Input.mousePosition.y - mMouse0DownVector.y) > 2) {
 					/* If the user dragged the mouse the allowed distance from the start,
 					 * then the action is considered a drag */
 					float padding = GUIResources.GetScaledPixelSize(4);
@@ -389,7 +394,7 @@ public class SSGameManager : MonoBehaviour {
 			}
 		} 
 		// Do the same for mouse 1, but ignore drags
-		else if (Input.GetMouseButtonDown(1)) {
+		if (Input.GetMouseButtonDown(1)) {
 			mMouse1Down = true;
 		} else if (Input.GetMouseButtonUp(1)) {
 			if (mMouse1Down) {
