@@ -95,11 +95,12 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 					guiManager.SetCursorState(CursorState.Attack);
 				}		
 			} else {
+				Debug.Log (mousePosition);
 				Vector3 destination = mousePosition;
 				if (destination != MechanicResources.InvalidPosition) {
 					SelectionManager.moveUnits(PlayerID, destination);
-					guiManager.SetCursorState(CursorState.Move);
 					guiManager.SetDestination(destination);
+					guiManager.SetCursorState(CursorState.Move);
 				}
 			}
 		}
