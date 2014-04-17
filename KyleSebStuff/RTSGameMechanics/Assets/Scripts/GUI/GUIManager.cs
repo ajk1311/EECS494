@@ -163,10 +163,10 @@ public class GUIManager : MonoBehaviour {
             leftPos = Screen.width - activeCursor.width;
         else if (activeCursorState == CursorState.PanDown) 
             topPos = Screen.height - activeCursor.height;
-        else if (activeCursorState == CursorState.Move || activeCursorState == CursorState.Select || activeCursorState == CursorState.Capture) {
-            topPos -= activeCursor.height / 2;
-            leftPos -= activeCursor.width / 2;
-        }
+//        else if (activeCursorState == CursorState.Move || activeCursorState == CursorState.Select || activeCursorState == CursorState.Capture) {
+//            topPos -= activeCursor.height / 2;
+//            leftPos -= activeCursor.width / 2;
+//        }
         return new Rect(leftPos, topPos, activeCursor.width, activeCursor.height);
     }
 
