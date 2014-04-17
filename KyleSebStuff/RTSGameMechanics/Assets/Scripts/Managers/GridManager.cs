@@ -166,14 +166,14 @@ public static class GridManager {
 		int edgeLength = Mathf.CeilToInt(Mathf.Sqrt (unitCount));
 		List<Int3> destinationCluster = new List<Int3> ();
 		int x = Mathf.Max((destination.x / 2 / Int3.Precision) - edgeLength/2, 0);
-		int z = Mathf.Max(destination.z / 2 / Int3.Precision - edgeLength/2, 0);
+		int z = Mathf.Max((destination.z / 2 / Int3.Precision) - edgeLength/2, 0);
 
 		int xCoord = 0;
 		int zCoord = 0;
 		for(int i = 0; i < edgeLength; i++) {
 			for(int j = 0; j < edgeLength; j++) {
-				xCoord = Mathf.Min(400, (x + i*spacing)*2 + 1);
-				zCoord = Mathf.Min(200, (z + j*spacing)*2 + 1);
+				xCoord = Mathf.Min(800, (x + i*spacing)*2 + 1);
+				zCoord = Mathf.Min(400, (z + j*spacing)*2 + 1);
 				destinationCluster.Add(new Int3(xCoord, 1, zCoord) * Int3.Precision);
 			}
 		}
