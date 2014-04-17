@@ -36,23 +36,6 @@ public static class SelectionManager {
         return currentlySelectedObjects [playerID - 1].Count;
     }
 
-    public static void addSelectedGameObject(int playerID, GameObject gameObject) {
-        if (currentlySelectedObjects [playerID - 1].Count == 0) {
-            CreateGUIModel(playerID, gameObject.GetComponent<WorldObject>());
-        } else {
-            UpdateGUIModel(playerID, gameObject.GetComponent<WorldObject>());
-        }
-        currentlySelectedObjects [playerID - 1].Add(gameObject);
-    }
-
-    private static void CreateGUIModel(int playerID, WorldObject wo) {
-        selectionModels [playerID - 1] = new GUIModelManager.GUIModel();
-        selectionModels [playerID - 1].leftPanelColumns = 1;
-        selectionModels [playerID - 1].centerPanelColumns = 4;
-        UpdateGUIModel(playerID, wo);
-        GUIModelManager.SetCurrentModel(playerID, selectionModels [playerID - 1]);
-    }
-
 	public static void addSelectedGameObject(int playerID, GameObject gameObject) {
 		if(currentlySelectedObjects[playerID-1].Count == 0) {
 			currentlySelectedObjects[playerID -1].Add(gameObject);
