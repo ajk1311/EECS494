@@ -325,6 +325,9 @@ public class SSGameManager : MonoBehaviour {
 
 	/** Detects and process user input from the Unity engine */
 	void AcceptInput() {
+        if (Input.GetKey(KeyCode.A)) {
+            ScheduleCommand(SSKeyCode.A);
+        }
 		if (Input.GetKey(KeyCode.Space)) {
 			ScheduleCommand(SSKeyCode.Space);
 		}

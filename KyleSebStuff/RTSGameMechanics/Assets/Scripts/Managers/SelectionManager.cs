@@ -97,18 +97,14 @@ public static class SelectionManager {
         }
     }
 
-	public static void moveUnits(int playerID, Vector3 destination) {
+	public static void moveUnits(int playerID, Vector3 destination, bool attackMove = false) {
 		List<GameObject> selectedUnits = currentlySelectedObjects [playerID - 1];
 		List<Int3> destinationCluster = GridManager.GetDestinationCluster ((Int3) destination, selectedUnits.Count);
 		for(int i = 0; i < selectedUnits.Count; i++) {
 			if(selectedUnits[i] != null) {
-				selectedUnits[i].GetComponent<Unit>().IssueMoveCommand((Vector3)destinationCluster[i]);
+				selectedUnits[i].GetComponent<Unit>().IssueMoveCommand((Vector3)destinationCluster[i], attackMove);
 			}
 		}
-
-//		foreach( GameObject obj in selectedUnits) {
-//			obj.GetComponent<Unit>().IssueMoveCommand(destination);
-//		}
     }
 
 	public static void attackUnit(int playerID, WorldObject target) {

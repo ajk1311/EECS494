@@ -11,6 +11,7 @@ public class Unit : WorldObject {
     protected bool moving = false;
 	protected bool pursuing = false;
     protected bool attacking = false;
+    protected bool attackMove = false;
 	protected bool idle = true;
 	public bool reloading = false;
 
@@ -73,8 +74,9 @@ public class Unit : WorldObject {
         pursuing = true;
     }
 
-    public void IssueMoveCommand(Vector3 destination) {
+    public void IssueMoveCommand(Vector3 destination, bool attackMove_ = false) {
 		currentTarget = null;
+        attackMove = attackMove_;
 		attacking = pursuing = false;
 		this.destination = (Int3) destination;
         StartMovement(destination);
@@ -182,7 +184,7 @@ public class Unit : WorldObject {
             }
         }
 
-		if (idle) {
+		if (idle || attackMove) {
 			ScanForEnemies();
 		}
 
