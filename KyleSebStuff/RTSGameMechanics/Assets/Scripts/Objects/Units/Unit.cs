@@ -184,7 +184,7 @@ public class Unit : WorldObject {
             }
         }
 
-		if (idle || attackMove) {
+		if (idle || (attackMove && !pursuing && !attacking)) {
 			ScanForEnemies();
 		}
 
