@@ -103,7 +103,7 @@ public class CPU : DestructableBuilding {
 		// TODO check resources
         Debug.Log("Produce cube clicked");
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Cube", "CPU");
-		Int3 spawnPosition = intPosition + spawnOffset;
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		Debug.Log ("free space is: " + spawnPosition);
 		cube.GetComponent<WorldObject>().playerID = PlayerID;
@@ -112,7 +112,7 @@ public class CPU : DestructableBuilding {
 	void ProduceSphere() {
 		// TODO check resources
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 2);
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
 	}
