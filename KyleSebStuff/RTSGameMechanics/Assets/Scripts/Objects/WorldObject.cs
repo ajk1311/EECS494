@@ -58,7 +58,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		GridManager.UpdatePosition(intPosition, this);
 		currentFogTile = FogOfWarManager.getMyFogTile (intPosition);
 		FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, playerID);
-		objectRenderer = GetComponentInChildren<Renderer>();
+//		objectRenderer = GetComponentInChildren<Renderer>();
     }
 
 	protected virtual void OnDestroy() {
@@ -119,12 +119,12 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 			currentFogTile = fogTileCheck;
 		}
 
-		if(FogOfWarManager.isVisible(currentFogTile, playerID)) {
-			objectRenderer.enabled = true;
-		}
-		else {
-			objectRenderer.enabled = false;
-		}
+//		if(FogOfWarManager.isVisible(currentFogTile, playerID)) {
+//			objectRenderer.enabled = true;
+//		}
+//		else {
+//			objectRenderer.enabled = false;
+//		}
 	}
 
 //  public virtual void SetHoverState(GameObject hoverObject) {

@@ -24,6 +24,7 @@ public class StartScript : MonoBehaviour {
     public Object orangeDefensiveTower;
     public Object magentaDefensiveTower;
 	public Object assembler;
+	public Object captureTower;
 
 	public WorldObject[] objs;
 
@@ -100,6 +101,8 @@ public class StartScript : MonoBehaviour {
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
 
 		}
+
+//		GameObject dogwaffle = (GameObject)Instantiate (captureTower);
 
 		SSGameSetup.Ready(connectionEvent.ID);
 	}

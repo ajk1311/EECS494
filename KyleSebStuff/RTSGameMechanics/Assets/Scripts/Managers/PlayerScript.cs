@@ -24,6 +24,9 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	public Dictionary<string, int> unitCostRef;
 	public Dictionary<string, int> unitCooldownRef;
 	public Dictionary<string, int> unitMemoryRef;
+	public Dictionary<string, int> tierUpgradeCostRef;
+
+	private int currentTierIndex;
 
 	void Start() {
 		power = 15;
@@ -39,6 +42,8 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		defaultPowerPerCycle = 5;
 
 		currentTime = 0;
+
+		currentTierIndex = 1;
 
 		createUnitCostRef ();
 		createUnitCooldownRef ();
@@ -124,6 +129,13 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		unitMemoryRef.Add("OrangeBinaryTreeUnit", 1);
 		unitMemoryRef.Add("OrangeHeapUnit", 1);
 		unitMemoryRef.Add("OrangeStaticUnit", 1);
+	}
+
+	public void createTierUpgradeCostRef() {
+		tierUpgradeCostRef = new Dictionary<string, int> ();
+
+		tierUpgradeCostRef.Add ("Tier2", 30);
+		tierUpgradeCostRef.Add ("Tier3", 50);
 	}
 
     //Public Getters and Setters
@@ -226,5 +238,30 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		if(power > maxPower) {
 			power = maxPower;
 		}
+	}
+
+	//Technology Funcitons
+	public int getTierCost(string tier) {
+		return tierUpgradeCostRef [tier];
+	}
+
+
+
+	public bool upgradeTier() {
+		string nextTier = "Tier" + currentTierIndex;
+		int cost = getTierCost(nextTier);
+		int powerCheck = power - cost;
+
+		if(powerCheck >= 0) {
+			power = powerCheck;
+			currentTierIndex++;
+			return true;
+		}
+
+		return false;
+	}
+
+	public string getCurrentTier() {
+		return ("Tier" + currentTierIndex);
 	}
 }

@@ -32,9 +32,9 @@ public class CaptureBuilding : Building {
 		player1OwnsTower = false;
 		player2OwnsTower = false;
 
-		timeToCapture = 5;
+		timeToCapture = 10;
 
-		playerID = 0;
+		playerID = 1;
 
 		Camera.main.ScreenPointToRay (Vector2.zero);
 	}
@@ -46,6 +46,10 @@ public class CaptureBuilding : Building {
 	public override void GameUpdate (float deltaTime)
 	{
 		base.GameUpdate (deltaTime);
+
+
+
+		getCurrentUnitCounts ();
 
 		//Player1 Is in Control
 		if(player1UnitCount > 0 && player2UnitCount == 0) {
@@ -116,6 +120,9 @@ public class CaptureBuilding : Building {
 				player2UnitCount++;
 			}
 		}
+
+		Debug.Log ("Player1Counts" + player1UnitCount);
+		Debug.Log ("Player2Counts" + player2UnitCount);
 	}
 
 	private void setBuffForPlayer(int playerID) {
