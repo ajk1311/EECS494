@@ -211,6 +211,9 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	public void updateMemoryUnitDied(string unitName) {
 		memory -= unitMemoryRef [unitName];
+		if(memory <= 0) {
+			memory = 0;
+		}
 	}
 
 	public void combinationMemoryUpdate(string unitName) {
