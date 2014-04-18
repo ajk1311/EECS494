@@ -139,7 +139,7 @@ public class GUIManager : MonoBehaviour {
     }
     
     void OnGUI() {
-//        DrawOrdersBar();
+        DrawOrdersBar();
         DrawCurrentGUIModel();
         DrawResourceBar();
         DrawMouseCursor();
