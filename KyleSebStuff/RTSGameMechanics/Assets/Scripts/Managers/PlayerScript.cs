@@ -208,8 +208,12 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		}
 	}
 
-	public void updateMemory(string unitName) {
-		memory++;
+	public void updateMemoryUnitDied(string unitName) {
+		memory -= unitMemoryRef [unitName];
+	}
+
+	public void combinationMemoryUpdate(string unitName) {
+		memory += unitMemoryRef [unitName];
 	}
 
 	//Power Functions

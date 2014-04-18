@@ -251,4 +251,14 @@ public class Unit : WorldObject {
 			lastTargetDestination = MechanicResources.InvalidIntPosition;
 		}
 	}
+
+	protected virtual void OnDestroy() {
+		base.OnDestroy ();
+		if(GameObject.Find("Player").GetComponent<PlayerScript>().id == playerID) {
+			GameObject.Find("Player").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
+		}
+		else {
+			GameObject.Find("Opponent").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
+		}
+	}
 }
