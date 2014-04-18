@@ -74,6 +74,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		}
 		GridManager.RemoveFromGrid(this);
 		SSGameManager.Unregister(this);
+		GameObject.Find ("MapCenter").GetComponent<MapManager> ().unregister (marker);
 		FogOfWarManager.updateFogTileUnitCount (currentFogTile, null, playerID);
 	}
 

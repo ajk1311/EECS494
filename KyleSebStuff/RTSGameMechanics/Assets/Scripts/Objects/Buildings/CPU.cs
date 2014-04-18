@@ -118,6 +118,6 @@ public class CPU : DestructableBuilding {
 	}
 
 	void ProduceRandomUnit() {
-		// TODO random unit
+		int unit = Bellagio.gambleUnit(playerID);
 	}
 }
