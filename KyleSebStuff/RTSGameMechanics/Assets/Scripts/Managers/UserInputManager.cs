@@ -61,7 +61,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                 // Issue attack move
                 Vector3 destination = mousePosition;
                 if (destination != MechanicResources.InvalidPosition) {
-                    SelectionManager.moveUnits(playerID, destination);
+                    SelectionManager.moveUnits(playerID, destination, true);
                 }
             } else {
                 //check if player is selecting a spawn point for a new combination unit

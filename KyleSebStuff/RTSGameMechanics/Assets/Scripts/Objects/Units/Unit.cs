@@ -45,9 +45,14 @@ public class Unit : WorldObject {
 	public int pursuitRadius;
     public float reloadSpeed;
     public float attentionRange;
+	public int damageInflicted;
+
+	// Used for reloading
+    private float cooldownTime;
 
     protected override void Start() {
         base.Start();
+        cooldownTime = 0;
 		destination = intPosition;
 		intDirection = Int3.zero;
 		seeker = GetComponent<Seeker>();
@@ -187,6 +192,15 @@ public class Unit : WorldObject {
             } else {
                 FinishAttacking();
             }
+        }
+
+        if (reloading) {
+        	cooldownTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
+			if (cooldownTime >= (int) System.Math.Round(reloadSpeed * Int3.FloatPrecision)) {
+				reloading = false;
+				cooldownTime = 0;
+				Reload();
+			}
         }
 
 		if (idle || (attackMove && !pursuing && !attacking)) {
