@@ -35,7 +35,7 @@ namespace RTS {
 
 		public static bool MouseInPlayingArea() {
 			//Screen coordinates start in the lower-left corner of the screen
-			//not the top-right of the screen like the drawing coordinates do
+			//not the top-left of the screen like the drawing coordinates do
 			Vector3 mousePos = Input.mousePosition;
 			bool insideWidth = mousePos.x >= 0 && mousePos.x <= Screen.width;
 			bool insideHeight = mousePos.y >= OrdersBarHeight && mousePos.y <= Screen.height;

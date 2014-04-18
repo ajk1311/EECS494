@@ -42,8 +42,8 @@ public class GUIManager : MonoBehaviour {
     private bool checkSelect = false;
     private static bool isDragging = false;
 
-	Vector2 scrollPositionLeft = Vector2.zero;
-	Vector2 scrollPositionCenter = Vector2.zero;
+	private static Vector2 scrollPositionLeft = Vector2.zero;
+	private static Vector2 scrollPositionCenter = Vector2.zero;
 
 
     public static bool Dragging {
@@ -266,88 +266,57 @@ public class GUIManager : MonoBehaviour {
         if (currentGUIModel == null) {
             return;
         }
+		
+		float panelWidth = Screen.width / 3;
+		float outerPadding = GUIResources.GetScaledPixelSize(16);
+		float buttonHeight = GUIResources.GetScaledPixelSize(48);
 
-        if (!currentGUIModel.cached) {
-            float panelWidth = Screen.width / 3;
+		float innerPadding = GUIResources.GetScaledPixelSize(4);
+		float buttonMinWidth = GUIResources.GetScaledPixelSize(100);
 
-            float innerPadding = GUIResources.GetScaledPixelSize(2);
-            float verticalPadding = GUIResources.GetScaledPixelSize(24);
-            float horizontalPadding = GUIResources.GetScaledPixelSize(36);
-            
-            float buttonHeight = GUIResources.GetScaledPixelSize(48);
-            float buttonMinWidth = GUIResources.GetScaledPixelSize(100);
-            
-            float leftButtonWidth = (panelWidth - 1.5f * horizontalPadding - innerPadding * (currentGUIModel.leftPanelColumns - 1)) / currentGUIModel.leftPanelColumns;
-            float centerButtonWidth = (panelWidth - horizontalPadding - innerPadding * (currentGUIModel.leftPanelColumns - 1)) / currentGUIModel.centerPanelColumns;
+		float leftButtonWidth = (panelWidth - 1.5f * outerPadding - innerPadding * (currentGUIModel.leftPanelColumns - 1)) / currentGUIModel.leftPanelColumns;
+		float centerButtonWidth = (panelWidth - outerPadding - innerPadding * (currentGUIModel.leftPanelColumns - 1)) / currentGUIModel.centerPanelColumns;
 
-            float initialX = horizontalPadding;
-            float initialY = Screen.height - GUIResources.OrdersBarHeight + verticalPadding;
-//			float initialX = horizontalPadding;
-//			float initialY = verticalPadding;
+		float initX = outerPadding;
+		float initY = Screen.height - GUIResources.OrdersBarHeight + outerPadding;
 
-            for (int i = 0, len = currentGUIModel.leftPanelButtons.Count; i < len; i++) {
-                int row = i / currentGUIModel.leftPanelColumns;
-                int column = i % currentGUIModel.leftPanelColumns;
-                float buttonX = initialX + column * leftButtonWidth + (column > 0 ? innerPadding : 0);
-                float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
-                currentGUIModel.leftPanelButtons [i].rect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
-            }
-
-            initialX = panelWidth + horizontalPadding / 2;
-//			initialX = horizontalPadding/2;
-            for (int i = 0, len = currentGUIModel.centerPanelButtons.Count; i < len; i++) {
-                int row = i / currentGUIModel.centerPanelColumns;
-                int column = i % currentGUIModel.centerPanelColumns;
-                float buttonX = initialX + column * centerButtonWidth + (column > 0 ? innerPadding : 0);
-                float buttonY = initialY + row * buttonHeight + (row > 0 ? innerPadding : 0);
-                currentGUIModel.centerPanelButtons [i].rect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
-                
-            }
-
-            currentGUIModel.cached = true;
-        }
-
-        GUIModelManager.Button temp;
-
-		////////////////
-		/// public Vector2 scrollPosition = Vector2.zero;
-		/// void OnGUI() {
-		///	scrollPosition = GUI.BeginScrollView(new Rect(10, 300, 100, 100), scrollPosition, new Rect(0, 0, 220, 200));
-		//////////////// 
-		float initX = GUIResources.GetScaledPixelSize(36);
-		float initY = Screen.height - GUIResources.OrdersBarHeight + GUIResources.GetScaledPixelSize(24);
-		float bheight = GUIResources.GetScaledPixelSize(48);
-
-        //draw left panel icons
-		scrollPositionLeft = GUI.BeginScrollView(new Rect(initX, initY, Screen.width/3, Screen.height - initY), scrollPositionLeft, new Rect(0, 0, Screen.width/3, (currentGUIModel.leftPanelButtons.Count/currentGUIModel.leftPanelColumns)*bheight));
-        for (int i = 0, len = currentGUIModel.leftPanelButtons.Count; i < len; i++) {
-            temp = currentGUIModel.leftPanelButtons [i];
-            if (temp.text != null) {
-				Debug.Log("Screen height is: " + Screen.height);
-				Debug.Log("Screen width is: " + Screen.width);
-				Debug.Log ("xpos is: " + temp.rect.xMin);
-				Debug.Log ("ypos is: " + temp.rect.yMin);
-				GUI.Button(new Rect(temp.rect.xMin - initX, temp.rect.yMin - initY, temp.rect.width, temp.rect.height), temp.text); 
-//                GUI.Button(temp.rect, temp.text);
-            } else {
-				GUI.Button(new Rect(temp.rect.xMin - initX, temp.rect.yMin - initY, temp.rect.width, temp.rect.height), temp.icon); 
-//                GUI.Button(temp.rect, temp.icon);
-            }
-        }
+		//draw left panel icons
+		scrollPositionLeft = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight),
+		                                         scrollPositionLeft, 
+		                                         new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.leftPanelButtons.Count / currentGUIModel.leftPanelColumns) * buttonHeight));
+		for (int i = 0, len = currentGUIModel.leftPanelButtons.Count; i < len; i++) {
+			int row = i / currentGUIModel.leftPanelColumns;
+			int column = i % currentGUIModel.leftPanelColumns;
+			float buttonX = column * leftButtonWidth + (column > 0 ? innerPadding : 0);
+			float buttonY = row * buttonHeight + (row > 0 ? innerPadding : 0);
+			Rect drawRect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
+			if (currentGUIModel.leftPanelButtons[i].text != null) {
+				GUI.Button(drawRect, currentGUIModel.leftPanelButtons[i].text);
+			} else {
+				GUI.Button(drawRect, currentGUIModel.leftPanelButtons[i].icon);
+			}
+			currentGUIModel.leftPanelButtons[i].rect = new Rect(initX + buttonX, initY + buttonY, leftButtonWidth, buttonHeight);
+		}
 		GUI.EndScrollView();
-        //draw center panel icons
-		initX = Screen.width/3 + GUIResources.GetScaledPixelSize(36)/2;
-		scrollPositionCenter = GUI.BeginScrollView(new Rect(initX, initY, Screen.width/3, Screen.height - initY), scrollPositionCenter, new Rect(0, 0, Screen.width/3, (currentGUIModel.centerPanelButtons.Count/currentGUIModel.centerPanelColumns)*bheight));
-        for (int i = 0, len = currentGUIModel.centerPanelButtons.Count; i < len; i++) {
-            temp = currentGUIModel.centerPanelButtons [i];
-            if (temp.text != null) {
-				GUI.Button(new Rect(temp.rect.xMin - initX, temp.rect.yMin - initY, temp.rect.width, temp.rect.height), temp.text); 
-//                GUI.Button(temp.rect, temp.text);
-            } else {
-				GUI.Button(new Rect(temp.rect.xMin - initX, temp.rect.yMin - initY, temp.rect.width, temp.rect.height), temp.icon);
-//                GUI.Button(temp.rect, temp.icon);
-            }
-        }
+		
+		//draw center panel icons
+		initX = panelWidth + outerPadding;
+		scrollPositionCenter = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight), 
+		                                           scrollPositionCenter, 
+		                                           new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.centerPanelButtons.Count / currentGUIModel.centerPanelColumns) * buttonHeight));
+		for (int i = 0, len = currentGUIModel.centerPanelButtons.Count; i < len; i++) {
+			int row = i / currentGUIModel.centerPanelColumns;
+			int column = i % currentGUIModel.centerPanelColumns;
+			float buttonX = column * centerButtonWidth + (column > 0 ? innerPadding : 0);
+			float buttonY = row * buttonHeight + (row > 0 ? innerPadding : 0);
+			Rect drawRect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
+			if (currentGUIModel.centerPanelButtons[i].text != null) {
+				GUI.Button(drawRect, currentGUIModel.centerPanelButtons[i].text);
+			} else {
+				GUI.Button(drawRect, currentGUIModel.centerPanelButtons[i].icon);
+			}
+			currentGUIModel.centerPanelButtons[i].rect = new Rect(initX + buttonX, initY + buttonY, centerButtonWidth, buttonHeight);
+		}
 		GUI.EndScrollView ();
     }
     
@@ -399,17 +368,20 @@ public class GUIManager : MonoBehaviour {
 
         int[] button = new int[2];
         Vector2 mousePos2D = new Vector2(mousePos.x, Screen.height - mousePos.y);
+
+		Vector2 mousePosLeft = mousePos2D + scrollPositionLeft;
         for (int i = 0; i < currentGUIModel.leftPanelButtons.Count; i++) {
-            if (currentGUIModel.leftPanelButtons [i].rect.Contains(mousePos2D)) {
-                button [0] = 0;
+			if (currentGUIModel.leftPanelButtons [i].rect.Contains(mousePosLeft)) {
+				button [0] = 0;
                 button [1] = i;
                 return button;
             }
         }
 
+		Vector2 mousePosCenter = mousePos2D + scrollPositionCenter;
         for (int i = 0; i < currentGUIModel.centerPanelButtons.Count; i++) {
-            if (currentGUIModel.centerPanelButtons [i].rect.Contains(mousePos2D)) {
-                button [0] = 1;
+			if (currentGUIModel.centerPanelButtons [i].rect.Contains(mousePosCenter)) {
+				button [0] = 1;
                 button [1] = i;
                 return button;
             }
