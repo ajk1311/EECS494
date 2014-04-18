@@ -42,6 +42,7 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 		createUnitCostRef ();
 		createUnitCooldownRef ();
+		createUnitMemoryRef ();
 	}
 
     public void GameUpdate(float deltaTime) {
