@@ -19,16 +19,41 @@ public class CameraControl : MonoBehaviour {
     public Vector3 RightBottomCorner;
     public GUIManager guiManager;
     private bool Panning;
+	private bool goingToBase;
+	public float speed;
+
+	private Vector3 startPosition;
+
+	public Vector3 StartPosition {
+		get {
+			return startPosition;
+		}
+		set {
+			startPosition = value;
+			transform.position = startPosition;
+		}
+	}
 
     void Start() {
+		speed = 6;
         MapHeight = RTSGameMechanics.GetMapSizes().z;
         MapWidth = RTSGameMechanics.GetMapSizes().x;
     }
 
     void Update() {
         MoveCamera();
-        if (!Panning)
-            guiManager.SetCursorState(CursorState.Select);
+        if (!Panning) {
+			guiManager.SetCursorState(CursorState.Select);
+		}
+		if (Input.GetKeyDown(KeyCode.B) && !goingToBase) {
+			goingToBase = true;
+		}
+		if (goingToBase) {
+			transform.position = Vector3.Lerp(transform.position, startPosition, speed * Time.deltaTime);
+			if (Vector3.Distance(transform.position, startPosition) < 0.2f) {
+				goingToBase = false;
+			}
+		}
     }
     
     private void MoveCamera() {

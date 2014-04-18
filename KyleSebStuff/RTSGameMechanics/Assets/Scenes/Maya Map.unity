@@ -1332,6 +1332,7 @@ MonoBehaviour:
   RightTopCorner: {x: 0, y: 0, z: 0}
   RightBottomCorner: {x: 0, y: 0, z: 0}
   guiManager: {fileID: 471585559}
+  speed: 0
 --- !u!54 &645879595
 Rigidbody:
   m_ObjectHideFlags: 0
