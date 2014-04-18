@@ -327,7 +327,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 2000000, guid: c75562d9d0725430fa113db844d4d429, type: 2}
       propertyPath: m_NormalizedViewPortRect.width
-      value: .319999993
+      value: .270000011
       objectReference: {fileID: 0}
     - target: {fileID: 2000000, guid: c75562d9d0725430fa113db844d4d429, type: 2}
       propertyPath: m_NormalizedViewPortRect.height
@@ -2816,7 +2816,7 @@ Camera:
     serializedVersion: 2
     x: .709999979
     y: 0
-    width: .319999993
+    width: .270000011
     height: .230000004
   near clip plane: .300000012
   far clip plane: 51
