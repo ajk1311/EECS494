@@ -2,6 +2,7 @@
 using System.Collections;
 using RTS;
 using Pathfinding;
+using MyMinimap;
 
 public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManager.IWorldObjectProperties {
 	
@@ -23,6 +24,10 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 	public GameObject currentFogTile;
 
 	public Renderer objectRenderer;
+
+	public MapMarker marker;
+	public Texture magentaTexture;
+	public Texture orangeTexture;
 
 	public int ID {
 		get { return uid; }
@@ -55,6 +60,8 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		intPosition = new Int3(transform.position);
 		lastPosition = intPosition;
 		SSGameManager.Register(this);
+		marker = new MapMarker (this.gameObject, playerID == 1? orangeTexture : magentaTexture);
+		GameObject.Find ("MapCenter").GetComponent<MapManager> ().register (marker);
 		GridManager.UpdatePosition(intPosition, this);
 		currentFogTile = FogOfWarManager.getMyFogTile (intPosition);
 		FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, playerID);
