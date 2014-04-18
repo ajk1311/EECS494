@@ -91,14 +91,14 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		unitCooldownRef.Add("OrangeLongUnit", 1);
 		
 		//Tier 2 Magenta Unit Costs
-		unitCostRef.Add("MagentaBinaryTreeUnit", 3);
-		unitCostRef.Add("MagentaHeapUnit", 3);
-		unitCostRef.Add("MagentaStaticUnit", 3);
+		unitCooldownRef.Add("MagentaBinaryTreeUnit", 3);
+		unitCooldownRef.Add("MagentaHeapUnit", 3);
+		unitCooldownRef.Add("MagentaStaticUnit", 3);
 		
 		//tier 2 Orange Unit Costs
-		unitCostRef.Add("OrangeBinaryTreeUnit", 3);
-		unitCostRef.Add("OrangeHeapUnit", 3);
-		unitCostRef.Add("OrangeStaticUnit", 3);
+		unitCooldownRef.Add("OrangeBinaryTreeUnit", 3);
+		unitCooldownRef.Add("OrangeHeapUnit", 3);
+		unitCooldownRef.Add("OrangeStaticUnit", 3);
 	}
 
 	public void createUnitMemoryRef() {
