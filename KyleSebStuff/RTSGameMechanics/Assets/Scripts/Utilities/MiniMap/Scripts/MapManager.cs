@@ -66,8 +66,8 @@ namespace MyMinimap {
 			
 			maxY = Screen.height;
 			maxX = Screen.width;
-			minY = Screen.height*0.77f;
-			minX = 0.71f * Screen.width;
+			minY = Screen.height*0.75f;
+			minX = 0.70f * Screen.width;
 			xRange = maxX - minX;
 			yRange = maxY - minY;
 			

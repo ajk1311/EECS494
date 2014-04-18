@@ -20,7 +20,7 @@ namespace MyMinimap
 		public MapMarker(GameObject _gameObject, Texture _texture) {
 			gameObject = _gameObject;
 			texture = _texture;
-			rect = new Rect (x, y, 10, 10);
+			rect = new Rect (x, y, 7, 7);
 		}
 
 		public void highLight(bool set){
