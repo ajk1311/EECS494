@@ -4,9 +4,10 @@ using System.Collections;
 public static class Bellagio {
 	
 	public static int gambleUnit(int playerID) {
-		var script = GameObject.Find("Player").GetComponent<PlayerScript>();
+		var script1 = GameObject.Find("Player").GetComponent<PlayerScript>();
+		var script2 = GameObject.Find("Opponent").GetComponent<PlayerScript>();
 		//int level = getCurrentTier();
-		int playerLevel = 0;
+		int playerLevel = playerID == script1.id? script1.getCurrentTier() : script2.getCurrentTier();
 		int num = Random.Range(0, 100);
 
 		switch(playerLevel) {
