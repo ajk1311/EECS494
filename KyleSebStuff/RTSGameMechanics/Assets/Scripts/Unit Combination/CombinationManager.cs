@@ -69,6 +69,13 @@ public static class CombinationManager {
 		//Que a Unit for Assembler to Start looking to Create
 		script.addUnitToQue (currentCombinationID, unitCount);
 
+		if(GameObject.Find("Player").GetComponent<PlayerScript>().id == playerID) {
+			GameObject.Find("Player").GetComponent<PlayerScript>().combinationMemoryUpdate(desiredUnit);
+		}
+		else {
+			GameObject.Find("Opponent").GetComponent<PlayerScript>().combinationMemoryUpdate(desiredUnit);
+		}
+
 		foreach(GameObject obj in comboUnits) {
 			//Save position of Unit
 			Vector3 pos = obj.transform.position;

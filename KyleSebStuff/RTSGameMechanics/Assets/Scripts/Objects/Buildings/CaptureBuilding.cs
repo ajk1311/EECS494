@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 
 public class CaptureBuilding : Building {
 
@@ -31,7 +32,11 @@ public class CaptureBuilding : Building {
 		player1OwnsTower = false;
 		player2OwnsTower = false;
 
-		playerID = 0;
+		timeToCapture = 10;
+
+		playerID = 1;
+
+		Camera.main.ScreenPointToRay (Vector2.zero);
 	}
 
 	protected override RTS.GUIModelManager.GUIModel GetGUIModel() {
@@ -41,6 +46,10 @@ public class CaptureBuilding : Building {
 	public override void GameUpdate (float deltaTime)
 	{
 		base.GameUpdate (deltaTime);
+
+
+
+		getCurrentUnitCounts ();
 
 		//Player1 Is in Control
 		if(player1UnitCount > 0 && player2UnitCount == 0) {
@@ -55,8 +64,8 @@ public class CaptureBuilding : Building {
 			}
 			//Player1 already has claimed
 			else if(player1Holding){
-				currentTime += (int) Mathf.Floor(deltaTime);
-				if(currentTime >= timeToCapture) {
+				currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
+				if(currentTime >= (int) System.Math.Round(timeToCapture * Int3.FloatPrecision)) {
 					player1OwnsTower = true;
 				}
 			}
@@ -74,9 +83,9 @@ public class CaptureBuilding : Building {
 				currentTime = 0;
 			}
 			//Player2 has already claimed
-			else if(player1Holding){
-				currentTime += (int) Mathf.Floor(deltaTime);
-				if(currentTime >= timeToCapture) {
+			else if(player2Holding){
+				currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);;
+				if(currentTime >= (int) System.Math.Round(timeToCapture * Int3.FloatPrecision)) {
 					player2OwnsTower = true;
 				}
 			}
@@ -111,6 +120,9 @@ public class CaptureBuilding : Building {
 				player2UnitCount++;
 			}
 		}
+
+		Debug.Log ("Player1Counts" + player1UnitCount);
+		Debug.Log ("Player2Counts" + player2UnitCount);
 	}
 
 	private void setBuffForPlayer(int playerID) {
