@@ -1309,7 +1309,7 @@ MonoBehaviour:
   magentaDefensiveTower: {fileID: 100318, guid: 70a7924ac5ebbf24b9e62f2bffe06427,
     type: 2}
   assembler: {fileID: 100000, guid: 533b8727794814980877ba41020d78b7, type: 2}
-  captureTower: {fileID: 0}
+  captureTower: {fileID: 100000, guid: bf8935f6fa72a44f79a4ab8f7b34c9d2, type: 2}
   objs: []
 --- !u!114 &645879594
 MonoBehaviour:

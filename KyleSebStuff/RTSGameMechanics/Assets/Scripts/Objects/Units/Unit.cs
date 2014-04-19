@@ -245,7 +245,8 @@ public class Unit : WorldObject {
 		WorldObject potentialEnemy;
 		for (int i = 0, sz = potentialEnemies.Count; i < sz; i++) {
 			potentialEnemy = potentialEnemies[i];
-			if (potentialEnemy.gameObject.layer != gameObject.layer && 
+			if (potentialEnemy.gameObject.layer != gameObject.layer &&
+			    potentialEnemy.gameObject.transform.tag != "CaptureTower" &&
 			    potentialEnemy.ID < lowestID) {
 				lowestID = potentialEnemy.ID;
 				finalTarget = potentialEnemy;
