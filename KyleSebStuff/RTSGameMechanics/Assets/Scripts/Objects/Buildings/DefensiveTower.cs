@@ -65,8 +65,9 @@ public class DefensiveTower : Building {
         
         WorldObject potentialEnemy;
         for (int i = 0, sz = potentialEnemies.Count; i < sz; i++) {
-            potentialEnemy = potentialEnemies [i];
+            potentialEnemy = potentialEnemies[i];
             if (potentialEnemy.gameObject.layer != gameObject.layer && 
+                potentialEnemy.gameObject.tag != "CaptureTower" && 
                 potentialEnemy.ID < lowestID) {
                 lowestID = potentialEnemy.ID;
                 finalTarget = potentialEnemy;

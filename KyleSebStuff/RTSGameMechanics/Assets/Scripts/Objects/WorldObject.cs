@@ -61,7 +61,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		lastPosition = intPosition;
 		SSGameManager.Register(this);
 		marker = new MapMarker (this.gameObject, playerID == 1? orangeTexture : magentaTexture);
-		GameObject.Find ("MapCenter").GetComponent<MapManager> ().register (marker);
+		GameObject.Find("MapCenter").GetComponent<MapManager>().register(marker);
 		GridManager.UpdatePosition(intPosition, this);
 		currentFogTile = FogOfWarManager.getMyFogTile (intPosition);
 		FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, playerID);
@@ -74,7 +74,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		}
 		GridManager.RemoveFromGrid(this);
 		SSGameManager.Unregister(this);
-		GameObject.Find ("MapCenter").GetComponent<MapManager> ().unregister (marker);
+		GameObject.Find("MapCenter").GetComponent<MapManager>().unregister(marker);
 		FogOfWarManager.updateFogTileUnitCount (currentFogTile, null, playerID);
 	}
 
