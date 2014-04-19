@@ -102,6 +102,7 @@ public class Unit : WorldObject {
     protected virtual void Pursuit(float deltaTime) {
 		if (currentTarget == null) {
 			FinishAttacking();
+			return;
 		}
 		if (WithinAttackRange()) {
 			attacking = true;
@@ -261,11 +262,10 @@ public class Unit : WorldObject {
 	}
 
 	protected virtual void OnDestroy() {
-		base.OnDestroy ();
+		base.OnDestroy();
 		if(GameObject.Find("Player").GetComponent<PlayerScript>().id == playerID) {
 			GameObject.Find("Player").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
-		}
-		else {
+		} else {
 			GameObject.Find("Opponent").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
 		}
 	}

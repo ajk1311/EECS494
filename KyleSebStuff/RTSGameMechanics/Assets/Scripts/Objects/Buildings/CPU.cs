@@ -135,46 +135,46 @@ public class CPU : DestructableBuilding {
 	}
 
 	void ProduceRandomUnit() {
-		int unit = Bellagio.gambleUnit(playerID);
+		// int unit = Bellagio.gambleUnit(playerID);
 				
-		switch(unit) {
-			case: 0
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-				Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
-				GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				sphere.GetComponent<WorldObject>().playerID = PlayerID;
-				break;
-			case: 1
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
-				Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
-				GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				sphere.GetComponent<WorldObject>().playerID = PlayerID;
-				break;
-			case: 2
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-				Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
-				GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				sphere.GetComponent<WorldObject>().playerID = PlayerID;
-				break;
-			case: 3
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-				Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
-				GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				sphere.GetComponent<WorldObject>().playerID = PlayerID;
-				break;
-			case: 4
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-				Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
-				GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				sphere.GetComponent<WorldObject>().playerID = PlayerID;
-				break;
-			case: 5
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-				Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
-				GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				sphere.GetComponent<WorldObject>().playerID = PlayerID;
-				break;
-		}
+		// switch(unit) {
+		// 	case: 0
+		// 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
+		// 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		// 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
+		// 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
+		// 		break;
+		// 	case: 1
+		// 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
+		// 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		// 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
+		// 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
+		// 		break;
+		// 	case: 2
+		// 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
+		// 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		// 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
+		// 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
+		// 		break;
+		// 	case: 3
+		// 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
+		// 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		// 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
+		// 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
+		// 		break;
+		// 	case: 4
+		// 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
+		// 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		// 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
+		// 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
+		// 		break;
+		// 	case: 5
+		// 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
+		// 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		// 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
+		// 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
+		// 		break;
+		// }
 	}
 
 	void UpgradeToNextTier() {
