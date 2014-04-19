@@ -135,9 +135,11 @@ public static class GridManager {
 		return xWithinRange && zWithinRange;
 	}
 
-	public static Int3 FindNextAvailPos(Int3 source, int width) {
+	public static Int3 FindNextAvailPos(Int3 source, int width, int playerID) {
 		int x = source.x / 2 / Int3.Precision;
 		int z = source.z / 2 / Int3.Precision;
+
+		int growthDirection = playerID == 1? 1 : -1;
 
 		while(true) {
 			if(x >= (int)RTSGameMechanics.GetMapSizes ().x) {
@@ -157,7 +159,7 @@ public static class GridManager {
 					return new Int3(x*2 + 1, 1, (z-i)*2 + 1) * Int3.Precision;
 				}
 			}
-			x++;
+			x+= growthDirection;
 		}
 		return source + new Int3(1, 0, 1) * Int3.Precision;
 	}
