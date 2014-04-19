@@ -45,9 +45,14 @@ public class Unit : WorldObject {
 	public int pursuitRadius;
     public float reloadSpeed;
     public float attentionRange;
+	public int damageInflicted;
+
+	// Used for reloading
+    private float cooldownTime;
 
     protected override void Start() {
         base.Start();
+        cooldownTime = 0;
 		destination = intPosition;
 		intDirection = Int3.zero;
 		seeker = GetComponent<Seeker>();
@@ -81,6 +86,7 @@ public class Unit : WorldObject {
         if (attacking || pursuing) {
             FinishAttacking();
         }
+        attackMove = attackMove_;
 		this.destination = (Int3) destination;
         StartMovement(destination);
     }
@@ -164,7 +170,6 @@ public class Unit : WorldObject {
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
-		// TODO check for floating point calculations
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
 			currentlySelected = true;
 		}
@@ -189,7 +194,17 @@ public class Unit : WorldObject {
             }
         }
 
-		if (idle || (attackMove && !pursuing && !attacking)) {
+        if (reloading) {
+        	cooldownTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
+			if (cooldownTime >= (int) System.Math.Round(reloadSpeed * Int3.FloatPrecision)) {
+				reloading = false;
+				cooldownTime = 0;
+				Reload();
+			}
+        }
+
+		if (idle || (attackMove && !pursuing && !attacking && !reloading)) {
+			if (!idle) Debug.Log("Scanning for enemies while not idle!");
 			ScanForEnemies();
 		}
 
@@ -206,6 +221,9 @@ public class Unit : WorldObject {
 			intDirection = new Int3(System.Math.Sign(delta.x), 0, System.Math.Sign(delta.z));
 			intPosition += delta;
 			transform.position = (Vector3) intPosition;
+
+			Vector3 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
+			transform.rotation = Quaternion.LookRotation(direction);
 			
 			if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
 				currentWaypoint++;
@@ -235,6 +253,16 @@ public class Unit : WorldObject {
 			pursuing = true;
 			currentTarget = finalTarget;
 			lastTargetDestination = MechanicResources.InvalidIntPosition;
+		}
+	}
+
+	protected virtual void OnDestroy() {
+		base.OnDestroy ();
+		if(GameObject.Find("Player").GetComponent<PlayerScript>().id == playerID) {
+			GameObject.Find("Player").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
+		}
+		else {
+			GameObject.Find("Opponent").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
 		}
 	}
 }
