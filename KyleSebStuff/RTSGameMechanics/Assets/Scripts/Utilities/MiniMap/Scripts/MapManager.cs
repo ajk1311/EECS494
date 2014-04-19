@@ -140,6 +140,11 @@ namespace MyMinimap {
 		public void register(MapMarker marker) {
 			inRange.Add (marker);
 		}
+
+		public void unregister(MapMarker marker) {
+			inRange.Remove(marker);
+			outRange.Remove(marker);
+		}
 	
 		// Converts the coordinates of transforms from the game coordinates to the minimap coordinates
 		public Vector2 convertToMinimapCoords(Vector3 pos) {

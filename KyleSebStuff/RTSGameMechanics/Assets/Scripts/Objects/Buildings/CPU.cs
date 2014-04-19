@@ -136,7 +136,7 @@ public class CPU : DestructableBuilding {
 
 	void ProduceRandomUnit() {
 		int unit = Bellagio.gambleUnit(playerID);
-		
+				
 		switch(unit) {
 			case: 0
 				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
