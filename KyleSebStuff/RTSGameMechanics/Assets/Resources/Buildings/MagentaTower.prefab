@@ -4393,8 +4393,8 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 0
-  maxHitPoints: 0
+  hitPoints: 100
+  maxHitPoints: 100
   objectName: 
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
@@ -4403,7 +4403,7 @@ MonoBehaviour:
   reloadSpeed: 1
   currentTarget: {fileID: 0}
   attackRadius: 25
-  Projectile: {fileID: 400000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
+  Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

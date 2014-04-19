@@ -137,12 +137,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b2e42232d2038b47a6e0a636c74156a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0dc6367e44c7e2040b52e24e5365ffe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   uid: 0
   playerID: 0
-  cost: 0
+  cost: 1
   hitPoints: 0
   maxHitPoints: 0
   objectName: MagentaIntUnit
@@ -152,15 +152,15 @@ MonoBehaviour:
   orangeTexture: {fileID: 2800000, guid: ec6a7293eb236447b87b42229ecbed3e, type: 3}
   reloading: 0
   currentWaypoint: 0
-  nextWaypointDistance: 3
+  nextWaypointDistance: .5
   currentTarget: {fileID: 0}
-  speed: 50
+  speed: 0
   attackRadius: 0
   pursuitRadius: 0
   reloadSpeed: 0
   attentionRange: 0
-  Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
   damageInflicted: 0
+  attackSpeed: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
