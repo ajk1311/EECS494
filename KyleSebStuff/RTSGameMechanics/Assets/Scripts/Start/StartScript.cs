@@ -30,7 +30,7 @@ public class StartScript : MonoBehaviour {
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", true);
+		SSGameSetup.ConnectToGame("akausejr", false);
 	}
 	
 	[HandlesEvent]
@@ -51,11 +51,12 @@ public class StartScript : MonoBehaviour {
 
 		GameObject playerObject = GameObject.Find("Player");
 		playerObject.GetComponent<PlayerScript>().id = connectionEvent.ID;
-		myInputManager = (UserInputManager) playerObject.GetComponent<UserInputManager>();
+		myInputManager = playerObject.GetComponent<UserInputManager>();
 		myInputManager.playerID = connectionEvent.ID;
 		FogOfWarManager.playerID = connectionEvent.ID;
 
 		GameObject opponentObject = GameObject.Find("Opponent");
+		oppoenentObject.GetComponent<PlayerScript>().id = connectionEvent.opponentID;
 		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();
 		hisOrHerInputManager.playerID = connectionEvent.opponentID;
 

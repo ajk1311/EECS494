@@ -1309,6 +1309,7 @@ MonoBehaviour:
   magentaDefensiveTower: {fileID: 100318, guid: 70a7924ac5ebbf24b9e62f2bffe06427,
     type: 2}
   assembler: {fileID: 100000, guid: 533b8727794814980877ba41020d78b7, type: 2}
+  captureTower: {fileID: 0}
   objs: []
 --- !u!114 &645879594
 MonoBehaviour:
@@ -2075,6 +2076,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1049454767}
   - 114: {fileID: 1049454766}
+  - 114: {fileID: 1049454768}
   m_Layer: 11
   m_Name: Opponent
   m_TagString: Player
@@ -2105,6 +2107,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1049454768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1049454765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ea1fe5750b54a5f9570418ebe13b73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  playerName: 
 --- !u!1 &1089695763
 GameObject:
   m_ObjectHideFlags: 0
