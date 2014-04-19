@@ -30,7 +30,7 @@ public class StartScript : MonoBehaviour {
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", false);
+		SSGameSetup.ConnectToGame("akausejr", true);
 	}
 	
 	[HandlesEvent]
@@ -103,7 +103,7 @@ public class StartScript : MonoBehaviour {
 
 		}
 
-//		GameObject dogwaffle = (GameObject)Instantiate (captureTower);
+		GameObject dogwaffle = (GameObject)Instantiate (captureTower);
 
 		SSGameSetup.Ready(connectionEvent.ID);
 	}
