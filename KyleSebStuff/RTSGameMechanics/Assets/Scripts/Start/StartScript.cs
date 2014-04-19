@@ -83,7 +83,7 @@ public class StartScript : MonoBehaviour {
 //                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 //            foreach(GameObject gameObject in magentaDefensiveTowers)
 //                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
-			Camera.main.transform.position = cameraStartPosition1;
+			Camera.main.GetComponent<CameraControl>().StartPosition = cameraStartPosition1;
 
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
@@ -94,8 +94,8 @@ public class StartScript : MonoBehaviour {
 //            foreach(GameObject gameObject in orangeDefensiveTowers)
 //                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 //            foreach(GameObject gameObject in magentaDefensiveTowers)
-//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
-			Camera.main.transform.position = cameraStartPosition2;
+			//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+			Camera.main.GetComponent<CameraControl>().StartPosition = cameraStartPosition2;
 
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;

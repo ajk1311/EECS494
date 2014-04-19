@@ -86,6 +86,7 @@ public class Unit : WorldObject {
         if (attacking || pursuing) {
             FinishAttacking();
         }
+        attackMove = attackMove_;
 		this.destination = (Int3) destination;
         StartMovement(destination);
     }
@@ -169,7 +170,6 @@ public class Unit : WorldObject {
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
-		// TODO check for floating point calculations
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
 			currentlySelected = true;
 		}
@@ -203,7 +203,8 @@ public class Unit : WorldObject {
 			}
         }
 
-		if (idle || (attackMove && !pursuing && !attacking)) {
+		if (idle || (attackMove && !pursuing && !attacking && !reloading)) {
+			if (!idle) Debug.Log("Scanning for enemies while not idle!");
 			ScanForEnemies();
 		}
 
@@ -220,6 +221,9 @@ public class Unit : WorldObject {
 			intDirection = new Int3(System.Math.Sign(delta.x), 0, System.Math.Sign(delta.z));
 			intPosition += delta;
 			transform.position = (Vector3) intPosition;
+
+			Vector3 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
+			transform.rotation = Quaternion.LookRotation(direction);
 			
 			if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
 				currentWaypoint++;
