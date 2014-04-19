@@ -17,7 +17,7 @@ public class DefensiveTower : Building {
     // Targeting state
     public WorldObject currentTarget = null;
     public int attackRadius = 25;
-    public Transform Projectile;
+    public GameObject Projectile;
 
     protected override void Start() {
         base.Start();
@@ -36,7 +36,8 @@ public class DefensiveTower : Building {
                     if (!reloading) 
                         AttackHandler();
                 } else {
-                    idle = attacking = false;
+					idle = true;
+					attacking = false;
                     currentTarget = null;
                 }
             } else {
@@ -74,6 +75,7 @@ public class DefensiveTower : Building {
         if (finalTarget != null) {
             idle = false;
             currentTarget = finalTarget;
+			attacking = true;
         }
     }
     
@@ -87,7 +89,7 @@ public class DefensiveTower : Building {
     }
 
     private void AttackHandler(){
-        Int3 projectilePosition = intPosition + new Int3(0, 1, 0);
+        Int3 projectilePosition = intPosition + new Int3(0, 8, 0);
         GameObject projectile = (GameObject) Instantiate(Projectile, (Vector3) projectilePosition, Quaternion.identity);
         projectile.GetComponent<Projectile>().target = currentTarget;
         projectile.GetComponent<Projectile>().damageInflicted = damageInflicted;

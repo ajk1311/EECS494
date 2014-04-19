@@ -4403,7 +4403,7 @@ MonoBehaviour:
   reloadSpeed: 1
   currentTarget: {fileID: 0}
   attackRadius: 25
-  Projectile: {fileID: 400000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
+  Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
