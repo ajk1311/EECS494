@@ -116,7 +116,15 @@ namespace GameServer {
 					isHost = true
 				};
 
-				Serializer.SerializeWithLengthPrefix(hostStream, hostInfo, PrefixStyle.Base128);
+                try
+                {
+                    Serializer.SerializeWithLengthPrefix(hostStream, hostInfo, PrefixStyle.Base128);
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("Error occured sending player mock info");
+                    return;
+                }
 
 				Console.WriteLine("Done!");
 			}
