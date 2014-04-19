@@ -13,6 +13,7 @@ public class CPU : DestructableBuilding {
 	// TODO change for production
 	public Object cubePrefab;
 	public Object spherePrefab;
+	public Object capsulePrefab;
 
 	// GUI models
 	private GUIModelManager.GUIModel mTierSelectionModel;
@@ -84,8 +85,13 @@ public class CPU : DestructableBuilding {
 		sphereButton.icon = unit2Icon;
 		sphereButton.clicked += new GUIModelManager.OnClick(ProduceSphere);
 
+		GUIModelManager.Button capsuleButton = new GUIModelManager.Button();
+		// TODO icon
+		capsuleButton.clicked += new GUIModelManager.OnClick(ProduceCapsule);
+
 		mTier1UnitCreationModel.AddButton(0, cubeButton);
 		mTier1UnitCreationModel.AddButton(0, sphereButton);
+		mTier1UnitCreationModel.AddButton(0, capsuleButton);
 
 		AddRandomButton(mTier1UnitCreationModel);
 	}
@@ -101,11 +107,9 @@ public class CPU : DestructableBuilding {
 
 	void ProduceCube() {
 		// TODO check resources
-        Debug.Log("Produce cube clicked");
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Cube", "CPU");
 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
-		Debug.Log ("free space is: " + spawnPosition);
 		cube.GetComponent<WorldObject>().playerID = PlayerID;
 	}
 
@@ -115,6 +119,14 @@ public class CPU : DestructableBuilding {
 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
+	}
+
+	void ProduceCapsule() {
+		// TODO check resources
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Capsule", "CPU");
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		GameObject capsule = (GameObject) Instantiate(capsulePrefab, (Vector3) spawnPosition, Quaternion.identity);
+		capsule.GetComponent<WorldObject>().playerID = PlayerID;
 	}
 
 	void ProduceRandomUnit() {
