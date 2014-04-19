@@ -116,7 +116,7 @@ public class CPU : DestructableBuilding {
 	void ProduceCube() {
 		// TODO check resources
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Cube", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		cube.GetComponent<WorldObject>().playerID = PlayerID;
 	}
@@ -124,7 +124,7 @@ public class CPU : DestructableBuilding {
 	void ProduceSphere() {
 		// TODO check resources
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
 		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		sphere.GetComponent<WorldObject>().playerID = PlayerID;
 	}
@@ -132,7 +132,7 @@ public class CPU : DestructableBuilding {
 	void ProduceCapsule() {
 		// TODO check resources
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Capsule", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8);
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
 		GameObject capsule = (GameObject) Instantiate(capsulePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		capsule.GetComponent<WorldObject>().playerID = PlayerID;
 	}
