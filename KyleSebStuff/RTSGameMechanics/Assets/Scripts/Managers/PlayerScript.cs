@@ -261,7 +261,7 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		return false;
 	}
 
-	public string getCurrentTier() {
-		return ("Tier" + currentTierIndex);
+	public int getCurrentTier() {
+		return currentTierIndex;
 	}
 }
