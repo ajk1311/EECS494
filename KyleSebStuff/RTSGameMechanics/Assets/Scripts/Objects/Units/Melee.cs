@@ -31,7 +31,7 @@ public class Melee : Unit {
 
 		if (reloading) {
 			intPosition += IntPhysics.DisplacementTo(intPosition, 
-				startAttackPosition, IntPhysics.FloatSafeMultiply(reloadSpeed, deltaTime));
+				startAttackPosition, IntPhysics.FloatSafeMultiply(attackSpeed, deltaTime));
 			transform.position = (Vector3) intPosition;
 		} else if (attackStarted) {
 			if (IntPhysics.IsCloseEnough(intPosition, attackPosition, 0.2f)) {
