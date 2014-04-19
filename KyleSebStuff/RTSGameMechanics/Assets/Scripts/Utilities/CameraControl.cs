@@ -14,9 +14,10 @@ public class CameraControl : MonoBehaviour {
     private Vector3 movement, cameraDirection;
     public float MapHeight;
     public float MapWidth;
-    public Vector3 LeftTopCorner;
-	public Vector3 RightTopCorner;
-    public Vector3 RightBottomCorner;
+	public Vector3 MiddleTop;
+	public Vector3 MiddleBottom;
+	public Vector3 MiddleLeft;
+	public Vector3 MiddleRight;
     public GUIManager guiManager;
     private bool Panning;
 	private bool goingToBase;
@@ -63,9 +64,10 @@ public class CameraControl : MonoBehaviour {
 
         float horizontal = Input.mousePosition.x;
         float vertical = Input.mousePosition.y;
-        LeftTopCorner = RTSGameMechanics.FindHitPointOnMap(new Vector3(0, Screen.height, 0));
-		RightTopCorner = RTSGameMechanics.FindHitPointOnMap (new Vector3 (Screen.width, Screen.height, 0));
-        RightBottomCorner = RTSGameMechanics.FindHitPointOnMap(new Vector3(Screen.width, 0, 0));
+        MiddleTop = RTSGameMechanics.FindHitPointOnMap(new Vector3(Screen.width/2, Screen.height, 0));
+		MiddleBottom = RTSGameMechanics.FindHitPointOnMap (new Vector3 (Screen.width/2, 0, 0));
+        MiddleLeft = RTSGameMechanics.FindHitPointOnMap(new Vector3(0, Screen.height/2, 0));
+		MiddleRight = RTSGameMechanics.FindHitPointOnMap(new Vector3(Screen.width, Screen.height/2, 0));
         Panning = false;
         movement = new Vector3(0, 0, 0);
 
@@ -73,12 +75,12 @@ public class CameraControl : MonoBehaviour {
         if (horizontal >= 0 && horizontal < ScrollWidth) {
             guiManager.SetCursorState(CursorState.PanLeft);
             Panning = true;
-            if (LeftTopCorner.x > MapClamp && LeftTopCorner != MechanicResources.InvalidPosition)
+			if (MiddleLeft.x > MapClamp && MiddleLeft != MechanicResources.InvalidPosition)
                 movement.x -= 1f;
         } else if (horizontal <= Screen.width && horizontal > Screen.width - ScrollWidth) {
             guiManager.SetCursorState(CursorState.PanRight);
             Panning = true;
-            if (RightTopCorner.x < MapWidth - MapClamp && RightTopCorner != MechanicResources.InvalidPosition)
+            if (MiddleRight.x < MapWidth - MapClamp && MiddleRight != MechanicResources.InvalidPosition)
                 movement.x += 1f;
         }
         
@@ -86,12 +88,12 @@ public class CameraControl : MonoBehaviour {
         if (vertical >= 0 && vertical < ScrollWidth) {
             guiManager.SetCursorState(CursorState.PanDown);
             Panning = true;
-            if (RightBottomCorner.z > MapClamp && RightBottomCorner != MechanicResources.InvalidPosition)
+            if (MiddleBottom.z > MapClamp && MiddleBottom != MechanicResources.InvalidPosition)
                 movement.z -= 1f;
         } else if (vertical <= Screen.height && vertical > Screen.height - ScrollWidth) {
             guiManager.SetCursorState(CursorState.PanUp);
             Panning = true;
-            if (LeftTopCorner.z < MapHeight - MapClamp && LeftTopCorner != MechanicResources.InvalidPosition)
+            if (MiddleTop.z < MapHeight - MapClamp && MiddleTop != MechanicResources.InvalidPosition)
                 movement.z += 1f;
         }
         
