@@ -103,7 +103,7 @@ public class StartScript : MonoBehaviour {
 
 		}
 
-//		GameObject dogwaffle = (GameObject)Instantiate (captureTower);
+		GameObject dogwaffle = (GameObject)Instantiate (captureTower);
 
 		SSGameSetup.Ready(connectionEvent.ID);
 	}

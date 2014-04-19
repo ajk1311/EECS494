@@ -3842,6 +3842,9 @@ MonoBehaviour:
   cubePrefab: {fileID: 100004, guid: 488d21b8e3413436892e8c8721707174, type: 2}
   spherePrefab: {fileID: 100004, guid: ec925971794ad42b4900befa428100d1, type: 2}
   capsulePrefab: {fileID: 100000, guid: bf8aa1028a1b74d22a507231fafd26d4, type: 2}
+  tier2BinaryTree: {fileID: 100000, guid: 308b9f0d9693a45babd820f32609cac7, type: 2}
+  tier2Heap: {fileID: 100000, guid: eba72605a31174d0e9a59ca75d8c4d7d, type: 2}
+  tier2Static: {fileID: 100000, guid: 9d5371fcc5a7440238c0f1e14bcde0b1, type: 2}
   spawnOffsetX: 10
 --- !u!1001 &100100000
 Prefab:

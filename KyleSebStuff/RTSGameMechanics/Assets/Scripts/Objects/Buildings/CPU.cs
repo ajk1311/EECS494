@@ -14,6 +14,9 @@ public class CPU : DestructableBuilding {
 	public Object cubePrefab;
 	public Object spherePrefab;
 	public Object capsulePrefab;
+	public Object tier2BinaryTree;
+	public Object tier2Heap;
+	public Object tier2Static;
 
 	// GUI models
 	private GUIModelManager.GUIModel mTierSelectionModel;
