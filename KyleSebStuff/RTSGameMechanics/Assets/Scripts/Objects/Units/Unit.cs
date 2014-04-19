@@ -161,8 +161,12 @@ public class Unit : WorldObject {
     }
 
 	public void FinishAttacking() {
-		idle = true;
-		moving = pursuing = attacking = attackMove = isTargetBuilding = false;
+		if (attackMove) {
+			StartMovement((Vector3) destination);
+		} else {
+			idle = true;
+			moving = pursuing = attacking = isTargetBuilding = false;
+		}
 		lastTargetDestination = 
 			MechanicResources.InvalidIntPosition;
     }

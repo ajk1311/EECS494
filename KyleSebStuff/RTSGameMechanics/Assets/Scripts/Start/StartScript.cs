@@ -56,7 +56,7 @@ public class StartScript : MonoBehaviour {
 		FogOfWarManager.playerID = connectionEvent.ID;
 
 		GameObject opponentObject = GameObject.Find("Opponent");
-		oppoenentObject.GetComponent<PlayerScript>().id = connectionEvent.opponentID;
+		opponentObject.GetComponent<PlayerScript>().id = connectionEvent.opponentID;
 		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();
 		hisOrHerInputManager.playerID = connectionEvent.opponentID;
 
