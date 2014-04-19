@@ -795,6 +795,18 @@ MonoBehaviour:
   resourceSkin: {fileID: 11400000, guid: ddacf3ce4faac234788ac186b51e2be3, type: 2}
   powerIcon: {fileID: 2800000, guid: 9c046ce6448bfa1469002aec3cc22f44, type: 3}
   memoryIcon: {fileID: 2800000, guid: cdd926b9fc4895a46bdd141476873576, type: 3}
+  moveCommandCursor: {fileID: 0}
+  mouseCursorSkin: {fileID: 0}
+  activeCursor: {fileID: 0}
+  leftCursor: {fileID: 0}
+  rightCursor: {fileID: 0}
+  upCursor: {fileID: 0}
+  downCursor: {fileID: 0}
+  selectCursors: []
+  attackCursors: []
+  hoverEnemyCursors: []
+  captureCursors: []
+  dragSelectSkin: {fileID: 0}
 --- !u!114 &471585560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1133,6 +1145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magentaCpuPrefab: {fileID: 100000, guid: 72987daf2d8cb469f98f39ad1b85c539, type: 2}
   orangeCpuPrefab: {fileID: 100000, guid: bf0a06c2837844f08a3656f987a19502, type: 2}
+  orangeDefensiveTower: {fileID: 0}
+  magentaDefensiveTower: {fileID: 0}
   assembler: {fileID: 100000, guid: 533b8727794814980877ba41020d78b7, type: 2}
   objs: []
 --- !u!114 &645879594
@@ -1157,6 +1171,7 @@ MonoBehaviour:
   LeftTopCorner: {x: 0, y: 0, z: 0}
   RightTopCorner: {x: 0, y: 0, z: 0}
   RightBottomCorner: {x: 0, y: 0, z: 0}
+  guiManager: {fileID: 0}
 --- !u!54 &645879595
 Rigidbody:
   m_ObjectHideFlags: 0

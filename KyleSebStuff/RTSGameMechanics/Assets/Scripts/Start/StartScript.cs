@@ -24,12 +24,13 @@ public class StartScript : MonoBehaviour {
     public Object orangeDefensiveTower;
     public Object magentaDefensiveTower;
 	public Object assembler;
+	public Object captureTower;
 
 	public WorldObject[] objs;
 
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", true);
+		SSGameSetup.ConnectToGame("akausejr", false);
 	}
 	
 	[HandlesEvent]
@@ -50,11 +51,12 @@ public class StartScript : MonoBehaviour {
 
 		GameObject playerObject = GameObject.Find("Player");
 		playerObject.GetComponent<PlayerScript>().id = connectionEvent.ID;
-		myInputManager = (UserInputManager) playerObject.GetComponent<UserInputManager>();
+		myInputManager = playerObject.GetComponent<UserInputManager>();
 		myInputManager.playerID = connectionEvent.ID;
 		FogOfWarManager.playerID = connectionEvent.ID;
 
 		GameObject opponentObject = GameObject.Find("Opponent");
+		opponentObject.GetComponent<PlayerScript>().id = connectionEvent.opponentID;
 		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();
 		hisOrHerInputManager.playerID = connectionEvent.opponentID;
 
@@ -82,7 +84,7 @@ public class StartScript : MonoBehaviour {
 //                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 //            foreach(GameObject gameObject in magentaDefensiveTowers)
 //                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
-			Camera.main.transform.position = cameraStartPosition1;
+			Camera.main.GetComponent<CameraControl>().StartPosition = cameraStartPosition1;
 
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
@@ -93,13 +95,15 @@ public class StartScript : MonoBehaviour {
 //            foreach(GameObject gameObject in orangeDefensiveTowers)
 //                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 //            foreach(GameObject gameObject in magentaDefensiveTowers)
-//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
-			Camera.main.transform.position = cameraStartPosition2;
+			//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+			Camera.main.GetComponent<CameraControl>().StartPosition = cameraStartPosition2;
 
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.opponentID;
 
 		}
+
+//		GameObject dogwaffle = (GameObject)Instantiate (captureTower);
 
 		SSGameSetup.Ready(connectionEvent.ID);
 	}

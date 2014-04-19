@@ -20,13 +20,18 @@ namespace GameServer {
 		private int mMaxTick = 0;
 		private HashSet<int> mCommands = new HashSet<int>();
 
+        private bool mRunning = false;
+
 		public void Start(Socket recvSocket, ClientInfo playerInfo) {
+            mRunning = true;
 			mRecvSocket = recvSocket;
+            mRecvSocket.ReceiveTimeout = 60 * 1000;
 			mPlayerInfo = playerInfo;
 			mSendSocket = new Socket(
 				AddressFamily.InterNetwork, 
 				SocketType.Dgram, 
 				ProtocolType.Udp);
+            mSendSocket.SendTimeout = 60 * 1000;
 			mRemoteEndpoint = new IPEndPoint(
 				IPAddress.Parse(mPlayerInfo.address), 
 				mPlayerInfo.port);
@@ -34,35 +39,70 @@ namespace GameServer {
 		}
 
 		private void WaitForReady() {
-			byte[] buf = new byte[128];
-			int sz = mRecvSocket.Receive(buf);
-			Serializer.Deserialize<PlayerReady>(new MemoryStream(buf, 0, sz));
-			ThreadPool.QueueUserWorkItem(x => Sender() );
-			ThreadPool.QueueUserWorkItem(x => Receiver() );
-			SendGameReady();
+            try
+            {
+                byte[] buf = new byte[128];
+                int sz = mRecvSocket.Receive(buf);
+                Serializer.Deserialize<PlayerReady>(new MemoryStream(buf, 0, sz));
+                ThreadPool.QueueUserWorkItem(x => Sender());
+                ThreadPool.QueueUserWorkItem(x => Receiver());
+                SendGameReady();
+            }
+            catch (SocketException e)
+            {
+                return;
+            }
 		}
 
 		private void SendGameReady() {
-			using (MemoryStream stream = new MemoryStream()) {
-				PlayerReady ready = new PlayerReady {
-					playerID = mPlayerInfo.playerID
-				};
-				Serializer.Serialize(stream, ready);
-				mSendSocket.SendTo(stream.ToArray(), mRemoteEndpoint);
-			}
+            try
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    PlayerReady ready = new PlayerReady
+                    {
+                        playerID = mPlayerInfo.playerID
+                    };
+                    Serializer.Serialize(stream, ready);
+                    mSendSocket.SendTo(stream.ToArray(), mRemoteEndpoint);
+                }
+            }
+            catch (SocketException e)
+            {
+                return;
+            }
 		}
 
 		private void Sender() {
-			for (int i = 0; i < 4; i++) {
-				SendEmptyInput(i);
-			}
-			while (true) {
+            try
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    SendEmptyInput(i);
+                }
+            }
+            catch (SocketException e)
+            {
+                mRunning = false;
+                return;
+            }
+			
+            while (mRunning)
+            {
 				bool commandReady = false;
 				lock (mCommands) {
 					commandReady = mCommands.Contains(mTick);
 				}
 				if (mTick <= mMaxTick && commandReady) {
-					SendEmptyInput(mTick + 4);
+                    try
+                    {
+                        SendEmptyInput(mTick + 4);
+                    }
+                    catch (SocketException e)
+                    {
+                        mRunning = false;
+                        return;
+                    }
 					lock (mCommands) {
 						mCommands.Remove(mTick);
 					}
@@ -84,27 +124,42 @@ namespace GameServer {
 
 		private void Receiver() {
 			byte[] buf = new byte[1024];
-			while (true) {
-				int sz = mRecvSocket.Receive(buf);
-				DataPacket packet = Serializer.Deserialize<DataPacket>(new MemoryStream(buf, 0, sz));
-				if (packet.isAck) {
-					mMaxTick = packet.tick;
-				} else {
-					using (MemoryStream stream = new MemoryStream()) {
-						DataPacket ack = new DataPacket {
-							playerID = mPlayerInfo.playerID,
-							isAck = true,
-							tick = MaxPacketTick(packet.commands)
-						};
-						Serializer.Serialize(stream, ack);
-						mSendSocket.SendTo(stream.ToArray(), mRemoteEndpoint); 
-					}
-					lock (mCommands) {
-						foreach (Command cmd in packet.commands) {
-							mCommands.Add(cmd.tick);
-						}
-					}
-				}
+			while (mRunning) {
+                try
+                {
+                    int sz = mRecvSocket.Receive(buf);
+                    DataPacket packet = Serializer.Deserialize<DataPacket>(new MemoryStream(buf, 0, sz));
+                    if (packet.isAck)
+                    {
+                        mMaxTick = packet.tick;
+                    }
+                    else
+                    {
+                        using (MemoryStream stream = new MemoryStream())
+                        {
+                            DataPacket ack = new DataPacket
+                            {
+                                playerID = mPlayerInfo.playerID,
+                                isAck = true,
+                                tick = MaxPacketTick(packet.commands)
+                            };
+                            Serializer.Serialize(stream, ack);
+                            mSendSocket.SendTo(stream.ToArray(), mRemoteEndpoint);
+                        }
+                        lock (mCommands)
+                        {
+                            foreach (Command cmd in packet.commands)
+                            {
+                                mCommands.Add(cmd.tick);
+                            }
+                        }
+                    }
+                }
+                catch (SocketException e)
+                {
+                    mRunning = false;
+                    return;
+                }
 			}
 		}
 

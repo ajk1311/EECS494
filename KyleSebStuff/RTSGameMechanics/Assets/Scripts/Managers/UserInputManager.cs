@@ -61,25 +61,28 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                 // Issue attack move
                 Vector3 destination = mousePosition;
                 if (destination != MechanicResources.InvalidPosition) {
-                    SelectionManager.moveUnits(playerID, destination);
+                    SelectionManager.moveUnits(playerID, destination, true);
                 }
             } else {
                 //check if player is selecting a spawn point for a new combination unit
                 if (CombinationManager.creatingCombination[playerID - 1] == true) {
 					PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
 
+					GameObject combMapCheck = RTSGameMechanics.FindHitObject(mousePosition);
 
-
-					FogScript fog = FogOfWarManager.getMyFogTile((Int3)mousePosition).GetComponent<FogScript>();
-
-					if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
-					    (player.id != playerID && fog.enemyUnitCount > 0)) {
-	                    GameObject assembler = GameObject.Find("assembler" + playerID.ToString());
-	                    AssemblerScript script = assembler.GetComponent<AssemblerScript>();
-	                    CombinationManager.spawnPoint[playerID - 1] = mousePosition;
-	                    CombinationManager.combine(script, CombinationManager.desiredUnit[playerID - 1]);
+					if(mousePosition.y > 1 && combMapCheck.transform.tag == "Map") {
+						//Not a Valid Area of the Map
 					}
-
+					else {
+						FogScript fog = FogOfWarManager.getMyFogTile((Int3)mousePosition).GetComponent<FogScript>();
+						if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
+						    (player.id != playerID && fog.enemyUnitCount > 0)) {
+		                    GameObject assembler = GameObject.Find("assembler" + playerID.ToString());
+		                    AssemblerScript script = assembler.GetComponent<AssemblerScript>();
+		                    CombinationManager.spawnPoint[playerID - 1] = mousePosition;
+		                    CombinationManager.combine(script, CombinationManager.desiredUnit[playerID - 1]);
+						}
+					}
                     CombinationManager.creatingCombination[playerID - 1] = false;
                 }
                 //deselect all units
@@ -91,7 +94,6 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     private void RightMouseClick(Vector3 mousePosition) {
 		if (SelectionManager.count(PlayerID) > 0) {
 			GameObject target = RTSGameMechanics.FindHitObject(mousePosition);
-			// TODO npe
 			if(target != null && target.tag != "Map") {
 				PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
 				FogScript fog = target.GetComponent<WorldObject>().currentFogTile.GetComponent<FogScript>();
