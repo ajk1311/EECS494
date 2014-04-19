@@ -37,7 +37,7 @@ public static class SSInput {
 	}
 
 	/** Returns true if the player with playerID pressed the key with keyCode for a frame */
-	public static bool GetKeyDown(int playerID, int keyCode) {
+	public static bool GetKey(int playerID, int keyCode) {
 		return sDispatchTables[playerID - 1].ContainsKey(keyCode);
 	}
 

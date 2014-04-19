@@ -32,4 +32,6 @@ public static class SSKeyCode {
     public const int Mouse1Click = 7;
 
 	public const int GUIClick = 8;
+
+    public const int A = 9;
 }

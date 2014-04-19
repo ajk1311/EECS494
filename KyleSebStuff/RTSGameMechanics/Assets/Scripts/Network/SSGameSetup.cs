@@ -21,7 +21,7 @@ using SSProtoBufs;
  * 5) The game is ready, start the game manager for the Locksetp loop
  */
 public class SSGameSetup {
-	private static readonly string ServerIP = "35.2.87.138";
+    private static readonly string ServerIP = "10.0.0.28";
     private static readonly int ServerPort = 9191;
 
     private static bool mConnected = false;
@@ -105,8 +105,10 @@ public class SSGameSetup {
 
 	/** Receives the opponent's info from the server */
     private static ClientInfo GetRemoteClientInfo(ClientInfo localInfo) {
+		Debug.Log ("hello");
         using (TcpClient client = new TcpClient(ServerIP, ServerPort))
         using (NetworkStream stream = client.GetStream()) {
+			Debug.Log ("after serialize at IP: " + ServerIP + " port: " + ServerPort);
             Serializer.SerializeWithLengthPrefix(stream, localInfo, PrefixStyle.Base128);
             CarryOutConnectionHandshake(stream);
             return Serializer.DeserializeWithLengthPrefix<ClientInfo>(stream, PrefixStyle.Base128);

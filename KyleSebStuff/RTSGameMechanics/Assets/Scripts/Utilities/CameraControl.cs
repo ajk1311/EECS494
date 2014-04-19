@@ -71,12 +71,14 @@ public class CameraControl : MonoBehaviour {
         }
         
         //Zoom in and Zoom out with Scroll
-        if (Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.transform.position.y <= MaxCameraHeight) {
-            movement = Camera.main.transform.forward * Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.transform.position.y >= MinCameraHeight) {
-            movement = Camera.main.transform.forward * Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
-        }
+		if (GUIResources.MouseInPlayingArea()) {
+	        if (Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.transform.position.y <= MaxCameraHeight) {
+	            movement = Camera.main.transform.forward * Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
+	        }
+	        if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.transform.position.y >= MinCameraHeight) {
+	            movement = Camera.main.transform.forward * Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
+	        }
+		}
     }
 
     void FixedUpdate() {
