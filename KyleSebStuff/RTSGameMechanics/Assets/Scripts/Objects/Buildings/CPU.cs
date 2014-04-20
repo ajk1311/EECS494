@@ -15,8 +15,8 @@ public class CPU : DestructableBuilding {
 	public Object spherePrefab;
 	public Object capsulePrefab;
 	public Object tier2BinaryTree;
-	public Object tier2Heap;
 	public Object tier2Static;
+	public Object tier2Heap;
 
 	// GUI models
 	private GUIModelManager.GUIModel mTierSelectionModel;
@@ -31,10 +31,11 @@ public class CPU : DestructableBuilding {
 		base.Start();
 		BuildTierSelectionModel();
 		BuildTier1UnitCreationModel();
+		BuildTier2UnitCreationModel();
 		spawnOffset = new Int3(spawnOffsetX * Int3.Precision, 0, 0);
 	}
 
-	protected override GUIModelManager.GUIModel GetGUIModel(){ return null; }
+	protected override GUIModelManager.GUIModel GetGUIModel() { return null; }
 
 	public override void OnSelectionChanged(bool selected) {
 		GUIModelManager.SetCurrentModel(playerID, selected ? mTierSelectionModel : null);
@@ -78,6 +79,7 @@ public class CPU : DestructableBuilding {
 	void Tier2Clicked() {
 		// TODO check if unlocked
 		Debug.Log("Tier 2 clicked");
+		GUIModelManager.SetCurrentModel(playerID, mTier2UnitCreationModel);
 	}
 
 	void Tier3Clicked() {
@@ -104,6 +106,7 @@ public class CPU : DestructableBuilding {
 		mTier1UnitCreationModel.AddButton(0, sphereButton);
 		mTier1UnitCreationModel.AddButton(0, capsuleButton);
 
+		AddBackButton(mTier1UnitCreationModel);
 		AddDefaultButtons(mTier1UnitCreationModel);
 	}
 
@@ -150,22 +153,32 @@ public class CPU : DestructableBuilding {
 		mTier2UnitCreationModel.AddButton(0, sphere2Button);
 		mTier2UnitCreationModel.AddButton(0, capsule2Button);
 
+		AddBackButton(mTier2UnitCreationModel);
 		AddDefaultButtons(mTier2UnitCreationModel);
 	}
 
 	void ProduceTier2Cube() {
 		// TODO check resources
-
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Tier2Cube", "CPU");
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
+		GameObject static_ = (GameObject) Instantiate(tier2Static, (Vector3) spawnPosition, Quaternion.identity);
+		static_.GetComponent<WorldObject>().playerID = PlayerID;
 	}
 
 	void ProduceTier2Sphere() {
 		// TODO check resources
-
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Tier2Sphere", "CPU");
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
+		GameObject heap = (GameObject) Instantiate(tier2Heap, (Vector3) spawnPosition, Quaternion.identity);
+		heap.GetComponent<WorldObject>().playerID = PlayerID;
 	}
 
 	void ProduceTier2Capsule() {
 		// TODO check resources
-
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Tier2Capsule", "CPU");
+		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
+		GameObject tree = (GameObject) Instantiate(tier2BinaryTree, (Vector3) spawnPosition, Quaternion.identity);
+		tree.GetComponent<WorldObject>().playerID = PlayerID;
 	}
 
 	void BuildTier3UnitCreationModel() {
@@ -187,6 +200,7 @@ public class CPU : DestructableBuilding {
 		mTier3UnitCreationModel.AddButton(0, sphere3Button);
 		mTier3UnitCreationModel.AddButton(0, capsule3Button);
 
+		AddBackButton(mTier3UnitCreationModel);
 		AddDefaultButtons(mTier3UnitCreationModel);
 	}
 
@@ -203,6 +217,14 @@ public class CPU : DestructableBuilding {
 	void ProduceTier3Capsule() {
 		// TODO check resources
 		
+	}
+
+	private void AddBackButton(GUIModelManager.GUIModel model) {
+		GUIModelManager.Button back = new GUIModelManager.Button();
+		back.text = "Back";
+		back.clicked += () => GUIModelManager.SetCurrentModel(playerID, mTierSelectionModel);
+
+		model.AddButton(0, back);
 	}
 
 	private void AddDefaultButtons(GUIModelManager.GUIModel model) {

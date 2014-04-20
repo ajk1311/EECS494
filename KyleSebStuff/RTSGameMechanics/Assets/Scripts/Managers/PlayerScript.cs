@@ -257,7 +257,7 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		int cost = getTierCost(nextTier);
 		int powerCheck = power - cost;
 
-		if (powerCheck >= 0) {
+		if (true) {
 			power = powerCheck;
 			currentTierIndex++;
 			return true;

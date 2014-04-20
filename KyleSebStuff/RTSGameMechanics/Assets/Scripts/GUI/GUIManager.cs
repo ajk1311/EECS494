@@ -45,7 +45,6 @@ public class GUIManager : MonoBehaviour {
 	private static Vector2 scrollPositionLeft = Vector2.zero;
 	private static Vector2 scrollPositionCenter = Vector2.zero;
 
-
     public static bool Dragging {
         get { return isDragging; }
     }
