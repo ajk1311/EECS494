@@ -22,6 +22,9 @@ public class CPU : DestructableBuilding {
 	private GUIModelManager.GUIModel mTierSelectionModel;
 	private GUIModelManager.GUIModel mTier1UnitCreationModel;
 
+	//Progress Bar
+	private GUIProgressBar progressBar;
+
 	public int spawnOffsetX;
 	public Int3 spawnOffset;
 
@@ -30,6 +33,7 @@ public class CPU : DestructableBuilding {
 		BuildTierSelectionModel();
 		BuildTier1UnitCreationModel();
 		spawnOffset = new Int3(spawnOffsetX * Int3.Precision, 0, 0);
+		progressBar = (GUIProgressBar) gameObject.AddComponent("GUIProgressBar");
 	}
 
 	protected override GUIModelManager.GUIModel GetGUIModel(){ return null; }
@@ -113,7 +117,15 @@ public class CPU : DestructableBuilding {
 		model.AddButton(1, upgrade);
 	}
 
+	void Update() {
+		progressBar.progress++;
+		if(progressBar.progress >= progressBar.progressFull)
+			progressBar.finishProgressBar();
+	}
+
 	void ProduceCube() {
+		// Progress Bar just for show right now
+		progressBar.startProgressBar(0);
 		// TODO check resources
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Cube", "CPU");
 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
