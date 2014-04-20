@@ -19,10 +19,14 @@ public class CaptureBuilding : Building {
 	public bool player2OwnsTower;
 	
 	public int buff;
+
+	ParticleSystem particle;
 	
 	protected override void Start() {
 		base.Start();
-		
+
+		particle = GetComponentInChildren<ParticleSystem>();
+
 		player1UnitCount = 0;
 		player2UnitCount = 0;
 		
@@ -122,7 +126,8 @@ public class CaptureBuilding : Building {
 			setBuffForPlayer(1);
 			playerID = 1;
 			FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, 1);
-			objectRenderer.material.SetColor("_Color", new Color(255f, 140f, 0f, 144f));
+//			objectRenderer.material.SetColor("_Color", new Color(255f, 140f, 0f, 144f));
+			particle.startColor = new Color(255f, 140f, 0f, 144f);
 		}
 		
 		//Player1 Has Control of the Tower
@@ -139,7 +144,8 @@ public class CaptureBuilding : Building {
 			playerID = 2;
 			setBuffForPlayer(2);
 			FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, 2);
-			objectRenderer.material.SetColor("_Color", new Color(226f, 94f, 255f, 255f));
+//			objectRenderer.material.SetColor("_Color", new Color(226f, 94f, 255f, 255f));
+			particle.startColor = new Color(226f, 94f, 255f, 255f);
 		}
 	}
 	
@@ -148,7 +154,7 @@ public class CaptureBuilding : Building {
 		player2UnitCount = 0;
 		
 		List<WorldObject> surroundingUnits = new List<WorldObject> ();
-		surroundingUnits = GridManager.GetObjectsInRadius (this, 23);
+		surroundingUnits = GridManager.GetObjectsInRadius (this, 15);
 		
 		foreach(WorldObject obj in surroundingUnits) {
 			int currentID = obj.playerID;
