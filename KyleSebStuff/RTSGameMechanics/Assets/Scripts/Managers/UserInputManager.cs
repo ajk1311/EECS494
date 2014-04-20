@@ -41,8 +41,6 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
         }
     }
 
-    
-
     private void LeftMouseClickDown(Vector3 mousePosition) {
         //TODO If mouse in playing area
 		GameObject hitObject = RTSGameMechanics.FindHitObject(mousePosition);
@@ -72,8 +70,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
 					if(mousePosition.y > 1 && combMapCheck.transform.tag == "Map") {
 						//Not a Valid Area of the Map
-					}
-					else {
+					} else {
 						FogScript fog = FogOfWarManager.getMyFogTile((Int3)mousePosition).GetComponent<FogScript>();
 						if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
 						    (player.id != playerID && fog.enemyUnitCount > 0)) {
@@ -102,7 +99,6 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 					SelectionManager.attackUnit(PlayerID, target.GetComponent<WorldObject>());
 				}
 			} else {
-				Debug.Log (mousePosition);
 				Vector3 destination = mousePosition;
 				if (destination != MechanicResources.InvalidPosition) {
 					SelectionManager.moveUnits(PlayerID, destination);

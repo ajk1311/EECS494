@@ -56,6 +56,8 @@ public class Melee : Unit {
         if (!attackStarted) {
         	attackStarted = true;
         	startAttackPosition = intPosition;
+        	transform.rotation = Quaternion.LookRotation(
+        		(currentTarget.transform.position - transform.position).normalized);
         	attackPosition = intPosition + (Int3) (transform.forward * attackRadius);
         }
     }

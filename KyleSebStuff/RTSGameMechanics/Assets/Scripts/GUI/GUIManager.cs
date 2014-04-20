@@ -268,14 +268,13 @@ public class GUIManager : MonoBehaviour {
         }
 		
 		float panelWidth = Screen.width / 3;
-		float outerPadding = GUIResources.GetScaledPixelSize(16);
-		float buttonHeight = GUIResources.GetScaledPixelSize(48);
 
-		float innerPadding = GUIResources.GetScaledPixelSize(4);
-		float buttonMinWidth = GUIResources.GetScaledPixelSize(100);
+        float outerPadding = GUIResources.GetScaledPixelSize(20);
 
-		float leftButtonWidth = (panelWidth - 1.5f * outerPadding - innerPadding * (currentGUIModel.leftPanelColumns - 1)) / currentGUIModel.leftPanelColumns;
-		float centerButtonWidth = (panelWidth - outerPadding - innerPadding * (currentGUIModel.leftPanelColumns - 1)) / currentGUIModel.centerPanelColumns;
+        float buttonHeight = GUIResources.GetScaledPixelSize(48);
+
+		float leftButtonWidth = (panelWidth - 1.5f * outerPadding) / currentGUIModel.leftPanelColumns;
+		float centerButtonWidth = (panelWidth - 1.5f * outerPadding) / currentGUIModel.centerPanelColumns;
 
 		float initX = outerPadding;
 		float initY = Screen.height - GUIResources.OrdersBarHeight + outerPadding;
@@ -285,10 +284,8 @@ public class GUIManager : MonoBehaviour {
 		                                         scrollPositionLeft, 
 		                                         new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.leftPanelButtons.Count / currentGUIModel.leftPanelColumns) * buttonHeight));
 		for (int i = 0, len = currentGUIModel.leftPanelButtons.Count; i < len; i++) {
-			int row = i / currentGUIModel.leftPanelColumns;
-			int column = i % currentGUIModel.leftPanelColumns;
-			float buttonX = column * leftButtonWidth + (column > 0 ? innerPadding : 0);
-			float buttonY = row * buttonHeight + (row > 0 ? innerPadding : 0);
+			float buttonX = i % currentGUIModel.leftPanelColumns * leftButtonWidth;
+			float buttonY = i / currentGUIModel.leftPanelColumns * buttonHeight;
 			Rect drawRect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
 			if (currentGUIModel.leftPanelButtons[i].text != null) {
 				GUI.Button(drawRect, currentGUIModel.leftPanelButtons[i].text);
@@ -305,10 +302,8 @@ public class GUIManager : MonoBehaviour {
 		                                           scrollPositionCenter, 
 		                                           new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.centerPanelButtons.Count / currentGUIModel.centerPanelColumns) * buttonHeight));
 		for (int i = 0, len = currentGUIModel.centerPanelButtons.Count; i < len; i++) {
-			int row = i / currentGUIModel.centerPanelColumns;
-			int column = i % currentGUIModel.centerPanelColumns;
-			float buttonX = column * centerButtonWidth + (column > 0 ? innerPadding : 0);
-			float buttonY = row * buttonHeight + (row > 0 ? innerPadding : 0);
+			float buttonX = i % currentGUIModel.centerPanelColumns * centerButtonWidth;
+			float buttonY = i / currentGUIModel.centerPanelColumns * buttonHeight;
 			Rect drawRect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
 			if (currentGUIModel.centerPanelButtons[i].text != null) {
 				GUI.Button(drawRect, currentGUIModel.centerPanelButtons[i].text);

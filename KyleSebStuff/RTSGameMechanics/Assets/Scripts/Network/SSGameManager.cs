@@ -134,8 +134,10 @@ public class SSGameManager : MonoBehaviour {
 
 	// Handles mouse input calculation
 	private bool mMouse0Down = false;
-	private bool mMouse1Down = false;
+	private bool mMouse0DownInPlayingArea = false;
 	private Vector3 mMouse0DownVector = InvalidPosition;
+	private bool mMouse1Down = false;
+	private bool mMouse1DownInPlayingArea = false;
 
 	// Keeps track of the unit ids for each player
 	private static int sUnitUid = 0;
@@ -348,44 +350,43 @@ public class SSGameManager : MonoBehaviour {
 	}
 
 	/** Detects and schedules mouse clicks and drags */
-	// TODO add support for GUI clicks
 	void HandleMouseInput() {
 		if (Input.GetMouseButtonDown(0)) {
 			// Start tracking mouse 0
 			mMouse0Down = true;
 			mMouse0DownVector = Input.mousePosition;
+			mMouse0DownInPlayingArea = GUIResources.MouseInPlayingArea();
 		} else if (Input.GetMouseButtonUp(0)) {
 			if (mMouse0Down) {
-				// If we were tracking mouse 0
-				if (Mathf.Abs(Input.mousePosition.x - mMouse0DownVector.x) > 2 &&
-				    Mathf.Abs(Input.mousePosition.y - mMouse0DownVector.y) > 2) {
-					/* If the user dragged the mouse the allowed distance from the start,
-					 * then the action is considered a drag */
-					float padding = GUIResources.GetScaledPixelSize(4);
-					// Adjust the mouse position we will send based on the playing area
-					Vector3 mouseInPlayingArea = new Vector3(
-						Mathf.Min(Mathf.Max(Input.mousePosition.x, padding), Screen.width - padding),
-						Mathf.Min(Mathf.Max(Input.mousePosition.y, 
-					                    GUIResources.OrdersBarHeight + padding), Screen.height - padding),
-						Input.mousePosition.z);
-					// Get the universal world coordinates of the action
-					Vector3 downHit = RTSGameMechanics.FindHitPointOnMap(mMouse0DownVector);
-					Vector3 upHit = RTSGameMechanics.FindHitPointOnMap(mouseInPlayingArea);
-					// Finally, schedule the command
-					ScheduleCommand(SSKeyCode.Mouse0Select, 
-					                downHit.x, downHit.y, downHit.z,
-					                upHit.x, upHit.y, upHit.z);
-				} else {
-					/* If we got here, the up action was close enough 
-					 * to the down action to be considered a click */
-					if(GUIResources.MouseInPlayingArea()) {
+				if (mMouse0DownInPlayingArea) {
+					if (Mathf.Abs(Input.mousePosition.x - mMouse0DownVector.x) > 2 &&
+					    Mathf.Abs(Input.mousePosition.y - mMouse0DownVector.y) > 2) {
+						/* If the user dragged the mouse the allowed distance from the start,
+						 * then the action is considered a drag */
+						float padding = GUIResources.GetScaledPixelSize(4);
+						// Adjust the mouse position we will send based on the playing area
+						Vector3 mouseInPlayingArea = new Vector3(
+							Mathf.Min(Mathf.Max(Input.mousePosition.x, padding), Screen.width - padding),
+							Mathf.Min(Mathf.Max(Input.mousePosition.y, GUIResources.OrdersBarHeight + padding), 
+								Screen.height - padding), Input.mousePosition.z);
+						// Get the universal world coordinates of the action
+						Vector3 downHit = RTSGameMechanics.FindHitPointOnMap(mMouse0DownVector);
+						Vector3 upHit = RTSGameMechanics.FindHitPointOnMap(mouseInPlayingArea);
+						// Finally, schedule the command
+						ScheduleCommand(SSKeyCode.Mouse0Select, 
+						                downHit.x, downHit.y, downHit.z,
+						                upHit.x, upHit.y, upHit.z);
+					} else if (GUIResources.MouseInPlayingArea()) {
+						/* If we got here, the up action was close enough 
+					 	 * to the down action to be considered a click */
 						Vector3 hit = RTSGameMechanics.FindHitPoint();
 						ScheduleCommand(SSKeyCode.Mouse0Click, hit.x, hit.y, hit.z);
-					} else {
-						int[] button = GUIManager.GetButtonID(Input.mousePosition);
-						if(button != null) {
-							ScheduleCommand(SSKeyCode.GUIClick, button[0], button[1]);
-						}
+					}
+				} else {
+					// The click was started on the GUI
+					int[] button = GUIManager.GetButtonID(Input.mousePosition);
+					if(button != null) {
+						ScheduleCommand(SSKeyCode.GUIClick, button[0], button[1]);
 					}
 				}
 				// Reset
@@ -396,8 +397,9 @@ public class SSGameManager : MonoBehaviour {
 		// Do the same for mouse 1, but ignore drags
 		if (Input.GetMouseButtonDown(1)) {
 			mMouse1Down = true;
+			mMouse1DownInPlayingArea = GUIResources.MouseInPlayingArea();
 		} else if (Input.GetMouseButtonUp(1)) {
-			if (mMouse1Down) {
+			if (mMouse1Down && mMouse1DownInPlayingArea && GUIResources.MouseInPlayingArea()) {
 				Vector3 hit = RTSGameMechanics.FindHitPoint();
 				ScheduleCommand(SSKeyCode.Mouse1Click, hit.x, hit.y, hit.z);
 				mMouse1Down = false;

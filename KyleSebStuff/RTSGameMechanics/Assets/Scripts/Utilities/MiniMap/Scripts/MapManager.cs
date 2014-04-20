@@ -91,7 +91,7 @@ namespace MyMinimap {
 		// Every fixed amount of time (rangeUpdate), the program checks
 		// whether markers are within the display boundaries of the minimap
 		void Update () {
-			maxY = Screen.height*0.3f;
+			maxY = Screen.height * 0.3f;
 			maxX = Screen.width - 5;
 			minY = 0;
 			minX = 0.85f * Screen.width;
@@ -108,12 +108,15 @@ namespace MyMinimap {
 			// Iterate through the list of all markers that are within the display boundaries
 			// of the minimap and draw them onto the map.
 			foreach(MapMarker marker in inRange) {
-				var pos = convertToMinimapCoords(marker.gameObject.transform.position);
-				marker.rect.x = pos.x;
-				marker.rect.y = pos.y;
-				GUI.DrawTexture(marker.rect, marker.texture, ScaleMode.ScaleToFit);
-				if(marker.shouldHighLight){
-					GUI.DrawTexture(marker.rect, highlighter, ScaleMode.StretchToFill);
+				WorldObject wo = marker.gameObject.GetComponent<WorldObject>();
+				if (wo != null && wo.objectRenderer.enabled) {
+					var pos = convertToMinimapCoords(marker.gameObject.transform.position);
+					marker.rect.x = pos.x;
+					marker.rect.y = pos.y;
+					GUI.DrawTexture(marker.rect, marker.texture, ScaleMode.ScaleToFit);
+					if(marker.shouldHighLight){
+						GUI.DrawTexture(marker.rect, highlighter, ScaleMode.StretchToFill);
+					}
 				}
 			}
 			
