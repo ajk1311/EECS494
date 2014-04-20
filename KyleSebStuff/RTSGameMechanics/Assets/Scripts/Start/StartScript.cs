@@ -24,7 +24,11 @@ public class StartScript : MonoBehaviour {
     public Object orangeDefensiveTower;
     public Object magentaDefensiveTower;
 	public Object assembler;
-	public Object captureTower;
+
+	public Object tower1;
+	public Object tower2;
+	public Object tower3;
+	public Object tower4;
 
 	public WorldObject[] objs;
 
@@ -80,10 +84,10 @@ public class StartScript : MonoBehaviour {
 		if (connectionEvent.ID == 1) {
 			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
-//            foreach(GameObject gameObject in orangeDefensiveTowers)
-//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
-//            foreach(GameObject gameObject in magentaDefensiveTowers)
-//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
+            foreach(GameObject gameObject in orangeDefensiveTowers)
+                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+            foreach(GameObject gameObject in magentaDefensiveTowers)
+                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			Camera.main.GetComponent<CameraControl>().StartPosition = cameraStartPosition1;
 
 			assembler1.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
@@ -92,10 +96,10 @@ public class StartScript : MonoBehaviour {
 		} else {
 			orangeCpu.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
 			magentaCpu.GetComponent<WorldObject>().playerID = connectionEvent.ID;
-//            foreach(GameObject gameObject in orangeDefensiveTowers)
-//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
-//            foreach(GameObject gameObject in magentaDefensiveTowers)
-			//                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
+            foreach(GameObject gameObject in orangeDefensiveTowers)
+                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.opponentID;
+            foreach(GameObject gameObject in magentaDefensiveTowers)
+			                gameObject.GetComponent<WorldObject>().playerID = connectionEvent.ID;
 			Camera.main.GetComponent<CameraControl>().StartPosition = cameraStartPosition2;
 
 			assembler2.GetComponent<AssemblerScript>().playerID = connectionEvent.ID;
@@ -103,7 +107,10 @@ public class StartScript : MonoBehaviour {
 
 		}
 
-		GameObject dogwaffle = (GameObject)Instantiate (captureTower);
+		GameObject tower1Object = (GameObject)Instantiate (tower1);
+		GameObject tower2Object = (GameObject)Instantiate (tower2);
+		GameObject tower3Object = (GameObject)Instantiate (tower3);
+		GameObject tower4Object = (GameObject)Instantiate (tower4);
 
 		SSGameSetup.Ready(connectionEvent.ID);
 	}
