@@ -17,13 +17,6 @@ namespace RTS {
 			return px * scaleX;
 		}
 
-        // By specifying pixel sizes for GUI at the default camera height,
-        // we can scale such pixels so they are consistent when we zoom in and out
-        public static float GetZoomedPixelSize(float px) {
-            float scale = Camera.main.transform.position.y / 70;
-            return px * scale;
-        }
-
         //Playing Area Calculations
         public static int ResourceBarHeight {
 			get { return Screen.height / 20; }
