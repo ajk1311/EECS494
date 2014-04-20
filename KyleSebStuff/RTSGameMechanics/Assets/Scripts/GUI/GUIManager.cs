@@ -279,20 +279,27 @@ public class GUIManager : MonoBehaviour {
 		float initX = outerPadding;
 		float initY = Screen.height - GUIResources.OrdersBarHeight + outerPadding;
 
+        GUIModelManager.Button temp;
+
 		//draw left panel icons
 		scrollPositionLeft = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight),
 		                                         scrollPositionLeft, 
 		                                         new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.leftPanelButtons.Count / currentGUIModel.leftPanelColumns) * buttonHeight));
 		for (int i = 0, len = currentGUIModel.leftPanelButtons.Count; i < len; i++) {
+            temp = currentGUIModel.leftPanelButtons[i];
 			float buttonX = i % currentGUIModel.leftPanelColumns * leftButtonWidth;
 			float buttonY = i / currentGUIModel.leftPanelColumns * buttonHeight;
 			Rect drawRect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
-			if (currentGUIModel.leftPanelButtons[i].text != null) {
-				GUI.Button(drawRect, currentGUIModel.leftPanelButtons[i].text);
+
+            GUI.enabled = temp.enabled;
+			if (temp.text != null) {
+				GUI.Button(drawRect, temp.text);
 			} else {
-				GUI.Button(drawRect, currentGUIModel.leftPanelButtons[i].icon);
+				GUI.Button(drawRect, temp.icon);
 			}
-			currentGUIModel.leftPanelButtons[i].rect = new Rect(initX + buttonX, initY + buttonY, leftButtonWidth, buttonHeight);
+            GUI.enabled = true;
+
+			temp.rect = new Rect(initX + buttonX, initY + buttonY, leftButtonWidth, buttonHeight);
 		}
 		GUI.EndScrollView();
 		
@@ -302,15 +309,20 @@ public class GUIManager : MonoBehaviour {
 		                                           scrollPositionCenter, 
 		                                           new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.centerPanelButtons.Count / currentGUIModel.centerPanelColumns) * buttonHeight));
 		for (int i = 0, len = currentGUIModel.centerPanelButtons.Count; i < len; i++) {
+            temp = currentGUIModel.centerPanelButtons[i];
 			float buttonX = i % currentGUIModel.centerPanelColumns * centerButtonWidth;
 			float buttonY = i / currentGUIModel.centerPanelColumns * buttonHeight;
 			Rect drawRect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
-			if (currentGUIModel.centerPanelButtons[i].text != null) {
-				GUI.Button(drawRect, currentGUIModel.centerPanelButtons[i].text);
+
+            GUI.enabled = temp.enabled;
+			if (temp.text != null) {
+				GUI.Button(drawRect, temp.text);
 			} else {
-				GUI.Button(drawRect, currentGUIModel.centerPanelButtons[i].icon);
+				GUI.Button(drawRect, temp.icon);
 			}
-			currentGUIModel.centerPanelButtons[i].rect = new Rect(initX + buttonX, initY + buttonY, centerButtonWidth, buttonHeight);
+            GUI.enabled = true;
+
+			temp.rect = new Rect(initX + buttonX, initY + buttonY, centerButtonWidth, buttonHeight);
 		}
 		GUI.EndScrollView ();
     }
@@ -356,8 +368,9 @@ public class GUIManager : MonoBehaviour {
     /*
      * User Input on Buttons
      */
-    public static int [] GetButtonID(Vector3 mousePos) {
+    public static int [] GetButtonID(Vector3 mousePos, out GUIModelManager.Button pressed) {
 		if (currentGUIModel == null) {
+            pressed = null;
 			return null;
 		}
 
@@ -366,7 +379,8 @@ public class GUIManager : MonoBehaviour {
 
 		Vector2 mousePosLeft = mousePos2D + scrollPositionLeft;
         for (int i = 0; i < currentGUIModel.leftPanelButtons.Count; i++) {
-			if (currentGUIModel.leftPanelButtons [i].rect.Contains(mousePosLeft)) {
+			if (currentGUIModel.leftPanelButtons[i].rect.Contains(mousePosLeft)) {
+                pressed = currentGUIModel.leftPanelButtons[i];
 				button [0] = 0;
                 button [1] = i;
                 return button;
@@ -375,12 +389,14 @@ public class GUIManager : MonoBehaviour {
 
 		Vector2 mousePosCenter = mousePos2D + scrollPositionCenter;
         for (int i = 0; i < currentGUIModel.centerPanelButtons.Count; i++) {
-			if (currentGUIModel.centerPanelButtons [i].rect.Contains(mousePosCenter)) {
+			if (currentGUIModel.centerPanelButtons[i].rect.Contains(mousePosCenter)) {
+                pressed = currentGUIModel.centerPanelButtons[i];
 				button [0] = 1;
                 button [1] = i;
                 return button;
             }
         }
+        pressed = null;
         return null;
     }
 }

@@ -21,6 +21,8 @@ public class CPU : DestructableBuilding {
 	// GUI models
 	private GUIModelManager.GUIModel mTierSelectionModel;
 	private GUIModelManager.GUIModel mTier1UnitCreationModel;
+	private GUIModelManager.GUIModel mTier2UnitCreationModel;
+	private GUIModelManager.GUIModel mTier3UnitCreationModel;
 
 	public int spawnOffsetX;
 	public Int3 spawnOffset;
@@ -39,6 +41,10 @@ public class CPU : DestructableBuilding {
 	}
 
 	void BuildTierSelectionModel() {
+		PlayerScript po = GameObject.Find("Player").GetComponent<PlayerScript>();
+		PlayerScript oo = GameObject.Find("Opponent").GetComponent<PlayerScript>();
+		PlayerScript player = po.id == playerID ? po : oo;
+
 		mTierSelectionModel = new GUIModelManager.GUIModel();
 		mTierSelectionModel.leftPanelColumns = 1;
 
@@ -48,10 +54,12 @@ public class CPU : DestructableBuilding {
 
 		GUIModelManager.Button tier2 = new GUIModelManager.Button();
 		tier2.text = "Tier 2";
+		tier2.enabled = player.CurrentTier >= 2;
 		tier2.clicked += new GUIModelManager.OnClick(Tier2Clicked);
 
 		GUIModelManager.Button tier3 = new GUIModelManager.Button();
 		tier3.text = "Tier 3";
+		tier3.enabled = player.CurrentTier == 3;
 		tier3.clicked += new GUIModelManager.OnClick(Tier3Clicked);
 
 		mTierSelectionModel.AddButton(0, tier1);
@@ -69,7 +77,7 @@ public class CPU : DestructableBuilding {
 
 	void Tier2Clicked() {
 		// TODO check if unlocked
-		
+		Debug.Log("Tier 2 clicked");
 	}
 
 	void Tier3Clicked() {
@@ -99,23 +107,9 @@ public class CPU : DestructableBuilding {
 		AddDefaultButtons(mTier1UnitCreationModel);
 	}
 
-	private void AddDefaultButtons(GUIModelManager.GUIModel model) {
-		model.centerPanelColumns = 1;
-		
-		GUIModelManager.Button random = new GUIModelManager.Button();
-		random.text = "Randomize";
-		random.clicked += new GUIModelManager.OnClick(ProduceRandomUnit);
-		model.AddButton(1, random);
-
-		GUIModelManager.Button upgrade = new GUIModelManager.Button();
-		upgrade.text = "Upgrade";
-		upgrade.clicked += new GUIModelManager.OnClick(UpgradeToNextTier);
-		model.AddButton(1, upgrade);
-	}
-
 	void ProduceCube() {
 		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID+1, "Cube", "CPU");
+		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
 		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		cube.GetComponent<WorldObject>().playerID = PlayerID;
@@ -135,6 +129,99 @@ public class CPU : DestructableBuilding {
 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
 		GameObject capsule = (GameObject) Instantiate(capsulePrefab, (Vector3) spawnPosition, Quaternion.identity);
 		capsule.GetComponent<WorldObject>().playerID = PlayerID;
+	}
+
+	void BuildTier2UnitCreationModel() {
+		mTier2UnitCreationModel = new GUIModelManager.GUIModel();
+
+		GUIModelManager.Button cube2Button = new GUIModelManager.Button();
+		// TODO icon
+		cube2Button.clicked += new GUIModelManager.OnClick(ProduceTier2Cube);
+
+		GUIModelManager.Button sphere2Button = new GUIModelManager.Button();
+		// TODO icon
+		sphere2Button.clicked += new GUIModelManager.OnClick(ProduceTier2Sphere);
+
+		GUIModelManager.Button capsule2Button = new GUIModelManager.Button();
+		// TODO icon
+		capsule2Button.clicked += new GUIModelManager.OnClick(ProduceTier2Capsule);
+
+		mTier2UnitCreationModel.AddButton(0, cube2Button);
+		mTier2UnitCreationModel.AddButton(0, sphere2Button);
+		mTier2UnitCreationModel.AddButton(0, capsule2Button);
+
+		AddDefaultButtons(mTier2UnitCreationModel);
+	}
+
+	void ProduceTier2Cube() {
+		// TODO check resources
+
+	}
+
+	void ProduceTier2Sphere() {
+		// TODO check resources
+
+	}
+
+	void ProduceTier2Capsule() {
+		// TODO check resources
+
+	}
+
+	void BuildTier3UnitCreationModel() {
+		mTier3UnitCreationModel = new GUIModelManager.GUIModel();
+
+		GUIModelManager.Button cube3Button = new GUIModelManager.Button();
+		// TODO icon
+		cube3Button.clicked += new GUIModelManager.OnClick(ProduceTier3Cube);
+
+		GUIModelManager.Button sphere3Button = new GUIModelManager.Button();
+		// TODO icon
+		sphere3Button.clicked += new GUIModelManager.OnClick(ProduceTier3Sphere);
+
+		GUIModelManager.Button capsule3Button = new GUIModelManager.Button();
+		// TODO icon
+		capsule3Button.clicked += new GUIModelManager.OnClick(ProduceTier3Capsule);
+
+		mTier3UnitCreationModel.AddButton(0, cube3Button);
+		mTier3UnitCreationModel.AddButton(0, sphere3Button);
+		mTier3UnitCreationModel.AddButton(0, capsule3Button);
+
+		AddDefaultButtons(mTier3UnitCreationModel);
+	}
+
+	void ProduceTier3Cube() {
+		// TODO check resources
+
+	}
+
+	void ProduceTier3Sphere() {
+		// TODO check resources
+
+	}
+
+	void ProduceTier3Capsule() {
+		// TODO check resources
+		
+	}
+
+	private void AddDefaultButtons(GUIModelManager.GUIModel model) {
+		PlayerScript po = GameObject.Find("Player").GetComponent<PlayerScript>();
+		PlayerScript oo = GameObject.Find("Opponent").GetComponent<PlayerScript>();
+		PlayerScript player = po.id == playerID ? po : oo;
+
+		model.centerPanelColumns = 1;
+		
+		GUIModelManager.Button random = new GUIModelManager.Button();
+		random.text = "Randomize";
+		random.clicked += new GUIModelManager.OnClick(ProduceRandomUnit);
+		model.AddButton(1, random);
+
+		GUIModelManager.Button upgrade = new GUIModelManager.Button();
+		upgrade.text = "Upgrade";
+		upgrade.enabled = player.CurrentTier < 3;
+		upgrade.clicked += new GUIModelManager.OnClick(UpgradeToNextTier);
+		model.AddButton(1, upgrade);
 	}
 
 	void ProduceRandomUnit() {
@@ -179,13 +266,12 @@ public class CPU : DestructableBuilding {
 	}
 
 	void UpgradeToNextTier() {
-		var script1 = GameObject.Find("Player").GetComponent<PlayerScript>();
-		var script2 = GameObject.Find("Opponent").GetComponent<PlayerScript>();
-		if(playerID == script1.id) {
-			script1.upgradeTier();
-		}
-		else {
-			script2.upgradeTier();
+		PlayerScript po = GameObject.Find("Player").GetComponent<PlayerScript>();
+		PlayerScript oo = GameObject.Find("Opponent").GetComponent<PlayerScript>();
+		PlayerScript me = playerID == po.id ? po : oo;
+		if (me.upgradeTier()) {
+			BuildTierSelectionModel();
+			GUIModelManager.SetCurrentModel(playerID, mTierSelectionModel);
 		}
 	}
 }

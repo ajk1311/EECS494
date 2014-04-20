@@ -384,8 +384,9 @@ public class SSGameManager : MonoBehaviour {
 					}
 				} else {
 					// The click was started on the GUI
-					int[] button = GUIManager.GetButtonID(Input.mousePosition);
-					if(button != null) {
+					GUIModelManager.Button pressed;
+					int[] button = GUIManager.GetButtonID(Input.mousePosition, out pressed);
+					if(button != null && pressed.enabled) {
 						ScheduleCommand(SSKeyCode.GUIClick, button[0], button[1]);
 					}
 				}
