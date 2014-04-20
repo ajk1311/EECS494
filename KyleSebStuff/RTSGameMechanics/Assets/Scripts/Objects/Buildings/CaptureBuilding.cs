@@ -154,7 +154,7 @@ public class CaptureBuilding : Building {
 		player2UnitCount = 0;
 		
 		List<WorldObject> surroundingUnits = new List<WorldObject> ();
-		surroundingUnits = GridManager.GetObjectsInRadius (this, 23);
+		surroundingUnits = GridManager.GetObjectsInRadius (this, 15);
 		
 		foreach(WorldObject obj in surroundingUnits) {
 			int currentID = obj.playerID;
