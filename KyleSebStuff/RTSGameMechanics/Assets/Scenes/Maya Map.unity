@@ -1309,7 +1309,10 @@ MonoBehaviour:
   magentaDefensiveTower: {fileID: 100318, guid: 70a7924ac5ebbf24b9e62f2bffe06427,
     type: 2}
   assembler: {fileID: 100000, guid: 533b8727794814980877ba41020d78b7, type: 2}
-  captureTower: {fileID: 100000, guid: bf8935f6fa72a44f79a4ab8f7b34c9d2, type: 2}
+  tower1: {fileID: 100148, guid: ffcbb86d55ee14033830fd9562f9657d, type: 2}
+  tower2: {fileID: 100002, guid: 65a1322ac83d149a2af590a5a82663b4, type: 2}
+  tower3: {fileID: 100148, guid: 092cae393d1134f98af9082235d12b3a, type: 2}
+  tower4: {fileID: 100002, guid: d3a86b30e94cf45dcac50cc69e81dd89, type: 2}
   objs: []
 --- !u!114 &645879594
 MonoBehaviour:
@@ -2883,7 +2886,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400000, guid: c75562d9d0725430fa113db844d4d429, type: 2}
   m_PrefabInternal: {fileID: 150087363}
   m_GameObject: {fileID: 1622756186}
-  m_LocalRotation: {x: .707106888, y: 0, z: 0, w: .707106769}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
   m_LocalPosition: {x: 400, y: 201, z: 200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

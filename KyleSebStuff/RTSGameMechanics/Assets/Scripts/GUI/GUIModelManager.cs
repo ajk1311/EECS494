@@ -48,6 +48,7 @@ namespace RTS {
 		public class Button {
 			public string text;
 			public Texture icon;
+			public bool enabled = true;
 			public event OnClick clicked;
 			public Rect rect = new Rect (0, 0, 0, 0);
 

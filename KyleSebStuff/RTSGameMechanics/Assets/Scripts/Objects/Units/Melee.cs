@@ -16,10 +16,10 @@ public class Melee : Unit {
         attackRadius = 4;
 		pursuitRadius = 6;
         speed = 15f;
-        reloadSpeed = 1;
+        reloadSpeed = .5f;
         hitPoints = 5;
         maxHitPoints = 5;
-        attackSpeed = 25f;
+        attackSpeed = 30f;
 	}
 
 	public override void GameUpdate(float deltaTime) {
@@ -56,6 +56,8 @@ public class Melee : Unit {
         if (!attackStarted) {
         	attackStarted = true;
         	startAttackPosition = intPosition;
+        	transform.rotation = Quaternion.LookRotation(
+        		(currentTarget.transform.position - transform.position).normalized);
         	attackPosition = intPosition + (Int3) (transform.forward * attackRadius);
         }
     }

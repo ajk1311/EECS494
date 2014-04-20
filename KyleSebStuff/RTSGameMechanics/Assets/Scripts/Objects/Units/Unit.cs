@@ -209,7 +209,6 @@ public class Unit : WorldObject {
         }
 
 		if (idle || (attackMove && !pursuing && !attacking && !reloading)) {
-			if (!idle) Debug.Log("Scanning for enemies while not idle!");
 			ScanForEnemies();
 		}
 
@@ -228,7 +227,9 @@ public class Unit : WorldObject {
 			transform.position = (Vector3) intPosition;
 
 			Vector3 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
-			transform.rotation = Quaternion.LookRotation(direction);
+			if (direction != Vector3.zero) {
+				transform.rotation = Quaternion.LookRotation(direction);
+			}
 			
 			if (IntPhysics.IsCloseEnough(intPosition, nextWayPoint, nextWaypointDistance)) {
 				currentWaypoint++;
