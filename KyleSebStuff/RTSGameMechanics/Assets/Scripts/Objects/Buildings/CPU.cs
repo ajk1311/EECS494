@@ -89,9 +89,9 @@ public class CPU : DestructableBuilding
             {tier1meleePrefab, tier1meleeIcon},
             {tier1rangePrefab, tier1rangeIcon},
             {tier1siegePrefab, tier1siegeIcon},
-            // {tier2meleePrefab, tier2meleeIcon},
-            // {tier2rangePrefab, tier2rangeIcon},
-            // {tier2siegePrefab, tier2siegeIcon},
+            {tier2meleePrefab, tier2meleeIcon},
+            {tier2rangePrefab, tier2rangeIcon},
+            {tier2siegePrefab, tier2siegeIcon},
             // {tier3meleePrefab, tier3meleeIcon},
             // {tier3rangePrefab, tier3rangeIcon},
             // {tier3siegePrefab, tier3siegeIcon}
@@ -157,7 +157,7 @@ public class CPU : DestructableBuilding
 		GUIModelManager.Button tier3 = new GUIModelManager.Button();
 		tier3.text = "Tier 3";
 		tier3.enabled = player.CurrentTier == 3;
-        tier3.clicked += () => SetGuiModel(TIER_3);
+        tier3.clicked += () => {}; // SetGuiModel(TIER_3);
 
         model.AddButton(0, random);
         model.AddButton(0, upgrade);
@@ -321,20 +321,20 @@ public class CPU : DestructableBuilding
                     OrangeTier2RangeName : MagentaTier2RangeName, tier2rangePrefab, true);
 				break;
 
-            case 6:
-                QueueUnitCreation(playerID == 1 ?
-                    OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab, true);
-                break;
+            // case 6:
+            //     QueueUnitCreation(playerID == 1 ?
+            //         OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab, true);
+            //     break;
 
-            case 7:
-                QueueUnitCreation(playerID == 1 ?
-                    OrangeTIer3SiegeName : MagentaTIer3SiegeName, tier3siegePrefab, true);
-                break;
+            // case 7:
+            //     QueueUnitCreation(playerID == 1 ?
+            //         OrangeTIer3SiegeName : MagentaTIer3SiegeName, tier3siegePrefab, true);
+            //     break;
 
-            case 8:
-                QueueUnitCreation(playerID == 1 ?
-                    OrangeTier3MeleeName : MagentaTier3MeleeName, tier3meleePrefab, true);
-                break;
+            // case 8:
+            //     QueueUnitCreation(playerID == 1 ?
+            //         OrangeTier3MeleeName : MagentaTier3MeleeName, tier3meleePrefab, true);
+            //     break;
 		}
 	}
 
