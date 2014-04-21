@@ -169,6 +169,9 @@ public class CaptureBuilding : Building {
 		surroundingUnits = GridManager.GetObjectsInRadius (this, detectionRadius);
 		
 		foreach(WorldObject obj in surroundingUnits) {
+			if (obj.gameObject.tag == "CaptureTower") {
+				continue;
+			}
 			int currentID = obj.playerID;
 			if(currentID == 1) {
 				player1UnitCount++;
