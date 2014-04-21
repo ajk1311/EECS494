@@ -208,15 +208,17 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 100
-  maxHitPoints: 100
+  hitPoints: 30
+  maxHitPoints: 30
   objectName: 
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 2300000}
   magentaTexture: {fileID: 0}
   orangeTexture: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  playerScript: {fileID: 0}
   reloading: 0
-  damageInflicted: 5
+  damageInflicted: 3
   reloadSpeed: 1
   currentTarget: {fileID: 0}
   attackRadius: 25
