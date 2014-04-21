@@ -123,6 +123,7 @@ public class CPU : DestructableBuilding
             GameObject unit = (GameObject) Instantiate(prefab, (Vector3) spawnPosition, Quaternion.identity);
             unit.transform.Rotate(new Vector3(0, 90, 0));
             unit.GetComponent<WorldObject>().playerID = PlayerID;
+            unit.GetComponent<WorldObject>().buttonIcon = mIconMap[prefab];
             mCreationQueue.RemoveAt(0);
             SetGuiModel(mCurrentGuiModel);
         }

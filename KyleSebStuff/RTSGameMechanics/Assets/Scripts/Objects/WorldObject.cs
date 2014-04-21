@@ -32,6 +32,8 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 	public Texture magentaTexture;
 	public Texture orangeTexture;
 
+    public Texture buttonIcon;
+
 	public PlayerScript playerScript;
 
 	public int ID {
