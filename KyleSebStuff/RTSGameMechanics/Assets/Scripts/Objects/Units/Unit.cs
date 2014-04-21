@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 public class Unit : WorldObject {
 
+	public static readonly float SpeedBuff = 1.75f;
+
 	// State variables
     protected bool pathComplete = false;
     protected bool moving = false;
@@ -244,7 +246,8 @@ public class Unit : WorldObject {
 				return;
 			}
 			Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
-			float buffedSpeed = playerScript.centerTowerBuff ? IntPhysics.FloatSafeMultiply(speed, 2.0f) : speed;
+			float buffedSpeed = playerScript.centerTowerBuff ? 
+				IntPhysics.FloatSafeMultiply(speed, SpeedBuff) : speed;
 			Int3 delta = IntPhysics.DisplacementTo(intPosition, nextWayPoint, 
 			                                     IntPhysics.FloatSafeMultiply(buffedSpeed, deltaTime));
 			intDirection = new Int3(System.Math.Sign(delta.x), 0, System.Math.Sign(delta.z));
