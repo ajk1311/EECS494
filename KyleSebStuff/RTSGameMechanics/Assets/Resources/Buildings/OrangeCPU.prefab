@@ -3837,11 +3837,11 @@ MonoBehaviour:
   magentaTexture: {fileID: 0}
   orangeTexture: {fileID: 0}
   tier1meleePrefab: {fileID: 100000, guid: bf8aa1028a1b74d22a507231fafd26d4, type: 2}
-  tier1meleeIcon: {fileID: 0}
+  tier1meleeIcon: {fileID: 2800000, guid: c47842b77a2ce41018d0e9b9d15c8647, type: 3}
   tier1rangePrefab: {fileID: 100004, guid: 488d21b8e3413436892e8c8721707174, type: 2}
-  tier1rangeIcon: {fileID: 0}
+  tier1rangeIcon: {fileID: 2800000, guid: 4be716dd133e14b30b7649f27cbda955, type: 3}
   tier1siegePrefab: {fileID: 100004, guid: ec925971794ad42b4900befa428100d1, type: 2}
-  tier1siegeIcon: {fileID: 0}
+  tier1siegeIcon: {fileID: 2800000, guid: d58e6f56ebf324eb2904706701a8d529, type: 3}
   tier2meleePrefab: {fileID: 0}
   tier2meleeIcon: {fileID: 0}
   tier2rangePrefab: {fileID: 0}

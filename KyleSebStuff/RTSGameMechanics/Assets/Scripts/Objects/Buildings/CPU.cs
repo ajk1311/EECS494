@@ -11,7 +11,7 @@ public class CPU : DestructableBuilding
     private static readonly string OrangeTier2MeleeName = "OrangeBinaryTreeUnit"; //"OrangePointerUnit";
     private static readonly string OrangeTier3MeleeName = "OrangeBinaryTreeUnit";
 
-    private static readonly string OrangeTier1RangeName = "OrangeSphereUnit";
+    private static readonly string OrangeTier1RangeName = "OrangeLongUnit";
     private static readonly string OrangeTier2RangeName = "OrangeStaticUnit"; //"Orange???Unit";
     private static readonly string OrangeTier3RangeName = "OrangeStaticUnit";
 
@@ -24,7 +24,7 @@ public class CPU : DestructableBuilding
     private static readonly string MagentaTier2MeleeName = "MagentaBinaryTreeUnit"; //"MagentaPointerUnit";
     private static readonly string MagentaTier3MeleeName = "MagentaBinaryTreeUnit";
 
-    private static readonly string MagentaTier1RangeName = "MagentaSphereUnit";
+    private static readonly string MagentaTier1RangeName = "MagentaLongUnit";
     private static readonly string MagentaTier2RangeName = "MagentaStaticUnit"; //"Magenta???Unit";
     private static readonly string MagentaTier3RangeName = "MagentaStaticUnit";
 
@@ -80,24 +80,21 @@ public class CPU : DestructableBuilding
 	protected override void Start()
     {
 		base.Start();
-		BuildTierSelectionModel();
-		BuildTier1UnitCreationModel();
-		BuildTier2UnitCreationModel();
-		spawnOffset = new Int3(spawnOffsetX * Int3.Precision, 0, 0);
-        mCreationQueue = new List<CreationEvent>();
         mCreationProgress = 0;
-        mCurrentGuiModel = -1;
+        mCurrentGuiModel = NONE;
+        mCreationQueue = new List<CreationEvent>();
+		spawnOffset = new Int3(spawnOffsetX * Int3.Precision, 0, 0);
         mIconMap = new Dictionary<Object, Texture>()
         {
             {tier1meleePrefab, tier1meleeIcon},
             {tier1rangePrefab, tier1rangeIcon},
             {tier1siegePrefab, tier1siegeIcon},
-            {tier2meleePrefab, tier2meleeIcon},
-            {tier2rangePrefab, tier2rangeIcon},
-            {tier2siegePrefab, tier2siegeIcon},
-            {tier3meleePrefab, tier3meleeIcon},
-            {tier3rangePrefab, tier3rangeIcon},
-            {tier3siegePrefab, tier3siegeIcon}
+            // {tier2meleePrefab, tier2meleeIcon},
+            // {tier2rangePrefab, tier2rangeIcon},
+            // {tier2siegePrefab, tier2siegeIcon},
+            // {tier3meleePrefab, tier3meleeIcon},
+            // {tier3rangePrefab, tier3rangeIcon},
+            // {tier3siegePrefab, tier3siegeIcon}
         };
 	}
 
@@ -124,13 +121,15 @@ public class CPU : DestructableBuilding
             Object prefab = mCreationQueue[0].prefab;
             Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
             GameObject unit = (GameObject) Instantiate(prefab, (Vector3) spawnPosition, Quaternion.identity);
+            unit.transform.Rotate(new Vector3(0, 90, 0));
             unit.GetComponent<WorldObject>().playerID = PlayerID;
             mCreationQueue.RemoveAt(0);
             SetGuiModel(mCurrentGuiModel);
         }
     }
 
-	private GUIModelManager.GUIModel BuildTierSelectionModel() {
+	private GUIModelManager.GUIModel BuildTierSelectionModel() 
+	{
         PlayerScript player = GetAppropriatePlayerScript();
 
 		GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
@@ -171,7 +170,8 @@ public class CPU : DestructableBuilding
         return model;
 	}
 
-	private GUIModelManager.GUIModel BuildTier1UnitCreationModel() {
+	private GUIModelManager.GUIModel BuildTier1UnitCreationModel() 
+	{
         GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
         model.leftPanelColumns = 3;
         model.centerPanelColumns = 3;
