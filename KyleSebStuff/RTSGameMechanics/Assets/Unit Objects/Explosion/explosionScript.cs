@@ -4,7 +4,7 @@ using System.Collections;
 public class explosionScript : MonoBehaviour {
 
 	void Start() {
-		Invoke("removeSelf", 3.5f);
+		Invoke("removeSelf", 2.0f);
 	}
 	
 	void removeSelf() {

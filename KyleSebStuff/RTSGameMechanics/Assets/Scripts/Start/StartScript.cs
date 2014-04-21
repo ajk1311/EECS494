@@ -44,7 +44,7 @@ public class StartScript : MonoBehaviour {
 	void Update() {
 		if(guiManager.usernameEntered && notConnected) {
 			Debug.Log("in here");
-			SSGameSetup.ConnectToGame(guiManager.username, false);
+			SSGameSetup.ConnectToGame(guiManager.username, true);
 			notConnected = false;
 		}
 	}
