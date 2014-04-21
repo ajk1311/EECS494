@@ -208,11 +208,11 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		return unitMemoryRef [unitName];
 	}
 
-	public bool generateUnit(string unitName) {
+	public bool canGenerateUnit(string unitName) {
 		int powerCheck = power;
 		int memoryCheck = memory;
 		powerCheck -= getUnitPowerCost(unitName);
-		memoryCheck += getUnitMemoryCost (unitName);
+		memoryCheck += getUnitMemoryCost(unitName);
 
 		if(powerCheck >= 0 && memoryCheck <= maxMemory) {
 			power = powerCheck;

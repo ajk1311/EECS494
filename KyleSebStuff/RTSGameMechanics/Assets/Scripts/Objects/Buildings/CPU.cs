@@ -158,7 +158,15 @@ public class CPU : DestructableBuilding {
 	}
 
 	void ProduceTier2Cube() {
-		// TODO check resources
+		PlayerScript me = GetAppropriatePlayerScript();
+		string unitName = playerID == 1 ? "OrangeDoubleUnit" : "MagentaDoubleUnit";
+		if (me.canGenerateUnit(unitName)) {
+			int cooldown = me.getUnitCooldown(unitName);
+			
+		}
+
+
+
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Tier2Cube", "CPU");
 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
 		GameObject static_ = (GameObject) Instantiate(tier2Static, (Vector3) spawnPosition, Quaternion.identity);
@@ -228,9 +236,7 @@ public class CPU : DestructableBuilding {
 	}
 
 	private void AddDefaultButtons(GUIModelManager.GUIModel model) {
-		PlayerScript po = GameObject.Find("Player").GetComponent<PlayerScript>();
-		PlayerScript oo = GameObject.Find("Opponent").GetComponent<PlayerScript>();
-		PlayerScript player = po.id == playerID ? po : oo;
+		PlayerScript player = GetAppropriatePlayerScript();
 
 		model.centerPanelColumns = 1;
 		
@@ -288,12 +294,16 @@ public class CPU : DestructableBuilding {
 	}
 
 	void UpgradeToNextTier() {
-		PlayerScript po = GameObject.Find("Player").GetComponent<PlayerScript>();
-		PlayerScript oo = GameObject.Find("Opponent").GetComponent<PlayerScript>();
-		PlayerScript me = playerID == po.id ? po : oo;
+		PlayerScript me = GetAppropriatePlayerScript();
 		if (me.upgradeTier()) {
 			BuildTierSelectionModel();
 			GUIModelManager.SetCurrentModel(playerID, mTierSelectionModel);
 		}
+	}
+
+	private Player GetAppropriatePlayerScript() {
+		PlayerScript po = GameObject.Find("Player").GetComponent<PlayerScript>();
+		PlayerScript oo = GameObject.Find("Opponent").GetComponent<PlayerScript>();
+		return playerID == po.id ? po : oo;
 	}
 }
