@@ -125,7 +125,9 @@ public class CPU : DestructableBuilding
             unit.GetComponent<WorldObject>().playerID = PlayerID;
             unit.GetComponent<WorldObject>().buttonIcon = mIconMap[prefab];
             mCreationQueue.RemoveAt(0);
-            SetGuiModel(mCurrentGuiModel);
+            if (currentlySelected) {
+            	SetGuiModel(mCurrentGuiModel);
+            }
         }
     }
 
@@ -282,6 +284,9 @@ public class CPU : DestructableBuilding
                 {
                     mCreationProgress = 0;
                     mCreationQueue.Remove(i);
+                    if (currentlySelected) {
+                    	SetGuiModel(mCurrentGuiModel);
+                    }
                 };
             model.AddButton(1, button);
         }
