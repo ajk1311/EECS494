@@ -511,8 +511,8 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 1
-  hitPoints: 10
-  maxHitPoints: 10
+  hitPoints: 90
+  maxHitPoints: 90
   objectName: OrangeBinaryTreeUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
@@ -526,12 +526,12 @@ MonoBehaviour:
   purpleExplosion: {fileID: 100000, guid: 14130862835ad491ea740eea74acdb38, type: 2}
   orangeExplosion: {fileID: 100000, guid: eacf30e8408a445739af10421652b26a, type: 2}
   currentTarget: {fileID: 0}
-  speed: 0
-  attackRadius: 0
-  pursuitRadius: 0
-  reloadSpeed: 0
+  speed: 15
+  attackRadius: 4
+  pursuitRadius: 6
+  reloadSpeed: .800000012
   attentionRange: 0
-  damageInflicted: 0
+  damageInflicted: 12
   progressBar: {fileID: 0}
   attackSpeed: 0
 --- !u!136 &13600000

@@ -12,13 +12,6 @@ public class Melee : Unit {
 	// Use this for initialization
 	protected override void Start() {
 		base.Start();
-		damageInflicted = 1;
-        attackRadius = 4;
-		pursuitRadius = 6;
-        speed = 15f;
-        reloadSpeed = 0.8f;
-        hitPoints = 5;
-        maxHitPoints = 5;
         attackSpeed = 28f;
 	}
 

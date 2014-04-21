@@ -972,8 +972,8 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 10
-  maxHitPoints: 10
+  hitPoints: 108
+  maxHitPoints: 108
   objectName: OrangeArrayUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
@@ -987,12 +987,12 @@ MonoBehaviour:
   purpleExplosion: {fileID: 100000, guid: 14130862835ad491ea740eea74acdb38, type: 2}
   orangeExplosion: {fileID: 100000, guid: eacf30e8408a445739af10421652b26a, type: 2}
   currentTarget: {fileID: 0}
-  speed: 50
-  attackRadius: 0
-  pursuitRadius: 0
-  reloadSpeed: 0
+  speed: 10
+  attackRadius: 9
+  pursuitRadius: 15
+  reloadSpeed: 3
   attentionRange: 0
-  damageInflicted: 0
+  damageInflicted: 24
   progressBar: {fileID: 0}
   Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
 --- !u!114 &11400006

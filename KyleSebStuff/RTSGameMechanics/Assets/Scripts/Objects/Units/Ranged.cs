@@ -7,17 +7,6 @@ public class Ranged : Unit {
 
     public GameObject Projectile;
 
-    protected override void Start() {
-        base.Start();
-		damageInflicted = 1;
-        attackRadius = 6;
-		pursuitRadius = 12;
-        speed = 15f;
-        reloadSpeed = 0.75f;
-        hitPoints = 5;
-        maxHitPoints = 5;
-    }
-
     protected override void AttackHandler() {
         base.AttackHandler();
         //Stop moving in order to attack
