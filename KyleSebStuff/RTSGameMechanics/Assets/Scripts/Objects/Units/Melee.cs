@@ -24,7 +24,7 @@ public class Melee : Unit {
 
 	public override void GameUpdate(float deltaTime) {
 		base.GameUpdate(deltaTime);
-		if (!attacking) {
+		if (!attacking || currentTarget == null) {
 			attackStarted = false;
 			return;
 		}
