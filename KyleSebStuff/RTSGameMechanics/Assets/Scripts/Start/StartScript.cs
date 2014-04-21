@@ -125,10 +125,10 @@ public class StartScript : MonoBehaviour {
 		GameObject tower3Object = (GameObject)Instantiate (tower3);
 		GameObject tower4Object = (GameObject)Instantiate (tower4);
 
-		tower1Object.GetComponent<CaptureBuilding> ().detectionRadius = 15;
-		tower2Object.GetComponent<CaptureBuilding> ().detectionRadius = 15;
-		tower3Object.GetComponent<CaptureBuilding> ().detectionRadius = 15;
-		tower4Object.GetComponent<CaptureBuilding> ().detectionRadius = 15;
+		tower1Object.GetComponent<CaptureBuilding> ().detectionRadius = 18;
+		tower2Object.GetComponent<CaptureBuilding> ().detectionRadius = 18;
+		tower3Object.GetComponent<CaptureBuilding> ().detectionRadius = 18;
+		tower4Object.GetComponent<CaptureBuilding> ().detectionRadius = 18;
 
 		GameObject centerTowerObject = (GameObject)Instantiate (centerTower);
 
