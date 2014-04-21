@@ -143,8 +143,8 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	public void createTierUpgradeCostRef() {
 		tierUpgradeCostRef = new Dictionary<string, int> ();
-		tierUpgradeCostRef.Add("Tier2", 30);
-		tierUpgradeCostRef.Add("Tier3", 50);
+		tierUpgradeCostRef.Add("Tier1", 30);
+		tierUpgradeCostRef.Add("Tier2", 50);
 	}
 
     //Public Getters and Setters
@@ -272,7 +272,7 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 			return false;
 		}
 
-		string nextTier = "Tier" + (currentTierIndex + 1);
+		string nextTier = "Tier" + (currentTierIndex);
 		int cost = getTierCost(nextTier);
 		int powerCheck = power - cost;
 

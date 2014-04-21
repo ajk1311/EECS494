@@ -33,9 +33,20 @@ public class StartScript : MonoBehaviour {
 
 	public WorldObject[] objs;
 
+	private GUIManager guiManager;
+	private bool notConnected = true;
+
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", true);
+		guiManager = GameObject.Find("Player").GetComponent<GUIManager>();
+	}
+
+	void Update() {
+		if(guiManager.usernameEntered && notConnected) {
+			Debug.Log("in here");
+			SSGameSetup.ConnectToGame(guiManager.username, true);
+			notConnected = false;
+		}
 	}
 	
 	[HandlesEvent]
@@ -50,6 +61,7 @@ public class StartScript : MonoBehaviour {
 		CombinationManager.Init();
 		FogOfWarManager.Init();
 		ParseManager.Init(connectionEvent.ID, connectionEvent.gameID);
+		guiManager.connected(connectionEvent.opponentName);
 
 		UserInputManager myInputManager;
 		UserInputManager hisOrHerInputManager;
