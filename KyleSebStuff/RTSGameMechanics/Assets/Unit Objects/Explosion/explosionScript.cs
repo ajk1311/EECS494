@@ -5,7 +5,7 @@ public class explosionScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Invoke ("removeSelf", 1.0f);
+		Invoke ("removeSelf", 5.0f);
 	}
 	
 
