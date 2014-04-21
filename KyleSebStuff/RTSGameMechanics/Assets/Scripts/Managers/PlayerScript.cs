@@ -26,6 +26,8 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	public Dictionary<string, int> unitMemoryRef;
 	public Dictionary<string, int> tierUpgradeCostRef;
 
+	public bool centerTowerBuff;
+
 	private int currentTierIndex;
 	public int CurrentTier {
 		get { return currentTierIndex; }
@@ -54,10 +56,11 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		createUnitCooldownRef();
 		createUnitMemoryRef();
 		createTierUpgradeCostRef();
+
+		centerTowerBuff = false;
 	}
 
     public void GameUpdate(float deltaTime) {
-		Debug.Log ("Current Power: " + power + "ID: " + id);
 		currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);;
 		if(currentTime >= (int) System.Math.Round(cycleLength * Int3.FloatPrecision)) {
 			currentTime = 0;
@@ -183,7 +186,6 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	public void addPowerPerCycle(int amount) {
 		powerPerCycle += amount;
-		Debug.Log("Amount is: " + amount + "powerPerCycle: " + powerPerCycle + "PlayerID: " + id);
 	}
 
 	public void removePowerPerCycle(int amount) {
@@ -253,6 +255,11 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		if(power > maxPower) {
 			power = maxPower;
 		}
+	}
+
+	//Center Tower Buff
+	public void setCenterTowerBuff(bool val) {
+		centerTowerBuff = val;
 	}
 
 	//Technology Funcitons
