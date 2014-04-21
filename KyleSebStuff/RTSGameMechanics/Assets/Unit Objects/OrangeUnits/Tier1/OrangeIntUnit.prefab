@@ -178,9 +178,12 @@ MonoBehaviour:
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 2800000, guid: 56d8f97f67284438e945aa73bac974f1, type: 3}
   orangeTexture: {fileID: 2800000, guid: ec6a7293eb236447b87b42229ecbed3e, type: 3}
+  playerScript: {fileID: 0}
   reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: .5
+  purpleExplosion: {fileID: 100000, guid: 14130862835ad491ea740eea74acdb38, type: 2}
+  orangeExplosion: {fileID: 100000, guid: eacf30e8408a445739af10421652b26a, type: 2}
   currentTarget: {fileID: 0}
   speed: 0
   attackRadius: 0

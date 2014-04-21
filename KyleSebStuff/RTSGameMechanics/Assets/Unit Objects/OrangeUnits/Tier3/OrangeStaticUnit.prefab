@@ -1306,8 +1306,8 @@ MonoBehaviour:
   reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: 3
-  purpleExplosion: {fileID: 0}
-  orangeExplosion: {fileID: 0}
+  purpleExplosion: {fileID: 100000, guid: 14130862835ad491ea740eea74acdb38, type: 2}
+  orangeExplosion: {fileID: 100000, guid: eacf30e8408a445739af10421652b26a, type: 2}
   currentTarget: {fileID: 0}
   speed: 50
   attackRadius: 0
