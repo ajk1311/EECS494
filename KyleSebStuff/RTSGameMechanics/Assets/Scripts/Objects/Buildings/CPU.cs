@@ -4,306 +4,397 @@ using System.Collections.Generic;
 using RTS;
 using Pathfinding;
 
-public class CPU : DestructableBuilding {
+public class CPU : DestructableBuilding 
+{
+    /*** Orange units ***/
+    private static readonly string OrangeTier1MeleeName = "OrangeIntUnit";
+    private static readonly string OrangeTier2MeleeName = "OrangeBinaryTreeUnit"; //"OrangePointerUnit";
+    private static readonly string OrangeTier3MeleeName = "OrangeBinaryTreeUnit";
 
-	public Texture unit1Icon;
-	public Texture unit2Icon;
-	public Texture unit3Icon;
+    private static readonly string OrangeTier1RangeName = "OrangeSphereUnit";
+    private static readonly string OrangeTier2RangeName = "OrangeStaticUnit"; //"Orange???Unit";
+    private static readonly string OrangeTier3RangeName = "OrangeStaticUnit";
 
-	// TODO change for production
-	public Object cubePrefab;
-	public Object spherePrefab;
-	public Object capsulePrefab;
-	public Object tier2BinaryTree;
-	public Object tier2Static;
-	public Object tier2Heap;
+    private static readonly string OrangeTier1SiegeName = "OrangeDoubleUnit";
+    private static readonly string OrangeTier2SiegeName = "OrangeHeapUnit";
+    private static readonly string OrangeTIer3SiegeName = "OrangeArrayUnit";
 
-	// GUI models
-	private GUIModelManager.GUIModel mTierSelectionModel;
-	private GUIModelManager.GUIModel mTier1UnitCreationModel;
-	private GUIModelManager.GUIModel mTier2UnitCreationModel;
-	private GUIModelManager.GUIModel mTier3UnitCreationModel;
+    /*** Magenta units ***/
+    private static readonly string MagentaTier1MeleeName = "MagentaIntUnit";
+    private static readonly string MagentaTier2MeleeName = "MagentaBinaryTreeUnit"; //"MagentaPointerUnit";
+    private static readonly string MagentaTier3MeleeName = "MagentaBinaryTreeUnit";
+
+    private static readonly string MagentaTier1RangeName = "MagentaSphereUnit";
+    private static readonly string MagentaTier2RangeName = "MagentaStaticUnit"; //"Magenta???Unit";
+    private static readonly string MagentaTier3RangeName = "MagentaStaticUnit";
+
+    private static readonly string MagentaTier1SiegeName = "MagentaDoubleUnit";
+    private static readonly string MagentaTier2SiegeName = "MagentaHeapUnit";
+    private static readonly string MagentaTIer3SiegeName = "MagentaArrayUnit";
+
+	// Tier 1
+	public Object tier1meleePrefab;
+    public Texture tier1meleeIcon;
+    public Object tier1rangePrefab;
+    public Texture tier1rangeIcon;
+    public Object tier1siegePrefab;
+    public Texture tier1siegeIcon;
+    // Tier 2
+    public Object tier2meleePrefab;
+    public Texture tier2meleeIcon;
+    public Object tier2rangePrefab;
+    public Texture tier2rangeIcon;
+    public Object tier2siegePrefab;
+    public Texture tier2siegeIcon;
+    // Tier 3
+    public Object tier3meleePrefab;
+    public Texture tier3meleeIcon;
+    public Object tier3rangePrefab;
+    public Texture tier3rangeIcon;
+    public Object tier3siegePrefab;
+    public Texture tier3siegeIcon;
 
 	public int spawnOffsetX;
 	public Int3 spawnOffset;
 
-	protected override void Start() {
+    // Not the best design, but the fastest implementation right now
+    private const int NONE = -1;
+    private const int TIER_SELECT = 0;
+    private const int TIER_1 = 1;
+    private const int TIER_2 = 2;
+    private const int TIER_3 = 3;
+    private int mCurrentGuiModel;
+
+    // Creation queue
+    private int mCreationProgress;
+    private List<CreationEvent> mCreationQueue;
+
+    private Dictionary<Object, Texture> mIconMap;
+
+    struct CreationEvent
+    {
+        public int cooldown;
+        public Object prefab;
+    }
+
+	protected override void Start()
+    {
 		base.Start();
 		BuildTierSelectionModel();
 		BuildTier1UnitCreationModel();
 		BuildTier2UnitCreationModel();
 		spawnOffset = new Int3(spawnOffsetX * Int3.Precision, 0, 0);
+        mCreationQueue = new List<CreationEvent>();
+        mCreationProgress = 0;
+        mCurrentGuiModel = -1;
+        mIconMap = new Dictionary<Object, Texture>()
+        {
+            {tier1meleePrefab, tier1meleeIcon},
+            {tier1rangePrefab, tier1rangeIcon},
+            {tier1siegePrefab, tier1siegeIcon},
+            {tier2meleePrefab, tier2meleeIcon},
+            {tier2rangePrefab, tier2rangeIcon},
+            {tier2siegePrefab, tier2siegeIcon},
+            {tier3meleePrefab, tier3meleeIcon},
+            {tier3rangePrefab, tier3rangeIcon},
+            {tier3siegePrefab, tier3siegeIcon}
+        };
 	}
 
 	protected override GUIModelManager.GUIModel GetGUIModel() { return null; }
 
-	public override void OnSelectionChanged(bool selected) {
-		GUIModelManager.SetCurrentModel(playerID, selected ? mTierSelectionModel : null);
+	public override void OnSelectionChanged(bool selected) 
+    {
+        SetGuiModel(selected ? TIER_SELECT : NONE);
 	}
 
-	void BuildTierSelectionModel() {
-		PlayerScript po = GameObject.Find("Player").GetComponent<PlayerScript>();
-		PlayerScript oo = GameObject.Find("Opponent").GetComponent<PlayerScript>();
-		PlayerScript player = po.id == playerID ? po : oo;
+    public override void GameUpdate(float deltaTime) 
+    {
+        base.GameUpdate(deltaTime);
+        if (mCreationQueue.Count == 0)
+        {
+            // There are no units waiting in the queue
+            return;
+        }
+        mCreationProgress += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
+        if (mCreationProgress >= mCreationQueue[0].cooldown * Int3.Precision)
+        {
+            mCreationProgress = 0;
+            // Create the next unit
+            Object prefab = mCreationQueue[0].prefab;
+            Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
+            GameObject unit = (GameObject) Instantiate(prefab, (Vector3) spawnPosition, Quaternion.identity);
+            unit.GetComponent<WorldObject>().playerID = PlayerID;
+            mCreationQueue.RemoveAt(0);
+            SetGuiModel(mCurrentGuiModel);
+        }
+    }
 
-		mTierSelectionModel = new GUIModelManager.GUIModel();
-		mTierSelectionModel.leftPanelColumns = 1;
+	private GUIModelManager.GUIModel BuildTierSelectionModel() {
+        PlayerScript player = GetAppropriatePlayerScript();
+
+		GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
+        model.leftPanelColumns = 2;
+        model.centerPanelColumns = 3;
+
+        GUIModelManager.Button random = new GUIModelManager.Button();
+        random.text = "Random";
+        random.clicked += new GUIModelManager.OnClick(ProduceRandomUnit);
+
+        GUIModelManager.Button upgrade = new GUIModelManager.Button();
+        upgrade.text = "Upgrade";
+        upgrade.enabled = player.CurrentTier < 3;
+        upgrade.clicked += new GUIModelManager.OnClick(UpgradeToNextTier);
 
 		GUIModelManager.Button tier1 = new GUIModelManager.Button();
 		tier1.text = "Tier 1";
-		tier1.clicked += new GUIModelManager.OnClick(Tier1Clicked);
+        tier1.clicked += () => SetGuiModel(TIER_1);
 
 		GUIModelManager.Button tier2 = new GUIModelManager.Button();
 		tier2.text = "Tier 2";
 		tier2.enabled = player.CurrentTier >= 2;
-		tier2.clicked += new GUIModelManager.OnClick(Tier2Clicked);
+        tier2.clicked += () => SetGuiModel(TIER_2);
 
 		GUIModelManager.Button tier3 = new GUIModelManager.Button();
 		tier3.text = "Tier 3";
 		tier3.enabled = player.CurrentTier == 3;
-		tier3.clicked += new GUIModelManager.OnClick(Tier3Clicked);
+        tier3.clicked += () => SetGuiModel(TIER_3);
 
-		mTierSelectionModel.AddButton(0, tier1);
-		mTierSelectionModel.AddButton(0, tier2);
-		mTierSelectionModel.AddButton(0, tier3);
+        model.AddButton(0, random);
+        model.AddButton(0, upgrade);
+        model.AddButton(0, tier1);
+        model.AddButton(0, tier2);
+        model.AddButton(0, tier3);
 
-		AddDefaultButtons(mTierSelectionModel);
+        AddQueueButtons(model);
+
+        return model;
 	}
 
-	void Tier1Clicked() {
-		// TODO check if unlocked
-        Debug.Log("Tier 1 clicked");
-		GUIModelManager.SetCurrentModel(playerID, mTier1UnitCreationModel);
+	private GUIModelManager.GUIModel BuildTier1UnitCreationModel() {
+        GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
+        model.leftPanelColumns = 3;
+        model.centerPanelColumns = 3;
+
+		GUIModelManager.Button melee = new GUIModelManager.Button();
+        melee.icon = tier1meleeIcon;
+        melee.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTier1MeleeName : MagentaTier1MeleeName, tier1meleePrefab);
+
+		GUIModelManager.Button range = new GUIModelManager.Button();
+        range.icon = tier1rangeIcon;
+        range.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTier1RangeName : MagentaTier1RangeName, tier1rangePrefab);
+
+		GUIModelManager.Button siege = new GUIModelManager.Button();
+        siege.icon = tier1siegeIcon;
+        siege.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTier1SiegeName : MagentaTier1SiegeName, tier1siegePrefab);
+
+        model.AddButton(0, melee);
+        model.AddButton(0, range);
+        model.AddButton(0, siege);
+
+        AddBackButton(model);
+        AddQueueButtons(model);
+
+        return model;
 	}
 
-	void Tier2Clicked() {
-		// TODO check if unlocked
-		Debug.Log("Tier 2 clicked");
-		GUIModelManager.SetCurrentModel(playerID, mTier2UnitCreationModel);
-	}
+    private GUIModelManager.GUIModel BuildTier2UnitCreationModel()
+    {
+        GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
+        model.leftPanelColumns = 3;
+        model.centerPanelColumns = 3;
 
-	void Tier3Clicked() {
-		// TODO check if unlocked
-		
-	}
+        GUIModelManager.Button melee = new GUIModelManager.Button();
+        melee.icon = tier2meleeIcon;
+        melee.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTier2MeleeName : MagentaTier2MeleeName, tier2meleePrefab);
 
-	void BuildTier1UnitCreationModel() {
-		mTier1UnitCreationModel = new GUIModelManager.GUIModel();
+        GUIModelManager.Button range = new GUIModelManager.Button();
+        range.icon = tier2rangeIcon;
+        range.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTier2RangeName : MagentaTier2RangeName, tier2rangePrefab);
 
-		GUIModelManager.Button cubeButton = new GUIModelManager.Button();
-		cubeButton.icon = unit1Icon;
-		cubeButton.clicked += new GUIModelManager.OnClick(ProduceCube);
+        GUIModelManager.Button siege = new GUIModelManager.Button();
+        siege.icon = tier2siegeIcon;
+        siege.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTier2SiegeName : MagentaTier2SiegeName, tier2siegePrefab);
 
-		GUIModelManager.Button sphereButton = new GUIModelManager.Button();
-		sphereButton.icon = unit2Icon;
-		sphereButton.clicked += new GUIModelManager.OnClick(ProduceSphere);
+        model.AddButton(0, melee);
+        model.AddButton(0, range);
+        model.AddButton(0, siege);
 
-		GUIModelManager.Button capsuleButton = new GUIModelManager.Button();
-		// TODO icon
-		capsuleButton.clicked += new GUIModelManager.OnClick(ProduceCapsule);
+        AddBackButton(model);
+        AddQueueButtons(model);
 
-		mTier1UnitCreationModel.AddButton(0, cubeButton);
-		mTier1UnitCreationModel.AddButton(0, sphereButton);
-		mTier1UnitCreationModel.AddButton(0, capsuleButton);
+        return model;
+    }
 
-		AddBackButton(mTier1UnitCreationModel);
-		AddDefaultButtons(mTier1UnitCreationModel);
-	}
+    private GUIModelManager.GUIModel BuildTier3UnitCreationModel()
+    {
+        GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
+        model.leftPanelColumns = 3;
+        model.centerPanelColumns = 3;
 
-	void ProduceCube() {
-		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
-		GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
-		cube.GetComponent<WorldObject>().playerID = PlayerID;
-	}
+        GUIModelManager.Button melee = new GUIModelManager.Button();
+        melee.icon = tier3meleeIcon;
+        melee.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTier3MeleeName : MagentaTier3MeleeName, tier3meleePrefab);
 
-	void ProduceSphere() {
-		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
-		GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
-		sphere.GetComponent<WorldObject>().playerID = PlayerID;
-	}
+        GUIModelManager.Button range = new GUIModelManager.Button();
+        range.icon = tier3rangeIcon;
+        range.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab);
 
-	void ProduceCapsule() {
-		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Capsule", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
-		GameObject capsule = (GameObject) Instantiate(capsulePrefab, (Vector3) spawnPosition, Quaternion.identity);
-		capsule.GetComponent<WorldObject>().playerID = PlayerID;
-	}
+        GUIModelManager.Button siege = new GUIModelManager.Button();
+        siege.icon = tier3siegeIcon;
+        siege.clicked += () => QueueUnitCreation(playerID == 1 ?
+            OrangeTIer3SiegeName : MagentaTIer3SiegeName, tier3siegePrefab);
 
-	void BuildTier2UnitCreationModel() {
-		mTier2UnitCreationModel = new GUIModelManager.GUIModel();
+        model.AddButton(0, melee);
+        model.AddButton(0, range);
+        model.AddButton(0, siege);
 
-		GUIModelManager.Button cube2Button = new GUIModelManager.Button();
-		// TODO icon
-		cube2Button.clicked += new GUIModelManager.OnClick(ProduceTier2Cube);
+        AddBackButton(model);
+        AddQueueButtons(model);
 
-		GUIModelManager.Button sphere2Button = new GUIModelManager.Button();
-		// TODO icon
-		sphere2Button.clicked += new GUIModelManager.OnClick(ProduceTier2Sphere);
+        return model;
+    }
 
-		GUIModelManager.Button capsule2Button = new GUIModelManager.Button();
-		// TODO icon
-		capsule2Button.clicked += new GUIModelManager.OnClick(ProduceTier2Capsule);
-
-		mTier2UnitCreationModel.AddButton(0, cube2Button);
-		mTier2UnitCreationModel.AddButton(0, sphere2Button);
-		mTier2UnitCreationModel.AddButton(0, capsule2Button);
-
-		AddBackButton(mTier2UnitCreationModel);
-		AddDefaultButtons(mTier2UnitCreationModel);
-	}
-
-	void ProduceTier2Cube() {
-		PlayerScript me = GetAppropriatePlayerScript();
-		string unitName = playerID == 1 ? "OrangeDoubleUnit" : "MagentaDoubleUnit";
-		if (me.canGenerateUnit(unitName)) {
-			int cooldown = me.getUnitCooldown(unitName);
-			
-		}
-
-
-
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Tier2Cube", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
-		GameObject static_ = (GameObject) Instantiate(tier2Static, (Vector3) spawnPosition, Quaternion.identity);
-		static_.GetComponent<WorldObject>().playerID = PlayerID;
-	}
-
-	void ProduceTier2Sphere() {
-		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Tier2Sphere", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
-		GameObject heap = (GameObject) Instantiate(tier2Heap, (Vector3) spawnPosition, Quaternion.identity);
-		heap.GetComponent<WorldObject>().playerID = PlayerID;
-	}
-
-	void ProduceTier2Capsule() {
-		// TODO check resources
-		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Tier2Capsule", "CPU");
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
-		GameObject tree = (GameObject) Instantiate(tier2BinaryTree, (Vector3) spawnPosition, Quaternion.identity);
-		tree.GetComponent<WorldObject>().playerID = PlayerID;
-	}
-
-	void BuildTier3UnitCreationModel() {
-		mTier3UnitCreationModel = new GUIModelManager.GUIModel();
-
-		GUIModelManager.Button cube3Button = new GUIModelManager.Button();
-		// TODO icon
-		cube3Button.clicked += new GUIModelManager.OnClick(ProduceTier3Cube);
-
-		GUIModelManager.Button sphere3Button = new GUIModelManager.Button();
-		// TODO icon
-		sphere3Button.clicked += new GUIModelManager.OnClick(ProduceTier3Sphere);
-
-		GUIModelManager.Button capsule3Button = new GUIModelManager.Button();
-		// TODO icon
-		capsule3Button.clicked += new GUIModelManager.OnClick(ProduceTier3Capsule);
-
-		mTier3UnitCreationModel.AddButton(0, cube3Button);
-		mTier3UnitCreationModel.AddButton(0, sphere3Button);
-		mTier3UnitCreationModel.AddButton(0, capsule3Button);
-
-		AddBackButton(mTier3UnitCreationModel);
-		AddDefaultButtons(mTier3UnitCreationModel);
-	}
-
-	void ProduceTier3Cube() {
-		// TODO check resources
-
-	}
-
-	void ProduceTier3Sphere() {
-		// TODO check resources
-
-	}
-
-	void ProduceTier3Capsule() {
-		// TODO check resources
-		
-	}
-
-	private void AddBackButton(GUIModelManager.GUIModel model) {
+	private void AddBackButton(GUIModelManager.GUIModel model) 
+    {
 		GUIModelManager.Button back = new GUIModelManager.Button();
 		back.text = "Back";
-		back.clicked += () => GUIModelManager.SetCurrentModel(playerID, mTierSelectionModel);
-
+        back.clicked += () => SetGuiModel(TIER_SELECT);
 		model.AddButton(0, back);
 	}
 
-	private void AddDefaultButtons(GUIModelManager.GUIModel model) {
-		PlayerScript player = GetAppropriatePlayerScript();
+    private void AddQueueButtons(GUIModelManager.GUIModel model) 
+    {
+        foreach (var i in mCreationQueue)
+        {
+            GUIModelManager.Button button = new GUIModelManager.Button();
+            button.icon = mIconMap[i.prefab];
+            button.clicked += () =>
+                {
+                    mCreationProgress = 0;
+                    mCreationQueue.Remove(i);
+                };
+            model.AddButton(1, button);
+        }
+    }
 
-		model.centerPanelColumns = 1;
-		
-		GUIModelManager.Button random = new GUIModelManager.Button();
-		random.text = "Randomize";
-		random.clicked += new GUIModelManager.OnClick(ProduceRandomUnit);
-		model.AddButton(1, random);
-
-		GUIModelManager.Button upgrade = new GUIModelManager.Button();
-		upgrade.text = "Upgrade";
-		upgrade.enabled = player.CurrentTier < 3;
-		upgrade.clicked += new GUIModelManager.OnClick(UpgradeToNextTier);
-		model.AddButton(1, upgrade);
-	}
-
-	void ProduceRandomUnit() {
-		int unit = Bellagio.gambleUnit(playerID);
-		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
-				
-		switch(unit) {
-			case 0: 
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");
-				GameObject sphere = (GameObject) Instantiate(spherePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				sphere.GetComponent<WorldObject>().playerID = PlayerID;
+	void ProduceRandomUnit() 
+    {
+		int unit = Bellagio.gambleUnit(playerID);				
+		switch(unit) 
+        {
+			case 0:
+                QueueUnitCreation(playerID == 1 ? 
+                    OrangeTier1RangeName : MagentaTier1RangeName, tier1rangePrefab, true);
 				break;
+
 			case 1:
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
-				GameObject cube = (GameObject) Instantiate(cubePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				cube.GetComponent<WorldObject>().playerID = PlayerID;
+                QueueUnitCreation(playerID == 1 ? 
+                    OrangeTier1SiegeName : MagentaTier1SiegeName, tier1siegePrefab, true);
 				break;
+
 			case 2:
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Capsule", "CPU");
-				GameObject capsule = (GameObject) Instantiate(capsulePrefab, (Vector3) spawnPosition, Quaternion.identity);
-				capsule.GetComponent<WorldObject>().playerID = PlayerID;
+                QueueUnitCreation(playerID == 1 ? 
+                    OrangeTier1MeleeName : MagentaTier1MeleeName, tier1meleePrefab, true);
 				break;
+                
 			case 3:
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "tier2BinaryTree", "CPU");
-				GameObject binaryTree = (GameObject) Instantiate(tier2BinaryTree, (Vector3) spawnPosition, Quaternion.identity);
-				binaryTree.GetComponent<WorldObject>().playerID = PlayerID;
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTier2MeleeName : MagentaTier2MeleeName, tier2meleePrefab, true);
 				break;
+
 			case 4:
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "tier2Heap", "CPU");
-				GameObject heap = (GameObject) Instantiate(tier2Heap, (Vector3) spawnPosition, Quaternion.identity);
-				heap.GetComponent<WorldObject>().playerID = PlayerID;
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTier2SiegeName : MagentaTier2SiegeName, tier2siegePrefab, true);
 				break;
+
 			case 5:
-				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "tier2Static", "CPU");
-				GameObject staticPrefab = (GameObject) Instantiate(tier2Static, (Vector3) spawnPosition, Quaternion.identity);
-				staticPrefab.GetComponent<WorldObject>().playerID = PlayerID;
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTier2RangeName : MagentaTier2RangeName, tier2rangePrefab, true);
 				break;
-			default:
-				Debug.Log("got a tier 3!");
-				break;
+
+            case 6:
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab, true);
+                break;
+
+            case 7:
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTIer3SiegeName : MagentaTIer3SiegeName, tier3siegePrefab, true);
+                break;
+
+            case 8:
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTier3MeleeName : MagentaTier3MeleeName, tier3meleePrefab, true);
+                break;
 		}
 	}
 
-	void UpgradeToNextTier() {
+    private void QueueUnitCreation(string unitName, Object unitPrefab, bool random = false)
+    {
+        PlayerScript me = GetAppropriatePlayerScript();
+        if (me.canGenerateUnit(unitName))
+        {
+            ParseManager.LogEvent(ParseManager.ParseEvent.UnitCreation,
+                playerID, unitName, "CPU" + (random ? "-random" : ""));
+            mCreationQueue.Add(new CreationEvent()
+            {
+                cooldown = me.getUnitCooldown(unitName),
+                prefab = unitPrefab
+            });
+            SetGuiModel(mCurrentGuiModel);
+        }
+    }
+
+	void UpgradeToNextTier() 
+    {
 		PlayerScript me = GetAppropriatePlayerScript();
-		if (me.upgradeTier()) {
+		if (me.upgradeTier()) 
+        {
 			BuildTierSelectionModel();
-			GUIModelManager.SetCurrentModel(playerID, mTierSelectionModel);
+            SetGuiModel(TIER_SELECT);
 		}
 	}
 
-	private Player GetAppropriatePlayerScript() {
+	private PlayerScript GetAppropriatePlayerScript() 
+    {
 		PlayerScript po = GameObject.Find("Player").GetComponent<PlayerScript>();
 		PlayerScript oo = GameObject.Find("Opponent").GetComponent<PlayerScript>();
 		return playerID == po.id ? po : oo;
 	}
+
+    private void SetGuiModel(int guiModelType)
+    {
+        switch (guiModelType)
+        {
+            case TIER_SELECT:
+                GUIModelManager.SetCurrentModel(playerID, BuildTierSelectionModel());
+                break;
+
+            case TIER_1:
+                GUIModelManager.SetCurrentModel(playerID, BuildTier1UnitCreationModel());
+                break;
+
+            case TIER_2:
+                GUIModelManager.SetCurrentModel(playerID, BuildTier2UnitCreationModel());
+                break;
+
+            case TIER_3:
+                GUIModelManager.SetCurrentModel(playerID, BuildTier3UnitCreationModel());
+                break;
+
+            case NONE:
+                GUIModelManager.SetCurrentModel(playerID, null);
+                break;
+        }
+        mCurrentGuiModel = guiModelType;
+    }
 }
