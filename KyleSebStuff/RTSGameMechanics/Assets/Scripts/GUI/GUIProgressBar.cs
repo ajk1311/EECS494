@@ -34,7 +34,6 @@ public class GUIProgressBar : MonoBehaviour {
 
     void OnGUI() {
         if (show) {
-            Debug.Log("We should be drawing shit");
             Vector3 offsetPosition = new Vector3(transform.position.x, transform.position.y + heightOffset, transform.position.z);
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(offsetPosition);
             Debug.Log(screenPosition);
@@ -49,7 +48,6 @@ public class GUIProgressBar : MonoBehaviour {
 
             GUI.EndGroup();
         }
-
     }
 
     public void initProgressBar(int initialProgress, string mode, bool friendly) {

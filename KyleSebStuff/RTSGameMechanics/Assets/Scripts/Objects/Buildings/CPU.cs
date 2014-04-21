@@ -71,6 +71,8 @@ public class CPU : DestructableBuilding
 
     private Dictionary<Object, Texture> mIconMap;
 
+    private GUIProgressBar mProgressBar;
+
     struct CreationEvent
     {
         public int cooldown;
@@ -84,6 +86,9 @@ public class CPU : DestructableBuilding
         mCurrentGuiModel = NONE;
         mCreationQueue = new List<CreationEvent>();
 		spawnOffset = new Int3(spawnOffsetX * Int3.Precision, 0, 0);
+		mProgressBar = (GUIProgressBar) gameObject.AddComponent<GUIProgressBar>();
+		mProgressBar.initProgressBar(0, "Progress", true);
+		mProgressBar.show = false;
         mIconMap = new Dictionary<Object, Texture>()
         {
             {tier1meleePrefab, tier1meleeIcon},
@@ -111,10 +116,15 @@ public class CPU : DestructableBuilding
         if (mCreationQueue.Count == 0)
         {
             // There are no units waiting in the queue
+            mProgressBar.show = false;
             return;
         }
+        mProgressBar.show = true;
         mCreationProgress += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
-        if (mCreationProgress >= mCreationQueue[0].cooldown * Int3.Precision)
+        int coolDown = mCreationQueue[0].cooldown * Int3.Precision;
+        mProgressBar.progress = mCreationProgress;
+    	mProgressBar.progressFull = coolDown;
+        if (mCreationProgress >= coolDown)
         {
             mCreationProgress = 0;
             // Create the next unit
