@@ -24,6 +24,10 @@ public class Unit : WorldObject {
 	protected Int3 destination;
 	protected Int3 intDirection;
 
+	//Explosion Prefabs
+	public Object purpleExplosion;
+	public Object orangeExplosion;
+
 	public Int3 IntDirection {
 		get {
 			if (moving && pathComplete && path.vectorPath.Count > 0 && currentWaypoint != path.vectorPath.Count) {
@@ -196,10 +200,12 @@ public class Unit : WorldObject {
         base.GameUpdate(deltaTime);
 
 		if(playerScript.centerTowerBuff == true) {
-			//add buff 
+			//add buff
+			speed = IntPhysics.FloatSafeMultiply(speed, 2.0f);
 		}
 		else {
 			// remove buff
+			speed = IntPhysics.FloatSafeDivide(speed, 2.0f);
 		}
 
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
@@ -296,6 +302,13 @@ public class Unit : WorldObject {
 			GameObject.Find("Player").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
 		} else {
 			GameObject.Find("Opponent").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
+		}
+
+		if(playerID == 1) {
+			GameObject explosion = (GameObject) Instantiate(orangeExplosion, transform.position, Quaternion.identity);
+		}
+		else {
+			GameObject explosion = (GameObject) Instantiate(purpleExplosion, transform.position, Quaternion.identity);
 		}
 	}
 }
