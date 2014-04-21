@@ -36,11 +36,11 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	void Start() {
 		SSGameManager.Register(this);
 
-		power = 15;
-		maxPower = 100;
+		power = 10;
+		maxPower = 200;
         memory = 0;
         maxMemory = 100;
-		cycleLength = 5;
+		cycleLength = 10;
 		powerPerCycle = 5;
 
 		defaultMaxPower = 15;
@@ -82,15 +82,24 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		unitCostRef.Add("OrangeLongUnit", 1);
 
 		//Tier 2 Magenta Unit Costs
-		unitCostRef.Add("MagentaBinaryTreeUnit", 3);
+		unitCostRef.Add("MagentaPointerUnit", 3);
 		unitCostRef.Add("MagentaHeapUnit", 3);
-		unitCostRef.Add("MagentaStaticUnit", 3);
+		unitCostRef.Add("MagentaFloatUnit", 3);
 		
 		//tier 2 Orange Unit Costs
-		unitCostRef.Add("OrangeBinaryTreeUnit", 3);
+		unitCostRef.Add("OrangePointerUnit", 3);
 		unitCostRef.Add("OrangeHeapUnit", 3);
-		unitCostRef.Add("OrangeStaticUnit", 3);
+		unitCostRef.Add("OrangeFloatUnit", 3);
 
+		//tier 3 Magenta Unit Costs
+		unitCostRef.Add("MagentaBinaryTreeUnit", 9);
+		unitCostRef.Add("MagentaStaticUnit", 9);
+		unitCostRef.Add ("MagentaArrayUnit", 9);
+
+		//tier3 Orange Unit Costs
+		unitCostRef.Add("OrangeBinaryTreeUnit", 9);
+		unitCostRef.Add ("OrangeStaticUnit", 9);
+		unitCostRef.Add ("OrangeArrayUnit", 9);
 	}
 
 	private void createUnitCooldownRef() {
@@ -101,44 +110,64 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		unitCooldownRef.Add("MagentaIntUnit", 1);
 		unitCooldownRef.Add("MagentaLongUnit", 1);
 		
-		//tier 1 Orange Unit Costs
+		//tier 1 Orange Unit Cooldowns
 		unitCooldownRef.Add("OrangeDoubleUnit", 1);
 		unitCooldownRef.Add("OrangeIntUnit", 1);
 		unitCooldownRef.Add("OrangeLongUnit", 1);
 		
-		//Tier 2 Magenta Unit Costs
-		unitCooldownRef.Add("MagentaBinaryTreeUnit", 3);
-		unitCooldownRef.Add("MagentaHeapUnit", 3);
-		unitCooldownRef.Add("MagentaStaticUnit", 3);
+		//Tier 2 Magenta Unit Cooldowns
+		unitCooldownRef.Add("MagentaPointerUnit", 1);
+		unitCooldownRef.Add("MagentaHeapUnit", 1);
+		unitCooldownRef.Add("MagentaFloatUnit", 1);
 		
-		//tier 2 Orange Unit Costs
-		unitCooldownRef.Add("OrangeBinaryTreeUnit", 3);
-		unitCooldownRef.Add("OrangeHeapUnit", 3);
-		unitCooldownRef.Add("OrangeStaticUnit", 3);
+		//tier 2 Orange Unit Cooldowns
+		unitCooldownRef.Add("OrangePointerUnit", 1);
+		unitCooldownRef.Add("OrangeHeapUnit", 1);
+		unitCooldownRef.Add("OrangeFloatUnit", 1);
+		
+		//tier 3 Magenta Unit Cooldowns
+		unitCooldownRef.Add("MagentaBinaryTreeUnit", 1);
+		unitCooldownRef.Add("MagentaStaticUnit", 1);
+		unitCooldownRef.Add ("MagentaArrayUnit", 1);
+		
+		//tier3 Orange Unit Cooldowns
+		unitCooldownRef.Add("OrangeBinaryTreeUnit", 1);
+		unitCooldownRef.Add ("OrangeStaticUnit", 1);
+		unitCooldownRef.Add ("OrangeArrayUnit", 1);
 	}
 
 	public void createUnitMemoryRef() {
 		unitMemoryRef = new Dictionary<string, int> ();
 		
-		//Tier 1 Magenta Unit Cooldowns
+		//Tier 1 Magenta Unit Memory Cost
 		unitMemoryRef.Add("MagentaDoubleUnit", 1);
 		unitMemoryRef.Add("MagentaIntUnit", 1);
 		unitMemoryRef.Add("MagentaLongUnit", 1);
 		
-		//tier 1 Orange Unit Costs
+		//tier 1 Orange Unit Memory Cost
 		unitMemoryRef.Add("OrangeDoubleUnit", 1);
 		unitMemoryRef.Add("OrangeIntUnit", 1);
 		unitMemoryRef.Add("OrangeLongUnit", 1);
 		
-		//Tier 2 Magenta Unit Costs
-		unitMemoryRef.Add("MagentaBinaryTreeUnit", 1);
+		//Tier 2 Magenta Unit Memory Cost
+		unitMemoryRef.Add("MagentaPointerUnit", 1);
 		unitMemoryRef.Add("MagentaHeapUnit", 1);
-		unitMemoryRef.Add("MagentaStaticUnit", 1);
+		unitMemoryRef.Add("MagentaFloatUnit", 1);
 		
-		//tier 2 Orange Unit Costs
-		unitMemoryRef.Add("OrangeBinaryTreeUnit", 1);
+		//tier 2 Orange Unit Memory Cost
+		unitMemoryRef.Add("OrangePointerUnit", 1);
 		unitMemoryRef.Add("OrangeHeapUnit", 1);
-		unitMemoryRef.Add("OrangeStaticUnit", 1);
+		unitMemoryRef.Add("OrangeFloatUnit", 1);
+		
+		//tier 3 Magenta Unit Memory Cost
+		unitMemoryRef.Add("MagentaBinaryTreeUnit", 1);
+		unitMemoryRef.Add("MagentaStaticUnit", 1);
+		unitMemoryRef.Add ("MagentaArrayUnit", 1);
+		
+		//tier3 Orange Unit Memory Cost
+		unitMemoryRef.Add("OrangeBinaryTreeUnit", 1);
+		unitMemoryRef.Add ("OrangeStaticUnit", 1);
+		unitMemoryRef.Add ("OrangeArrayUnit", 1);
 	}
 
 	public void createTierUpgradeCostRef() {
