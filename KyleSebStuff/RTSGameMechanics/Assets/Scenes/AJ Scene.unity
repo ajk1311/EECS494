@@ -1313,6 +1313,7 @@ MonoBehaviour:
   tower2: {fileID: 100002, guid: 65a1322ac83d149a2af590a5a82663b4, type: 2}
   tower3: {fileID: 100148, guid: 092cae393d1134f98af9082235d12b3a, type: 2}
   tower4: {fileID: 100002, guid: d3a86b30e94cf45dcac50cc69e81dd89, type: 2}
+  centerTower: {fileID: 0}
   objs: []
 --- !u!114 &645879594
 MonoBehaviour:

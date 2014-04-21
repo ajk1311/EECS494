@@ -8,11 +8,11 @@ public class CPU : DestructableBuilding
 {
     /*** Orange units ***/
     private static readonly string OrangeTier1MeleeName = "OrangeIntUnit";
-    private static readonly string OrangeTier2MeleeName = "OrangeBinaryTreeUnit"; //"OrangePointerUnit";
+    private static readonly string OrangeTier2MeleeName = "OrangePointerUnit";
     private static readonly string OrangeTier3MeleeName = "OrangeBinaryTreeUnit";
 
     private static readonly string OrangeTier1RangeName = "OrangeLongUnit";
-    private static readonly string OrangeTier2RangeName = "OrangeStaticUnit"; //"Orange???Unit";
+    private static readonly string OrangeTier2RangeName = "OrangeFloatUnit";
     private static readonly string OrangeTier3RangeName = "OrangeStaticUnit";
 
     private static readonly string OrangeTier1SiegeName = "OrangeDoubleUnit";
@@ -21,11 +21,11 @@ public class CPU : DestructableBuilding
 
     /*** Magenta units ***/
     private static readonly string MagentaTier1MeleeName = "MagentaIntUnit";
-    private static readonly string MagentaTier2MeleeName = "MagentaBinaryTreeUnit"; //"MagentaPointerUnit";
+    private static readonly string MagentaTier2MeleeName = "MagentaPointerUnit";
     private static readonly string MagentaTier3MeleeName = "MagentaBinaryTreeUnit";
 
     private static readonly string MagentaTier1RangeName = "MagentaLongUnit";
-    private static readonly string MagentaTier2RangeName = "MagentaStaticUnit"; //"Magenta???Unit";
+    private static readonly string MagentaTier2RangeName = "MagentaFloatUnit";
     private static readonly string MagentaTier3RangeName = "MagentaStaticUnit";
 
     private static readonly string MagentaTier1SiegeName = "MagentaDoubleUnit";
@@ -92,9 +92,9 @@ public class CPU : DestructableBuilding
             {tier2meleePrefab, tier2meleeIcon},
             {tier2rangePrefab, tier2rangeIcon},
             {tier2siegePrefab, tier2siegeIcon},
-            // {tier3meleePrefab, tier3meleeIcon},
-            // {tier3rangePrefab, tier3rangeIcon},
-            // {tier3siegePrefab, tier3siegeIcon}
+            {tier3meleePrefab, tier3meleeIcon},
+            {tier3rangePrefab, tier3rangeIcon},
+            {tier3siegePrefab, tier3siegeIcon}
         };
 	}
 
@@ -321,20 +321,20 @@ public class CPU : DestructableBuilding
                     OrangeTier2RangeName : MagentaTier2RangeName, tier2rangePrefab, true);
 				break;
 
-            // case 6:
-            //     QueueUnitCreation(playerID == 1 ?
-            //         OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab, true);
-            //     break;
+            case 6:
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab, true);
+                break;
 
-            // case 7:
-            //     QueueUnitCreation(playerID == 1 ?
-            //         OrangeTIer3SiegeName : MagentaTIer3SiegeName, tier3siegePrefab, true);
-            //     break;
+            case 7:
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTIer3SiegeName : MagentaTIer3SiegeName, tier3siegePrefab, true);
+                break;
 
-            // case 8:
-            //     QueueUnitCreation(playerID == 1 ?
-            //         OrangeTier3MeleeName : MagentaTier3MeleeName, tier3meleePrefab, true);
-            //     break;
+            case 8:
+                QueueUnitCreation(playerID == 1 ?
+                    OrangeTier3MeleeName : MagentaTier3MeleeName, tier3meleePrefab, true);
+                break;
 		}
 	}
 

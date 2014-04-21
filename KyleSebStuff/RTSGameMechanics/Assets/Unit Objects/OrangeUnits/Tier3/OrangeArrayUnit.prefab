@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,8 +42,8 @@ GameObject:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400000}
-  m_Layer: 11
-  m_Name: MagentaHeapUnit
+  m_Layer: 10
+  m_Name: OrangeArrayUnit
   m_TagString: Kill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -496,7 +496,7 @@ GameObject:
   - 4: {fileID: 400064}
   - 95: {fileID: 9500000}
   m_Layer: 0
-  m_Name: MagentaDoubleCombined
+  m_Name: OrangeDoubleCombined
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -531,7 +531,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.1376953, y: 1, z: 191.232544}
+  m_LocalPosition: {x: 37.84375, y: 1, z: 201.176651}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400064}
@@ -878,8 +878,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100064}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3499999, y: 0, z: 2.95000005}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalPosition: {x: 5.4000001, y: 0, z: 4.69999981}
+  m_LocalScale: {x: 80, y: 80, z: 80}
   m_Children:
   - {fileID: 400062}
   - {fileID: 400060}
@@ -909,8 +909,8 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 40c06175b478e7544bedf2f8dbddd5e0, type: 2}
-  - {fileID: 2100000, guid: 21e54ff83ea93bd4a925cac2c709461c, type: 2}
+  - {fileID: 2100000, guid: 5521c6719d3495247a8af77778dac836, type: 2}
+  - {fileID: 2100000, guid: 5ba31771c0640ac41ab17f8c466cf0cd, type: 2}
   - {fileID: 2100000, guid: 97da319d240090b43977fbfef7d4218c, type: 2}
   - {fileID: 2100000, guid: 228da3c3978b46b48a578d967510c53d, type: 2}
   - {fileID: 2100000, guid: 1ccadb9cb4194dd408ae3561b2ec9503, type: 2}
@@ -928,7 +928,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100058}
-  m_Mesh: {fileID: 4300000, guid: 0280dc80fc870c642b7d670091600ba9, type: 3}
+  m_Mesh: {fileID: 4300000, guid: f139901e54bf1b4418e62de1db69d7f3, type: 3}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -952,7 +952,7 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100064}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 0280dc80fc870c642b7d670091600ba9, type: 3}
+  m_Avatar: {fileID: 9000000, guid: f139901e54bf1b4418e62de1db69d7f3, type: 3}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_ApplyRootMotion: 1
@@ -974,7 +974,7 @@ MonoBehaviour:
   cost: 0
   hitPoints: 10
   maxHitPoints: 10
-  objectName: MagentaDoubleUnit
+  objectName: OrangeDoubleUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 2800000, guid: 56d8f97f67284438e945aa73bac974f1, type: 3}
@@ -990,7 +990,7 @@ MonoBehaviour:
   attentionRange: 0
   damageInflicted: 0
   progressBar: {fileID: 0}
-  Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
+  Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1028,10 +1028,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: .75
-  m_Height: 3
+  m_Radius: 1.25
+  m_Height: 5
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
