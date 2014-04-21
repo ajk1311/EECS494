@@ -114,20 +114,6 @@ public class CPU : DestructableBuilding {
 		AddDefaultButtons(mTier1UnitCreationModel);
 	}
 
-	private void AddDefaultButtons(GUIModelManager.GUIModel model) {
-		model.centerPanelColumns = 1;
-		
-		GUIModelManager.Button random = new GUIModelManager.Button();
-		random.text = "Randomize";
-		random.clicked += new GUIModelManager.OnClick(ProduceRandomUnit);
-		model.AddButton(1, random);
-
-		GUIModelManager.Button upgrade = new GUIModelManager.Button();
-		upgrade.text = "Upgrade";
-		upgrade.clicked += new GUIModelManager.OnClick(UpgradeToNextTier);
-		model.AddButton(1, upgrade);
-	}
-
 	void Update() {
 		progressBar.progress++;
 		if(progressBar.progress >= progressBar.progressFull)
