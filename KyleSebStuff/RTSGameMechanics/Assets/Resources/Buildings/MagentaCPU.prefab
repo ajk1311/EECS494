@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 11
-  m_Name: OpponentCPU
+  m_Name: MagentaCPU
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3836,15 +3836,24 @@ MonoBehaviour:
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 0}
   orangeTexture: {fileID: 0}
-  unit1Icon: {fileID: 2800000, guid: c40917336929440c7befcef48126d24d, type: 3}
-  unit2Icon: {fileID: 2800000, guid: 31277c9e2320e496a9752034d7a7e37a, type: 3}
-  unit3Icon: {fileID: 0}
-  cubePrefab: {fileID: 100004, guid: 9caf8a3319c7a45f79be635b7faee10b, type: 2}
-  spherePrefab: {fileID: 100004, guid: 606c58dae08934307ab19dda79b73c68, type: 2}
-  capsulePrefab: {fileID: 100004, guid: 3e26267ed0d474599be5b39f57bbfccb, type: 2}
-  tier2BinaryTree: {fileID: 100004, guid: 84a4d4047fb9d48958fab1b2b893ffae, type: 2}
-  tier2Heap: {fileID: 100000, guid: 77ba059c0e96b451491d01a6e25473f5, type: 2}
-  tier2Static: {fileID: 100000, guid: 402807b840b6f4990bb64edbce2ee7bb, type: 2}
+  tier1meleePrefab: {fileID: 100004, guid: 3e26267ed0d474599be5b39f57bbfccb, type: 2}
+  tier1meleeIcon: {fileID: 0}
+  tier1rangePrefab: {fileID: 100004, guid: 9caf8a3319c7a45f79be635b7faee10b, type: 2}
+  tier1rangeIcon: {fileID: 0}
+  tier1siegePrefab: {fileID: 100004, guid: 606c58dae08934307ab19dda79b73c68, type: 2}
+  tier1siegeIcon: {fileID: 0}
+  tier2meleePrefab: {fileID: 0}
+  tier2meleeIcon: {fileID: 0}
+  tier2rangePrefab: {fileID: 0}
+  tier2rangeIcon: {fileID: 0}
+  tier2siegePrefab: {fileID: 0}
+  tier2siegeIcon: {fileID: 0}
+  tier3meleePrefab: {fileID: 0}
+  tier3meleeIcon: {fileID: 0}
+  tier3rangePrefab: {fileID: 0}
+  tier3rangeIcon: {fileID: 0}
+  tier3siegePrefab: {fileID: 0}
+  tier3siegeIcon: {fileID: 0}
   spawnOffsetX: -10
 --- !u!1001 &100100000
 Prefab:
