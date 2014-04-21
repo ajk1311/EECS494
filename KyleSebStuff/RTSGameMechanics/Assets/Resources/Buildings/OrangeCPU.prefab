@@ -219,23 +219,23 @@ MonoBehaviour:
   magentaTexture: {fileID: 0}
   orangeTexture: {fileID: 0}
   tier1meleePrefab: {fileID: 100000, guid: bf8aa1028a1b74d22a507231fafd26d4, type: 2}
-  tier1meleeIcon: {fileID: 2800000, guid: c47842b77a2ce41018d0e9b9d15c8647, type: 3}
+  tier1meleeIcon: {fileID: 2800000, guid: fadb8e703a2454fe6afe6960aef3beb9, type: 3}
   tier1rangePrefab: {fileID: 100004, guid: 488d21b8e3413436892e8c8721707174, type: 2}
-  tier1rangeIcon: {fileID: 2800000, guid: 4be716dd133e14b30b7649f27cbda955, type: 3}
+  tier1rangeIcon: {fileID: 2800000, guid: 9fbc73790bbc540b1b0e4ea328a454a3, type: 3}
   tier1siegePrefab: {fileID: 100004, guid: ec925971794ad42b4900befa428100d1, type: 2}
-  tier1siegeIcon: {fileID: 2800000, guid: d58e6f56ebf324eb2904706701a8d529, type: 3}
-  tier2meleePrefab: {fileID: 0}
-  tier2meleeIcon: {fileID: 0}
-  tier2rangePrefab: {fileID: 0}
-  tier2rangeIcon: {fileID: 0}
-  tier2siegePrefab: {fileID: 0}
-  tier2siegeIcon: {fileID: 0}
-  tier3meleePrefab: {fileID: 0}
-  tier3meleeIcon: {fileID: 0}
-  tier3rangePrefab: {fileID: 0}
-  tier3rangeIcon: {fileID: 0}
-  tier3siegePrefab: {fileID: 0}
-  tier3siegeIcon: {fileID: 0}
+  tier1siegeIcon: {fileID: 2800000, guid: d699c5c9631a2432fa2c7729effd0d98, type: 3}
+  tier2meleePrefab: {fileID: 100000, guid: f446fdbfeeb3544cebb14151c650ae20, type: 2}
+  tier2meleeIcon: {fileID: 2800000, guid: c47842b77a2ce41018d0e9b9d15c8647, type: 3}
+  tier2rangePrefab: {fileID: 100004, guid: 40b4ba271723c4cf1ba40f43e81912e1, type: 2}
+  tier2rangeIcon: {fileID: 2800000, guid: 4be716dd133e14b30b7649f27cbda955, type: 3}
+  tier2siegePrefab: {fileID: 100004, guid: 571d102b6c9fb40b285b851fad7368e7, type: 2}
+  tier2siegeIcon: {fileID: 2800000, guid: d58e6f56ebf324eb2904706701a8d529, type: 3}
+  tier3meleePrefab: {fileID: 100000, guid: ebc25d20cbf6e4d8696df647f68b20db, type: 2}
+  tier3meleeIcon: {fileID: 2800000, guid: c47842b77a2ce41018d0e9b9d15c8647, type: 3}
+  tier3rangePrefab: {fileID: 100004, guid: 33b4b591760a34874b66d360eec5a8a1, type: 2}
+  tier3rangeIcon: {fileID: 2800000, guid: 4be716dd133e14b30b7649f27cbda955, type: 3}
+  tier3siegePrefab: {fileID: 100004, guid: d28a4582cdee44409968f48098d7c45a, type: 2}
+  tier3siegeIcon: {fileID: 2800000, guid: d58e6f56ebf324eb2904706701a8d529, type: 3}
   spawnOffsetX: 10
 --- !u!1001 &100100000
 Prefab:
