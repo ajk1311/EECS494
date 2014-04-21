@@ -156,6 +156,19 @@ public class CPU : DestructableBuilding
         GUIModelManager.Button upgrade = new GUIModelManager.Button();
         upgrade.text = "Upgrade";
         upgrade.enabled = player.CurrentTier < 3;
+        switch (player.CurrentTier) {
+            case 1:
+                upgrade.enabled = player.getPower() >= PlayerScript.Tier2UpgradeCost;
+                break;
+
+            case 2:
+                upgrade.enabled = player.getPower() >= PlayerScript.Tier3UpgradeCost;
+                break;
+            
+            case 3:
+                upgrade.enabled = false;
+                break;
+        }
         upgrade.clicked += new GUIModelManager.OnClick(UpgradeToNextTier);
 
 		GUIModelManager.Button tier1 = new GUIModelManager.Button();

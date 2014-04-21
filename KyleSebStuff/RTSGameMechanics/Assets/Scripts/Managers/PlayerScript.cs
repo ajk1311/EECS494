@@ -180,7 +180,7 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 
     //Public Getters and Setters
-    public int getPower(){
+    public int getPower() {
         return power;
     }
     public void setPower(int amount) {
