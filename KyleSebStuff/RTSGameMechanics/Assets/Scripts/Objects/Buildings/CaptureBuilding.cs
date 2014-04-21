@@ -187,7 +187,7 @@ public class CaptureBuilding : Building {
 
 		if(buff == 0) {
 			//add corner tower buff
-			script.addPowerPerCycle(10);
+			script.addPowerPerCycle(6);
 		}
 		else if(buff == 1) {
 			//add center tower buff
@@ -200,7 +200,7 @@ public class CaptureBuilding : Building {
 
 		if(buff == 0) {
 			//remove corner tower buff
-			script.removePowerPerCycle(10);
+			script.removePowerPerCycle(6);
 		}
 		else if(buff == 1) {
 			//remove center tower buff

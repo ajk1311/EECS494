@@ -208,8 +208,8 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 30
-  maxHitPoints: 30
+  hitPoints: 200
+  maxHitPoints: 200
   objectName: 
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 2300000}
@@ -218,7 +218,7 @@ MonoBehaviour:
   buttonIcon: {fileID: 0}
   playerScript: {fileID: 0}
   reloading: 0
-  damageInflicted: 3
+  damageInflicted: 20
   reloadSpeed: 1
   currentTarget: {fileID: 0}
   attackRadius: 25

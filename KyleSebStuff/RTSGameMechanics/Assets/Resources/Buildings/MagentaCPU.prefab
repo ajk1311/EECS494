@@ -3829,8 +3829,8 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 50
-  maxHitPoints: 50
+  hitPoints: 300
+  maxHitPoints: 300
   objectName: 
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
