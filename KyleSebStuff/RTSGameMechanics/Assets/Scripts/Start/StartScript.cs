@@ -124,6 +124,12 @@ public class StartScript : MonoBehaviour {
 		GameObject tower2Object = (GameObject)Instantiate (tower2);
 		GameObject tower3Object = (GameObject)Instantiate (tower3);
 		GameObject tower4Object = (GameObject)Instantiate (tower4);
+
+		tower1Object.GetComponent<CaptureBuilding> ().detectionRadius = 15;
+		tower2Object.GetComponent<CaptureBuilding> ().detectionRadius = 15;
+		tower3Object.GetComponent<CaptureBuilding> ().detectionRadius = 15;
+		tower4Object.GetComponent<CaptureBuilding> ().detectionRadius = 15;
+
 		GameObject centerTowerObject = (GameObject)Instantiate (centerTower);
 
 		SSGameSetup.Ready(connectionEvent.ID);

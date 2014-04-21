@@ -157,7 +157,7 @@ public class CaptureBuilding : Building {
 			setBuffForPlayer(2);
 			FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, 2);
 //			objectRenderer.material.SetColor("_Color", new Color(226f, 94f, 255f, 255f));
-			particle.startColor = new Color(226f, 94f, 255f, 255f);
+			particle.startColor = new Color(188f, 0f, 255f, 255f);
 		}
 	}
 	
