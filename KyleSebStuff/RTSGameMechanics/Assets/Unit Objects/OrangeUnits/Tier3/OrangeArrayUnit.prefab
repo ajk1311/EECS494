@@ -531,7 +531,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.84375, y: 1, z: 201.176651}
+  m_LocalPosition: {x: 245.131348, y: 1, z: 244.746796}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400064}
@@ -878,8 +878,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100064}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.4000001, y: 0, z: 4.69999981}
-  m_LocalScale: {x: 80, y: 80, z: 80}
+  m_LocalPosition: {x: 6.69999981, y: 0, z: 5.80000019}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 400062}
   - {fileID: 400060}
@@ -979,6 +979,7 @@ MonoBehaviour:
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 2800000, guid: 56d8f97f67284438e945aa73bac974f1, type: 3}
   orangeTexture: {fileID: 2800000, guid: ec6a7293eb236447b87b42229ecbed3e, type: 3}
+  buttonIcon: {fileID: 0}
   playerScript: {fileID: 0}
   reloading: 0
   currentWaypoint: 0
@@ -1031,10 +1032,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1.25
-  m_Height: 5
+  m_Radius: 1.39999998
+  m_Height: 5.5999999
   m_Direction: 1
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Center: {x: 0, y: 2.4000001, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
