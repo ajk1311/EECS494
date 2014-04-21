@@ -2130,7 +2130,10 @@ MonoBehaviour:
   player2AlreadyHolding: 0
   player1OwnsTower: 0
   player2OwnsTower: 0
+  player1Buffed: 0
+  player2Buffed: 0
   buff: 0
+  detectionRadius: 15
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
