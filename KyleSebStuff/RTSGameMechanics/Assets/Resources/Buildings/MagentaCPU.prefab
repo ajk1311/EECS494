@@ -3836,24 +3836,24 @@ MonoBehaviour:
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 0}
   orangeTexture: {fileID: 0}
-  tier1meleePrefab: {fileID: 100004, guid: 3e26267ed0d474599be5b39f57bbfccb, type: 2}
-  tier1meleeIcon: {fileID: 2800000, guid: 1d04c3326709a46c090d38c75126ad4b, type: 3}
-  tier1rangePrefab: {fileID: 100004, guid: 9caf8a3319c7a45f79be635b7faee10b, type: 2}
-  tier1rangeIcon: {fileID: 2800000, guid: e9071bb5581a94e1391ad277c63e5ab2, type: 3}
-  tier1siegePrefab: {fileID: 100004, guid: 606c58dae08934307ab19dda79b73c68, type: 2}
-  tier1siegeIcon: {fileID: 2800000, guid: 98f39d4a88fc34d04a67812721ef157e, type: 3}
-  tier2meleePrefab: {fileID: 0}
-  tier2meleeIcon: {fileID: 0}
-  tier2rangePrefab: {fileID: 0}
-  tier2rangeIcon: {fileID: 0}
-  tier2siegePrefab: {fileID: 0}
-  tier2siegeIcon: {fileID: 0}
-  tier3meleePrefab: {fileID: 0}
-  tier3meleeIcon: {fileID: 0}
-  tier3rangePrefab: {fileID: 0}
-  tier3rangeIcon: {fileID: 0}
-  tier3siegePrefab: {fileID: 0}
-  tier3siegeIcon: {fileID: 0}
+  tier1meleePrefab: {fileID: 100000, guid: d8307f6ca97a2486ab19725d7a298856, type: 2}
+  tier1meleeIcon: {fileID: 2800000, guid: 26e97affb40384d7b9338fdacf5656a9, type: 3}
+  tier1rangePrefab: {fileID: 100004, guid: 52e33907269bd4f108fd5df4576ec53e, type: 2}
+  tier1rangeIcon: {fileID: 2800000, guid: c85c8d01399b7409ea3af661ca08d98c, type: 3}
+  tier1siegePrefab: {fileID: 100004, guid: 06a8b387a0d2745858feb3cd79c674cb, type: 2}
+  tier1siegeIcon: {fileID: 2800000, guid: ffcb1fb97050e48bbb083730ffcfe7fe, type: 3}
+  tier2meleePrefab: {fileID: 100004, guid: c8fabf7bbd91246eb906b269f92b18e5, type: 2}
+  tier2meleeIcon: {fileID: 2800000, guid: 1d04c3326709a46c090d38c75126ad4b, type: 3}
+  tier2rangePrefab: {fileID: 100004, guid: d14a82b55f9e24626a4417d8052f7225, type: 2}
+  tier2rangeIcon: {fileID: 2800000, guid: e9071bb5581a94e1391ad277c63e5ab2, type: 3}
+  tier2siegePrefab: {fileID: 100004, guid: 3cba0e2a6d4a545d69870ec19a163ef4, type: 2}
+  tier2siegeIcon: {fileID: 2800000, guid: 98f39d4a88fc34d04a67812721ef157e, type: 3}
+  tier3meleePrefab: {fileID: 100004, guid: 3beb61ddb478f4726ae523c8c040b2d4, type: 2}
+  tier3meleeIcon: {fileID: 2800000, guid: 1d04c3326709a46c090d38c75126ad4b, type: 3}
+  tier3rangePrefab: {fileID: 100004, guid: 5572e6ead84414ec3a4e9f78318fbbff, type: 2}
+  tier3rangeIcon: {fileID: 2800000, guid: e9071bb5581a94e1391ad277c63e5ab2, type: 3}
+  tier3siegePrefab: {fileID: 100004, guid: 1206255795bb048559b60fb033fededc, type: 2}
+  tier3siegeIcon: {fileID: 2800000, guid: 98f39d4a88fc34d04a67812721ef157e, type: 3}
   spawnOffsetX: -10
 --- !u!1001 &100100000
 Prefab:
