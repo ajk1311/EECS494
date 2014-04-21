@@ -24,9 +24,6 @@ public class CPU : DestructableBuilding {
 	private GUIModelManager.GUIModel mTier2UnitCreationModel;
 	private GUIModelManager.GUIModel mTier3UnitCreationModel;
 
-	//Progress Bar
-	private GUIProgressBar progressBar;
-
 	public int spawnOffsetX;
 	public Int3 spawnOffset;
 
@@ -36,9 +33,8 @@ public class CPU : DestructableBuilding {
 		BuildTier1UnitCreationModel();
 		BuildTier2UnitCreationModel();
 		spawnOffset = new Int3(spawnOffsetX * Int3.Precision, 0, 0);
-		progressBar = (GUIProgressBar) gameObject.AddComponent("GUIProgressBar");
 	}
-
+	
 	protected override GUIModelManager.GUIModel GetGUIModel() { return null; }
 
 	public override void OnSelectionChanged(bool selected) {
@@ -88,7 +84,7 @@ public class CPU : DestructableBuilding {
 
 	void Tier3Clicked() {
 		// TODO check if unlocked
-		
+
 	}
 
 	void BuildTier1UnitCreationModel() {
@@ -114,15 +110,7 @@ public class CPU : DestructableBuilding {
 		AddDefaultButtons(mTier1UnitCreationModel);
 	}
 
-	void Update() {
-		progressBar.progress++;
-		if(progressBar.progress >= progressBar.progressFull)
-			progressBar.finishProgressBar();
-	}
-
 	void ProduceCube() {
-		// Progress Bar just for show right now
-		progressBar.startProgressBar(0);
 		// TODO check resources
 		ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Cube", "CPU");
 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
@@ -228,7 +216,7 @@ public class CPU : DestructableBuilding {
 
 	void ProduceTier3Capsule() {
 		// TODO check resources
-		
+
 	}
 
 	private void AddBackButton(GUIModelManager.GUIModel model) {
@@ -245,7 +233,7 @@ public class CPU : DestructableBuilding {
 		PlayerScript player = po.id == playerID ? po : oo;
 
 		model.centerPanelColumns = 1;
-		
+
 		GUIModelManager.Button random = new GUIModelManager.Button();
 		random.text = "Randomize";
 		random.clicked += new GUIModelManager.OnClick(ProduceRandomUnit);
@@ -261,7 +249,7 @@ public class CPU : DestructableBuilding {
 	void ProduceRandomUnit() {
 		int unit = Bellagio.gambleUnit(playerID);
 		Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
-				
+
 		switch(unit) {
 			case 0: 
 				ParseManager.LogEvent (ParseManager.ParseEvent.UnitCreation, playerID, "Sphere", "CPU");

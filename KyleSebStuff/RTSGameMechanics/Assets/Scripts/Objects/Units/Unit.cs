@@ -50,6 +50,8 @@ public class Unit : WorldObject {
 	// Used for reloading
     private float cooldownTime;
 
+    public GUIProgressBar progressBar;
+
     protected override void Start() {
         base.Start();
         cooldownTime = 0;
@@ -57,6 +59,24 @@ public class Unit : WorldObject {
 		intDirection = Int3.zero;
 		seeker = GetComponent<Seeker>();
 		lastTargetDestination = MechanicResources.InvalidIntPosition;
+
+        progressBar = (GUIProgressBar) gameObject.AddComponent("GUIProgressBar");
+        if (GameObject.Find("Player").GetComponent<PlayerScript>().id != playerID)
+            progressBar.initProgressBar(progressBar.progressFull, "Health", false);
+        else
+            progressBar.initProgressBar(progressBar.progressFull, "Health", true);
+
+        progressBar.show = false;
+    }
+
+
+       // Shows Health Bars
+    protected virtual void Update() {
+        if (objectRenderer.isVisible && Input.GetKey(KeyCode.LeftAlt))
+            progressBar.show = true;
+        else
+            progressBar.show = false;
+        progressBar.progress = hitPoints / maxHitPoints * progressBar.progressFull;
     }
 
     public bool isMoving() {

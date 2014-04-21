@@ -171,11 +171,14 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 0
-  maxHitPoints: 0
+  hitPoints: 10
+  maxHitPoints: 10
   objectName: MagentaStaticUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
+  magentaTexture: {fileID: 0}
+  orangeTexture: {fileID: 0}
+  progressBar: {fileID: 0}
   reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: 3
@@ -185,8 +188,8 @@ MonoBehaviour:
   pursuitRadius: 0
   reloadSpeed: 0
   attentionRange: 0
-  Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
   damageInflicted: 0
+  Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

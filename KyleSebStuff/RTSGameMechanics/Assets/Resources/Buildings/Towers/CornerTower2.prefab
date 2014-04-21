@@ -1152,7 +1152,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106709}
+  m_LocalRotation: {x: -.707106888, y: 0, z: 0, w: .707106769}
   m_LocalPosition: {x: -15.5008545, y: 20.7081528, z: 17.1339111}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1383,7 +1383,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
-  m_LocalRotation: {x: -.135732114, y: -.0495891608, z: .223351568, w: .963966668}
+  m_LocalRotation: {x: -.135732129, y: -.0495891646, z: .223351583, w: .963966727}
   m_LocalPosition: {x: -1.02581966, y: 6.77108526, z: -.94972676}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2113,13 +2113,14 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 0
-  maxHitPoints: 0
+  hitPoints: 10
+  maxHitPoints: 10
   objectName: 
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 0}
   orangeTexture: {fileID: 0}
+  progressBar: {fileID: 0}
   timeToCapture: 0
   currentTime: 0
   player1UnitCount: 0

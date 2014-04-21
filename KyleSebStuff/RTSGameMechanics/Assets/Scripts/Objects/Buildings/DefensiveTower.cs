@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using RTS;
 using Pathfinding;
 
-public class DefensiveTower : Building {
+public class DefensiveTower : DestructableBuilding {
 
     // State variables
     protected bool attacking = false;
@@ -22,7 +22,7 @@ public class DefensiveTower : Building {
     protected override void Start() {
         base.Start();
     }
-
+    
     protected override GUIModelManager.GUIModel GetGUIModel() {
         return null;
     }

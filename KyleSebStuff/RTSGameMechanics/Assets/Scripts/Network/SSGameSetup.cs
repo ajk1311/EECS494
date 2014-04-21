@@ -18,7 +18,7 @@ using SSProtoBufs;
  * 2) Send your connection information (IP, Port, name, etc.)
  * 3) Receive your opponent's connection information
  * 4) Wait for your opponent's ready signal, while sending your own
- * 5) The game is ready, start the game manager for the Locksetp loop
+ * 5) The game is ready, start the game manager for the Lockstep loop
  */
 public class SSGameSetup {
     private static readonly string ServerIP = "10.0.0.19";
