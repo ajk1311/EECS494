@@ -1295,13 +1295,14 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 0
-  maxHitPoints: 0
+  hitPoints: 10
+  maxHitPoints: 10
   objectName: OrangeLongUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 2800000, guid: 56d8f97f67284438e945aa73bac974f1, type: 3}
   orangeTexture: {fileID: 2800000, guid: ec6a7293eb236447b87b42229ecbed3e, type: 3}
+  progressBar: {fileID: 0}
   reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: 3

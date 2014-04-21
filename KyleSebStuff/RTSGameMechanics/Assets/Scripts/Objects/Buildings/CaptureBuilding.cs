@@ -17,8 +17,11 @@ public class CaptureBuilding : Building {
 	public bool player2AlreadyHolding;
 	public bool player1OwnsTower;
 	public bool player2OwnsTower;
+	public bool player1Buffed;
+	public bool player2Buffed;
 	
 	public int buff;
+	public int detectionRadius;
 
 	ParticleSystem particle;
 	
@@ -36,6 +39,9 @@ public class CaptureBuilding : Building {
 		player2AlreadyHolding = false;
 		player1OwnsTower = false;
 		player2OwnsTower = false;
+
+		player1Buffed = false;
+		player2Buffed = false;
 		
 		timeToCapture = 6;
 		
@@ -66,6 +72,8 @@ public class CaptureBuilding : Building {
 			player2AlreadyHolding = false;
 			player1OwnsTower = false;
 			player2OwnsTower = false;
+			player1Buffed = false;
+			player2Buffed = false;
 		}
 		
 		//Player1 Is in Control
@@ -113,9 +121,11 @@ public class CaptureBuilding : Building {
 		}
 		
 		//Player1 Has Control of the Tower
-		if(player1OwnsTower) {
+		if(player1OwnsTower && !player1Buffed) {
 			Debug.Log("---------Player 1 Owns the Tower-----------");
-			
+
+			player1Buffed = true;
+
 			//player 2 last owned tower
 			if(playerID == 2) {
 				FogOfWarManager.updateFogTileUnitCount (currentFogTile, null, 2);
@@ -131,9 +141,11 @@ public class CaptureBuilding : Building {
 		}
 		
 		//Player1 Has Control of the Tower
-		if(player2OwnsTower) {
+		if(player2OwnsTower && !player2Buffed) {
 			Debug.Log("---------Player 2 Owns the Tower-----------");
-			
+
+			player2Buffed = true;
+
 			//player1 last owned tower
 			if(playerID == 1) {
 				FogOfWarManager.updateFogTileUnitCount (currentFogTile, null, 1);
@@ -154,7 +166,7 @@ public class CaptureBuilding : Building {
 		player2UnitCount = 0;
 		
 		List<WorldObject> surroundingUnits = new List<WorldObject> ();
-		surroundingUnits = GridManager.GetObjectsInRadius (this, 15);
+		surroundingUnits = GridManager.GetObjectsInRadius (this, detectionRadius);
 		
 		foreach(WorldObject obj in surroundingUnits) {
 			int currentID = obj.playerID;
@@ -168,26 +180,39 @@ public class CaptureBuilding : Building {
 	}
 	
 	private void setBuffForPlayer(int playerID) {
+		PlayerScript script = getPLayerScript (playerID);
+
 		if(buff == 0) {
-			
+			//corner tower buff
+			Debug.Log ("addbuff");
+			script.addPowerPerCycle(10);
 		}
 		else if(buff == 1) {
-			
-		}
-		else if(buff == 2) {
-			
+			//center tower buff
 		}
 	}
 	
 	private void removeBuffForPlayer(int playerID) {
+		PlayerScript script = getPLayerScript (playerID);
+
 		if(buff == 0) {
-			
+			//corner tower buff
+			script.removePowerPerCycle(10);
 		}
 		else if(buff == 1) {
-			
+			//center tower buff
 		}
-		else if(buff == 2) {
-			
+	}
+
+	private PlayerScript getPLayerScript(int playerID) {
+		PlayerScript playerScript = GameObject.Find("Player").GetComponent<PlayerScript>();
+		PlayerScript opponentScript = GameObject.Find("Opponent").GetComponent<PlayerScript>();
+
+		if(playerScript.id == playerID) {
+			return playerScript;
+		}
+		else {
+			return opponentScript;
 		}
 	}
 }
