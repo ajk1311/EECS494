@@ -86,7 +86,7 @@ public class AssemblerScript : MonoBehaviour {
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
 		else if(type == "MagentaArrayUnit") {
-			Transform unit = Instantiate(orangeBinaryTreeUnit, pos, transform.rotation) as Transform;
+			Transform unit = Instantiate(magentaArrayUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
 		else if(type == "OrangePointerUnit") {
