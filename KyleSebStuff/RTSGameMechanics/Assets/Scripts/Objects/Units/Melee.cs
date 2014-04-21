@@ -16,10 +16,10 @@ public class Melee : Unit {
         attackRadius = 4;
 		pursuitRadius = 6;
         speed = 15f;
-        reloadSpeed = .5f;
+        reloadSpeed = 0.8f;
         hitPoints = 5;
         maxHitPoints = 5;
-        attackSpeed = 30f;
+        attackSpeed = 28f;
 	}
 
 	public override void GameUpdate(float deltaTime) {
