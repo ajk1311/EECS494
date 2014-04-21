@@ -151,14 +151,13 @@ public class GUIManager : MonoBehaviour {
     
     void OnGUI() {
         if(gameLoading) {
-            DrawMouseCursor();
             showLoadingScreen();
+            DrawMouseCursor();
         }
         else {
             DrawOrdersBar();
             DrawCurrentGUIModel();
             DrawResourceBar();
-            DrawMouseCursor();
             if (isDragging) {
                 float padding = GUIResources.GetScaledPixelSize(4);
                 dragLocationEnd = new Vector2(
@@ -166,6 +165,7 @@ public class GUIManager : MonoBehaviour {
                     Mathf.Min(Mathf.Max(Input.mousePosition.y, GUIResources.OrdersBarHeight + padding), Screen.height - padding));
                 DragBox(dragLocationStart, dragLocationEnd, dragSelectSkin);
             }
+            DrawMouseCursor();
         }
     }
 

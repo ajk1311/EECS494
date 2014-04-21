@@ -199,15 +199,6 @@ public class Unit : WorldObject {
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);
 
-		if(playerScript.centerTowerBuff == true) {
-			//add buff
-			speed = IntPhysics.FloatSafeMultiply(speed, 2.0f);
-		}
-		else {
-			// remove buff
-			speed = IntPhysics.FloatSafeDivide(speed, 2.0f);
-		}
-
 		if (RTSGameMechanics.IsWithin(gameObject, SelectionManager.GetSelectedSpace(playerID))) {
 			currentlySelected = true;
 		}
@@ -253,8 +244,9 @@ public class Unit : WorldObject {
 				return;
 			}
 			Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
+			float buffedSpeed = playerScript.centerTowerBuff ? IntPhysics.FloatSafeMultiply(speed, 2.0f) : speed;
 			Int3 delta = IntPhysics.DisplacementTo(intPosition, nextWayPoint, 
-			                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
+			                                     IntPhysics.FloatSafeMultiply(buffedSpeed, deltaTime));
 			intDirection = new Int3(System.Math.Sign(delta.x), 0, System.Math.Sign(delta.z));
 			intPosition += delta;
 			transform.position = (Vector3) intPosition;

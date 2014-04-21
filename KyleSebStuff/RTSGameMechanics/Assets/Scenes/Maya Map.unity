@@ -911,6 +911,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8fd89b880e84cb4c8a4bda09376d6ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameLoading: 0
+  usernameEntered: 0
+  countdown: 0
+  username: 
+  loadMessage: 
+  messageCounter: 0
   player: {fileID: 471585560}
   selectBoxSkin: {fileID: 11400000, guid: 6dc85bd1e4057a84db1f2a650e65eba0, type: 2}
   ordersSkin: {fileID: 11400000, guid: f466893f4fad0164ca6f9d13931accb2, type: 2}
