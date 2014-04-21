@@ -53,13 +53,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 0
   bitsUnitPrefab: {fileID: 400000, guid: f73082583923f400989b28d645d55170, type: 2}
-  magentaHeapUnit: {fileID: 400000, guid: 77ba059c0e96b451491d01a6e25473f5, type: 2}
-  magentaStaticUnit: {fileID: 400000, guid: 402807b840b6f4990bb64edbce2ee7bb, type: 2}
-  magentaBinaryTreeUnit: {fileID: 400004, guid: 84a4d4047fb9d48958fab1b2b893ffae,
+  magentaHeapUnit: {fileID: 400004, guid: 3cba0e2a6d4a545d69870ec19a163ef4, type: 2}
+  magentaStaticUnit: {fileID: 400004, guid: 5572e6ead84414ec3a4e9f78318fbbff, type: 2}
+  magentaBinaryTreeUnit: {fileID: 400004, guid: 3beb61ddb478f4726ae523c8c040b2d4,
     type: 2}
-  orangeStaticUnit: {fileID: 400000, guid: 9d5371fcc5a7440238c0f1e14bcde0b1, type: 2}
-  orangeHeapUnit: {fileID: 400000, guid: eba72605a31174d0e9a59ca75d8c4d7d, type: 2}
-  orangeBinaryTreeUnit: {fileID: 400000, guid: 308b9f0d9693a45babd820f32609cac7, type: 2}
+  magentaArrayUnit: {fileID: 400004, guid: 1206255795bb048559b60fb033fededc, type: 2}
+  magentaPointerUnit: {fileID: 400004, guid: c8fabf7bbd91246eb906b269f92b18e5, type: 2}
+  magentaFloatUnit: {fileID: 400004, guid: d14a82b55f9e24626a4417d8052f7225, type: 2}
+  orangeStaticUnit: {fileID: 400004, guid: 33b4b591760a34874b66d360eec5a8a1, type: 2}
+  orangeHeapUnit: {fileID: 400004, guid: 571d102b6c9fb40b285b851fad7368e7, type: 2}
+  orangeBinaryTreeUnit: {fileID: 400000, guid: ebc25d20cbf6e4d8696df647f68b20db, type: 2}
+  orangeArrayUnit: {fileID: 400004, guid: d28a4582cdee44409968f48098d7c45a, type: 2}
+  orangePointerUnit: {fileID: 400000, guid: f446fdbfeeb3544cebb14151c650ae20, type: 2}
+  orangeFloatUnit: {fileID: 400004, guid: 40b4ba271723c4cf1ba40f43e81912e1, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
