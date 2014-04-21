@@ -1,0 +1,475 @@
+fileFormatVersion: 2
+guid: 2ec76b441d0b94f1aa66e00d6222b607
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: group
+    100002: group1
+    100004: group10
+    100006: group2
+    100008: group3
+    100010: group4
+    100012: group5
+    100014: group6
+    100016: group7
+    100018: group8
+    100020: group9
+    100022: MagentaTowerCombined:CPU_player_1_orange:bend1Handle1
+    100024: MagentaTowerCombined:CPU_player_1_orange:pCylinder1
+    100026: MagentaTowerCombined:CPU_player_1_orange:pCylinder10
+    100028: MagentaTowerCombined:CPU_player_1_orange:pCylinder11
+    100030: MagentaTowerCombined:CPU_player_1_orange:pCylinder12
+    100032: MagentaTowerCombined:CPU_player_1_orange:pCylinder13
+    100034: MagentaTowerCombined:CPU_player_1_orange:pCylinder14
+    100036: MagentaTowerCombined:CPU_player_1_orange:pCylinder15
+    100038: MagentaTowerCombined:CPU_player_1_orange:pCylinder16
+    100040: MagentaTowerCombined:CPU_player_1_orange:pCylinder17
+    100042: MagentaTowerCombined:CPU_player_1_orange:pCylinder18
+    100044: MagentaTowerCombined:CPU_player_1_orange:pCylinder19
+    100046: MagentaTowerCombined:CPU_player_1_orange:pCylinder2
+    100048: MagentaTowerCombined:CPU_player_1_orange:pCylinder20
+    100050: MagentaTowerCombined:CPU_player_1_orange:pCylinder21
+    100052: MagentaTowerCombined:CPU_player_1_orange:pCylinder22
+    100054: MagentaTowerCombined:CPU_player_1_orange:pCylinder23
+    100056: MagentaTowerCombined:CPU_player_1_orange:pCylinder24
+    100058: MagentaTowerCombined:CPU_player_1_orange:pCylinder25
+    100060: MagentaTowerCombined:CPU_player_1_orange:pCylinder26
+    100062: MagentaTowerCombined:CPU_player_1_orange:pCylinder27
+    100064: MagentaTowerCombined:CPU_player_1_orange:pCylinder28
+    100066: MagentaTowerCombined:CPU_player_1_orange:pCylinder29
+    100068: MagentaTowerCombined:CPU_player_1_orange:pCylinder3
+    100070: MagentaTowerCombined:CPU_player_1_orange:pCylinder30
+    100072: MagentaTowerCombined:CPU_player_1_orange:pCylinder31
+    100074: MagentaTowerCombined:CPU_player_1_orange:pCylinder32
+    100076: MagentaTowerCombined:CPU_player_1_orange:pCylinder33
+    100078: MagentaTowerCombined:CPU_player_1_orange:pCylinder34
+    100080: MagentaTowerCombined:CPU_player_1_orange:pCylinder35
+    100082: MagentaTowerCombined:CPU_player_1_orange:pCylinder36
+    100084: MagentaTowerCombined:CPU_player_1_orange:pCylinder37
+    100086: MagentaTowerCombined:CPU_player_1_orange:pCylinder38
+    100088: MagentaTowerCombined:CPU_player_1_orange:pCylinder39
+    100090: MagentaTowerCombined:CPU_player_1_orange:pCylinder4
+    100092: MagentaTowerCombined:CPU_player_1_orange:pCylinder40
+    100094: MagentaTowerCombined:CPU_player_1_orange:pCylinder41
+    100096: MagentaTowerCombined:CPU_player_1_orange:pCylinder42
+    100098: MagentaTowerCombined:CPU_player_1_orange:pCylinder43
+    100100: MagentaTowerCombined:CPU_player_1_orange:pCylinder44
+    100102: MagentaTowerCombined:CPU_player_1_orange:pCylinder45
+    100104: MagentaTowerCombined:CPU_player_1_orange:pCylinder46
+    100106: MagentaTowerCombined:CPU_player_1_orange:pCylinder47
+    100108: MagentaTowerCombined:CPU_player_1_orange:pCylinder48
+    100110: MagentaTowerCombined:CPU_player_1_orange:pCylinder49
+    100112: MagentaTowerCombined:CPU_player_1_orange:pCylinder5
+    100114: MagentaTowerCombined:CPU_player_1_orange:pCylinder50
+    100116: MagentaTowerCombined:CPU_player_1_orange:pCylinder51
+    100118: MagentaTowerCombined:CPU_player_1_orange:pCylinder52
+    100120: MagentaTowerCombined:CPU_player_1_orange:pCylinder53
+    100122: MagentaTowerCombined:CPU_player_1_orange:pCylinder54
+    100124: MagentaTowerCombined:CPU_player_1_orange:pCylinder55
+    100126: MagentaTowerCombined:CPU_player_1_orange:pCylinder56
+    100128: MagentaTowerCombined:CPU_player_1_orange:pCylinder57
+    100130: MagentaTowerCombined:CPU_player_1_orange:pCylinder58
+    100132: MagentaTowerCombined:CPU_player_1_orange:pCylinder59
+    100134: MagentaTowerCombined:CPU_player_1_orange:pCylinder6
+    100136: MagentaTowerCombined:CPU_player_1_orange:pCylinder60
+    100138: MagentaTowerCombined:CPU_player_1_orange:pCylinder7
+    100140: MagentaTowerCombined:CPU_player_1_orange:pCylinder8
+    100142: MagentaTowerCombined:CPU_player_1_orange:pCylinder9
+    100144: MagentaTowerCombined:CPU_player_1_orange:transform1
+    100146: MagentaTowerCombined:CPU_player_1_orange:transform10
+    100148: MagentaTowerCombined:CPU_player_1_orange:transform11
+    100150: MagentaTowerCombined:CPU_player_1_orange:transform12
+    100152: MagentaTowerCombined:CPU_player_1_orange:transform13
+    100154: MagentaTowerCombined:CPU_player_1_orange:transform14
+    100156: MagentaTowerCombined:CPU_player_1_orange:transform15
+    100158: MagentaTowerCombined:CPU_player_1_orange:transform16
+    100160: MagentaTowerCombined:CPU_player_1_orange:transform17
+    100162: MagentaTowerCombined:CPU_player_1_orange:transform18
+    100164: MagentaTowerCombined:CPU_player_1_orange:transform19
+    100166: MagentaTowerCombined:CPU_player_1_orange:transform2
+    100168: MagentaTowerCombined:CPU_player_1_orange:transform20
+    100170: MagentaTowerCombined:CPU_player_1_orange:transform21
+    100172: MagentaTowerCombined:CPU_player_1_orange:transform22
+    100174: MagentaTowerCombined:CPU_player_1_orange:transform23
+    100176: MagentaTowerCombined:CPU_player_1_orange:transform24
+    100178: MagentaTowerCombined:CPU_player_1_orange:transform25
+    100180: MagentaTowerCombined:CPU_player_1_orange:transform26
+    100182: MagentaTowerCombined:CPU_player_1_orange:transform27
+    100184: MagentaTowerCombined:CPU_player_1_orange:transform28
+    100186: MagentaTowerCombined:CPU_player_1_orange:transform29
+    100188: MagentaTowerCombined:CPU_player_1_orange:transform3
+    100190: MagentaTowerCombined:CPU_player_1_orange:transform30
+    100192: MagentaTowerCombined:CPU_player_1_orange:transform31
+    100194: MagentaTowerCombined:CPU_player_1_orange:transform32
+    100196: MagentaTowerCombined:CPU_player_1_orange:transform33
+    100198: MagentaTowerCombined:CPU_player_1_orange:transform34
+    100200: MagentaTowerCombined:CPU_player_1_orange:transform35
+    100202: MagentaTowerCombined:CPU_player_1_orange:transform36
+    100204: MagentaTowerCombined:CPU_player_1_orange:transform37
+    100206: MagentaTowerCombined:CPU_player_1_orange:transform38
+    100208: MagentaTowerCombined:CPU_player_1_orange:transform39
+    100210: MagentaTowerCombined:CPU_player_1_orange:transform4
+    100212: MagentaTowerCombined:CPU_player_1_orange:transform40
+    100214: MagentaTowerCombined:CPU_player_1_orange:transform41
+    100216: MagentaTowerCombined:CPU_player_1_orange:transform42
+    100218: MagentaTowerCombined:CPU_player_1_orange:transform43
+    100220: MagentaTowerCombined:CPU_player_1_orange:transform44
+    100222: MagentaTowerCombined:CPU_player_1_orange:transform45
+    100224: MagentaTowerCombined:CPU_player_1_orange:transform46
+    100226: MagentaTowerCombined:CPU_player_1_orange:transform47
+    100228: MagentaTowerCombined:CPU_player_1_orange:transform48
+    100230: MagentaTowerCombined:CPU_player_1_orange:transform49
+    100232: MagentaTowerCombined:CPU_player_1_orange:transform5
+    100234: MagentaTowerCombined:CPU_player_1_orange:transform50
+    100236: MagentaTowerCombined:CPU_player_1_orange:transform51
+    100238: MagentaTowerCombined:CPU_player_1_orange:transform52
+    100240: MagentaTowerCombined:CPU_player_1_orange:transform53
+    100242: MagentaTowerCombined:CPU_player_1_orange:transform54
+    100244: MagentaTowerCombined:CPU_player_1_orange:transform55
+    100246: MagentaTowerCombined:CPU_player_1_orange:transform56
+    100248: MagentaTowerCombined:CPU_player_1_orange:transform57
+    100250: MagentaTowerCombined:CPU_player_1_orange:transform58
+    100252: MagentaTowerCombined:CPU_player_1_orange:transform59
+    100254: MagentaTowerCombined:CPU_player_1_orange:transform6
+    100256: MagentaTowerCombined:CPU_player_1_orange:transform60
+    100258: MagentaTowerCombined:CPU_player_1_orange:transform7
+    100260: MagentaTowerCombined:CPU_player_1_orange:transform8
+    100262: MagentaTowerCombined:CPU_player_1_orange:transform9
+    100264: MagentaTowerCombined:pCube1
+    100266: MagentaTowerCombined:pCube2
+    100268: MagentaTowerCombined:pCube3
+    100270: MagentaTowerCombined:pCube4
+    100272: MagentaTowerCombined:pCylinder1
+    100274: MagentaTowerCombined:pCylinder2
+    100276: MagentaTowerCombined:polySurface1
+    100278: MagentaTowerCombined:polySurface2
+    100280: MagentaTowerCombined:pSphere1
+    100282: MagentaTowerCombined:pTorus1
+    100284: MagentaTowerCombined:pTorus2
+    100286: MagentaTowerCombined:pTorus3
+    100288: MagentaTowerCombined:pTorus4
+    100290: MagentaTowerCombined:pTorus5
+    100292: MagentaTowerCombined:pTorus6
+    100294: MagentaTowerCombined:pTorus7
+    100296: MagentaTowerCombined:pTorus8
+    100298: MagentaTowerCombined:transform1
+    100300: MagentaTowerCombined:transform10
+    100302: MagentaTowerCombined:transform11
+    100304: MagentaTowerCombined:transform12
+    100306: MagentaTowerCombined:transform13
+    100308: MagentaTowerCombined:transform14
+    100310: MagentaTowerCombined:transform15
+    100312: MagentaTowerCombined:transform16
+    100314: MagentaTowerCombined:transform17
+    100316: MagentaTowerCombined:transform2
+    100318: MagentaTowerCombined:transform3
+    100320: MagentaTowerCombined:transform4
+    100322: MagentaTowerCombined:transform5
+    100324: MagentaTowerCombined:transform6
+    100326: MagentaTowerCombined:transform7
+    100328: MagentaTowerCombined:transform8
+    100330: MagentaTowerCombined:transform9
+    100332: //RootNode
+    100334: pasted__group1
+    100336: pasted__group1 1
+    100338: pasted__group2
+    100340: pasted__group3
+    100342: pasted__group5
+    100344: pasted__group5 1
+    100346: pasted__group5 2
+    100348: pasted__group5 3
+    100350: pasted__group5 4
+    100352: pasted__pasted__group1
+    100354: pasted__pasted__group1 1
+    100356: pasted__pasted__group3
+    100358: pasted__pasted__group3 1
+    100360: pasted__pasted__group3 2
+    100362: pasted__pasted__group3 3
+    100364: pasted__pasted__group3 4
+    100366: pasted__pasted__pasted__group1
+    100368: pasted__pasted__pasted__group1 1
+    100370: pasted__pasted__pasted__group1 2
+    100372: pasted__pasted__pasted__group1 3
+    100374: pasted__pasted__pasted__group1 4
+    100376: pasted__pasted__pasted__pasted__pTorus1
+    100378: pasted__pasted__pasted__pasted__pTorus1 1
+    100380: pasted__pasted__pasted__pasted__pTorus1 2
+    100382: pasted__pasted__pasted__pTorus1
+    100384: pasted__pPyramid1
+    100386: pCylinder1
+    100388: pPipe1
+    100390: pPyramid1
+    400000: group
+    400002: group1
+    400004: group10
+    400006: group2
+    400008: group3
+    400010: group4
+    400012: group5
+    400014: group6
+    400016: group7
+    400018: group8
+    400020: group9
+    400022: MagentaTowerCombined:CPU_player_1_orange:bend1Handle1
+    400024: MagentaTowerCombined:CPU_player_1_orange:pCylinder1
+    400026: MagentaTowerCombined:CPU_player_1_orange:pCylinder10
+    400028: MagentaTowerCombined:CPU_player_1_orange:pCylinder11
+    400030: MagentaTowerCombined:CPU_player_1_orange:pCylinder12
+    400032: MagentaTowerCombined:CPU_player_1_orange:pCylinder13
+    400034: MagentaTowerCombined:CPU_player_1_orange:pCylinder14
+    400036: MagentaTowerCombined:CPU_player_1_orange:pCylinder15
+    400038: MagentaTowerCombined:CPU_player_1_orange:pCylinder16
+    400040: MagentaTowerCombined:CPU_player_1_orange:pCylinder17
+    400042: MagentaTowerCombined:CPU_player_1_orange:pCylinder18
+    400044: MagentaTowerCombined:CPU_player_1_orange:pCylinder19
+    400046: MagentaTowerCombined:CPU_player_1_orange:pCylinder2
+    400048: MagentaTowerCombined:CPU_player_1_orange:pCylinder20
+    400050: MagentaTowerCombined:CPU_player_1_orange:pCylinder21
+    400052: MagentaTowerCombined:CPU_player_1_orange:pCylinder22
+    400054: MagentaTowerCombined:CPU_player_1_orange:pCylinder23
+    400056: MagentaTowerCombined:CPU_player_1_orange:pCylinder24
+    400058: MagentaTowerCombined:CPU_player_1_orange:pCylinder25
+    400060: MagentaTowerCombined:CPU_player_1_orange:pCylinder26
+    400062: MagentaTowerCombined:CPU_player_1_orange:pCylinder27
+    400064: MagentaTowerCombined:CPU_player_1_orange:pCylinder28
+    400066: MagentaTowerCombined:CPU_player_1_orange:pCylinder29
+    400068: MagentaTowerCombined:CPU_player_1_orange:pCylinder3
+    400070: MagentaTowerCombined:CPU_player_1_orange:pCylinder30
+    400072: MagentaTowerCombined:CPU_player_1_orange:pCylinder31
+    400074: MagentaTowerCombined:CPU_player_1_orange:pCylinder32
+    400076: MagentaTowerCombined:CPU_player_1_orange:pCylinder33
+    400078: MagentaTowerCombined:CPU_player_1_orange:pCylinder34
+    400080: MagentaTowerCombined:CPU_player_1_orange:pCylinder35
+    400082: MagentaTowerCombined:CPU_player_1_orange:pCylinder36
+    400084: MagentaTowerCombined:CPU_player_1_orange:pCylinder37
+    400086: MagentaTowerCombined:CPU_player_1_orange:pCylinder38
+    400088: MagentaTowerCombined:CPU_player_1_orange:pCylinder39
+    400090: MagentaTowerCombined:CPU_player_1_orange:pCylinder4
+    400092: MagentaTowerCombined:CPU_player_1_orange:pCylinder40
+    400094: MagentaTowerCombined:CPU_player_1_orange:pCylinder41
+    400096: MagentaTowerCombined:CPU_player_1_orange:pCylinder42
+    400098: MagentaTowerCombined:CPU_player_1_orange:pCylinder43
+    400100: MagentaTowerCombined:CPU_player_1_orange:pCylinder44
+    400102: MagentaTowerCombined:CPU_player_1_orange:pCylinder45
+    400104: MagentaTowerCombined:CPU_player_1_orange:pCylinder46
+    400106: MagentaTowerCombined:CPU_player_1_orange:pCylinder47
+    400108: MagentaTowerCombined:CPU_player_1_orange:pCylinder48
+    400110: MagentaTowerCombined:CPU_player_1_orange:pCylinder49
+    400112: MagentaTowerCombined:CPU_player_1_orange:pCylinder5
+    400114: MagentaTowerCombined:CPU_player_1_orange:pCylinder50
+    400116: MagentaTowerCombined:CPU_player_1_orange:pCylinder51
+    400118: MagentaTowerCombined:CPU_player_1_orange:pCylinder52
+    400120: MagentaTowerCombined:CPU_player_1_orange:pCylinder53
+    400122: MagentaTowerCombined:CPU_player_1_orange:pCylinder54
+    400124: MagentaTowerCombined:CPU_player_1_orange:pCylinder55
+    400126: MagentaTowerCombined:CPU_player_1_orange:pCylinder56
+    400128: MagentaTowerCombined:CPU_player_1_orange:pCylinder57
+    400130: MagentaTowerCombined:CPU_player_1_orange:pCylinder58
+    400132: MagentaTowerCombined:CPU_player_1_orange:pCylinder59
+    400134: MagentaTowerCombined:CPU_player_1_orange:pCylinder6
+    400136: MagentaTowerCombined:CPU_player_1_orange:pCylinder60
+    400138: MagentaTowerCombined:CPU_player_1_orange:pCylinder7
+    400140: MagentaTowerCombined:CPU_player_1_orange:pCylinder8
+    400142: MagentaTowerCombined:CPU_player_1_orange:pCylinder9
+    400144: MagentaTowerCombined:CPU_player_1_orange:transform1
+    400146: MagentaTowerCombined:CPU_player_1_orange:transform10
+    400148: MagentaTowerCombined:CPU_player_1_orange:transform11
+    400150: MagentaTowerCombined:CPU_player_1_orange:transform12
+    400152: MagentaTowerCombined:CPU_player_1_orange:transform13
+    400154: MagentaTowerCombined:CPU_player_1_orange:transform14
+    400156: MagentaTowerCombined:CPU_player_1_orange:transform15
+    400158: MagentaTowerCombined:CPU_player_1_orange:transform16
+    400160: MagentaTowerCombined:CPU_player_1_orange:transform17
+    400162: MagentaTowerCombined:CPU_player_1_orange:transform18
+    400164: MagentaTowerCombined:CPU_player_1_orange:transform19
+    400166: MagentaTowerCombined:CPU_player_1_orange:transform2
+    400168: MagentaTowerCombined:CPU_player_1_orange:transform20
+    400170: MagentaTowerCombined:CPU_player_1_orange:transform21
+    400172: MagentaTowerCombined:CPU_player_1_orange:transform22
+    400174: MagentaTowerCombined:CPU_player_1_orange:transform23
+    400176: MagentaTowerCombined:CPU_player_1_orange:transform24
+    400178: MagentaTowerCombined:CPU_player_1_orange:transform25
+    400180: MagentaTowerCombined:CPU_player_1_orange:transform26
+    400182: MagentaTowerCombined:CPU_player_1_orange:transform27
+    400184: MagentaTowerCombined:CPU_player_1_orange:transform28
+    400186: MagentaTowerCombined:CPU_player_1_orange:transform29
+    400188: MagentaTowerCombined:CPU_player_1_orange:transform3
+    400190: MagentaTowerCombined:CPU_player_1_orange:transform30
+    400192: MagentaTowerCombined:CPU_player_1_orange:transform31
+    400194: MagentaTowerCombined:CPU_player_1_orange:transform32
+    400196: MagentaTowerCombined:CPU_player_1_orange:transform33
+    400198: MagentaTowerCombined:CPU_player_1_orange:transform34
+    400200: MagentaTowerCombined:CPU_player_1_orange:transform35
+    400202: MagentaTowerCombined:CPU_player_1_orange:transform36
+    400204: MagentaTowerCombined:CPU_player_1_orange:transform37
+    400206: MagentaTowerCombined:CPU_player_1_orange:transform38
+    400208: MagentaTowerCombined:CPU_player_1_orange:transform39
+    400210: MagentaTowerCombined:CPU_player_1_orange:transform4
+    400212: MagentaTowerCombined:CPU_player_1_orange:transform40
+    400214: MagentaTowerCombined:CPU_player_1_orange:transform41
+    400216: MagentaTowerCombined:CPU_player_1_orange:transform42
+    400218: MagentaTowerCombined:CPU_player_1_orange:transform43
+    400220: MagentaTowerCombined:CPU_player_1_orange:transform44
+    400222: MagentaTowerCombined:CPU_player_1_orange:transform45
+    400224: MagentaTowerCombined:CPU_player_1_orange:transform46
+    400226: MagentaTowerCombined:CPU_player_1_orange:transform47
+    400228: MagentaTowerCombined:CPU_player_1_orange:transform48
+    400230: MagentaTowerCombined:CPU_player_1_orange:transform49
+    400232: MagentaTowerCombined:CPU_player_1_orange:transform5
+    400234: MagentaTowerCombined:CPU_player_1_orange:transform50
+    400236: MagentaTowerCombined:CPU_player_1_orange:transform51
+    400238: MagentaTowerCombined:CPU_player_1_orange:transform52
+    400240: MagentaTowerCombined:CPU_player_1_orange:transform53
+    400242: MagentaTowerCombined:CPU_player_1_orange:transform54
+    400244: MagentaTowerCombined:CPU_player_1_orange:transform55
+    400246: MagentaTowerCombined:CPU_player_1_orange:transform56
+    400248: MagentaTowerCombined:CPU_player_1_orange:transform57
+    400250: MagentaTowerCombined:CPU_player_1_orange:transform58
+    400252: MagentaTowerCombined:CPU_player_1_orange:transform59
+    400254: MagentaTowerCombined:CPU_player_1_orange:transform6
+    400256: MagentaTowerCombined:CPU_player_1_orange:transform60
+    400258: MagentaTowerCombined:CPU_player_1_orange:transform7
+    400260: MagentaTowerCombined:CPU_player_1_orange:transform8
+    400262: MagentaTowerCombined:CPU_player_1_orange:transform9
+    400264: MagentaTowerCombined:pCube1
+    400266: MagentaTowerCombined:pCube2
+    400268: MagentaTowerCombined:pCube3
+    400270: MagentaTowerCombined:pCube4
+    400272: MagentaTowerCombined:pCylinder1
+    400274: MagentaTowerCombined:pCylinder2
+    400276: MagentaTowerCombined:polySurface1
+    400278: MagentaTowerCombined:polySurface2
+    400280: MagentaTowerCombined:pSphere1
+    400282: MagentaTowerCombined:pTorus1
+    400284: MagentaTowerCombined:pTorus2
+    400286: MagentaTowerCombined:pTorus3
+    400288: MagentaTowerCombined:pTorus4
+    400290: MagentaTowerCombined:pTorus5
+    400292: MagentaTowerCombined:pTorus6
+    400294: MagentaTowerCombined:pTorus7
+    400296: MagentaTowerCombined:pTorus8
+    400298: MagentaTowerCombined:transform1
+    400300: MagentaTowerCombined:transform10
+    400302: MagentaTowerCombined:transform11
+    400304: MagentaTowerCombined:transform12
+    400306: MagentaTowerCombined:transform13
+    400308: MagentaTowerCombined:transform14
+    400310: MagentaTowerCombined:transform15
+    400312: MagentaTowerCombined:transform16
+    400314: MagentaTowerCombined:transform17
+    400316: MagentaTowerCombined:transform2
+    400318: MagentaTowerCombined:transform3
+    400320: MagentaTowerCombined:transform4
+    400322: MagentaTowerCombined:transform5
+    400324: MagentaTowerCombined:transform6
+    400326: MagentaTowerCombined:transform7
+    400328: MagentaTowerCombined:transform8
+    400330: MagentaTowerCombined:transform9
+    400332: //RootNode
+    400334: pasted__group1
+    400336: pasted__group1 1
+    400338: pasted__group2
+    400340: pasted__group3
+    400342: pasted__group5
+    400344: pasted__group5 1
+    400346: pasted__group5 2
+    400348: pasted__group5 3
+    400350: pasted__group5 4
+    400352: pasted__pasted__group1
+    400354: pasted__pasted__group1 1
+    400356: pasted__pasted__group3
+    400358: pasted__pasted__group3 1
+    400360: pasted__pasted__group3 2
+    400362: pasted__pasted__group3 3
+    400364: pasted__pasted__group3 4
+    400366: pasted__pasted__pasted__group1
+    400368: pasted__pasted__pasted__group1 1
+    400370: pasted__pasted__pasted__group1 2
+    400372: pasted__pasted__pasted__group1 3
+    400374: pasted__pasted__pasted__group1 4
+    400376: pasted__pasted__pasted__pasted__pTorus1
+    400378: pasted__pasted__pasted__pasted__pTorus1 1
+    400380: pasted__pasted__pasted__pasted__pTorus1 2
+    400382: pasted__pasted__pasted__pTorus1
+    400384: pasted__pPyramid1
+    400386: pCylinder1
+    400388: pPipe1
+    400390: pPyramid1
+    2300000: pasted__pasted__pasted__pasted__pTorus1
+    2300002: pasted__pasted__pasted__pasted__pTorus1 1
+    2300004: pasted__pasted__pasted__pasted__pTorus1 2
+    2300006: pasted__pasted__pasted__pTorus1
+    2300008: pasted__pPyramid1
+    2300010: pCylinder1
+    2300012: pPipe1
+    2300014: pPyramid1
+    3300000: pasted__pasted__pasted__pasted__pTorus1
+    3300002: pasted__pasted__pasted__pasted__pTorus1 1
+    3300004: pasted__pasted__pasted__pasted__pTorus1 2
+    3300006: pasted__pasted__pasted__pTorus1
+    3300008: pasted__pPyramid1
+    3300010: pCylinder1
+    3300012: pPipe1
+    3300014: pPyramid1
+    4300000: pCylinder1
+    4300002: pPyramid1
+    4300004: pasted__pPyramid1
+    4300006: pPipe1
+    4300008: pasted__pasted__pasted__pTorus1
+    4300010: pasted__pasted__pasted__pasted__pTorus1
+    4300012: pasted__pasted__pasted__pasted__pTorus1
+    4300014: pasted__pasted__pasted__pasted__pTorus1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

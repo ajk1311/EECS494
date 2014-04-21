@@ -29,6 +29,7 @@ public class StartScript : MonoBehaviour {
 	public Object tower2;
 	public Object tower3;
 	public Object tower4;
+	public Object centerTower;
 
 	public WorldObject[] objs;
 
@@ -111,6 +112,7 @@ public class StartScript : MonoBehaviour {
 		GameObject tower2Object = (GameObject)Instantiate (tower2);
 		GameObject tower3Object = (GameObject)Instantiate (tower3);
 		GameObject tower4Object = (GameObject)Instantiate (tower4);
+		GameObject centerTowerObject = (GameObject)Instantiate (centerTower);
 
 		SSGameSetup.Ready(connectionEvent.ID);
 	}

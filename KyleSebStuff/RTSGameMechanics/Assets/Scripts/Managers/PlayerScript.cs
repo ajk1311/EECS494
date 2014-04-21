@@ -32,10 +32,12 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 
 	void Start() {
+		SSGameManager.Register(this);
+
 		power = 15;
-		maxPower = 15;
+		maxPower = 100;
         memory = 0;
-        maxMemory = 30;
+        maxMemory = 100;
 		cycleLength = 5;
 		powerPerCycle = 5;
 
@@ -55,6 +57,7 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 
     public void GameUpdate(float deltaTime) {
+		Debug.Log ("Current Power: " + power + "ID: " + id);
 		currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);;
 		if(currentTime >= (int) System.Math.Round(cycleLength * Int3.FloatPrecision)) {
 			currentTime = 0;
@@ -178,6 +181,15 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		powerPerCycle = amount;
 	}
 
+	public void addPowerPerCycle(int amount) {
+		powerPerCycle += amount;
+		Debug.Log("Amount is: " + amount + "powerPerCycle: " + powerPerCycle + "PlayerID: " + id);
+	}
+
+	public void removePowerPerCycle(int amount) {
+		powerPerCycle -= amount;
+	}
+
 	//Reset Functioins
 	public void resetMaxPower() {
 		maxPower = defaultMaxPower;
@@ -267,5 +279,9 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 
 	public int getCurrentTier() {
 		return currentTierIndex;
+	}
+
+	private void OnDestroy() {
+		SSGameManager.Unregister(this);
 	}
 }
