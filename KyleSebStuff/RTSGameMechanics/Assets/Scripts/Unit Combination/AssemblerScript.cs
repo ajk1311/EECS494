@@ -41,6 +41,13 @@ public class AssemblerScript : MonoBehaviour {
 		bitsUnit.GetComponent<UnitBitsScript>().desiredUnit = desiredUnit;
 		bitsUnit.GetComponent<UnitBitsScript> ().destination = (Int3) CombinationManager.spawnPoint [playerID - 1];
 		bitsUnit.GetComponent<UnitBitsScript> ().combinationID = combinationID;
+
+		if(playerID == 1) {
+			bitsUnit.GetComponent<ParticleSystem>().startColor = new Color(255f, 140f, 0f, 144f);
+		}
+		else {
+			bitsUnit.GetComponent<ParticleSystem>().startColor = new Color(188f, 0f, 255f, 255f);
+		}
 	}
 
 	public void ReachedAssembler(int id, Vector3 pos, string type) {

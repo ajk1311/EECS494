@@ -24,6 +24,9 @@ public class CaptureBuilding : Building {
 	public int detectionRadius;
 
 	ParticleSystem particle;
+
+	// Progress Bar
+	public GUIProgressBar progressBar;
 	
 	protected override void Start() {
 		base.Start();
@@ -48,6 +51,9 @@ public class CaptureBuilding : Building {
 		playerID = 0;
 		
 		Camera.main.ScreenPointToRay (Vector2.zero);
+		progressBar = (GUIProgressBar) gameObject.AddComponent<GUIProgressBar>();
+		progressBar.initProgressBar(0, "Progress", true);
+		progressBar.progressFull = (int) (timeToCapture * Int3.FloatPrecision);
 	}
 	
 	protected override RTS.GUIModelManager.GUIModel GetGUIModel() {
@@ -74,6 +80,8 @@ public class CaptureBuilding : Building {
 			player2OwnsTower = false;
 			player1Buffed = false;
 			player2Buffed = false;
+
+			progressBar.show = false;
 		}
 		
 		//Player1 Is in Control
@@ -87,6 +95,8 @@ public class CaptureBuilding : Building {
 				player2Holding = false;
 				player2OwnsTower = false;
 				currentTime = 0;
+
+				progressBar.show = true;
 			}
 			//Player1 already has claimed
 			else if(player1Holding){
@@ -94,6 +104,7 @@ public class CaptureBuilding : Building {
 				currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
 				if(currentTime >= (int) System.Math.Round(timeToCapture * Int3.FloatPrecision)) {
 					player1OwnsTower = true;
+					progressBar.show = false;
 				}
 			}
 		}
@@ -109,13 +120,16 @@ public class CaptureBuilding : Building {
 				player1Holding = false;
 				player1OwnsTower = false;
 				currentTime = 0;
+
+				progressBar.show = true;
 			}
 			//Player2 has already claimed
 			else if(player2Holding){
 				Debug.Log ("-----------Player2 has already claimed-----------");
-				currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);;
+				currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
 				if(currentTime >= (int) System.Math.Round(timeToCapture * Int3.FloatPrecision)) {
 					player2OwnsTower = true;
+					progressBar.show = false;
 				}
 			}
 		}
@@ -159,6 +173,8 @@ public class CaptureBuilding : Building {
 //			objectRenderer.material.SetColor("_Color", new Color(226f, 94f, 255f, 255f));
 			particle.startColor = new Color(188f, 0f, 255f, 255f);
 		}
+
+		progressBar.progress = currentTime;
 	}
 	
 	private void getCurrentUnitCounts() {
