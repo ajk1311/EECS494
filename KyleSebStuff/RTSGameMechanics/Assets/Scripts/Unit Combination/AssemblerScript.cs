@@ -67,50 +67,62 @@ public class AssemblerScript : MonoBehaviour {
 		if(type == "MagentaHeapUnit") {
 			Transform unit = Instantiate(magentaHeapUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "MagentaStaticUnit") {
 			Transform unit = Instantiate(magentaStaticUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "MagentaBinaryTreeUnit") {
 			Transform unit = Instantiate(magentaBinaryTreeUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "OrangeHeapUnit") {
 			Transform unit = Instantiate(orangeHeapUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "OrangeStaticUnit") {
 			Transform unit = Instantiate(orangeStaticUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "OrangeBinaryTreeUnit") {
 			Transform unit = Instantiate(orangeBinaryTreeUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "OrangeArrayUnit") {
 			Transform unit = Instantiate(orangeArrayUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "MagentaArrayUnit") {
 			Transform unit = Instantiate(magentaArrayUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "OrangePointerUnit") {
 			Transform unit = Instantiate(orangePointerUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "MagentaPointerUnit") {
 			Transform unit = Instantiate(magentaPointerUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "OrangeFloatUnit") {
 			Transform unit = Instantiate(orangeFloatUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "MagentaPointerUnit") {
 			Transform unit = Instantiate(magentaPointerUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
+			unit.Rotate(new Vector3(0, 90, 0));
 		}
 	}
 
