@@ -95,7 +95,6 @@ public static class SelectionManager {
     }
 
 	public static void deselectAllGameObjects(int playerID) {
-		GUIModelManager.SetCurrentModel(playerID, null);
         foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
             obj.GetComponent<WorldObject>().setCurrentlySelected(false);
         }
@@ -106,7 +105,10 @@ public static class SelectionManager {
 		List<Int3> destinationCluster = GridManager.GetDestinationCluster ((Int3) destination, selectedUnits.Count);
 		for(int i = 0; i < selectedUnits.Count; i++) {
 			if(selectedUnits[i] != null) {
-				selectedUnits[i].GetComponent<Unit>().IssueMoveCommand((Vector3)destinationCluster[i], attackMove);
+                Unit unit = selectedUnits[i].GetComponent<Unit>();
+                if (unit != null) {
+                    unit.IssueMoveCommand((Vector3)destinationCluster[i], attackMove);
+                }
 			}
 		}
     }
