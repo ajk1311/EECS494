@@ -5626,6 +5626,7 @@ MonoBehaviour:
   orangeTexture: {fileID: 0}
   buttonIcon: {fileID: 0}
   playerScript: {fileID: 0}
+  explosionPrefab: {fileID: 0}
   timeToCapture: 0
   currentTime: 0
   player1UnitCount: 0
@@ -5640,6 +5641,7 @@ MonoBehaviour:
   player2Buffed: 0
   buff: 1
   detectionRadius: 25
+  captureNoise: {fileID: 8300000, guid: 874a0b782067a4520a9aeea2c3172870, type: 3}
   progressBar: {fileID: 0}
 --- !u!198 &19800000
 ParticleSystem:
