@@ -5,6 +5,13 @@ using RTS;
 
 public class GUIManager : MonoBehaviour {
 
+    public bool gameLoading;
+    public bool usernameEntered;
+    public bool countdown = false;
+    public string username;
+    public string loadMessage;
+    public float messageCounter;
+
     public PlayerScript player;
 
     //Public GUI Skins to Initalize
@@ -68,6 +75,11 @@ public class GUIManager : MonoBehaviour {
 
         //Hide the Cursor
         Screen.showCursor = false;
+        Screen.showCursor = false;
+        gameLoading = true;
+        username = "Enter name...";
+        loadMessage = "Loading game...";
+        messageCounter = 5;
     }
 
     void Update() {
@@ -142,17 +154,47 @@ public class GUIManager : MonoBehaviour {
     }
 
     void OnGUI() {
-        DrawOrdersBar();
-        DrawCurrentGUIModel();
-        DrawResourceBar();
-        DrawMouseCursor();
-        if (isDragging) {
-            float padding = GUIResources.GetScaledPixelSize(4);
-            dragLocationEnd = new Vector2(
-                Mathf.Min(Mathf.Max(Input.mousePosition.x, padding), Screen.width - padding),
-                Mathf.Min(Mathf.Max(Input.mousePosition.y, GUIResources.OrdersBarHeight + padding), Screen.height - padding));
-            DragBox(dragLocationStart, dragLocationEnd, dragSelectSkin);
+        if(gameLoading) {
+            showLoadingScreen();
+            DrawMouseCursor();
         }
+        else {
+            DrawOrdersBar();
+            DrawCurrentGUIModel();
+            DrawResourceBar();
+            if (isDragging) {
+                float padding = GUIResources.GetScaledPixelSize(4);
+                dragLocationEnd = new Vector2(
+                    Mathf.Min(Mathf.Max(Input.mousePosition.x, padding), Screen.width - padding), 
+                    Mathf.Min(Mathf.Max(Input.mousePosition.y, GUIResources.OrdersBarHeight + padding), Screen.height - padding));
+                DragBox(dragLocationStart, dragLocationEnd, dragSelectSkin);
+            }
+            DrawMouseCursor();
+        }
+    }
+
+    private void showLoadingScreen() {
+        if(!usernameEntered) {
+            GUI.backgroundColor = Color.green;
+            // GUI.Label (new Rect (Screen.width/2 - 100, Screen.height/2 - 100, 200, 200), "Enter player name:");
+            username = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 - 25, 200, 50), username, 25);
+            if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 25, 100, 50), "Enter"))
+                usernameEntered = true;
+        }
+        else {
+            GUI.Label (new Rect (Screen.width/2 - 50, Screen.height/2 - 50, 200, 200), loadMessage);
+            if(countdown && messageCounter <= 0) {
+                gameLoading = false;
+            }
+            else if(countdown) {
+                messageCounter -= Time.deltaTime;
+            }
+        }
+    }
+
+    public void connected(string opponentName) {
+        loadMessage = "Connected to opponent: " + opponentName;
+        countdown = true;
     }
 
     /*

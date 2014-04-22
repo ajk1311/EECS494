@@ -121,38 +121,70 @@ public static class CombinationManager {
 	}
 	
 	private static void generateCombinationReference() {
-		//Magenta Unit Combos
-		List< KeyValuePair<string,int>> magentaBinaryTreeUnitList = new List< KeyValuePair<string,int>> ();
+//		//Magenta Unit Combos
+		List< KeyValuePair<string,int>> magentaPointerUnitList = new List< KeyValuePair<string,int>> ();
 		KeyValuePair<string, int> pairMagentaIntUnit = new KeyValuePair<string, int>("MagentaIntUnit", 3);
-		magentaBinaryTreeUnitList.Add (pairMagentaIntUnit);
+		magentaPointerUnitList.Add (pairMagentaIntUnit);
 
 		List< KeyValuePair<string,int>> magentaHeapUnitList = new List< KeyValuePair<string,int>> ();
 		KeyValuePair<string, int> pairMagentaDoubleUnit = new KeyValuePair<string, int>("MagentaDoubleUnit", 3);
 		magentaHeapUnitList.Add (pairMagentaDoubleUnit);
 
-		List< KeyValuePair<string,int>> magentaStaticUnitList = new List< KeyValuePair<string,int>> ();
+		List< KeyValuePair<string,int>> magentaFloatUnitList = new List< KeyValuePair<string,int>> ();
 		KeyValuePair<string, int> pairMagentaLongUnit = new KeyValuePair<string, int>("MagentaLongUnit", 3);
-		magentaStaticUnitList.Add (pairMagentaLongUnit);
+		magentaFloatUnitList.Add (pairMagentaLongUnit);
 
-		comboRef.Add ("MagentaBinaryTreeUnit", magentaBinaryTreeUnitList);
+		comboRef.Add ("MagentaPointerUnit", magentaPointerUnitList);
 		comboRef.Add ("MagentaHeapUnit", magentaHeapUnitList);
+		comboRef.Add ("MagentaFloatUnit", magentaFloatUnitList);
+
+		List< KeyValuePair<string,int>> magentaBinaryTreeUnitList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairMagentaPointerUnit = new KeyValuePair<string, int>("MagentaPointerUnit", 3);
+		magentaBinaryTreeUnitList.Add (pairMagentaPointerUnit);
+		
+		List< KeyValuePair<string,int>> magentaArrayUnitList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairMagentaHeapUnit = new KeyValuePair<string, int>("MagentaHeapUnit", 3);
+		magentaArrayUnitList.Add (pairMagentaHeapUnit);
+		
+		List< KeyValuePair<string,int>> magentaStaticUnitList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairMagentaFloatUnit = new KeyValuePair<string, int>("MagentaFloatUnit", 3);
+		magentaStaticUnitList.Add (pairMagentaFloatUnit);
+		
+		comboRef.Add ("MagentaBinaryTreeUnit", magentaBinaryTreeUnitList);
+		comboRef.Add ("MagentaArrayUnit", magentaArrayUnitList);
 		comboRef.Add ("MagentaStaticUnit", magentaStaticUnitList);
 
 		//Orange Unit Combos
-		List< KeyValuePair<string,int>> orangeBinaryTreeUnitList = new List< KeyValuePair<string,int>> ();
+		List< KeyValuePair<string,int>> orangePointerUnitList = new List< KeyValuePair<string,int>> ();
 		KeyValuePair<string, int> pairOrangeIntUnit = new KeyValuePair<string, int>("OrangeIntUnit", 3);
-		orangeBinaryTreeUnitList.Add (pairOrangeIntUnit);
+		orangePointerUnitList.Add (pairOrangeIntUnit);
 		
 		List< KeyValuePair<string,int>> orangeHeapUnitList = new List< KeyValuePair<string,int>> ();
 		KeyValuePair<string, int> pairOrangeDoubleUnit = new KeyValuePair<string, int>("OrangeDoubleUnit", 3);
 		orangeHeapUnitList.Add (pairOrangeDoubleUnit);
 		
-		List< KeyValuePair<string,int>> orangeStaticUnitList = new List< KeyValuePair<string,int>> ();
+		List< KeyValuePair<string,int>> orangeFloatUnitList = new List< KeyValuePair<string,int>> ();
 		KeyValuePair<string, int> pairOrangeLongUnit = new KeyValuePair<string, int>("OrangeLongUnit", 3);
-		orangeStaticUnitList.Add (pairOrangeLongUnit);
+		orangeFloatUnitList.Add (pairOrangeLongUnit);
+		
+		comboRef.Add ("OrangePointerUnit", orangePointerUnitList);
+		comboRef.Add ("OrangeHeapUnit", orangeHeapUnitList);
+		comboRef.Add ("OrangeFloatUnit", orangeFloatUnitList);
+		
+		List< KeyValuePair<string,int>> orangeBinaryTreeUnitList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairOrangePointerUnit = new KeyValuePair<string, int>("OrangePointerUnit", 3);
+		orangeBinaryTreeUnitList.Add (pairOrangePointerUnit);
+		
+		List< KeyValuePair<string,int>> orangeArrayUnitList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairOrangeHeapUnit = new KeyValuePair<string, int>("OrangeHeapUnit", 3);
+		orangeArrayUnitList.Add (pairOrangeHeapUnit);
+		
+		List< KeyValuePair<string,int>> orangeStaticUnitList = new List< KeyValuePair<string,int>> ();
+		KeyValuePair<string, int> pairOrangeFloatUnit = new KeyValuePair<string, int>("OrangeFloatUnit", 3);
+		orangeStaticUnitList.Add (pairOrangeFloatUnit);
 		
 		comboRef.Add ("OrangeBinaryTreeUnit", orangeBinaryTreeUnitList);
-		comboRef.Add ("OrangeHeapUnit", orangeHeapUnitList);
+		comboRef.Add ("OrangeArrayUnit", orangeArrayUnitList);
 		comboRef.Add ("OrangeStaticUnit", orangeStaticUnitList);
 	}
 }

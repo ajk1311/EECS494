@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 public class Unit : WorldObject {
 
+	public static readonly float SpeedBuff = 1.75f;
+
 	// State variables
     protected bool pathComplete = false;
     protected bool moving = false;
@@ -23,6 +25,10 @@ public class Unit : WorldObject {
 	public float nextWaypointDistance = 0.5f;
 	protected Int3 destination;
 	protected Int3 intDirection;
+
+	//Explosion Prefabs
+	public Object purpleExplosion;
+	public Object orangeExplosion;
 
 	public Int3 IntDirection {
 		get {
@@ -240,8 +246,10 @@ public class Unit : WorldObject {
 				return;
 			}
 			Int3 nextWayPoint = (Int3) path.vectorPath[currentWaypoint];
+			float buffedSpeed = playerScript.centerTowerBuff ? 
+				IntPhysics.FloatSafeMultiply(speed, SpeedBuff) : speed;
 			Int3 delta = IntPhysics.DisplacementTo(intPosition, nextWayPoint, 
-			                                     IntPhysics.FloatSafeMultiply(speed, deltaTime));
+			                                     IntPhysics.FloatSafeMultiply(buffedSpeed, deltaTime));
 			intDirection = new Int3(System.Math.Sign(delta.x), 0, System.Math.Sign(delta.z));
 			intPosition += delta;
 			transform.position = (Vector3) intPosition;
@@ -289,6 +297,13 @@ public class Unit : WorldObject {
 			GameObject.Find("Player").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
 		} else {
 			GameObject.Find("Opponent").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
+		}
+
+		if(playerID == 1) {
+			GameObject explosion = (GameObject) Instantiate(orangeExplosion, transform.position, Quaternion.identity);
+		}
+		else {
+			GameObject explosion = (GameObject) Instantiate(purpleExplosion, transform.position, Quaternion.identity);
 		}
 	}
 }

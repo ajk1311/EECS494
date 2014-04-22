@@ -33,9 +33,20 @@ public class StartScript : MonoBehaviour {
 
 	public WorldObject[] objs;
 
+	private GUIManager guiManager;
+	private bool notConnected = true;
+
 	void Start() {
 		Dispatcher.Instance.Register(this);
-		SSGameSetup.ConnectToGame("akausejr", true);
+		guiManager = GameObject.Find("Player").GetComponent<GUIManager>();
+	}
+
+	void Update() {
+		if(guiManager.usernameEntered && notConnected) {
+			Debug.Log("in here");
+			SSGameSetup.ConnectToGame(guiManager.username, true);
+			notConnected = false;
+		}
 	}
 	
 	[HandlesEvent]
@@ -50,6 +61,7 @@ public class StartScript : MonoBehaviour {
 		CombinationManager.Init();
 		FogOfWarManager.Init();
 		ParseManager.Init(connectionEvent.ID, connectionEvent.gameID);
+		guiManager.connected(connectionEvent.opponentName);
 
 		UserInputManager myInputManager;
 		UserInputManager hisOrHerInputManager;
@@ -112,6 +124,12 @@ public class StartScript : MonoBehaviour {
 		GameObject tower2Object = (GameObject)Instantiate (tower2);
 		GameObject tower3Object = (GameObject)Instantiate (tower3);
 		GameObject tower4Object = (GameObject)Instantiate (tower4);
+
+		tower1Object.GetComponent<CaptureBuilding> ().detectionRadius = 18;
+		tower2Object.GetComponent<CaptureBuilding> ().detectionRadius = 18;
+		tower3Object.GetComponent<CaptureBuilding> ().detectionRadius = 18;
+		tower4Object.GetComponent<CaptureBuilding> ().detectionRadius = 18;
+
 		GameObject centerTowerObject = (GameObject)Instantiate (centerTower);
 
 		SSGameSetup.Ready(connectionEvent.ID);

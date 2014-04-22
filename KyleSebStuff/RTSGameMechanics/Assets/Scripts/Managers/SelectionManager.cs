@@ -58,7 +58,6 @@ public static class SelectionManager {
 	private static void UpdateGUIModel(int playerID, WorldObject wo) {
 		//check for new combos and add to left panel
 		List<KeyValuePair<string,int>> availCombos = CombinationManager.getAvailableCombinations (playerID);
-		Debug.Log ("available combos:" + availCombos.Count);
 		selectionModels [playerID - 1].ClearButtons (0);
 		foreach(KeyValuePair<string,int> pair in availCombos) {
 			GUIModelManager.Button comboButton = new GUIModelManager.Button();
@@ -71,7 +70,7 @@ public static class SelectionManager {
 			selectionModels[playerID-1].AddButton(0, comboButton);
 		}
 		GUIModelManager.Button button = new GUIModelManager.Button();
-		button.text = wo.objectName; //get the unit name
+		button.icon = wo.buttonIcon;
 		button.clicked += () => 
 		{
 			if(wo != null) {

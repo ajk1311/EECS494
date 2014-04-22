@@ -27,7 +27,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .5, z: 0}
+  m_LocalPosition: {x: 0, y: .5, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
@@ -80,7 +80,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 192.292664, y: -6.7949295e-05, z: 59.5132751}
+  m_LocalPosition: {x: 45.5012817, y: 1, z: 206.010361}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -98,7 +98,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: c2176e42c7b0a4ac9b67222abd36df60, type: 2}
+  - {fileID: 2100000, guid: 8dd2fc05ecd6f114bbbe3de40e4d2b39, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -143,24 +143,28 @@ MonoBehaviour:
   uid: 0
   playerID: 0
   cost: 0
-  hitPoints: 10
-  maxHitPoints: 10
+  hitPoints: 12
+  maxHitPoints: 12
   objectName: OrangeDoubleUnit
   currentFogTile: {fileID: 0}
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 2800000, guid: 56d8f97f67284438e945aa73bac974f1, type: 3}
   orangeTexture: {fileID: 2800000, guid: ec6a7293eb236447b87b42229ecbed3e, type: 3}
-  progressBar: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  playerScript: {fileID: 0}
   reloading: 0
   currentWaypoint: 0
   nextWaypointDistance: 3
+  purpleExplosion: {fileID: 100000, guid: 14130862835ad491ea740eea74acdb38, type: 2}
+  orangeExplosion: {fileID: 100000, guid: eacf30e8408a445739af10421652b26a, type: 2}
   currentTarget: {fileID: 0}
-  speed: 50
-  attackRadius: 0
-  pursuitRadius: 0
-  reloadSpeed: 0
+  speed: 10
+  attackRadius: 9
+  pursuitRadius: 15
+  reloadSpeed: 3
   attentionRange: 0
-  damageInflicted: 0
+  damageInflicted: 6
+  progressBar: {fileID: 0}
   Projectile: {fileID: 100000, guid: 22b84585d30f24c9e854cfb9a63fb7c9, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:

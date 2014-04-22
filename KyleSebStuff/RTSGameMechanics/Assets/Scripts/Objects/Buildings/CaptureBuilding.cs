@@ -60,7 +60,7 @@ public class CaptureBuilding : Building {
 		objectRenderer.enabled = true;
 		
 		getCurrentUnitCounts ();
-		
+
 		//neither Player1 or Player2 owns the tower so reset all variables except ID
 		if(player1UnitCount == 0 && player2UnitCount == 0) {
 			player1UnitCount = 0;
@@ -157,7 +157,7 @@ public class CaptureBuilding : Building {
 			setBuffForPlayer(2);
 			FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, 2);
 //			objectRenderer.material.SetColor("_Color", new Color(226f, 94f, 255f, 255f));
-			particle.startColor = new Color(226f, 94f, 255f, 255f);
+			particle.startColor = new Color(188f, 0f, 255f, 255f);
 		}
 	}
 	
@@ -169,6 +169,9 @@ public class CaptureBuilding : Building {
 		surroundingUnits = GridManager.GetObjectsInRadius (this, detectionRadius);
 		
 		foreach(WorldObject obj in surroundingUnits) {
+			if (obj.gameObject.tag == "CaptureTower") {
+				continue;
+			}
 			int currentID = obj.playerID;
 			if(currentID == 1) {
 				player1UnitCount++;
@@ -180,31 +183,32 @@ public class CaptureBuilding : Building {
 	}
 	
 	private void setBuffForPlayer(int playerID) {
-		PlayerScript script = getPLayerScript (playerID);
+		PlayerScript script = getPlayerScript (playerID);
 
 		if(buff == 0) {
-			//corner tower buff
-			Debug.Log ("addbuff");
-			script.addPowerPerCycle(10);
+			//add corner tower buff
+			script.addPowerPerCycle(6);
 		}
 		else if(buff == 1) {
-			//center tower buff
+			//add center tower buff
+			script.setCenterTowerBuff(true);
 		}
 	}
 	
 	private void removeBuffForPlayer(int playerID) {
-		PlayerScript script = getPLayerScript (playerID);
+		PlayerScript script = getPlayerScript (playerID);
 
 		if(buff == 0) {
-			//corner tower buff
-			script.removePowerPerCycle(10);
+			//remove corner tower buff
+			script.removePowerPerCycle(6);
 		}
 		else if(buff == 1) {
-			//center tower buff
+			//remove center tower buff
+			script.setCenterTowerBuff(false);
 		}
 	}
 
-	private PlayerScript getPLayerScript(int playerID) {
+	private PlayerScript getPlayerScript(int playerID) {
 		PlayerScript playerScript = GameObject.Find("Player").GetComponent<PlayerScript>();
 		PlayerScript opponentScript = GameObject.Find("Opponent").GetComponent<PlayerScript>();
 

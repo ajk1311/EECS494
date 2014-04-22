@@ -11,9 +11,15 @@ public class AssemblerScript : MonoBehaviour {
 	public Transform magentaHeapUnit;
 	public Transform magentaStaticUnit;
 	public Transform magentaBinaryTreeUnit;
+	public Transform magentaArrayUnit;
+	public Transform magentaPointerUnit;
+	public Transform magentaFloatUnit;
 	public Transform orangeStaticUnit;
 	public Transform orangeHeapUnit;
 	public Transform orangeBinaryTreeUnit;
+	public Transform orangeArrayUnit;
+	public Transform orangePointerUnit;
+	public Transform orangeFloatUnit;
 
 	private Dictionary<int, KeyValuePair<int,int>> unitQueue;
 
@@ -73,6 +79,30 @@ public class AssemblerScript : MonoBehaviour {
 		}
 		else if(type == "OrangeBinaryTreeUnit") {
 			Transform unit = Instantiate(orangeBinaryTreeUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "OrangeArrayUnit") {
+			Transform unit = Instantiate(orangeArrayUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "MagentaArrayUnit") {
+			Transform unit = Instantiate(magentaArrayUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "OrangePointerUnit") {
+			Transform unit = Instantiate(orangePointerUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "MagentaPointerUnit") {
+			Transform unit = Instantiate(magentaPointerUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "OrangeFloatUnit") {
+			Transform unit = Instantiate(orangeFloatUnit, pos, transform.rotation) as Transform;
+			unit.GetComponent<WorldObject>().playerID = playerID;
+		}
+		else if(type == "MagentaPointerUnit") {
+			Transform unit = Instantiate(magentaPointerUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 		}
 	}

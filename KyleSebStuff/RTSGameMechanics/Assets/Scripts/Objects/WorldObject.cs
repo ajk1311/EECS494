@@ -13,60 +13,48 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     // Basic RTS variables
     public int cost;
     public int hitPoints;
-    public int maxHitPoints;
-    public string objectName;
 
-    // Selection and GUI variable
-    protected bool alreadySelected;
-    protected bool currentlySelected;
-    protected Bounds selectionBounds;
+	public int maxHitPoints;
+	public string objectName;
+    
+	protected bool alreadySelected;
+	protected bool currentlySelected;
+	protected Bounds selectionBounds;
+    
+	public Int3 intPosition;
+	public Int3 lastPosition;
 
-    // Integer transform position!
-    public Int3 intPosition;
-    public Int3 lastPosition;
+	public GameObject currentFogTile;
 
-    // The fog tile this object is currently in
-    public GameObject currentFogTile;
+	public Renderer objectRenderer;
 
-    // The gameObject that actually renders this object
-    public Renderer objectRenderer;
+	public MapMarker marker;
+	public Texture magentaTexture;
+	public Texture orangeTexture;
 
-    // Mini-map markers
-    public MapMarker marker;
-    public Texture magentaTexture;
-    public Texture orangeTexture;
+    public Texture buttonIcon;
 
-    public int ID {
-        get {
-            return uid;
-        } set {
-            uid = value;
-        }
-    }
+	public PlayerScript playerScript;
 
-    public int PlayerID {
-        get {
-            return playerID;
-        } set {
-            playerID = value;
-        }
-    }
+	public int ID {
+		get { return uid; }
+		set { uid = value; }
+	}
 
-    public int HitPoints {
-        get {
-            return hitPoints;
-        } set {
-            hitPoints = value;
-        }
-    }
+	public int PlayerID {
+		get { return playerID; }
+		set { playerID = value; }
+	}
 
-    public Vector3 WorldPosition {
-        get {
-            return transform.position;
-        } set {
-            transform.position = value;
-        }
-    }
+	public int HitPoints {
+		get { return hitPoints; }
+		set { hitPoints = value; }
+	}
+
+	public Vector3 WorldPosition {
+		get { return transform.position; }
+		set { transform.position = value; }
+	}
 
     /*** Game Engine methods, all can be overridden by subclass ***/
 
@@ -75,37 +63,47 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     }
 
     protected virtual void Start() {
-        currentlySelected = alreadySelected = false;
-        intPosition = new Int3(transform.position);
-        lastPosition = intPosition;
-        SSGameManager.Register(this);
-        marker = new MapMarker (this.gameObject, playerID == 1 ? orangeTexture : magentaTexture);
-        GameObject.Find("MapCenter").GetComponent<MapManager>().register(marker);
-        GridManager.UpdatePosition(intPosition, this);
-        currentFogTile = FogOfWarManager.getMyFogTile (intPosition);
-        FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, playerID);
-        objectRenderer = GetComponentInChildren<Renderer>();
+		currentlySelected = alreadySelected = false;
+		intPosition = new Int3(transform.position);
+		lastPosition = intPosition;
+		SSGameManager.Register(this);
+		marker = new MapMarker (this.gameObject, playerID == 1? orangeTexture : magentaTexture);
+		GameObject.Find("MapCenter").GetComponent<MapManager>().register(marker);
+		GridManager.UpdatePosition(intPosition, this);
+		currentFogTile = FogOfWarManager.getMyFogTile (intPosition);
+		FogOfWarManager.updateFogTileUnitCount (null, currentFogTile, playerID);
+		objectRenderer = GetComponentInChildren<Renderer>();
+
+		//Logic for Center Tower Buff to create reference for it to modify all units
+		PlayerScript pScript = GameObject.Find("Player").GetComponent<PlayerScript>();
+		PlayerScript oScript = GameObject.Find("Opponent").GetComponent<PlayerScript>();
+		if(pScript.id == playerID) {
+			playerScript = pScript;
+		}
+		else {
+			playerScript = oScript;
+		}
     }
 
-    protected virtual void OnDestroy() {
-        if (currentlySelected) {
-            SelectionManager.removeUnitFromList(playerID, this.gameObject);
-        }
-        GridManager.RemoveFromGrid(this);
-        SSGameManager.Unregister(this);
-        GameObject.Find("MapCenter").GetComponent<MapManager>().unregister(marker);
-        FogOfWarManager.updateFogTileUnitCount (currentFogTile, null, playerID);
-    }
+	protected virtual void OnDestroy() {
+		if(currentlySelected) {
+			SelectionManager.removeUnitFromList(playerID, this.gameObject);
+		}
+		GridManager.RemoveFromGrid(this);
+		SSGameManager.Unregister(this);
+		GameObject.Find("MapCenter").GetComponent<MapManager>().unregister(marker);
+		FogOfWarManager.updateFogTileUnitCount (currentFogTile, null, playerID);
+	}
 
-    public virtual void GameUpdate(float deltaTime) {
-        if (intPosition != lastPosition) {
-            lastPosition = intPosition;
-            GridManager.UpdatePosition(intPosition, this);
-        }
-        selectionLogic();
-        fogOfWarLogic();
-    }
-
+	public virtual void GameUpdate(float deltaTime) {
+		if (intPosition != lastPosition) {
+			lastPosition = intPosition;
+			GridManager.UpdatePosition(intPosition, this);
+		}
+		selectionLogic();
+		fogOfWarLogic();
+	}
+    
     protected virtual void OnGUI() {
         if (currentlySelected &&
                 playerID == GameObject.Find("Player").GetComponent<PlayerScript>().id) {
