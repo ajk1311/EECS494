@@ -24,6 +24,9 @@ public class CaptureBuilding : Building {
 	public int detectionRadius;
 
 	ParticleSystem particle;
+
+	// Progress Bar
+	public GUIProgressBar progressBar;
 	
 	protected override void Start() {
 		base.Start();
@@ -48,6 +51,7 @@ public class CaptureBuilding : Building {
 		playerID = 0;
 		
 		Camera.main.ScreenPointToRay (Vector2.zero);
+		progressBar.init(0, "Progress", true);
 	}
 	
 	protected override RTS.GUIModelManager.GUIModel GetGUIModel() {
