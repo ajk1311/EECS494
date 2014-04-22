@@ -56,10 +56,6 @@ public class CaptureBuilding : Building {
 		progressBar.progressFull = (int) (timeToCapture * Int3.FloatPrecision);
 	}
 	
-	protected override RTS.GUIModelManager.GUIModel GetGUIModel() {
-		return null;
-	}
-	
 	public override void GameUpdate (float deltaTime)
 	{
 		base.GameUpdate (deltaTime);

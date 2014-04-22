@@ -59,10 +59,6 @@ public class StartScript : MonoBehaviour {
 		Camera.main.GetComponent<CameraControl>().enabled = false;
 	}
 
-	void OnDestroy() {
-		Dispatcher.Instance.Unregister(this);
-	}
-
 	void Update() {
 		if(guiManager.usernameEntered && notConnected) {
 			Debug.Log("in here");
@@ -136,6 +132,9 @@ public class StartScript : MonoBehaviour {
 
         GameObject magentaRAM = (GameObject) Instantiate(magentaRAMPrefab);
         GameObject orangeRAM = (GameObject) Instantiate(orangeRAMPrefab);
+
+        orangeCpu.GetComponent<CPU>().Ram = orangeRAM.GetComponent<RAM>();
+        magentaCpu.GetComponent<CPU>().Ram = magentaRAM.GetComponent<RAM>();
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
 		assembler1.name = "assembler1";

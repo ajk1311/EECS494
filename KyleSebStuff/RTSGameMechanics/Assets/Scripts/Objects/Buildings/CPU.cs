@@ -73,6 +73,16 @@ public class CPU : DestructableBuilding
 
     private GUIProgressBar mProgressBar;
 
+    private RAM mRam;
+    public RAM Ram 
+    {
+        set
+        {
+            mRam = value;
+        }
+    }
+
+
     struct CreationEvent
     {
         public int cooldown;
@@ -110,8 +120,6 @@ public class CPU : DestructableBuilding
         EventBus.Dispatcher.Instance.Post(gameOverEvent);
     }
 
-	protected override GUIModelManager.GUIModel GetGUIModel() { return null; }
-
 	public override void OnSelectionChanged(bool selected) 
     {
         SetGuiModel(selected ? TIER_SELECT : NONE);
@@ -142,6 +150,7 @@ public class CPU : DestructableBuilding
             unit.GetComponent<WorldObject>().playerID = PlayerID;
             unit.GetComponent<WorldObject>().buttonIcon = mIconMap[prefab];
             mCreationQueue.RemoveAt(0);
+            mRam.Spark();
             if (currentlySelected) {
             	SetGuiModel(mCurrentGuiModel);
             }
