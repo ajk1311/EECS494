@@ -9,6 +9,9 @@ public class Melee : Unit {
 	private Int3 attackPosition;
 	private Int3 startAttackPosition;
 
+	//Sound
+	public AudioClip punchSound;
+
 	// Use this for initialization
 	protected override void Start() {
 		base.Start();
@@ -29,6 +32,7 @@ public class Melee : Unit {
 		} else if (attackStarted) {
 			if (IntPhysics.IsCloseEnough(intPosition, attackPosition, 0.2f)) {
 				currentTarget.TakeDamage(damageInflicted);
+				AudioSource.PlayClipAtPoint(punchSound, transform.position);
         		reloading = true;
 	        } else {
 	        	intPosition += IntPhysics.DisplacementTo(intPosition, 
