@@ -113,9 +113,9 @@ public class CPU : DestructableBuilding
         };
 	}
 
-    protected override void OnDestroy()
+    protected override void OnDestroyedInGame()
     {
-        base.OnDestroy();
+        base.OnDestroyedInGame();
         StartScript.GameOverEvent gameOverEvent = new StartScript.GameOverEvent(playerID);
         EventBus.Dispatcher.Instance.Post(gameOverEvent);
     }
@@ -462,7 +462,8 @@ public class CPU : DestructableBuilding
 
     private void SetGuiModel(int guiModelType)
     {
-        switch (guiModelType)
+        mCurrentGuiModel = guiModelType;
+        switch (mCurrentGuiModel)
         {
             case TIER_SELECT:
                 GUIModelManager.SetCurrentModel(playerID, BuildTierSelectionModel());
@@ -484,6 +485,5 @@ public class CPU : DestructableBuilding
                 GUIModelManager.SetCurrentModel(playerID, null);
                 break;
         }
-        mCurrentGuiModel = guiModelType;
     }
 }

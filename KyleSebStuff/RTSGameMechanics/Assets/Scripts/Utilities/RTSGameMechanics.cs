@@ -17,19 +17,18 @@ namespace RTS {
 			Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
 			GameObject returnObj = null;
 			int currentID = int.MaxValue;
-
-				if (hitColliders.Length != 0) {
-					if(hitColliders.Length == 1)
-						return hitColliders[0].gameObject.transform.root.gameObject;
-				
-					foreach(Collider obj in hitColliders) {
-						WorldObject script = obj.gameObject.transform.root.GetComponent<WorldObject>();
-						if(script != null && script.ID < currentID) {
-							returnObj = obj.transform.root.gameObject;
-						}
+			if (hitColliders.Length != 0) {
+				if(hitColliders.Length == 1) {
+					return hitColliders[0].gameObject.transform.root.gameObject;
+                }
+				foreach (Collider obj in hitColliders) {
+					WorldObject script = obj.gameObject.transform.root.GetComponent<WorldObject>();
+					if (script != null && script.ID < currentID) {
+						returnObj = obj.transform.root.gameObject;
 					}
 				}
-				return returnObj;
+			}
+			return returnObj;
 		}
 
         public static Vector3 FindHitPoint() {

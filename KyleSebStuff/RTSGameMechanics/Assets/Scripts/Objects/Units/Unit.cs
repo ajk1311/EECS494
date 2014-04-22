@@ -108,13 +108,13 @@ public class Unit : WorldObject {
         lastTargetDestination = MechanicResources.InvalidIntPosition;
     }
 
-    public void IssueMoveCommand(Vector3 destination, bool attackMove_ = false) {
+    public void IssueMoveCommand(Vector3 destination_, bool attackMove_ = false) {
         if (attacking || pursuing) {
             FinishAttacking();
         }
         attackMove = attackMove_;
-		this.destination = (Int3) destination;
-        StartMovement(destination);
+		destination = (Int3) destination_;
+        StartMovement(destination_);
     }
 
     private void StartMovement(Vector3 destination) {
@@ -189,7 +189,7 @@ public class Unit : WorldObject {
 
 	public void FinishAttacking() {
 		if (attackMove) {
-			StartMovement((Vector3) destination);
+			IssueMoveCommand((Vector3) destination, true);
 		} else {
 			idle = true;
 			moving = pursuing = attacking = isTargetBuilding = false;
@@ -291,8 +291,8 @@ public class Unit : WorldObject {
 		}
 	}
 
-	protected virtual void OnDestroy() {
-		base.OnDestroy();
+	protected override void OnDestroyedInGame() {
+		base.OnDestroyedInGame();
 		if(GameObject.Find("Player").GetComponent<PlayerScript>().id == playerID) {
 			GameObject.Find("Player").GetComponent<PlayerScript>().updateMemoryUnitDied(objectName);
 		} else {

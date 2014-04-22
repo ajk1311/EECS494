@@ -7,8 +7,8 @@ public class Building : WorldObject  {
 
 	public Object explosionPrefab;
 
-	protected override void OnDestroy() {
-		base.OnDestroy ();
+	protected override void OnDestroyedInGame() {
+		base.OnDestroyedInGame();
 		GameObject obj = (GameObject)Instantiate (explosionPrefab, transform.position, Quaternion.identity);
 	}
 }

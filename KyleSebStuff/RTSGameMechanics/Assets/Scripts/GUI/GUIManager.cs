@@ -40,6 +40,9 @@ public class GUIManager : MonoBehaviour {
     private bool attackingCommandCursor;
     private Vector3 destination;
 
+    //Map Texture
+    public Texture map;
+
 
     //Dragging GUI variables
     public GUISkin dragSelectSkin;
@@ -243,7 +246,7 @@ public class GUIManager : MonoBehaviour {
         }
     }
 
-    private void DrawMouseCursor() {
+    public void DrawMouseCursor() {
         GUI.skin = mouseCursorSkin;
         GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
         UpdateCursorAnimation();

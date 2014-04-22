@@ -44,7 +44,6 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     }
 
     private void LeftMouseClickDown(Vector3 mousePosition) {
-        //TODO If mouse in playing area
         GameObject hitObject = RTSGameMechanics.FindHitObject(mousePosition);
         if (hitObject) {
             if (hitObject.tag != "Map") {
