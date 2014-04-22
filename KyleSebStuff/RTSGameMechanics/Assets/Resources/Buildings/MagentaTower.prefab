@@ -4409,6 +4409,8 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   attackRadius: 25
   Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
+  buildingDestroySound: {fileID: 8300000, guid: 77adea031b8224c38bf20a6b17ab3159,
+    type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

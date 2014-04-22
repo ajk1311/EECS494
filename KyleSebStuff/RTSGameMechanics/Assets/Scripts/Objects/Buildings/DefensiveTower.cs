@@ -19,6 +19,9 @@ public class DefensiveTower : DestructableBuilding {
     public int attackRadius = 25;
     public GameObject Projectile;
 
+	//Sound
+	public AudioClip buildingDestroySound;
+
     protected override void Start() {
         base.Start();
     }
@@ -93,4 +96,10 @@ public class DefensiveTower : DestructableBuilding {
         projectile.GetComponent<Projectile> ().playerID = playerID;
         reloading = true;
     }
+
+	protected override void OnDestroyedInGame()
+	{
+		base.OnDestroyedInGame();
+		AudioSource.PlayClipAtPoint (buildingDestroySound, transform.position);
+	}
 }
