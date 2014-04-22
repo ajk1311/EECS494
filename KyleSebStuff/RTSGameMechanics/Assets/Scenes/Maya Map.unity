@@ -6579,6 +6579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177a07cf7ec6a48818e4abd5f3646897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: 504e03d9aa2a849778f0ef6245683e6d, type: 3}
   playerID: 0
 --- !u!4 &471585562
 Transform:
@@ -9118,7 +9119,7 @@ AudioSource:
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 44056e238f5e1436a955e3f9f7f7611d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: .400000006
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -15189,6 +15190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177a07cf7ec6a48818e4abd5f3646897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: 504e03d9aa2a849778f0ef6245683e6d, type: 3}
   playerID: 0
 --- !u!4 &1049454767
 Transform:
