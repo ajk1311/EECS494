@@ -217,6 +217,7 @@ MonoBehaviour:
   orangeTexture: {fileID: 0}
   buttonIcon: {fileID: 0}
   playerScript: {fileID: 0}
+  explosionPrefab: {fileID: 100000, guid: 1e6814790d1984abc9bedce109f1be54, type: 2}
   reloading: 0
   damageInflicted: 20
   reloadSpeed: 1
