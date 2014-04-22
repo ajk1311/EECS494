@@ -4289,7 +4289,7 @@ MonoBehaviour:
   navArrow: {fileID: 0}
   highlighter: {fileID: 0}
   NavTrail: {fileID: 0}
-  mapTexture: {fileID: 0}
+  mapTexture: {fileID: 2800000, guid: a8c2f586ef17c457b909b1e4c263bfb2, type: 3}
   minX: 0
   minY: 0
   maxX: 0
