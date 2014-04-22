@@ -51,7 +51,7 @@ public class CaptureBuilding : Building {
 		playerID = 0;
 		
 		Camera.main.ScreenPointToRay (Vector2.zero);
-		progressBar.init(0, "Progress", true);
+		progressBar.initProgressBar(0, "Progress", true);
 	}
 	
 	protected override RTS.GUIModelManager.GUIModel GetGUIModel() {
@@ -78,6 +78,8 @@ public class CaptureBuilding : Building {
 			player2OwnsTower = false;
 			player1Buffed = false;
 			player2Buffed = false;
+
+			progressBar.show = false;
 		}
 		
 		//Player1 Is in Control
@@ -91,6 +93,8 @@ public class CaptureBuilding : Building {
 				player2Holding = false;
 				player2OwnsTower = false;
 				currentTime = 0;
+
+				progressBar.show = true;
 			}
 			//Player1 already has claimed
 			else if(player1Holding){
@@ -98,6 +102,7 @@ public class CaptureBuilding : Building {
 				currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
 				if(currentTime >= (int) System.Math.Round(timeToCapture * Int3.FloatPrecision)) {
 					player1OwnsTower = true;
+					progressBar.show = false;
 				}
 			}
 		}
@@ -120,6 +125,7 @@ public class CaptureBuilding : Building {
 				currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);;
 				if(currentTime >= (int) System.Math.Round(timeToCapture * Int3.FloatPrecision)) {
 					player2OwnsTower = true;
+					progressBar.show = false;
 				}
 			}
 		}
