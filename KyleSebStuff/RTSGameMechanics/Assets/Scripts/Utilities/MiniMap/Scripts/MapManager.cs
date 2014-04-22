@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using RTS;
 
 namespace MyMinimap {
 	public class MapManager : MonoBehaviour {
 		GUIStyle	style;
+		public		Transform   MainCam;
+		public		GUIManager 	guiManager;
 		public		Texture		mapFrame;
 		public		Texture		navArrow;
 		public		Texture		highlighter;
 		public		Transform	NavTrail;
+		public		Texture     mapTexture;
 		
 		public float minX;
 		public float minY;
@@ -57,6 +61,8 @@ namespace MyMinimap {
 		}
 		// Use this for initialization
 		void Start () {
+			guiManager = GameObject.Find("Player").GetComponent<GUIManager>();
+			MainCam = GameObject.Find("Main Camera").transform;
 			getMapLength ();
 			trailList = new List<Transform> ();
 			zoomMin = mapLength / 8;
@@ -68,11 +74,11 @@ namespace MyMinimap {
 			maxX = Screen.width;
 			minY = Screen.height*0.75f;
 			minX = 0.68f * Screen.width;
-			xRange = maxX - minX;
-			yRange = maxY - minY;
+			xRange = Screen.width/3.5f;
+			yRange = Screen.height/4.4f;
 			
-			xCenter = minX + (xRange / 2);
-			yCenter = minY + (yRange / 2);
+			xCenter = Screen.width*0.69f + Screen.width/6.6f;
+			yCenter = Screen.height*0.76f + Screen.height/8;
 			
 			mapCenter = new Rect (xCenter, yCenter-10, 20, 20);
 			
@@ -102,11 +108,36 @@ namespace MyMinimap {
 				timer = 0;
 			}
 		}
+
+		void checkMouseToMap() {
+			if(Input.mousePosition.x > Screen.width*0.68 && Input.mousePosition.x < Screen.width*0.99) {
+				if(Input.mousePosition.y > Screen.height*0.01 && Input.mousePosition.y < Screen.height*0.25) {
+					Debug.Log("cursor in inside mini map");
+					guiManager.DrawMouseCursor();
+					convertCursorToWorldCoordinate();
+				}
+			}
+		}
+
+		void convertCursorToWorldCoordinate() {
+			double worldX = ((Input.mousePosition.x - Screen.width*0.71)/ (Screen.width*0.29f)) * 800; 
+			double worldY = ((Input.mousePosition.y - Screen.height*0.00)/ (Screen.height*0.25f)) * 400;
+			Debug.Log("Screen width is: " + Screen.width);
+			Debug.Log("Screen height is: " + Screen.height);
+			Debug.Log("Mouse position is: " + Input.mousePosition);
+			Debug.Log("world position is: X:" + worldX + " Y: " + worldY);
+			float currHeight = MainCam.position.y;
+			if(Input.GetMouseButton(0)){
+				MainCam.position = new Vector3((float)worldX + 10, currHeight, (float)worldY - 30);
+			}
+		}
 	
 
 		void OnGUI() {
 			// Iterate through the list of all markers that are within the display boundaries
 			// of the minimap and draw them onto the map.
+			DrawMap();
+			checkMouseToMap();
 			foreach(MapMarker marker in inRange) {
 				WorldObject wo = marker.gameObject.GetComponent<WorldObject>();
 				if (wo != null && wo.objectRenderer.enabled) {
@@ -138,6 +169,10 @@ namespace MyMinimap {
 //			GUI.DrawTexture (new Rect (0, 0, 20, 20), navArrow, ScaleMode.ScaleToFit);
 //			GUI.EndGroup ();
 		}
+
+		private void DrawMap() {
+        	GUI.DrawTexture(new Rect(Screen.width*0.7f, Screen.height*0.76f, Screen.width/3.3f, Screen.height/4.0f), mapTexture, ScaleMode.StretchToFill, true, 0.0f);
+   		}
 	
 		// Allows the user to register transforms to be displayed on the minimap
 		public void register(MapMarker marker) {
@@ -151,8 +186,11 @@ namespace MyMinimap {
 	
 		// Converts the coordinates of transforms from the game coordinates to the minimap coordinates
 		public Vector2 convertToMinimapCoords(Vector3 pos) {
-			var xOffset = ((pos.x - transform.position.x) / (orthographicCam.orthographicSize*2)) * xRange;
-			var yOffset = ((pos.z - transform.position.z) / (orthographicCam.orthographicSize*2)) * yRange;
+			// var xOffset = ((pos.x - transform.position.x) / (orthographicCam.orthographicSize*2)) * xRange;
+			// var yOffset = ((pos.z - transform.position.z) / (orthographicCam.orthographicSize*2)) * yRange;
+			var xOffset = ((pos.x - transform.position.x) / (800)) * xRange;
+			var yOffset = ((pos.z - transform.position.z) / (400)) * yRange;
+			Debug.Log("orthographicCam size is: " + orthographicCam.orthographicSize*2);
 			return new Vector2(xCenter + xOffset,yCenter - yOffset);
 		}
 
