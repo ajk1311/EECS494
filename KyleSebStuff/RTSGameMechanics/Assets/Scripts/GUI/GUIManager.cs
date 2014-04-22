@@ -40,6 +40,9 @@ public class GUIManager : MonoBehaviour {
     private bool attackingCommandCursor;
     private Vector3 destination;
 
+    //Map Texture
+    public Texture map;
+
 
     //Dragging GUI variables
     public GUISkin dragSelectSkin;
@@ -170,7 +173,12 @@ public class GUIManager : MonoBehaviour {
                 DragBox(dragLocationStart, dragLocationEnd, dragSelectSkin);
             }
             DrawMouseCursor();
+            DrawMap();
         }
+    }
+
+    private void DrawMap() {
+        GUI.DrawTexture(new Rect(Screen.width*0.7f, Screen.height*0.76f, Screen.width/3.3f, Screen.height/4.0f), map, ScaleMode.StretchToFill, true, 0.0f);
     }
 
     private void showLoadingScreen() {
