@@ -534,6 +534,7 @@ MonoBehaviour:
   damageInflicted: 6
   progressBar: {fileID: 0}
   attackSpeed: 0
+  punchSound: {fileID: 8300000, guid: 4e8fd4e4da0834d6cb44c6186ff54beb, type: 3}
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
