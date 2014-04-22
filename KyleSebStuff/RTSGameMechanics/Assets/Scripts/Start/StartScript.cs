@@ -24,6 +24,8 @@ public class StartScript : MonoBehaviour {
     public Object orangeDefensiveTower;
     public Object magentaDefensiveTower;
 	public Object assembler;
+	public Object orangeRAMPrefab;
+	public Object magentaRAMPrefab;
 
 	public Object tower1;
 	public Object tower2;
@@ -131,6 +133,9 @@ public class StartScript : MonoBehaviour {
         magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower1, Quaternion.identity));
         magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower2, Quaternion.identity));
         magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower3, Quaternion.identity));
+
+        GameObject magentaRAM = (GameObject) Instantiate(magentaRAMPrefab);
+        GameObject orangeRAM = (GameObject) Instantiate(orangeRAMPrefab);
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
 		assembler1.name = "assembler1";
