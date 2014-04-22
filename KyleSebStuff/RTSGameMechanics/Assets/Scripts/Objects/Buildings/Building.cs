@@ -13,7 +13,8 @@ public abstract class Building : WorldObject  {
 
 	protected abstract GUIModelManager.GUIModel GetGUIModel();
 
-	protected virtual void OnDestroy() {
+	protected override void OnDestroy() {
+		base.OnDestroy ();
 		GameObject obj = (GameObject)Instantiate (explosionPrefab, transform.position, Quaternion.identity);
 	}
 }
