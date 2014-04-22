@@ -124,6 +124,9 @@ namespace MyMinimap {
 		}
 
 		void OnGUI() {
+			if (guiManager.gameLoading) {
+				return;
+			}
 			// Iterate through the list of all markers that are within the display boundaries
 			// of the minimap and draw them onto the map.
 			DrawMap();
@@ -161,7 +164,6 @@ namespace MyMinimap {
 		}
 
 		private void DrawMap() {
-			Debug.Log("Drawing map");
         	GUI.DrawTexture(new Rect(Screen.width*0.7f, Screen.height*0.76f, Screen.width/3.3f, Screen.height/4.0f), mapTexture, ScaleMode.StretchToFill, true, 0.0f);
    		}
 	

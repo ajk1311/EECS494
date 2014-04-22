@@ -65,7 +65,7 @@ public class StartScript : MonoBehaviour {
 			if (serverIP == "Server IP...") {
 				serverIP = "";
 			}
-			SSGameSetup.ConnectToGame(guiManager.username, true, serverIP);
+			SSGameSetup.ConnectToGame(guiManager.username, guiManager.testServer, serverIP);
 			notConnected = false;
 		}
 		if (gameOver) {

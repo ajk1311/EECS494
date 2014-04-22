@@ -8,6 +8,7 @@ public class GUIManager : MonoBehaviour {
     public bool gameLoading;
     public bool usernameEntered;
     public bool countdown = false;
+    public bool testServer;
     public string username;
     public string serverIP;
     public string loadMessage;
@@ -74,6 +75,7 @@ public class GUIManager : MonoBehaviour {
         Screen.showCursor = false;
         Screen.showCursor = false;
         gameLoading = true;
+        testServer = false;
         username = "Enter name...";
         loadMessage = "Loading game...";
         serverIP = "Server IP...";
@@ -176,7 +178,8 @@ public class GUIManager : MonoBehaviour {
             // GUI.Label (new Rect (Screen.width/2 - 100, Screen.height/2 - 100, 200, 200), "Enter player name:");
             username = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 - 25, 200, 50), username, 25);
             serverIP = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 25, 200, 50), serverIP, 25);
-            if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 75, 100, 50), "Enter")) {
+            testServer = GUI.Toggle(new Rect(Screen.width/2 - 100, Screen.height/2 + 75, 200, 50), testServer, "Use Test Server");
+            if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 100, 100, 50), "Enter")) {
                 usernameEntered = true;
             }
         } else {

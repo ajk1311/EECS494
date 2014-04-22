@@ -5,7 +5,7 @@ using RTS;
 [RequireComponent(typeof(Rigidbody))]
 public class CameraControl : MonoBehaviour {
 
-    public float ScrollWidth = 30;
+    public float ScrollWidth = 40;
     public float ScrollSpeed = 25;
 	public float MapClamp = 2;
     public float PanningSpeed = 200;
