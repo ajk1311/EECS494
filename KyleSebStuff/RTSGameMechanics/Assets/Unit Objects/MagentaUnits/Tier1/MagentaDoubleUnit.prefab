@@ -165,6 +165,7 @@ MonoBehaviour:
   attentionRange: 0
   damageInflicted: 6
   progressBar: {fileID: 0}
+  shootClip: {fileID: 8300000, guid: 2dc1322f320c143188afbf1ed0961aa3, type: 3}
   Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:

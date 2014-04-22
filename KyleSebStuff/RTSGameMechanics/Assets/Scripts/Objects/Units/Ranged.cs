@@ -5,6 +5,8 @@ using Pathfinding;
 
 public class Ranged : Unit {
 
+    public AudioClip shootClip;
+
     public GameObject Projectile;
 
     protected override void AttackHandler() {
@@ -13,6 +15,7 @@ public class Ranged : Unit {
         moving = false;
 		Int3 projectilePosition = intPosition + new Int3(0, 1, 0);
 		GameObject projectile = (GameObject) Instantiate(Projectile, (Vector3) projectilePosition, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(shootClip, transform.position);
         Projectile script = projectile.GetComponent<Projectile>();
 		script.target = currentTarget;
 		script.damageInflicted = damageInflicted;
