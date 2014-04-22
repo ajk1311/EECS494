@@ -6496,6 +6496,7 @@ MonoBehaviour:
   usernameEntered: 0
   countdown: 0
   username: 
+  serverIP: 
   loadMessage: 
   messageCounter: 0
   player: {fileID: 471585560}

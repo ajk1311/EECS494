@@ -9,6 +9,7 @@ public class GUIManager : MonoBehaviour {
     public bool usernameEntered;
     public bool countdown = false;
     public string username;
+    public string serverIP;
     public string loadMessage;
     public float messageCounter;
 
@@ -66,13 +67,6 @@ public class GUIManager : MonoBehaviour {
         player = gameObject.GetComponent<PlayerScript>();
         GUIResources.SelectBoxSkin = selectBoxSkin;
 
-        //Initialize the Dragging Variables
-        //        dragStyle.normal.background = TextureGenerator.MakeTexture(0.8f, 0.8f, 0.8f, 0.3f);
-        //        dragStyle.border.bottom = 1;
-        //        dragStyle.border.top = 1;
-        //        dragStyle.border.left = 1;
-        //        dragStyle.border.right = 1;
-
         //Initialize CursorState
         SetCursorState(CursorState.Select);
 
@@ -82,6 +76,7 @@ public class GUIManager : MonoBehaviour {
         gameLoading = true;
         username = "Enter name...";
         loadMessage = "Loading game...";
+        serverIP = "Server IP...";
         messageCounter = 5;
     }
 
@@ -160,8 +155,7 @@ public class GUIManager : MonoBehaviour {
         if(gameLoading) {
             showLoadingScreen();
             DrawMouseCursor();
-        }
-        else {
+        } else {
             DrawOrdersBar();
             DrawCurrentGUIModel();
             DrawResourceBar();
@@ -181,15 +175,15 @@ public class GUIManager : MonoBehaviour {
             GUI.backgroundColor = Color.green;
             // GUI.Label (new Rect (Screen.width/2 - 100, Screen.height/2 - 100, 200, 200), "Enter player name:");
             username = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 - 25, 200, 50), username, 25);
-            if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 25, 100, 50), "Enter"))
+            serverIP = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 25, 200, 50), serverIP, 25);
+            if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 75, 100, 50), "Enter")) {
                 usernameEntered = true;
-        }
-        else {
-            GUI.Label (new Rect (Screen.width/2 - 50, Screen.height/2 - 50, 200, 200), loadMessage);
+            }
+        } else {
+            GUI.Label(new Rect (Screen.width/2 - 50, Screen.height/2 - 50, 200, 200), loadMessage);
             if(countdown && messageCounter <= 0) {
                 gameLoading = false;
-            }
-            else if(countdown) {
+            } else if(countdown) {
                 messageCounter -= Time.deltaTime;
             }
         }
