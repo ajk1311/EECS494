@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using RTS;
 
-public abstract class Building : WorldObject  {
+public class Building : WorldObject  {
 
-	public override void OnSelectionChanged(bool selected) {
-//		GUIModelManager.SetCurrentModel(playerID, selected ? GetGUIModel() : null);
+	public Object explosionPrefab;
+
+	protected override void OnDestroy() {
+		base.OnDestroy ();
+		GameObject obj = (GameObject)Instantiate (explosionPrefab, transform.position, Quaternion.identity);
 	}
-
-	protected abstract GUIModelManager.GUIModel GetGUIModel();
 }

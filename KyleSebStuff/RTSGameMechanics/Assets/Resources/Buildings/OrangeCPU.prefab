@@ -220,6 +220,7 @@ MonoBehaviour:
   orangeTexture: {fileID: 0}
   buttonIcon: {fileID: 0}
   playerScript: {fileID: 0}
+  explosionPrefab: {fileID: 100000, guid: eacf30e8408a445739af10421652b26a, type: 2}
   tier1meleePrefab: {fileID: 100000, guid: bf8aa1028a1b74d22a507231fafd26d4, type: 2}
   tier1meleeIcon: {fileID: 2800000, guid: fadb8e703a2454fe6afe6960aef3beb9, type: 3}
   tier1rangePrefab: {fileID: 100004, guid: 488d21b8e3413436892e8c8721707174, type: 2}

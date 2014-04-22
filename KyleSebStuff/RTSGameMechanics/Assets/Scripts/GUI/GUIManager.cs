@@ -173,12 +173,7 @@ public class GUIManager : MonoBehaviour {
                 DragBox(dragLocationStart, dragLocationEnd, dragSelectSkin);
             }
             DrawMouseCursor();
-            DrawMap();
         }
-    }
-
-    private void DrawMap() {
-        GUI.DrawTexture(new Rect(Screen.width*0.7f, Screen.height*0.76f, Screen.width/3.3f, Screen.height/4.0f), map, ScaleMode.StretchToFill, true, 0.0f);
     }
 
     private void showLoadingScreen() {
@@ -251,7 +246,7 @@ public class GUIManager : MonoBehaviour {
         }
     }
 
-    private void DrawMouseCursor() {
+    public void DrawMouseCursor() {
         GUI.skin = mouseCursorSkin;
         GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
         UpdateCursorAnimation();
@@ -322,62 +317,80 @@ public class GUIManager : MonoBehaviour {
 
         float panelWidth = Screen.width / 3;
 
-        float outerPadding = GUIResources.GetScaledPixelSize(20);
+        float outerPadding = GUIResources.GetScaledPixelSize(8);
 
-        float buttonHeight = GUIResources.GetScaledPixelSize(48);
+        float titleHeight = GUIResources.GetScaledPixelSize(30);
+        float tooltipHeight = GUIResources.GetScaledPixelSize(30);
+        float buttonHeight = (GUIResources.OrdersBarHeight - 2 * outerPadding - titleHeight - tooltipHeight) / 3;
 
-        float leftButtonWidth = (panelWidth - 1.5f * outerPadding) / currentGUIModel.leftPanelColumns;
-        float centerButtonWidth = (panelWidth - 1.5f * outerPadding) / currentGUIModel.centerPanelColumns;
+		float leftButtonWidth = (panelWidth - 2 * outerPadding) / currentGUIModel.leftPanelColumns;
+		float centerButtonWidth = (panelWidth - 2 * outerPadding) / currentGUIModel.centerPanelColumns;
 
         float initX = outerPadding;
         float initY = Screen.height - GUIResources.OrdersBarHeight + outerPadding;
 
         GUIModelManager.Button temp;
 
-        //draw left panel icons
-        scrollPositionLeft = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight),
-                             scrollPositionLeft,
-                             new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.leftPanelButtons.Count / currentGUIModel.leftPanelColumns) * buttonHeight));
-        for (int i = 0, len = currentGUIModel.leftPanelButtons.Count; i < len; i++) {
+        // Draw left panel title
+        GUI.Label(new Rect(initX + outerPadding, initY, panelWidth - 2 * outerPadding, titleHeight), currentGUIModel.leftPanelTitle);
+        initY += (titleHeight + tooltipHeight);
+
+		// Draw left panel icons
+		scrollPositionLeft = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight - (titleHeight + tooltipHeight)),
+		                                         scrollPositionLeft, 
+		                                         new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.leftPanelButtons.Count / currentGUIModel.leftPanelColumns) * buttonHeight));
+		for (int i = 0, len = currentGUIModel.leftPanelButtons.Count; i < len; i++) {
             temp = currentGUIModel.leftPanelButtons[i];
             float buttonX = i % currentGUIModel.leftPanelColumns * leftButtonWidth;
             float buttonY = i / currentGUIModel.leftPanelColumns * buttonHeight;
             Rect drawRect = new Rect(buttonX, buttonY, leftButtonWidth, buttonHeight);
 
             GUI.enabled = temp.enabled;
-            if (temp.text != null) {
-                GUI.Button(drawRect, temp.text);
-            } else {
-                GUI.Button(drawRect, temp.icon);
-            }
+			if (temp.text != null) {
+				GUI.Button(drawRect, new GUIContent(temp.text, temp.hint));
+			} else {
+				GUI.Button(drawRect, new GUIContent(temp.icon, temp.hint));
+			}
             GUI.enabled = true;
 
-            temp.rect = new Rect(initX + buttonX, initY + buttonY, leftButtonWidth, buttonHeight);
-        }
-        GUI.EndScrollView();
+			temp.rect = new Rect(initX + buttonX, initY + buttonY, leftButtonWidth, buttonHeight);
+		}
+		GUI.EndScrollView();
 
-        //draw center panel icons
+        // Draw center panel title
+        initY -= (titleHeight + tooltipHeight);
         initX = panelWidth + outerPadding;
-        scrollPositionCenter = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight),
-                               scrollPositionCenter,
-                               new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.centerPanelButtons.Count / currentGUIModel.centerPanelColumns) * buttonHeight));
-        for (int i = 0, len = currentGUIModel.centerPanelButtons.Count; i < len; i++) {
+        GUI.Label(new Rect(initX + outerPadding, initY, panelWidth - 2 * outerPadding, titleHeight), currentGUIModel.centerPanelTitle);
+        initY += (titleHeight + tooltipHeight);
+		
+		// Draw center panel icons
+		scrollPositionCenter = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight - (titleHeight + tooltipHeight)), 
+		                                           scrollPositionCenter, 
+		                                           new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.centerPanelButtons.Count / currentGUIModel.centerPanelColumns) * buttonHeight));
+		for (int i = 0, len = currentGUIModel.centerPanelButtons.Count; i < len; i++) {
             temp = currentGUIModel.centerPanelButtons[i];
             float buttonX = i % currentGUIModel.centerPanelColumns * centerButtonWidth;
             float buttonY = i / currentGUIModel.centerPanelColumns * buttonHeight;
             Rect drawRect = new Rect(buttonX, buttonY, centerButtonWidth, buttonHeight);
 
             GUI.enabled = temp.enabled;
-            if (temp.text != null) {
-                GUI.Button(drawRect, temp.text);
-            } else {
-                GUI.Button(drawRect, temp.icon);
-            }
+			if (temp.text != null) {
+				GUI.Button(drawRect, new GUIContent(temp.text, temp.hint));
+			} else {
+				GUI.Button(drawRect, new GUIContent(temp.icon, temp.hint));
+			}
             GUI.enabled = true;
 
-            temp.rect = new Rect(initX + buttonX, initY + buttonY, centerButtonWidth, buttonHeight);
+			temp.rect = new Rect(initX + buttonX, initY + buttonY, centerButtonWidth, buttonHeight);
+		}
+		GUI.EndScrollView ();
+
+        // Draw the tooltip
+        initY -= tooltipHeight;
+        if (Input.mousePosition.x < panelWidth) {
+            initX -= (panelWidth + outerPadding);
         }
-        GUI.EndScrollView ();
+        GUI.Label(new Rect(initX + outerPadding, initY, panelWidth - 2 * outerPadding, tooltipHeight), GUI.tooltip);
     }
 
     private void DrawResourceBar() {
@@ -386,10 +399,10 @@ public class GUIManager : MonoBehaviour {
 
         float topPos = GUIResources.GetScaledPixelSize(4);
         float iconLeft = GUIResources.GetScaledPixelSize(4);
-        float textLeft = GUIResources.GetScaledPixelSize(2 * GUIResources.IconWidth);
+        float textLeft = GUIResources.IconWidth + iconLeft;
         DrawResourceIcon(powerIcon, iconLeft, textLeft, topPos);
-        iconLeft += GUIResources.TextWidth;
-        textLeft += GUIResources.TextWidth;
+        iconLeft = textLeft + GUIResources.TextWidth + GUIResources.GetScaledPixelSize(10);
+        textLeft = GUIResources.IconWidth + iconLeft;
         DrawResourceIcon(memoryIcon, iconLeft, textLeft, topPos);
 
         GUI.EndGroup();

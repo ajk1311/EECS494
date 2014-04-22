@@ -338,7 +338,7 @@ ParticleSystem:
     cnt1: 30
     cnt2: 30
     cnt3: 30
-    time0: 1
+    time0: 0
     time1: 0
     time2: 0
     time3: 0

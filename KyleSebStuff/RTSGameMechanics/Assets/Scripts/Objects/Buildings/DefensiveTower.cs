@@ -22,10 +22,6 @@ public class DefensiveTower : DestructableBuilding {
     protected override void Start() {
         base.Start();
     }
-    
-    protected override GUIModelManager.GUIModel GetGUIModel() {
-        return null;
-    }
 
     public override void GameUpdate(float deltaTime) {
         base.GameUpdate(deltaTime);

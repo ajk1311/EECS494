@@ -8,6 +8,8 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	public static readonly int Tier2UpgradeCost = 50;
 	public static readonly int Tier3UpgradeCost = 100;
 
+	public static readonly int RandomCost = 3;
+
 	public int id;
 	public string playerName;
 	private int power;
@@ -247,17 +249,17 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 	}
 
 	public int getUnitPowerCost(string unitName) {
-		return unitCostRef [unitName];
+		return unitCostRef[unitName];
 	}
 
 	public int getUnitMemoryCost(string unitName) {
-		return unitMemoryRef [unitName];
+		return unitMemoryRef[unitName];
 	}
 
-	public bool canGenerateUnit(string unitName) {
+	public bool canGenerateUnit(string unitName, bool random = false) {
 		int powerCheck = power;
 		int memoryCheck = memory;
-		powerCheck -= getUnitPowerCost(unitName);
+		powerCheck -= random ? RandomCost : getUnitPowerCost(unitName);
 		memoryCheck += getUnitMemoryCost(unitName);
 
 		if(powerCheck >= 0 && memoryCheck <= maxMemory) {
