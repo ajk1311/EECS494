@@ -21,6 +21,7 @@ public class DefensiveTower : DestructableBuilding {
 
 	//Sound
 	public AudioClip buildingDestroySound;
+	public AudioClip fireBulletSound;
 
     protected override void Start() {
         base.Start();
@@ -91,6 +92,7 @@ public class DefensiveTower : DestructableBuilding {
     private void AttackHandler(){
         Int3 projectilePosition = intPosition + new Int3(0, 8, 0);
         GameObject projectile = (GameObject) Instantiate(Projectile, (Vector3) projectilePosition, Quaternion.identity);
+		AudioSource.PlayClipAtPoint (fireBulletSound, transform.position);
         projectile.GetComponent<Projectile>().target = currentTarget;
         projectile.GetComponent<Projectile>().damageInflicted = damageInflicted;
         projectile.GetComponent<Projectile> ().playerID = playerID;
