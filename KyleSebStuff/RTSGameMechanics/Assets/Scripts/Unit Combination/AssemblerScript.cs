@@ -39,13 +39,12 @@ public class AssemblerScript : MonoBehaviour {
 		Transform bitsUnit = Instantiate (bitsUnitPrefab, pos, transform.rotation) as Transform;
 		bitsUnit.GetComponent<UnitBitsScript>().assemblerScript = this;
 		bitsUnit.GetComponent<UnitBitsScript>().desiredUnit = desiredUnit;
-		bitsUnit.GetComponent<UnitBitsScript> ().destination = (Int3) CombinationManager.spawnPoint [playerID - 1];
-		bitsUnit.GetComponent<UnitBitsScript> ().combinationID = combinationID;
+		bitsUnit.GetComponent<UnitBitsScript>().destination = (Int3) CombinationManager.spawnPoint [playerID - 1];
+		bitsUnit.GetComponent<UnitBitsScript>().combinationID = combinationID;
 
 		if(playerID == 1) {
 			bitsUnit.GetComponent<ParticleSystem>().startColor = new Color(255f, 140f, 0f, 144f);
-		}
-		else {
+		} else {
 			bitsUnit.GetComponent<ParticleSystem>().startColor = new Color(188f, 0f, 255f, 255f);
 		}
 	}

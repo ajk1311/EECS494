@@ -81,7 +81,7 @@ public static class CombinationManager {
 			Vector3 pos = obj.transform.position;
 
 			//Destroy Unit
-			GameObject.Destroy(obj);
+			obj.GetComponent<WorldObject>().DestroyInGame();
 
 			//Instantiate unitBits with position of destroyed unit
 			script.createUnitBits(pos, desiredUnit, currentCombinationID);
