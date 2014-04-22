@@ -65,23 +65,23 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                 }
             } else {
                 //check if player is selecting a spawn point for a new combination unit
-                if (CombinationManager.creatingCombination[playerID - 1] == true) {
-                    PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
+                if (CombinationManager.creatingCombination[playerID - 1]) {
+					PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
 
-                    GameObject combMapCheck = RTSGameMechanics.FindHitObject(mousePosition);
+					GameObject combMapCheck = RTSGameMechanics.FindHitObject(mousePosition);
 
-                    if (mousePosition.y > 1 && combMapCheck.transform.tag == "Map") {
-                        //Not a Valid Area of the Map
-                    } else {
-                        FogScript fog = FogOfWarManager.getMyFogTile((Int3)mousePosition).GetComponent<FogScript>();
-                        if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
-                                (player.id != playerID && fog.enemyUnitCount > 0)) {
-                            GameObject assembler = GameObject.Find("assembler" + playerID.ToString());
-                            AssemblerScript script = assembler.GetComponent<AssemblerScript>();
-                            CombinationManager.spawnPoint[playerID - 1] = mousePosition;
-                            CombinationManager.combine(script, CombinationManager.desiredUnit[playerID - 1]);
-                        }
-                    }
+					if(mousePosition.y > 1 && combMapCheck.transform.tag == "Map") {
+						//Not a Valid Area of the Map
+					} else {
+						FogScript fog = FogOfWarManager.getMyFogTile((Int3)mousePosition).GetComponent<FogScript>();
+						if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
+						    (player.id != playerID && fog.enemyUnitCount > 0)) {
+		                    GameObject assembler = GameObject.Find("assembler" + playerID.ToString());
+		                    AssemblerScript script = assembler.GetComponent<AssemblerScript>();
+		                    CombinationManager.spawnPoint[playerID - 1] = mousePosition;
+		                    CombinationManager.combine(script, CombinationManager.desiredUnit[playerID - 1]);
+						}
+					}
                     CombinationManager.creatingCombination[playerID - 1] = false;
                 }
                 //deselect all units

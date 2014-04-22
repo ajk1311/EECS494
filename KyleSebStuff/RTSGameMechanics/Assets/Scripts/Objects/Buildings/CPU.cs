@@ -103,6 +103,13 @@ public class CPU : DestructableBuilding
         };
 	}
 
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        StartScript.GameOverEvent gameOverEvent = new StartScript.GameOverEvent(playerID);
+        EventBus.Dispatcher.Instance.Post(gameOverEvent);
+    }
+
 	protected override GUIModelManager.GUIModel GetGUIModel() { return null; }
 
 	public override void OnSelectionChanged(bool selected) 
@@ -148,13 +155,16 @@ public class CPU : DestructableBuilding
 		GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
         model.leftPanelColumns = 2;
         model.centerPanelColumns = 3;
+        model.leftPanelTitle = "Actions";
 
         GUIModelManager.Button random = new GUIModelManager.Button();
         random.text = "Random";
+        random.hint = "Gamble resources for a random unit";
         random.clicked += new GUIModelManager.OnClick(ProduceRandomUnit);
 
         GUIModelManager.Button upgrade = new GUIModelManager.Button();
         upgrade.text = "Upgrade";
+        upgrade.hint = "Click to unlock Tier " + (player.CurrentTier + 1) + " units";
         upgrade.enabled = player.CurrentTier < 3;
         switch (player.CurrentTier) {
             case 1:
@@ -173,17 +183,20 @@ public class CPU : DestructableBuilding
 
 		GUIModelManager.Button tier1 = new GUIModelManager.Button();
 		tier1.text = "Tier 1";
+        tier1.hint = "Click here to build tier 1 units";
         tier1.clicked += () => SetGuiModel(TIER_1);
 
 		GUIModelManager.Button tier2 = new GUIModelManager.Button();
 		tier2.text = "Tier 2";
+        tier2.hint = "Click here to build tier 2 units";
 		tier2.enabled = player.CurrentTier >= 2;
         tier2.clicked += () => SetGuiModel(TIER_2);
 
 		GUIModelManager.Button tier3 = new GUIModelManager.Button();
 		tier3.text = "Tier 3";
+        tier3.hint = "Click here to build tier 3 units";
 		tier3.enabled = player.CurrentTier == 3;
-        tier3.clicked += () => {}; // SetGuiModel(TIER_3);
+        tier3.clicked += () => SetGuiModel(TIER_3);
 
         model.AddButton(0, random);
         model.AddButton(0, upgrade);
@@ -198,22 +211,34 @@ public class CPU : DestructableBuilding
 
 	private GUIModelManager.GUIModel BuildTier1UnitCreationModel() 
 	{
+        PlayerScript player = GetAppropriatePlayerScript();
+
         GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
         model.leftPanelColumns = 3;
         model.centerPanelColumns = 3;
+        model.leftPanelTitle = "Tier 1 Units";
 
 		GUIModelManager.Button melee = new GUIModelManager.Button();
         melee.icon = tier1meleeIcon;
+        melee.hint = "Int: costs " + 
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier1MeleeName : MagentaTier1MeleeName) + " power and " + 
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier1MeleeName : MagentaTier1MeleeName) + " memory";
         melee.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier1MeleeName : MagentaTier1MeleeName, tier1meleePrefab);
 
 		GUIModelManager.Button range = new GUIModelManager.Button();
         range.icon = tier1rangeIcon;
+        range.hint = "Long: costs " +
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier1RangeName : MagentaTier1RangeName) + " power and " +
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier1RangeName : MagentaTier1RangeName) + " memory";
         range.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier1RangeName : MagentaTier1RangeName, tier1rangePrefab);
 
 		GUIModelManager.Button siege = new GUIModelManager.Button();
         siege.icon = tier1siegeIcon;
+        siege.hint = "Double: costs " +
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier1SiegeName : MagentaTier1SiegeName) + " power and " +
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier1SiegeName : MagentaTier1SiegeName) + " memory";
         siege.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier1SiegeName : MagentaTier1SiegeName, tier1siegePrefab);
 
@@ -229,22 +254,34 @@ public class CPU : DestructableBuilding
 
     private GUIModelManager.GUIModel BuildTier2UnitCreationModel()
     {
+        PlayerScript player = GetAppropriatePlayerScript();
+
         GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
         model.leftPanelColumns = 3;
         model.centerPanelColumns = 3;
+        model.leftPanelTitle = "Tier 2 Units";
 
         GUIModelManager.Button melee = new GUIModelManager.Button();
         melee.icon = tier2meleeIcon;
+        melee.hint = "Pointer: costs " + 
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier2MeleeName : MagentaTier2MeleeName) + " power and " + 
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier2MeleeName : MagentaTier2MeleeName) + " memory";
         melee.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier2MeleeName : MagentaTier2MeleeName, tier2meleePrefab);
 
         GUIModelManager.Button range = new GUIModelManager.Button();
         range.icon = tier2rangeIcon;
+        range.hint = "Float: costs " +
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier2RangeName : MagentaTier2RangeName) + " power and " +
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier2RangeName : MagentaTier2RangeName) + " memory";
         range.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier2RangeName : MagentaTier2RangeName, tier2rangePrefab);
 
         GUIModelManager.Button siege = new GUIModelManager.Button();
         siege.icon = tier2siegeIcon;
+        siege.hint = "Heap: costs " +
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier2SiegeName : MagentaTier2SiegeName) + " power and " +
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier2SiegeName : MagentaTier2SiegeName) + " memory";
         siege.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier2SiegeName : MagentaTier2SiegeName, tier2siegePrefab);
 
@@ -260,22 +297,34 @@ public class CPU : DestructableBuilding
 
     private GUIModelManager.GUIModel BuildTier3UnitCreationModel()
     {
+        PlayerScript player = GetAppropriatePlayerScript();
+
         GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
         model.leftPanelColumns = 3;
         model.centerPanelColumns = 3;
+        model.leftPanelTitle = "Tier 3 Units";
 
         GUIModelManager.Button melee = new GUIModelManager.Button();
         melee.icon = tier3meleeIcon;
+        melee.hint = "Binary Tree: costs " + 
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier3MeleeName : MagentaTier3MeleeName) + " power and " + 
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier3MeleeName : MagentaTier3MeleeName) + " memory";
         melee.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier3MeleeName : MagentaTier3MeleeName, tier3meleePrefab);
 
         GUIModelManager.Button range = new GUIModelManager.Button();
         range.icon = tier3rangeIcon;
+        range.hint = "Static: costs " +
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier2RangeName : MagentaTier2RangeName) + " power and " +
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier2RangeName : MagentaTier2RangeName) + " memory";
         range.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab);
 
         GUIModelManager.Button siege = new GUIModelManager.Button();
         siege.icon = tier3siegeIcon;
+        siege.hint = "Array: costs " +
+            player.getUnitPowerCost(playerID == 1 ? OrangeTIer3SiegeName : MagentaTIer3SiegeName) + " power and " +
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTIer3SiegeName : MagentaTIer3SiegeName) + " memory";
         siege.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTIer3SiegeName : MagentaTIer3SiegeName, tier3siegePrefab);
 
@@ -299,10 +348,12 @@ public class CPU : DestructableBuilding
 
     private void AddQueueButtons(GUIModelManager.GUIModel model) 
     {
+        model.centerPanelTitle = "Queue";
         foreach (var i in mCreationQueue)
         {
             GUIModelManager.Button button = new GUIModelManager.Button();
             button.icon = mIconMap[i.prefab];
+            button.hint = "Click to cancel";
             button.clicked += () =>
                 {
                     mCreationProgress = 0;
@@ -370,7 +421,7 @@ public class CPU : DestructableBuilding
     private void QueueUnitCreation(string unitName, Object unitPrefab, bool random = false)
     {
         PlayerScript me = GetAppropriatePlayerScript();
-        if (me.canGenerateUnit(unitName))
+        if (me.canGenerateUnit(unitName, random))
         {
             ParseManager.LogEvent(ParseManager.ParseEvent.UnitCreation,
                 playerID, unitName, "CPU" + (random ? "-random" : ""));

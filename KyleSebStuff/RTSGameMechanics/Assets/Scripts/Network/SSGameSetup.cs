@@ -34,7 +34,7 @@ public class SSGameSetup {
 	public static ClientInfo mRemoteInfo;
 
     public static bool Connected {
-        get { return mConnected || mConnecting; }
+        get { return mConnected; }
     }
 
 	/** 
@@ -77,6 +77,7 @@ public class SSGameSetup {
 		};
 		Dispatcher.Instance.Post(connectionEvent);
 		WaitForReady(localInfo);
+		mConnected = true;
     }
 
 	/** Creates and binds a socket to eventually receive opponent commands over */

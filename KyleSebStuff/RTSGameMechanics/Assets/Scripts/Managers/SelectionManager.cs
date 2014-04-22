@@ -25,11 +25,11 @@ public static class SelectionManager {
     }
 
     public static Vector3[] GetSelectedSpace(int playerID) {
-        return selectedSpaces [playerID - 1];
+        return selectedSpaces[playerID - 1];
     }
 
     public static void SetSelectedSpace(int playerID, Vector3[] space) {
-        selectedSpaces [playerID - 1] = space;
+        selectedSpaces[playerID - 1] = space;
     }
 
     public static int count(int playerID) {
@@ -50,45 +50,52 @@ public static class SelectionManager {
 	private static void CreateGUIModel(int playerID, WorldObject wo) {
 		selectionModels[playerID-1] = new GUIModelManager.GUIModel();
 		selectionModels[playerID-1].leftPanelColumns = 1;
-		selectionModels[playerID-1].centerPanelColumns = 4;
-		UpdateGUIModel (playerID, wo);
-		GUIModelManager.SetCurrentModel (playerID, selectionModels [playerID - 1]);
+        selectionModels[playerID-1].leftPanelTitle = "Available Combinations";
+		selectionModels[playerID-1].centerPanelColumns = 3;
+        selectionModels[playerID-1].centerPanelTitle = "Selected Units";
+
+		UpdateGUIModel(playerID, wo);
+		GUIModelManager.SetCurrentModel(playerID, selectionModels [playerID - 1]);
 	}
 
 	private static void UpdateGUIModel(int playerID, WorldObject wo) {
 		//check for new combos and add to left panel
-		List<KeyValuePair<string,int>> availCombos = CombinationManager.getAvailableCombinations (playerID);
-		selectionModels [playerID - 1].ClearButtons (0);
-		foreach(KeyValuePair<string,int> pair in availCombos) {
+		List<KeyValuePair<string,int>> availCombos = CombinationManager.getAvailableCombinations(playerID);
+		selectionModels[playerID - 1].ClearButtons(0);
+		foreach (KeyValuePair<string, int> pair in availCombos) {
 			GUIModelManager.Button comboButton = new GUIModelManager.Button();
-			comboButton.text = pair.Key + "x" + pair.Value;
+			comboButton.text = pair.Key + " x " + pair.Value;
+            comboButton.hint = "Combine 3 units into 1 " + pair.Key;
+            string desiredUnit = pair.Key;
 			comboButton.clicked += () => 
 			{
 				CombinationManager.creatingCombination[playerID-1] = true;
-				CombinationManager.desiredUnit[playerID-1] = pair.Key;
+				CombinationManager.desiredUnit[playerID-1] = desiredUnit;
 			};
 			selectionModels[playerID-1].AddButton(0, comboButton);
 		}
 		GUIModelManager.Button button = new GUIModelManager.Button();
 		button.icon = wo.buttonIcon;
+        button.hint = "Select this unit";
 		button.clicked += () => 
 		{
 			if(wo != null) {
 				deselectAllGameObjects(playerID);
 				wo.setCurrentlySelected(true);
+                UpdateGUIModel(playerID, wo);
 			}
 		};
 		selectionModels[playerID-1].AddButton(1, button);
 	}
 	public static void deselectGameObject(int playerID, GameObject obj) {
-		GUIModelManager.SetCurrentModel (playerID, null);
+		GUIModelManager.SetCurrentModel(playerID, null);
 		if (!currentlySelectedObjects[playerID -1].Remove(obj)) {
 			Debug.Log("Removed a non-selected object");
 		}
     }
 
 	public static void deselectAllGameObjects(int playerID) {
-		GUIModelManager.SetCurrentModel (playerID, null);
+		GUIModelManager.SetCurrentModel(playerID, null);
         foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
             obj.GetComponent<WorldObject>().setCurrentlySelected(false);
         }

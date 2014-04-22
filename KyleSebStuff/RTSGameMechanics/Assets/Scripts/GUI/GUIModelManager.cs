@@ -8,14 +8,15 @@ namespace RTS {
 		public class GUIModel {
 			public static readonly int MaxColumns = 3;
 
-			public bool cached = false;
 			public int leftPanelColumns = MaxColumns;
-			public int centerPanelColumns = MaxColumns;
 			public List<Button> leftPanelButtons;
+			public string leftPanelTitle;
+
+			public int centerPanelColumns = MaxColumns;
 			public List<Button> centerPanelButtons;
+			public string centerPanelTitle;
 
 			public GUIModel() {
-				cached = false;
 				leftPanelButtons = new List<Button>();
 				centerPanelButtons = new List<Button>();
 			}
@@ -25,6 +26,7 @@ namespace RTS {
 				case 0:
 					leftPanelButtons.Add(button);
 					break;
+
 				case 1:
 					centerPanelButtons.Add(button);
 					break;
@@ -36,6 +38,7 @@ namespace RTS {
 					case 0:
 						leftPanelButtons.Clear();
 						break;
+
 					case 1:
 						centerPanelButtons.Clear();
 						break;
@@ -47,6 +50,7 @@ namespace RTS {
 
 		public class Button {
 			public string text;
+			public string hint;
 			public Texture icon;
 			public bool enabled = true;
 			public event OnClick clicked;
@@ -82,6 +86,7 @@ namespace RTS {
 			case 0:
 				currentModel.leftPanelButtons[(int)position.y].Click();
 				break;
+
 			case 1:
 				currentModel.centerPanelButtons[(int)position.y].Click();
 				break;

@@ -36,9 +36,29 @@ public class StartScript : MonoBehaviour {
 	private GUIManager guiManager;
 	private bool notConnected = true;
 
+	private float panSpeed;
+	private string winnerName;
+	private bool gameOver = false;
+	private GUIStyle gameOverStyle;
+	private Vector3 gameOverPanPosition;
+
+	public class GameOverEvent {
+		public int loserPlayerID;
+		public GameOverEvent(int loserPlayerID_) {
+			loserPlayerID = loserPlayerID_;
+		}
+	}
+
 	void Start() {
+		panSpeed = 6;
+		gameOverStyle = new GUIStyle();
 		Dispatcher.Instance.Register(this);
 		guiManager = GameObject.Find("Player").GetComponent<GUIManager>();
+		Camera.main.GetComponent<CameraControl>().enabled = false;
+	}
+
+	void OnDestroy() {
+		Dispatcher.Instance.Unregister(this);
 	}
 
 	void Update() {
@@ -46,6 +66,28 @@ public class StartScript : MonoBehaviour {
 			Debug.Log("in here");
 			SSGameSetup.ConnectToGame(guiManager.username, true);
 			notConnected = false;
+		}
+		if (gameOver) {
+			if (Vector3.Distance(Camera.main.transform.position, gameOverPanPosition) > 0.2f) {
+				Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, gameOverPanPosition, panSpeed * Time.deltaTime);
+			} else {
+				Invoke("EndGame", 10);
+			}
+		}
+	}
+
+	void EndGame() {
+		Application.LoadLevel(Application.loadedLevelName);
+	}
+
+	void OnGUI() {
+		if (gameOver) {
+			gameOverStyle.alignment = TextAnchor.MiddleCenter;
+			gameOverStyle.fontSize = 200;
+			gameOverStyle.normal.textColor = new Color(0, 1, 0.09f);
+			float w = Screen.width / 3;
+			float h = Screen.height / 3;
+			GUI.Label(new Rect((Screen.width - w) / 2, (Screen.height - h) / 2, w, h), winnerName + " won!");
 		}
 	}
 	
@@ -68,12 +110,14 @@ public class StartScript : MonoBehaviour {
 
 		GameObject playerObject = GameObject.Find("Player");
 		playerObject.GetComponent<PlayerScript>().id = connectionEvent.ID;
+		playerObject.GetComponent<PlayerScript>().playerName = connectionEvent.name;
 		myInputManager = playerObject.GetComponent<UserInputManager>();
 		myInputManager.playerID = connectionEvent.ID;
 		FogOfWarManager.playerID = connectionEvent.ID;
 
 		GameObject opponentObject = GameObject.Find("Opponent");
 		opponentObject.GetComponent<PlayerScript>().id = connectionEvent.opponentID;
+		opponentObject.GetComponent<PlayerScript>().playerName = connectionEvent.opponentName;
 		hisOrHerInputManager = opponentObject.GetComponent<UserInputManager>();
 		hisOrHerInputManager.playerID = connectionEvent.opponentID;
 
@@ -87,7 +131,6 @@ public class StartScript : MonoBehaviour {
         magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower1, Quaternion.identity));
         magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower2, Quaternion.identity));
         magentaDefensiveTowers.Add((GameObject)Instantiate(magentaDefensiveTower, magentaDefensiveTower3, Quaternion.identity));
-
 
 		GameObject assembler1 = (GameObject) Instantiate(assembler, assembler1Pos, Quaternion.identity);
 		assembler1.name = "assembler1";
@@ -137,6 +180,25 @@ public class StartScript : MonoBehaviour {
 	
 	[HandlesEvent]
 	public void OnGameReady(GameReadyEvent readyEvent) {
+		Camera.main.GetComponent<CameraControl>().enabled = true;
 		Debug.Log("Game is ready");
+	}
+
+	[HandlesEvent]
+	public void OnGameOver(GameOverEvent gameOverEvent) {
+		gameOver = true;
+		Camera.main.GetComponent<CameraControl>().enabled = false;
+
+		PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
+		PlayerScript opponent = GameObject.Find("Opponent").GetComponent<PlayerScript>();
+
+		if (gameOverEvent.loserPlayerID == player.id) {
+			winnerName = opponent.playerName;
+			gameOverPanPosition = cameraStartPosition1;
+		} else {
+			winnerName = player.playerName;
+			gameOverPanPosition = cameraStartPosition2;
+		}
+		SSGameSetup.DisconnectFromGame();
 	}
 }
