@@ -45,7 +45,7 @@ namespace MyMinimap {
 		private static 	List<MapMarker> toRemove;
 		private List<Transform> trailList;
 		private static	Rect mapCenter;
-		private static	float mapLength;
+		private static	float mapLength = 0;
 
 		private float rangeUpdate = 1.0f;
 		private float timer = 0.0f;
@@ -63,12 +63,10 @@ namespace MyMinimap {
 		void Start () {
 			guiManager = GameObject.Find("Player").GetComponent<GUIManager>();
 			MainCam = GameObject.Find("Main Camera").transform;
-			getMapLength ();
 			trailList = new List<Transform> ();
 			zoomMin = mapLength / 8;
 			zoomMax = mapLength;
-			orthographicCam = GameObject.Find ("OHC").camera;
-			orthographicCam.aspect = 1;
+			
 			
 			maxY = Screen.height;
 			maxX = Screen.width;
@@ -81,8 +79,6 @@ namespace MyMinimap {
 			yCenter = Screen.height*0.76f + Screen.height/8;
 			
 			mapCenter = new Rect (xCenter, yCenter-10, 20, 20);
-			
-			
 			
 			Time.fixedDeltaTime = 0.001f;
 			style = new GUIStyle();
@@ -112,7 +108,6 @@ namespace MyMinimap {
 		void checkMouseToMap() {
 			if(Input.mousePosition.x > Screen.width*0.68 && Input.mousePosition.x < Screen.width*0.99) {
 				if(Input.mousePosition.y > Screen.height*0.01 && Input.mousePosition.y < Screen.height*0.25) {
-					Debug.Log("cursor in inside mini map");
 					guiManager.DrawMouseCursor();
 					convertCursorToWorldCoordinate();
 				}
@@ -122,30 +117,25 @@ namespace MyMinimap {
 		void convertCursorToWorldCoordinate() {
 			double worldX = ((Input.mousePosition.x - Screen.width*0.71)/ (Screen.width*0.29f)) * 800; 
 			double worldY = ((Input.mousePosition.y - Screen.height*0.00)/ (Screen.height*0.25f)) * 400;
-			Debug.Log("Screen width is: " + Screen.width);
-			Debug.Log("Screen height is: " + Screen.height);
-			Debug.Log("Mouse position is: " + Input.mousePosition);
-			Debug.Log("world position is: X:" + worldX + " Y: " + worldY);
 			float currHeight = MainCam.position.y;
 			if(Input.GetMouseButton(0)){
 				MainCam.position = new Vector3((float)worldX + 10, currHeight, (float)worldY - 30);
 			}
 		}
-	
 
 		void OnGUI() {
 			// Iterate through the list of all markers that are within the display boundaries
 			// of the minimap and draw them onto the map.
 			DrawMap();
 			checkMouseToMap();
-			foreach(MapMarker marker in inRange) {
+			foreach (MapMarker marker in inRange) {
 				WorldObject wo = marker.gameObject.GetComponent<WorldObject>();
 				if (wo != null && wo.objectRenderer.enabled) {
 					var pos = convertToMinimapCoords(marker.gameObject.transform.position);
 					marker.rect.x = pos.x;
 					marker.rect.y = pos.y;
 					GUI.DrawTexture(marker.rect, marker.texture, ScaleMode.ScaleToFit);
-					if(marker.shouldHighLight){
+					if (marker.shouldHighLight) {
 						GUI.DrawTexture(marker.rect, highlighter, ScaleMode.StretchToFill);
 					}
 				}
@@ -171,6 +161,7 @@ namespace MyMinimap {
 		}
 
 		private void DrawMap() {
+			Debug.Log("Drawing map");
         	GUI.DrawTexture(new Rect(Screen.width*0.7f, Screen.height*0.76f, Screen.width/3.3f, Screen.height/4.0f), mapTexture, ScaleMode.StretchToFill, true, 0.0f);
    		}
 	
@@ -190,16 +181,15 @@ namespace MyMinimap {
 			// var yOffset = ((pos.z - transform.position.z) / (orthographicCam.orthographicSize*2)) * yRange;
 			var xOffset = ((pos.x - transform.position.x) / (800)) * xRange;
 			var yOffset = ((pos.z - transform.position.z) / (400)) * yRange;
-			Debug.Log("orthographicCam size is: " + orthographicCam.orthographicSize*2);
 			return new Vector2(xCenter + xOffset,yCenter - yOffset);
 		}
 
 		//checks whether a given game coordinates is within the display boundaries of the minimap
 		public bool isOnScreen(Vector3 pos) {
-			if (Mathf.Abs ((pos.x - transform.position.x) / (orthographicCam.orthographicSize*2)) > 0.5)
-				return false;
-			else if(Mathf.Abs ((pos.z - transform.position.z) / (orthographicCam.orthographicSize*2)) > 0.5)
-				return false;
+			// if (Mathf.Abs ((pos.x - transform.position.x) / (orthographicCam.orthographicSize*2)) > 0.5)
+			// 	return false;
+			// else if(Mathf.Abs ((pos.z - transform.position.z) / (orthographicCam.orthographicSize*2)) > 0.5)
+			// 	return false;
 			return true;
 		}
 	
@@ -246,9 +236,7 @@ namespace MyMinimap {
 				foreach(Transform trailPiece in trailList){
 					trailPiece.localScale = new Vector3(trailPiece.localScale.x, 10*(orthographicCam.orthographicSize/mapLength), 1);
 				}
-			}
-
-			else if(!zoomIn && orthographicCam.orthographicSize < zoomMax) {
+			} else if(!zoomIn && orthographicCam.orthographicSize < zoomMax) {
 				orthographicCam.orthographicSize = Mathf.Lerp(camZoom, camZoom + mapLength/8, Time.time);
 				foreach(Transform trailPiece in trailList){
 					trailPiece.localScale = new Vector3(trailPiece.localScale.x, 10*(orthographicCam.orthographicSize/mapLength), 1);
@@ -291,8 +279,7 @@ namespace MyMinimap {
 					newTrailPiece.localScale = new Vector3(Vector2.Distance(new Vector2(currNode.x, currNode.z), new Vector2(nextNode.x, nextNode.z)), 10*(orthographicCam.orthographicSize/mapLength), 1);
 					secondToLast = nextNode;
 					trailList.Add (newTrailPiece);
-				}
-				else {
+				} else {
 					var lastTrailPiece = Instantiate(NavTrail) as Transform;
 					lastTrailPiece.position = new Vector3((path.corners[i].x + target.x)/2, 201, (path.corners[i].z + target.z)/2);
 					lastTrailPiece.eulerAngles = new Vector3(90, getRotation(path.corners[i], target), 0);
@@ -350,9 +337,8 @@ namespace MyMinimap {
 
 		// retrieves the length of each map segment for scaling purposes
 		public void getMapLength() {
-			GameObject OHC = GameObject.Find ("OHC");
-			mapLength = OHC.GetComponent<MapLoader> ().getMapLength()/2;
-			Debug.Log ("map length is: " + mapLength);
+			// GameObject OHC = GameObject.Find ("OHC");
+			// mapLength = OHC.GetComponent<MapLoader> ().getMapLength()/2;
 		}
 	}
 }

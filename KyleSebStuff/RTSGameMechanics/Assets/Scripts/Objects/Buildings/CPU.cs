@@ -134,7 +134,7 @@ public class CPU : DestructableBuilding
             mProgressBar.show = false;
             return;
         }
-        mProgressBar.show = true;
+        mProgressBar.show = objectRenderer.enabled;
         mCreationProgress += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
         int coolDown = mCreationQueue[0].cooldown * Int3.Precision;
         mProgressBar.progress = mCreationProgress;
@@ -150,7 +150,9 @@ public class CPU : DestructableBuilding
             unit.GetComponent<WorldObject>().playerID = PlayerID;
             unit.GetComponent<WorldObject>().buttonIcon = mIconMap[prefab];
             mCreationQueue.RemoveAt(0);
-            mRam.Spark();
+            if (objectRenderer.enabled) {
+                mRam.Spark();
+            }
             if (currentlySelected) {
             	SetGuiModel(mCurrentGuiModel);
             }
