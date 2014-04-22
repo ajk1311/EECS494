@@ -221,6 +221,10 @@ public class SSGameManager : MonoBehaviour {
 
 	/** We use the real Update() to simulate are own controlled game loop */
 	void Update() {
+		if (!SSGameSetup.Connected) {
+			// If we aren't connected to a game, no need to proceed
+			return;
+		}
 		// We accept input on every real frame so we don't miss any mouse clicks
 		AcceptInput();
 		mFrameLength += Time.deltaTime;
@@ -455,8 +459,7 @@ public class SSGameManager : MonoBehaviour {
 	void AcceptCommands() {
 		// Sufficient byte buffer
 		byte[] inputBuffer = new byte[128]; 
-		// TODO end condition
-		while (true) {
+		while (SSGameSetup.Connected) {
 			int sz = mReceiver.Receive(inputBuffer);
 			DataPacket packet = Serializer.Deserialize<DataPacket>(new MemoryStream(inputBuffer, 0, sz));
 			if (packet.isAck) {
@@ -510,7 +513,7 @@ public class SSGameManager : MonoBehaviour {
     void HostCorrectionLoop() {
         // TODO end condition
 		byte[] buf = new byte[1];
-        while (true) {
+        while (SSGameSetup.Connected) {
 			// Only send the resync periodically
             Thread.Sleep(CorrectionLoopLength);
 			mResyncSender.SendTo(GenerateWorldHash(), mResyncEndpoint);
@@ -550,7 +553,7 @@ public class SSGameManager : MonoBehaviour {
     void ClientCorrectionLoop() {
         // TODO end condition
         byte[] buf = new byte[32 * sizeof(char)];
-        while (true) {
+        while (SSGameSetup.Connected) {
 			// Read the hash of the host's world state
             mResyncReceiver.Receive(buf);
 			// Generate our own world's hash

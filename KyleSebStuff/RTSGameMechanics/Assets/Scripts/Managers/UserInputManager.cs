@@ -63,7 +63,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                 }
             } else {
                 //check if player is selecting a spawn point for a new combination unit
-                if (CombinationManager.creatingCombination[playerID - 1] == true) {
+                if (CombinationManager.creatingCombination[playerID - 1]) {
 					PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
 
 					GameObject combMapCheck = RTSGameMechanics.FindHitObject(mousePosition);

@@ -310,20 +310,26 @@ public class GUIManager : MonoBehaviour {
 		
 		float panelWidth = Screen.width / 3;
 
-        float outerPadding = GUIResources.GetScaledPixelSize(20);
+        float outerPadding = GUIResources.GetScaledPixelSize(8);
 
-        float buttonHeight = GUIResources.GetScaledPixelSize(48);
+        float titleHeight = GUIResources.GetScaledPixelSize(30);
+        float tooltipHeight = GUIResources.GetScaledPixelSize(30);
+        float buttonHeight = (GUIResources.OrdersBarHeight - 2 * outerPadding - titleHeight - tooltipHeight) / 3;
 
-		float leftButtonWidth = (panelWidth - 1.5f * outerPadding) / currentGUIModel.leftPanelColumns;
-		float centerButtonWidth = (panelWidth - 1.5f * outerPadding) / currentGUIModel.centerPanelColumns;
+		float leftButtonWidth = (panelWidth - 2 * outerPadding) / currentGUIModel.leftPanelColumns;
+		float centerButtonWidth = (panelWidth - 2 * outerPadding) / currentGUIModel.centerPanelColumns;
 
 		float initX = outerPadding;
 		float initY = Screen.height - GUIResources.OrdersBarHeight + outerPadding;
 
         GUIModelManager.Button temp;
 
-		//draw left panel icons
-		scrollPositionLeft = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight),
+        // Draw left panel title
+        GUI.Label(new Rect(initX + outerPadding, initY, panelWidth - 2 * outerPadding, titleHeight), currentGUIModel.leftPanelTitle);
+        initY += (titleHeight + tooltipHeight);
+
+		// Draw left panel icons
+		scrollPositionLeft = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight - (titleHeight + tooltipHeight)),
 		                                         scrollPositionLeft, 
 		                                         new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.leftPanelButtons.Count / currentGUIModel.leftPanelColumns) * buttonHeight));
 		for (int i = 0, len = currentGUIModel.leftPanelButtons.Count; i < len; i++) {
@@ -334,19 +340,24 @@ public class GUIManager : MonoBehaviour {
 
             GUI.enabled = temp.enabled;
 			if (temp.text != null) {
-				GUI.Button(drawRect, temp.text);
+				GUI.Button(drawRect, new GUIContent(temp.text, temp.hint));
 			} else {
-				GUI.Button(drawRect, temp.icon);
+				GUI.Button(drawRect, new GUIContent(temp.icon, temp.hint));
 			}
             GUI.enabled = true;
 
 			temp.rect = new Rect(initX + buttonX, initY + buttonY, leftButtonWidth, buttonHeight);
 		}
 		GUI.EndScrollView();
+
+        // Draw center panel title
+        initY -= (titleHeight + tooltipHeight);
+        initX = panelWidth + outerPadding;
+        GUI.Label(new Rect(initX + outerPadding, initY, panelWidth - 2 * outerPadding, titleHeight), currentGUIModel.centerPanelTitle);
+        initY += (titleHeight + tooltipHeight);
 		
-		//draw center panel icons
-		initX = panelWidth + outerPadding;
-		scrollPositionCenter = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight), 
+		// Draw center panel icons
+		scrollPositionCenter = GUI.BeginScrollView(new Rect(initX, initY, panelWidth, GUIResources.OrdersBarHeight - (titleHeight + tooltipHeight)), 
 		                                           scrollPositionCenter, 
 		                                           new Rect(0, 0, panelWidth, Mathf.CeilToInt((float) currentGUIModel.centerPanelButtons.Count / currentGUIModel.centerPanelColumns) * buttonHeight));
 		for (int i = 0, len = currentGUIModel.centerPanelButtons.Count; i < len; i++) {
@@ -357,15 +368,22 @@ public class GUIManager : MonoBehaviour {
 
             GUI.enabled = temp.enabled;
 			if (temp.text != null) {
-				GUI.Button(drawRect, temp.text);
+				GUI.Button(drawRect, new GUIContent(temp.text, temp.hint));
 			} else {
-				GUI.Button(drawRect, temp.icon);
+				GUI.Button(drawRect, new GUIContent(temp.icon, temp.hint));
 			}
             GUI.enabled = true;
 
 			temp.rect = new Rect(initX + buttonX, initY + buttonY, centerButtonWidth, buttonHeight);
 		}
 		GUI.EndScrollView ();
+
+        // Draw the tooltip
+        initY -= tooltipHeight;
+        if (Input.mousePosition.x < panelWidth) {
+            initX -= (panelWidth + outerPadding);
+        }
+        GUI.Label(new Rect(initX + outerPadding, initY, panelWidth - 2 * outerPadding, tooltipHeight), GUI.tooltip);
     }
     
     private void DrawResourceBar() {
