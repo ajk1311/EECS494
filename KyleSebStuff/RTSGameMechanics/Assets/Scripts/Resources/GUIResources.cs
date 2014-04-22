@@ -35,7 +35,7 @@ namespace RTS {
 			get { return new Rect(0, 0, Screen.width, Screen.height - OrdersBarHeight); }
 		}
 
-		public static float TextWidth = GetScaledPixelSize(128);
+		public static float TextWidth = GetScaledPixelSize(96);
 		public static float TextHeight = GetScaledPixelSize(32);
 		public static float IconWidth = GetScaledPixelSize(32);
 		public static float IconHeight = GetScaledPixelSize(32);

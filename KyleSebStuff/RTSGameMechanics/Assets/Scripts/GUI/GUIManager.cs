@@ -378,10 +378,10 @@ public class GUIManager : MonoBehaviour {
 
         float topPos = GUIResources.GetScaledPixelSize(4);
         float iconLeft = GUIResources.GetScaledPixelSize(4);
-        float textLeft = GUIResources.GetScaledPixelSize(2 * GUIResources.IconWidth);
+        float textLeft = GUIResources.IconWidth + iconLeft;
         DrawResourceIcon(powerIcon, iconLeft, textLeft, topPos);
-        iconLeft += GUIResources.TextWidth;
-        textLeft += GUIResources.TextWidth;
+        iconLeft = textLeft + GUIResources.TextWidth + GUIResources.GetScaledPixelSize(10);
+        textLeft = GUIResources.IconWidth + iconLeft;
         DrawResourceIcon(memoryIcon, iconLeft, textLeft, topPos);
 
         GUI.EndGroup();
