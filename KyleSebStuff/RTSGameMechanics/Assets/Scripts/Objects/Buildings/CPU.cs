@@ -65,8 +65,9 @@ public class CPU : DestructableBuilding
     private const int TIER_3 = 3;
     private int mCurrentGuiModel;
 
-	//Create Sound
+	//Sounds
 	public AudioClip createSound;
+	public AudioClip buildingDestroySound;
 
     // Creation queue
     private int mCreationProgress;
@@ -119,6 +120,7 @@ public class CPU : DestructableBuilding
     protected override void OnDestroyedInGame()
     {
         base.OnDestroyedInGame();
+		AudioSource.PlayClipAtPoint (buildingDestroySound, transform.position);
         StartScript.GameOverEvent gameOverEvent = new StartScript.GameOverEvent(playerID);
         EventBus.Dispatcher.Instance.Post(gameOverEvent);
     }
