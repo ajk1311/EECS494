@@ -1153,7 +1153,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.6124878, y: 0, z: 18.5907898}
+  m_LocalPosition: {x: 0, y: -22, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 400002}
@@ -2040,7 +2040,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100148}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 239.549255, y: -22, z: 319.615723}
+  m_LocalPosition: {x: 220, y: 0, z: 330}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -2053,7 +2053,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100150}
   m_LocalRotation: {x: -.707106888, y: 0, z: 0, w: .707106769}
-  m_LocalPosition: {x: -15.5008545, y: 20.7081528, z: 17.1339111}
+  m_LocalPosition: {x: 0, y: 22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400148}
@@ -2120,7 +2120,8 @@ MonoBehaviour:
   objectRenderer: {fileID: 0}
   magentaTexture: {fileID: 0}
   orangeTexture: {fileID: 0}
-  progressBar: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  playerScript: {fileID: 0}
   timeToCapture: 0
   currentTime: 0
   player1UnitCount: 0
@@ -2135,6 +2136,7 @@ MonoBehaviour:
   player2Buffed: 0
   buff: 0
   detectionRadius: 15
+  progressBar: {fileID: 0}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
