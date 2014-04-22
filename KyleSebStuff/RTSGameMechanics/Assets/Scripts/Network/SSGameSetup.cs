@@ -24,6 +24,8 @@ public class SSGameSetup {
     private static readonly string ServerIP = "35.2.235.8";
     private static readonly int ServerPort = 9191;
 
+    private static string mServerIP = ServerIP;
+
     private static bool mConnected = false;
     private static bool mConnecting = false;
 
@@ -41,8 +43,11 @@ public class SSGameSetup {
 	 * Tells the server you want to play against someone. If mock is true,
 	 * the server will spawn a dummy player that always and only sends empty commands.
 	 */
-    public static void ConnectToGame(string name, bool mock = false) {
+    public static void ConnectToGame(string name, bool mock = false, string serverIP = null) {
         mConnecting = true;
+        if (serverIP != null && serverIP != "") {
+        	mServerIP = serverIP;
+        }
         UnityThreading.Thread.InBackground(() => InitConnection(name, mock) );
     }
 
@@ -106,10 +111,8 @@ public class SSGameSetup {
 
 	/** Receives the opponent's info from the server */
     private static ClientInfo GetRemoteClientInfo(ClientInfo localInfo) {
-		Debug.Log ("hello");
-        using (TcpClient client = new TcpClient(ServerIP, ServerPort))
+        using (TcpClient client = new TcpClient(mServerIP, ServerPort))
         using (NetworkStream stream = client.GetStream()) {
-			Debug.Log ("after serialize at IP: " + ServerIP + " port: " + ServerPort);
             Serializer.SerializeWithLengthPrefix(stream, localInfo, PrefixStyle.Base128);
             CarryOutConnectionHandshake(stream);
             return Serializer.DeserializeWithLengthPrefix<ClientInfo>(stream, PrefixStyle.Base128);

@@ -129,6 +129,42 @@ ModelImporter:
     100246: transform7
     100248: transform8
     100250: transform9
+    100252: polySurface15
+    100254: polySurface15_MeshPart0
+    100256: polySurface15_MeshPart1
+    100258: transform47
+    100260: transform48
+    100262: transform49
+    100264: transform50
+    100266: transform51
+    100268: transform52
+    100270: transform53
+    100272: transform54
+    100274: transform55
+    100276: transform56
+    100278: transform57
+    100280: transform58
+    100282: transform59
+    100284: transform60
+    100286: transform61
+    100288: transform62
+    100290: transform63
+    100292: transform64
+    100294: transform65
+    100296: transform66
+    100298: transform67
+    100300: transform68
+    100302: transform69
+    100304: transform70
+    100306: transform71
+    100308: transform72
+    100310: transform73
+    100312: transform74
+    100314: transform75
+    100316: transform76
+    100318: transform77
+    100320: transform78
+    100322: transform79
     400000: //RootNode
     400002: pCube1
     400004: pCylinder1
@@ -255,6 +291,42 @@ ModelImporter:
     400246: transform7
     400248: transform8
     400250: transform9
+    400252: polySurface15
+    400254: polySurface15_MeshPart0
+    400256: polySurface15_MeshPart1
+    400258: transform47
+    400260: transform48
+    400262: transform49
+    400264: transform50
+    400266: transform51
+    400268: transform52
+    400270: transform53
+    400272: transform54
+    400274: transform55
+    400276: transform56
+    400278: transform57
+    400280: transform58
+    400282: transform59
+    400284: transform60
+    400286: transform61
+    400288: transform62
+    400290: transform63
+    400292: transform64
+    400294: transform65
+    400296: transform66
+    400298: transform67
+    400300: transform68
+    400302: transform69
+    400304: transform70
+    400306: transform71
+    400308: transform72
+    400310: transform73
+    400312: transform74
+    400314: transform75
+    400316: transform76
+    400318: transform77
+    400320: transform78
+    400322: transform79
     2300000: pCylinder34
     2300002: pCylinder35
     2300004: pCylinder36
@@ -288,6 +360,9 @@ ModelImporter:
     2300060: pCylinder64
     2300062: pCylinder65
     2300064: polySurface14
+    2300066: polySurface15_MeshPart0
+    2300068: polySurface15_MeshPart1
+    2300070: polySurface15
     3300000: pCylinder34
     3300002: pCylinder35
     3300004: pCylinder36
@@ -321,6 +396,9 @@ ModelImporter:
     3300060: pCylinder64
     3300062: pCylinder65
     3300064: polySurface14
+    3300066: polySurface15_MeshPart0
+    3300068: polySurface15_MeshPart1
+    3300070: polySurface15
     4300000: polySurface14
     4300002: pCylinder34
     4300004: pCylinder35
@@ -354,6 +432,9 @@ ModelImporter:
     4300060: pCylinder63
     4300062: pCylinder64
     4300064: pCylinder65
+    4300066: polySurface15_MeshPart0
+    4300068: polySurface15_MeshPart1
+    4300070: polySurface15
     9500000: //RootNode
   materials:
     importMaterials: 1
