@@ -5,6 +5,8 @@ using Pathfinding;
 
 public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 
+	public AudioClip clickSound;
+
     public int playerID;
 
     public int PlayerID {
@@ -90,6 +92,8 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
     }
 
     private void RightMouseClick(Vector3 mousePosition) {
+		PlayerScript playerScript = GameObject.Find("Player").GetComponent<PlayerScript>();
+
         // Check if there is units selected to issue commands to
         if (SelectionManager.count(PlayerID) > 0) {
             // Check if there is an object that we clicked on
@@ -103,6 +107,9 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                     //Check if the target is an enemy
                     if (player.id != target.GetComponent<WorldObject>().playerID) {
                         // Issue attack command to all selected units
+						if(playerScript.id == playerID) {
+							AudioSource.PlayClipAtPoint(clickSound, Vector3.zero);
+						}
                         SelectionManager.attackUnit(PlayerID, target.GetComponent<WorldObject>());
                     }
                 }
@@ -110,6 +117,9 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                 // Since we did not click on a target we assume it is a move command
                 Vector3 destination = mousePosition;
                 if (destination != MechanicResources.InvalidPosition) {
+					if(playerScript.id == playerID) {
+						AudioSource.PlayClipAtPoint(clickSound, Vector3.zero);
+					}
                     SelectionManager.moveUnits(PlayerID, destination);
                 }
             }

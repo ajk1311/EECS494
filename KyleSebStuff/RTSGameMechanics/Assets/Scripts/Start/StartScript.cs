@@ -61,8 +61,11 @@ public class StartScript : MonoBehaviour {
 
 	void Update() {
 		if(guiManager.usernameEntered && notConnected) {
-			Debug.Log("in here");
-			SSGameSetup.ConnectToGame(guiManager.username, true);
+			string serverIP = guiManager.serverIP;
+			if (serverIP == "Server IP...") {
+				serverIP = "";
+			}
+			SSGameSetup.ConnectToGame(guiManager.username, true, serverIP);
 			notConnected = false;
 		}
 		if (gameOver) {
@@ -101,7 +104,6 @@ public class StartScript : MonoBehaviour {
 		CombinationManager.Init();
 		FogOfWarManager.Init();
 		ParseManager.Init(connectionEvent.ID, connectionEvent.gameID);
-		guiManager.connected(connectionEvent.opponentName);
 
 		UserInputManager myInputManager;
 		UserInputManager hisOrHerInputManager;
@@ -184,6 +186,7 @@ public class StartScript : MonoBehaviour {
 	
 	[HandlesEvent]
 	public void OnGameReady(GameReadyEvent readyEvent) {
+		guiManager.connected(readyEvent.opponentInfo.name);
 		Camera.main.GetComponent<CameraControl>().enabled = true;
 		Debug.Log("Game is ready");
 	}

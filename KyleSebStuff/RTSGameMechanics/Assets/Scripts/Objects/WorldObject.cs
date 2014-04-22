@@ -85,6 +85,11 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
 		}
     }
 
+    public void DestroyInGame() {
+        OnDestroyedInGame();
+        Destroy(gameObject);
+    }
+
     protected virtual void OnDestroyedInGame() {
         if(currentlySelected) {
             SelectionManager.removeUnitFromList(playerID, this.gameObject);
@@ -187,8 +192,7 @@ public class WorldObject : MonoBehaviour, SSGameManager.IUpdatable, SSGameManage
     public virtual void TakeDamage(int damage) {
         hitPoints -= damage;
         if (hitPoints <= 0) {
-            OnDestroyedInGame();
-            Destroy(gameObject);
+            DestroyInGame();
         }
     }
 }

@@ -65,6 +65,9 @@ public class CPU : DestructableBuilding
     private const int TIER_3 = 3;
     private int mCurrentGuiModel;
 
+	//Create Sound
+	public AudioClip createSound;
+
     // Creation queue
     private int mCreationProgress;
     private List<CreationEvent> mCreationQueue;
@@ -134,7 +137,7 @@ public class CPU : DestructableBuilding
             mProgressBar.show = false;
             return;
         }
-        mProgressBar.show = true;
+        mProgressBar.show = objectRenderer.enabled;
         mCreationProgress += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
         int coolDown = mCreationQueue[0].cooldown * Int3.Precision;
         mProgressBar.progress = mCreationProgress;
@@ -146,11 +149,19 @@ public class CPU : DestructableBuilding
             Object prefab = mCreationQueue[0].prefab;
             Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
             GameObject unit = (GameObject) Instantiate(prefab, (Vector3) spawnPosition, Quaternion.identity);
+
+			PlayerScript playerScript = GameObject.Find("Player").GetComponent<PlayerScript>();
+			if(playerScript.id == playerID) {
+				AudioSource.PlayClipAtPoint(createSound, transform.position);
+			}
+
             unit.transform.Rotate(new Vector3(0, 90, 0));
             unit.GetComponent<WorldObject>().playerID = PlayerID;
             unit.GetComponent<WorldObject>().buttonIcon = mIconMap[prefab];
             mCreationQueue.RemoveAt(0);
-            mRam.Spark();
+            if (objectRenderer.enabled) {
+                mRam.Spark();
+            }
             if (currentlySelected) {
             	SetGuiModel(mCurrentGuiModel);
             }
