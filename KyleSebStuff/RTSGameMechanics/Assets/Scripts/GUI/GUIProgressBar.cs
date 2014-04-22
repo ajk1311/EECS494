@@ -36,7 +36,6 @@ public class GUIProgressBar : MonoBehaviour {
         if (show) {
             Vector3 offsetPosition = new Vector3(transform.position.x, transform.position.y + heightOffset, transform.position.z);
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(offsetPosition);
-            Debug.Log(screenPosition);
             // draw the background:
             GUI.BeginGroup(new Rect (screenPosition.x - sizeX / 2, Screen.height - screenPosition.y, sizeX, sizeY));
             GUI.Label(new Rect (0, 0, sizeX, sizeY), "", progressBackground);

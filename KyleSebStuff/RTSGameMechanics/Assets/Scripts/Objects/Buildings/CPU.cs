@@ -113,9 +113,9 @@ public class CPU : DestructableBuilding
         };
 	}
 
-    protected override void OnDestroy()
+    protected override void OnDestroyedInGame()
     {
-        base.OnDestroy();
+        base.OnDestroyedInGame();
         StartScript.GameOverEvent gameOverEvent = new StartScript.GameOverEvent(playerID);
         EventBus.Dispatcher.Instance.Post(gameOverEvent);
     }

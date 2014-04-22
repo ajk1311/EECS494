@@ -15,6 +15,7 @@ public static class SelectionManager {
         selectionModels = new List<GUIModelManager.GUIModel>();
         selectionModels.Add(null);
         selectionModels.Add(null);
+
         selectedSpaces = new List<Vector3[]>();
         selectedSpaces.Add(null);
         selectedSpaces.Add(null);
@@ -37,31 +38,21 @@ public static class SelectionManager {
     }
 
 	public static void addSelectedGameObject(int playerID, GameObject gameObject) {
-		if(currentlySelectedObjects[playerID-1].Count == 0) {
-			currentlySelectedObjects[playerID -1].Add(gameObject);
-			CreateGUIModel(playerID, gameObject.GetComponent<WorldObject>());
-		}
-		else {
-			currentlySelectedObjects[playerID -1].Add(gameObject);
-			UpdateGUIModel(playerID, gameObject.GetComponent<WorldObject>());
-		}
+		currentlySelectedObjects[playerID -1].Add(gameObject);
+        UpdateGUIModel(playerID);
     }
 
-	private static void CreateGUIModel(int playerID, WorldObject wo) {
-		selectionModels[playerID-1] = new GUIModelManager.GUIModel();
-		selectionModels[playerID-1].leftPanelColumns = 1;
-        selectionModels[playerID-1].leftPanelTitle = "Available Combinations";
-		selectionModels[playerID-1].centerPanelColumns = 3;
-        selectionModels[playerID-1].centerPanelTitle = "Selected Units";
+	private static void UpdateGUIModel(int playerID) {
+        GUIModelManager.GUIModel model = new GUIModelManager.GUIModel();
+        selectionModels[playerID-1] = model;
 
-		UpdateGUIModel(playerID, wo);
-		GUIModelManager.SetCurrentModel(playerID, selectionModels [playerID - 1]);
-	}
+        model.leftPanelColumns = 1;
+        model.leftPanelTitle = "Available Combinations";
+        model.centerPanelColumns = 3;
+        model.centerPanelTitle = "Selected Units";
 
-	private static void UpdateGUIModel(int playerID, WorldObject wo) {
-		//check for new combos and add to left panel
+        //check for new combos and add to left panel
 		List<KeyValuePair<string,int>> availCombos = CombinationManager.getAvailableCombinations(playerID);
-		selectionModels[playerID - 1].ClearButtons(0);
 		foreach (KeyValuePair<string, int> pair in availCombos) {
 			GUIModelManager.Button comboButton = new GUIModelManager.Button();
 			comboButton.text = pair.Key + " x " + pair.Value;
@@ -72,29 +63,32 @@ public static class SelectionManager {
 				CombinationManager.creatingCombination[playerID-1] = true;
 				CombinationManager.desiredUnit[playerID-1] = desiredUnit;
 			};
-			selectionModels[playerID-1].AddButton(0, comboButton);
+			model.AddButton(0, comboButton);
 		}
-		GUIModelManager.Button button = new GUIModelManager.Button();
-		button.icon = wo.buttonIcon;
-        button.hint = "Select this unit";
-		button.clicked += () => 
-		{
-			if(wo != null) {
-				deselectAllGameObjects(playerID);
-				wo.setCurrentlySelected(true);
-                UpdateGUIModel(playerID, wo);
-			}
-		};
-		selectionModels[playerID-1].AddButton(1, button);
+        foreach (GameObject obj in currentlySelectedObjects[playerID - 1]) {
+            GUIModelManager.Button button = new GUIModelManager.Button();
+            WorldObject wo = obj.GetComponent<WorldObject>();
+            button.icon = wo.buttonIcon;
+            button.hint = "Select this unit";
+            button.clicked += () => 
+            {
+                if(wo != null) {
+                    deselectAllGameObjects(playerID);
+                    wo.setCurrentlySelected(true);
+                }
+            };
+            model.AddButton(1, button);
+        }
+        GUIModelManager.SetCurrentModel(playerID, model);
 	}
 	public static void deselectGameObject(int playerID, GameObject obj) {
-		GUIModelManager.SetCurrentModel(playerID, null);
-		if (!currentlySelectedObjects[playerID -1].Remove(obj)) {
-			Debug.Log("Removed a non-selected object");
-		}
+        currentlySelectedObjects[playerID -1].Remove(obj);
     }
 
 	public static void deselectAllGameObjects(int playerID) {
+        if (GUIModelManager.GetCurrentModel(playerID) == selectionModels[playerID - 1]) {
+            GUIModelManager.SetCurrentModel(playerID, null);
+        }
         foreach (GameObject obj in currentlySelectedObjects[playerID-1]) {
             obj.GetComponent<WorldObject>().setCurrentlySelected(false);
         }
@@ -135,7 +129,6 @@ public static class SelectionManager {
 
     public static Dictionary<string, int> getUnitCounts(int playerID) {
         Dictionary<string, int> unitCounts = new Dictionary<string, int>();
-        
         foreach (GameObject unit in currentlySelectedObjects[playerID-1]) {
             string currentKey = unit.GetComponent<WorldObject>().objectName;
             if (unitCounts.ContainsKey(currentKey)) {
@@ -144,7 +137,6 @@ public static class SelectionManager {
                 unitCounts.Add(currentKey, 1);
             }
         }
-        
         return unitCounts;
     }
 }
