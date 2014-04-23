@@ -338,8 +338,8 @@ public class CPU : DestructableBuilding
         GUIModelManager.Button range = new GUIModelManager.Button();
         range.icon = tier3rangeIcon;
         range.hint = "Static: costs " +
-            player.getUnitPowerCost(playerID == 1 ? OrangeTier2RangeName : MagentaTier2RangeName) + " power and " +
-            player.getUnitMemoryCost(playerID == 1 ? OrangeTier2RangeName : MagentaTier2RangeName) + " memory";
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier3RangeName : MagentaTier3RangeName) + " power and " +
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier3RangeName : MagentaTier3RangeName) + " memory";
         range.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab);
 
