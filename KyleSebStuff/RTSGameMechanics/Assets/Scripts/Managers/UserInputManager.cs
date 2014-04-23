@@ -108,7 +108,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                 if ((player.id == playerID && fog.friendlyUnitCount > 0) ||
                         (player.id != playerID && fog.enemyUnitCount > 0)) {
                     //Check if the target is an enemy
-                    if (player.id != target.GetComponent<WorldObject>().playerID) {
+                    if (playerID != target.GetComponent<WorldObject>().playerID) {
                         // Issue attack command to all selected units
 						if(player.id == playerID) {
 							AudioSource.PlayClipAtPoint(clickSound, Vector3.zero);
