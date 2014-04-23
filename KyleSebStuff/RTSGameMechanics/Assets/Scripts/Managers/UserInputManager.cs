@@ -81,6 +81,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
 		                    AssemblerScript script = assembler.GetComponent<AssemblerScript>();
 		                    CombinationManager.spawnPoint[playerID - 1] = mousePosition;
 		                    CombinationManager.combine(script, CombinationManager.desiredUnit[playerID - 1]);
+                            ParseManager.LogEvent(ParseManager.ParseEvent.Combination, playerID, CombinationManager.desiredUnit[playerID - 1]);
 						}
 					}
                     CombinationManager.creatingCombination[playerID - 1] = false;

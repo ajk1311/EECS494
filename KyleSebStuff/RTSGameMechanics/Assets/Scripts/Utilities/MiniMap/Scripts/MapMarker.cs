@@ -32,6 +32,7 @@ namespace MyMinimap
 		public void highLight(bool set){
 			if(set){
 				shouldHighLight = true;
+				iterateCount = 0;
 			}
 			else {
 				shouldHighLight = false;
