@@ -89,6 +89,7 @@ public class CPU : DestructableBuilding
 
     struct CreationEvent
     {
+        public string name;
         public int cooldown;
         public Object prefab;
     }
@@ -380,6 +381,9 @@ public class CPU : DestructableBuilding
                 {
                     mCreationProgress = 0;
                     mCreationQueue.Remove(i);
+                    PlayerScript me = GetAppropriatePlayerScript();
+                    me.updateMemoryUnitDied(i.name);
+                    me.updatePowerUnitDied(i.name);
                     if (currentlySelected) {
                     	SetGuiModel(mCurrentGuiModel);
                     }
@@ -449,6 +453,7 @@ public class CPU : DestructableBuilding
                 playerID, unitName, "CPU" + (random ? "-random" : ""));
             mCreationQueue.Add(new CreationEvent()
             {
+                name = unitName,
                 cooldown = me.getUnitCooldown(unitName),
                 prefab = unitPrefab
             });
