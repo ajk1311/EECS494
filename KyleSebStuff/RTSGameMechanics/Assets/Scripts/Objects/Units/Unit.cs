@@ -94,6 +94,7 @@ public class Unit : WorldObject {
     }
 
     public bool isAttacking() {
+    	marker.highLight(true);
         return attacking;
     }
 
@@ -188,6 +189,7 @@ public class Unit : WorldObject {
     }
 
 	public void FinishAttacking() {
+		marker.highLight(false);
 		if (attackMove) {
 			IssueMoveCommand((Vector3) destination, true);
 		} else {

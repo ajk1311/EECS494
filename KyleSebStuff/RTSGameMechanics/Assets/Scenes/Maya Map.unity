@@ -4223,9 +4223,17 @@ MonoBehaviour:
   guiManager: {fileID: 0}
   mapFrame: {fileID: 0}
   navArrow: {fileID: 0}
-  highlighter: {fileID: 0}
+  highlighter: {fileID: 2800000, guid: bca7d649f6ec44182b5c3be6fc29fe09, type: 3}
   NavTrail: {fileID: 0}
   mapTexture: {fileID: 2800000, guid: a8c2f586ef17c457b909b1e4c263bfb2, type: 3}
+  miniMapSquare: {fileID: 2800000, guid: a812f02ab20604b0cbf83aec918d88d4, type: 3}
+  miniMapRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  highlightCount: 0
   minX: 0
   minY: 0
   maxX: 0
