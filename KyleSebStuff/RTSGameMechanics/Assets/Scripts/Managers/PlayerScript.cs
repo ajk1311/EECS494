@@ -44,7 +44,7 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		power = 10;
 		maxPower = 200;
         memory = 0;
-        maxMemory = 100;
+        maxMemory = 40;
 		cycleLength = 8;
 		powerPerCycle = 6;
 
