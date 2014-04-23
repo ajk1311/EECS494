@@ -1,5 +1,7 @@
 using UnityEngine;
+using Pathfinding;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace RTS {
     public static class RTSGameMechanics {
@@ -14,7 +16,22 @@ namespace RTS {
 		}
 
 		public static GameObject FindHitObject(Vector3 position) {
-			Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
+            // List<WorldObject> occupants = GridManager.GetGridOccupants((Int3) position);
+            // GameObject returnObj = null;
+            // int currentID = int.MaxValue;
+            // if (occupants.Count > 0) {
+            //     foreach (WorldObject occupant in occupants) {
+            //         if (occupant != null && occupant.ID < currentID) {
+            //             currentID = occupant.ID;
+            //             returnObj = occupant.transform.root.gameObject;
+            //         }
+            //     }
+            // } else {
+            //     returnObj = GameObject.Find("Final Map");
+            // }
+            // return returnObj;
+
+			Collider[] hitColliders = Physics.OverlapSphere(position, 0.2f);
 			GameObject returnObj = null;
 			int currentID = int.MaxValue;
 			if (hitColliders.Length != 0) {
@@ -24,6 +41,7 @@ namespace RTS {
 				foreach (Collider obj in hitColliders) {
 					WorldObject script = obj.gameObject.transform.root.GetComponent<WorldObject>();
 					if (script != null && script.ID < currentID) {
+                        currentID = script.ID;
 						returnObj = obj.transform.root.gameObject;
 					}
 				}

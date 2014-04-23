@@ -73,9 +73,7 @@ public class UserInputManager : MonoBehaviour, SSGameManager.IUpdatable {
                 if (CombinationManager.creatingCombination[playerID - 1]) {
 					PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();
 
-					GameObject combMapCheck = RTSGameMechanics.FindHitObject(mousePosition);
-
-					if(mousePosition.y > 1 && combMapCheck.transform.tag == "Map") {
+					if(mousePosition.y > 1 && hitObject.transform.tag == "Map") {
 						//Not a Valid Area of the Map
 					} else {
 						FogScript fog = FogOfWarManager.getMyFogTile((Int3)mousePosition).GetComponent<FogScript>();
