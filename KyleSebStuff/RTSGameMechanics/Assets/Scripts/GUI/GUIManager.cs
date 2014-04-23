@@ -160,6 +160,7 @@ public class GUIManager : MonoBehaviour {
         } else {
             DrawOrdersBar();
             DrawCurrentGUIModel();
+            DrawCombinationIndicator();
             DrawResourceBar();
             if (isDragging) {
                 float padding = GUIResources.GetScaledPixelSize(4);
@@ -388,6 +389,19 @@ public class GUIManager : MonoBehaviour {
             initX -= (panelWidth + outerPadding);
         }
         GUI.Label(new Rect(initX + outerPadding, initY, panelWidth - 2 * outerPadding, tooltipHeight), GUI.tooltip);
+    }
+
+    private void DrawCombinationIndicator() {
+        if (CombinationManager.creatingCombination[player.id - 1]) {
+            float x = Screen.width / 2 - 200;
+            float y = Screen.height - GUIResources.OrdersBarHeight - 30;
+
+            GUIStyle indicatorStyle = new GUIStyle(GUI.skin.label);
+            indicatorStyle.normal.textColor = Color.red;
+            indicatorStyle.fontSize = 15;
+
+            GUI.Label(new Rect(x, y, 400, 30), "* Left click ground to position your combination *", indicatorStyle);
+        }
     }
 
     private void DrawResourceBar() {
