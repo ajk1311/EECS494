@@ -5,7 +5,7 @@ using RTS;
 [RequireComponent(typeof(Rigidbody))]
 public class CameraControl : MonoBehaviour {
 
-    public float ScrollWidth = 30;
+    public float ScrollWidth = 40;
     public float ScrollSpeed = 25;
 	public float MapClamp = 2;
     public float PanningSpeed = 200;
@@ -23,6 +23,8 @@ public class CameraControl : MonoBehaviour {
 	private bool goingToBase;
 	public float speed;
 
+    private Transform listener;
+
 	private Vector3 startPosition;
 
 	public Vector3 StartPosition {
@@ -39,6 +41,7 @@ public class CameraControl : MonoBehaviour {
 		speed = 6;
         MapHeight = RTSGameMechanics.GetMapSizes().z;
         MapWidth = RTSGameMechanics.GetMapSizes().x;
+        listener = transform.Find("Listener");
     }
 
     void Update() {
@@ -55,6 +58,9 @@ public class CameraControl : MonoBehaviour {
 				goingToBase = false;
 			}
 		}
+        Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane);
+        Vector3 worldCenter = Camera.main.ScreenToWorldPoint(center);
+        listener.position = new Vector3(worldCenter.x, 1.2f, worldCenter.z);
     }
     
     private void MoveCamera() {

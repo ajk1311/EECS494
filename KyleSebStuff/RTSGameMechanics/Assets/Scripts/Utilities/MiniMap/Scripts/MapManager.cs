@@ -128,6 +128,9 @@ namespace MyMinimap {
 		}
 
 		void OnGUI() {
+			if (guiManager.gameLoading) {
+				return;
+			}
 			// Iterate through the list of all markers that are within the display boundaries
 			// of the minimap and draw them onto the map.
 			DrawMap();

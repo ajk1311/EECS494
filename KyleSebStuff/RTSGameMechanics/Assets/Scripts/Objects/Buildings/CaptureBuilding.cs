@@ -25,6 +25,8 @@ public class CaptureBuilding : Building {
 
 	ParticleSystem particle;
 
+	public AudioClip captureNoise;
+
 	// Progress Bar
 	public GUIProgressBar progressBar;
 	
@@ -134,6 +136,11 @@ public class CaptureBuilding : Building {
 		if(player1OwnsTower && !player1Buffed) {
 			Debug.Log("---------Player 1 Owns the Tower-----------");
 
+			PlayerScript playerScript = GameObject.Find("Player").GetComponent<PlayerScript>();
+			if(playerScript.id == 1) {
+				AudioSource.PlayClipAtPoint(captureNoise, transform.position);
+			}
+
 			player1Buffed = true;
 
 			//player 2 last owned tower
@@ -153,6 +160,11 @@ public class CaptureBuilding : Building {
 		//Player1 Has Control of the Tower
 		if(player2OwnsTower && !player2Buffed) {
 			Debug.Log("---------Player 2 Owns the Tower-----------");
+
+			PlayerScript playerScript = GameObject.Find("Player").GetComponent<PlayerScript>();
+			if(playerScript.id == 2) {
+				AudioSource.PlayClipAtPoint(captureNoise, transform.position);
+			}
 
 			player2Buffed = true;
 

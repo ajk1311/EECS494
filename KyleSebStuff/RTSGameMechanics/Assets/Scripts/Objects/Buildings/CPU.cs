@@ -65,6 +65,10 @@ public class CPU : DestructableBuilding
     private const int TIER_3 = 3;
     private int mCurrentGuiModel;
 
+	//Sounds
+	public AudioClip createSound;
+	public AudioClip buildingDestroySound;
+
     // Creation queue
     private int mCreationProgress;
     private List<CreationEvent> mCreationQueue;
@@ -85,6 +89,7 @@ public class CPU : DestructableBuilding
 
     struct CreationEvent
     {
+        public string name;
         public int cooldown;
         public Object prefab;
     }
@@ -116,6 +121,7 @@ public class CPU : DestructableBuilding
     protected override void OnDestroyedInGame()
     {
         base.OnDestroyedInGame();
+		AudioSource.PlayClipAtPoint (buildingDestroySound, transform.position);
         StartScript.GameOverEvent gameOverEvent = new StartScript.GameOverEvent(playerID);
         EventBus.Dispatcher.Instance.Post(gameOverEvent);
     }
@@ -146,6 +152,12 @@ public class CPU : DestructableBuilding
             Object prefab = mCreationQueue[0].prefab;
             Int3 spawnPosition = GridManager.FindNextAvailPos(intPosition + spawnOffset, 8, playerID);
             GameObject unit = (GameObject) Instantiate(prefab, (Vector3) spawnPosition, Quaternion.identity);
+
+			PlayerScript playerScript = GameObject.Find("Player").GetComponent<PlayerScript>();
+			if(playerScript.id == playerID) {
+				AudioSource.PlayClipAtPoint(createSound, transform.position);
+			}
+
             unit.transform.Rotate(new Vector3(0, 90, 0));
             unit.GetComponent<WorldObject>().playerID = PlayerID;
             unit.GetComponent<WorldObject>().buttonIcon = mIconMap[prefab];
@@ -326,8 +338,8 @@ public class CPU : DestructableBuilding
         GUIModelManager.Button range = new GUIModelManager.Button();
         range.icon = tier3rangeIcon;
         range.hint = "Static: costs " +
-            player.getUnitPowerCost(playerID == 1 ? OrangeTier2RangeName : MagentaTier2RangeName) + " power and " +
-            player.getUnitMemoryCost(playerID == 1 ? OrangeTier2RangeName : MagentaTier2RangeName) + " memory";
+            player.getUnitPowerCost(playerID == 1 ? OrangeTier3RangeName : MagentaTier3RangeName) + " power and " +
+            player.getUnitMemoryCost(playerID == 1 ? OrangeTier3RangeName : MagentaTier3RangeName) + " memory";
         range.clicked += () => QueueUnitCreation(playerID == 1 ?
             OrangeTier3RangeName : MagentaTier3RangeName, tier3rangePrefab);
 
@@ -369,6 +381,9 @@ public class CPU : DestructableBuilding
                 {
                     mCreationProgress = 0;
                     mCreationQueue.Remove(i);
+                    PlayerScript me = GetAppropriatePlayerScript();
+                    me.updateMemoryUnitDied(i.name);
+                    me.updatePowerUnitDied(i.name);
                     if (currentlySelected) {
                     	SetGuiModel(mCurrentGuiModel);
                     }
@@ -438,6 +453,7 @@ public class CPU : DestructableBuilding
                 playerID, unitName, "CPU" + (random ? "-random" : ""));
             mCreationQueue.Add(new CreationEvent()
             {
+                name = unitName,
                 cooldown = me.getUnitCooldown(unitName),
                 prefab = unitPrefab
             });

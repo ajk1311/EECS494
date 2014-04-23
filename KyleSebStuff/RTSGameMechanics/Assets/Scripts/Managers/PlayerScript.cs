@@ -279,6 +279,13 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		}
 	}
 
+	public void updatePowerUnitDied(string unitName) {
+		power += unitCostRef[unitName];
+		if (power > maxPower) {
+			power = maxPower;
+		}
+	}
+
 	public void combinationMemoryUpdate(string unitName) {
 		memory += unitMemoryRef [unitName];
 	}

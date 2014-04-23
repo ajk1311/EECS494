@@ -3858,6 +3858,9 @@ MonoBehaviour:
   tier3siegePrefab: {fileID: 100004, guid: 1206255795bb048559b60fb033fededc, type: 2}
   tier3siegeIcon: {fileID: 2800000, guid: 98f39d4a88fc34d04a67812721ef157e, type: 3}
   spawnOffsetX: -10
+  createSound: {fileID: 8300000, guid: a49137481c2254a2987e7879313e697b, type: 3}
+  buildingDestroySound: {fileID: 8300000, guid: 77adea031b8224c38bf20a6b17ab3159,
+    type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

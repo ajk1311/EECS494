@@ -158,13 +158,14 @@ MonoBehaviour:
   purpleExplosion: {fileID: 100000, guid: 14130862835ad491ea740eea74acdb38, type: 2}
   orangeExplosion: {fileID: 100000, guid: eacf30e8408a445739af10421652b26a, type: 2}
   currentTarget: {fileID: 0}
-  speed: 12
+  speed: 15
   attackRadius: 9
   pursuitRadius: 15
   reloadSpeed: 3
   attentionRange: 0
   damageInflicted: 6
   progressBar: {fileID: 0}
+  shootClip: {fileID: 8300000, guid: 2dc1322f320c143188afbf1ed0961aa3, type: 3}
   Projectile: {fileID: 100000, guid: 99e1fa55e2bcc422880ceba2336d6451, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:

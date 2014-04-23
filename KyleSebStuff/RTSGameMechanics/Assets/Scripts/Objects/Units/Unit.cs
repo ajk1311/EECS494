@@ -75,8 +75,7 @@ public class Unit : WorldObject {
         progressBar.show = false;
     }
 
-
-       // Shows Health Bars
+    // Shows Health Bars
     protected virtual void Update() {
         if (objectRenderer.isVisible && Input.GetKey(KeyCode.LeftAlt))
             progressBar.show = true;
@@ -190,12 +189,9 @@ public class Unit : WorldObject {
 
 	public void FinishAttacking() {
 		marker.highLight(false);
-		if (attackMove) {
-			IssueMoveCommand((Vector3) destination, true);
-		} else {
-			idle = true;
-			moving = pursuing = attacking = isTargetBuilding = false;
-		}
+
+		idle = true;
+		moving = pursuing = attacking = attackMove = isTargetBuilding = false;
 		lastTargetDestination = 
 			MechanicResources.InvalidIntPosition;
     }
