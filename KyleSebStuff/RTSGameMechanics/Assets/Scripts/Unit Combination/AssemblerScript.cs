@@ -124,7 +124,7 @@ public class AssemblerScript : MonoBehaviour {
 			unit.Rotate(new Vector3(0, 90, 0));
 		}
 		else if(type == "MagentaFloatUnit") {
-			Transform unit = Instantiate(magentaPointerUnit, pos, transform.rotation) as Transform;
+			Transform unit = Instantiate(magentaFloatUnit, pos, transform.rotation) as Transform;
 			unit.GetComponent<WorldObject>().playerID = playerID;
 			unit.Rotate(new Vector3(0, 90, 0));
 		}
