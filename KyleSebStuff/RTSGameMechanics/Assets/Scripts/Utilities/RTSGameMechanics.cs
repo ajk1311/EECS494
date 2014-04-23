@@ -17,43 +17,21 @@ namespace RTS {
 
 		public static GameObject FindHitObject(Vector3 position) {
             Collider[] hitColliders = Physics.OverlapSphere(position, 0.25f);
-            if (hitColliders.Length > 0) {
-                if (hitColliders.Length == 1) {
-                    return hitColliders[0].gameObject.transform.root.gameObject;
+			GameObject returnObj = null;
+			int currentID = int.MaxValue;
+			if (hitColliders.Length != 0) {
+				if(hitColliders.Length == 1) {
+					return hitColliders[0].gameObject.transform.root.gameObject;
                 }
-                foreach (Collider collider in hitColliders) {
-                    Building buildingComponent = collider.gameObject.transform.root.GetComponent<Building>();
-                    if (buildingComponent != null) {
-                        return buildingComponent.gameObject;
-                    }
-                }
-            }
-            List<WorldObject> occupants = GridManager.GetGridOccupants((Int3) position);
-            GameObject returnObj = null;
-            int currentID = int.MaxValue;
-            foreach (WorldObject occupant in occupants) {
-                if (occupant != null && occupant.ID < currentID) {
-                    currentID = occupant.ID;
-                    returnObj = occupant.transform.root.gameObject;
-                }
-            }
-            return returnObj;
-			
-			// GameObject returnObj = null;
-			// int currentID = int.MaxValue;
-			// if (hitColliders.Length != 0) {
-			// 	if(hitColliders.Length == 1) {
-			// 		return hitColliders[0].gameObject.transform.root.gameObject;
-   //              }
-			// 	foreach (Collider obj in hitColliders) {
-			// 		WorldObject script = obj.gameObject.transform.root.GetComponent<WorldObject>();
-			// 		if (script != null && script.ID < currentID) {
-   //                      currentID = script.ID;
-			// 			returnObj = obj.transform.root.gameObject;
-			// 		}
-			// 	}
-			// }
-			// return returnObj;
+				foreach (Collider obj in hitColliders) {
+					WorldObject script = obj.gameObject.transform.root.GetComponent<WorldObject>();
+					if (script != null && script.ID < currentID) {
+                        currentID = script.ID;
+						returnObj = obj.transform.root.gameObject;
+					}
+				}
+			}
+			return returnObj;
 		}
 
         public static Vector3 FindHitPoint() {
