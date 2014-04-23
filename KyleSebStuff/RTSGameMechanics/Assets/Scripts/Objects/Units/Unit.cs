@@ -93,6 +93,7 @@ public class Unit : WorldObject {
     }
 
     public bool isAttacking() {
+    	marker.highLight(true);
         return attacking;
     }
 
@@ -187,6 +188,8 @@ public class Unit : WorldObject {
     }
 
 	public void FinishAttacking() {
+		marker.highLight(false);
+
 		idle = true;
 		moving = pursuing = attacking = attackMove = isTargetBuilding = false;
 		lastTargetDestination = 

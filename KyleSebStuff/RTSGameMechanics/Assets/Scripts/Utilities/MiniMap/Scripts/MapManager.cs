@@ -13,6 +13,9 @@ namespace MyMinimap {
 		public		Texture		highlighter;
 		public		Transform	NavTrail;
 		public		Texture     mapTexture;
+		public		Texture     miniMapSquare;
+		public		Rect        miniMapRect;
+		public		float       highlightCount;
 		
 		public float minX;
 		public float minY;
@@ -63,6 +66,7 @@ namespace MyMinimap {
 		void Start () {
 			guiManager = GameObject.Find("Player").GetComponent<GUIManager>();
 			MainCam = GameObject.Find("Main Camera").transform;
+			miniMapRect = new Rect(0,0,11,11);
 			trailList = new List<Transform> ();
 			zoomMin = mapLength / 8;
 			zoomMax = mapLength;
@@ -131,6 +135,12 @@ namespace MyMinimap {
 			// of the minimap and draw them onto the map.
 			DrawMap();
 			checkMouseToMap();
+			var miniMapSquarepos = convertToMinimapCoords(MainCam.transform.position);
+			miniMapRect.x = miniMapSquarepos.x;
+			miniMapRect.y = (miniMapSquarepos.y - 25) + ((100 - MainCam.transform.position.y)/100)*20;
+			miniMapRect.height = (MainCam.transform.position.y/100) * 20;
+			miniMapRect.width = (MainCam.transform.position.y/100) * 20;
+			GUI.DrawTexture(miniMapRect, miniMapSquare, ScaleMode.StretchToFill);
 			foreach (MapMarker marker in inRange) {
 				WorldObject wo = marker.gameObject.GetComponent<WorldObject>();
 				if (wo != null && wo.objectRenderer.enabled) {
@@ -139,7 +149,19 @@ namespace MyMinimap {
 					marker.rect.y = pos.y;
 					GUI.DrawTexture(marker.rect, marker.texture, ScaleMode.ScaleToFit);
 					if (marker.shouldHighLight) {
-						GUI.DrawTexture(marker.rect, highlighter, ScaleMode.StretchToFill);
+						marker.timeElapsed += Time.deltaTime;
+						// Debug.Log("iterateCount: " + marker.iterateCount);
+						// Debug.Log("timeElapsed: " + marker.timeElapsed);
+						if(marker.timeElapsed >= 0.25 && marker.iterateCount <= 4) {
+							marker.timeElapsed = 0;
+							marker.iterateCount++;
+							marker.highlightRect.height = 100 - 22*marker.iterateCount;
+							marker.highlightRect.width = 100 - 22*marker.iterateCount;
+						}
+						marker.highlightRect.x = pos.x - ((100 - 22*marker.iterateCount) / 2) + 3;
+						marker.highlightRect.y = pos.y - ((100 - 22*marker.iterateCount) / 2) + 4;
+						// Debug.Log("Iterate is: " + marker.iterateCount + " highlightRect size: " + marker.highlightRect.height);
+						GUI.DrawTexture(marker.highlightRect, highlighter, ScaleMode.StretchToFill);
 					}
 				}
 			}
