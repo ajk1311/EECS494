@@ -179,7 +179,7 @@ public class GUIManager : MonoBehaviour {
             // GUI.Label (new Rect (Screen.width/2 - 100, Screen.height/2 - 100, 200, 200), "Enter player name:");
             username = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 - 25, 200, 50), username, 25);
             serverIP = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 25, 200, 50), serverIP, 25);
-            testServer = GUI.Toggle(new Rect(Screen.width/2 - 100, Screen.height/2 + 75, 200, 50), testServer, "Use Test Server");
+            testServer = GUI.Toggle(new Rect(Screen.width/2 - 100, Screen.height/2 + 75, 200, 25), testServer, "Use Test Server");
             if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 100, 100, 50), "Enter")) {
                 usernameEntered = true;
             }
