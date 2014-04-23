@@ -93,7 +93,6 @@ public class Unit : WorldObject {
     }
 
     public bool isAttacking() {
-    	marker.highLight(true);
         return attacking;
     }
 
@@ -132,6 +131,7 @@ public class Unit : WorldObject {
 		}
 		if (WithinAttackRange()) {
 			attacking = true;
+    		marker.highLight(true);
 			moving = pursuing = false;
 			lastTargetDestination = MechanicResources.InvalidIntPosition;
         } else {
