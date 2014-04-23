@@ -121,7 +121,7 @@ public class CPU : DestructableBuilding
     protected override void OnDestroyedInGame()
     {
         base.OnDestroyedInGame();
-		AudioSource.PlayClipAtPoint (buildingDestroySound, transform.position);
+		AudioSource.PlayClipAtPoint(buildingDestroySound, transform.position);
         StartScript.GameOverEvent gameOverEvent = new StartScript.GameOverEvent(playerID);
         EventBus.Dispatcher.Instance.Post(gameOverEvent);
     }
