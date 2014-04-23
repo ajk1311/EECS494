@@ -58,7 +58,7 @@ public class CameraControl : MonoBehaviour {
 				goingToBase = false;
 			}
 		}
-        Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane);
         Vector3 worldCenter = Camera.main.ScreenToWorldPoint(center);
         listener.position = new Vector3(worldCenter.x, 1.2f, worldCenter.z);
     }
