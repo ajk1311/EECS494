@@ -103,5 +103,6 @@ public class DefensiveTower : DestructableBuilding {
 	{
 		base.OnDestroyedInGame();
 		AudioSource.PlayClipAtPoint (buildingDestroySound, transform.position);
+        ParseManager.LogEvent(ParseManager.ParseEvent.BuildingDestroyed, playerID, "Tower");
 	}
 }

@@ -320,6 +320,7 @@ public class PlayerScript : MonoBehaviour, SSGameManager.IUpdatable {
 		if (powerCheck >= 0) {
 			power = powerCheck;
 			currentTierIndex++;
+			ParseManager.LogEvent(ParseManager.ParseEvent.Upgrade, id, currentTierIndex.ToString());
 			return true;
 		}
 		return false;

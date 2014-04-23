@@ -123,6 +123,7 @@ public class CPU : DestructableBuilding
         base.OnDestroyedInGame();
 		AudioSource.PlayClipAtPoint(buildingDestroySound, transform.position);
         StartScript.GameOverEvent gameOverEvent = new StartScript.GameOverEvent(playerID);
+        ParseManager.LogEvent(ParseManager.ParseEvent.BuildingDestroyed, playerID, "CPU");
         EventBus.Dispatcher.Instance.Post(gameOverEvent);
     }
 

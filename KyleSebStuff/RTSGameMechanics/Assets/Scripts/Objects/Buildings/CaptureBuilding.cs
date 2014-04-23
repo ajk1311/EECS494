@@ -91,6 +91,9 @@ public class CaptureBuilding : Building {
 				player1Holding = true;
 				player2AlreadyHolding = false;
 				player2Holding = false;
+				if(player2OwnsTower) {
+					ParseManager.LogEvent(ParseManager.ParseEvent.TowerLoss, 2, "Tower");
+				}
 				player2OwnsTower = false;
 				currentTime = 0;
 
@@ -101,6 +104,7 @@ public class CaptureBuilding : Building {
 				Debug.Log ("------------Player1 has Already claimed tower-----------");
 				currentTime += (int) System.Math.Round(deltaTime * Int3.FloatPrecision);
 				if(currentTime >= (int) System.Math.Round(timeToCapture * Int3.FloatPrecision)) {
+					ParseManager.LogEvent(ParseManager.ParseEvent.TowerCapture, 1, "Tower");
 					player1OwnsTower = true;
 					progressBar.show = false;
 				}
@@ -116,6 +120,9 @@ public class CaptureBuilding : Building {
 				player2Holding = true;
 				player1AlreadyHolding = false;
 				player1Holding = false;
+				if(player1OwnsTower) {
+					ParseManager.LogEvent(ParseManager.ParseEvent.TowerLoss, 1, "Tower");
+				}
 				player1OwnsTower = false;
 				currentTime = 0;
 
@@ -128,6 +135,7 @@ public class CaptureBuilding : Building {
 				if(currentTime >= (int) System.Math.Round(timeToCapture * Int3.FloatPrecision)) {
 					player2OwnsTower = true;
 					progressBar.show = false;
+					ParseManager.LogEvent(ParseManager.ParseEvent.TowerCapture, 2, "Tower");
 				}
 			}
 		}

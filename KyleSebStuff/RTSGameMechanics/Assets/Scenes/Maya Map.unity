@@ -4226,7 +4226,7 @@ MonoBehaviour:
   highlighter: {fileID: 0}
   NavTrail: {fileID: 0}
   mapTexture: {fileID: 2800000, guid: 9074900c3fa13454b9d4107952f2809c, type: 3}
-  miniMapSquare: {fileID: 0}
+  miniMapSquare: {fileID: 2800000, guid: a812f02ab20604b0cbf83aec918d88d4, type: 3}
   miniMapRect:
     serializedVersion: 2
     x: 0
