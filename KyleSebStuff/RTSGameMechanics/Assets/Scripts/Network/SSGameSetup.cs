@@ -21,7 +21,7 @@ using SSProtoBufs;
  * 5) The game is ready, start the game manager for the Lockstep loop
  */
 public class SSGameSetup {
-    private static readonly string ServerIP = "10.0.0.19";
+    private static readonly string ServerIP = "192.168.10.105";
     private static readonly int ServerPort = 9191;
 
     private static string mServerIP = ServerIP;
