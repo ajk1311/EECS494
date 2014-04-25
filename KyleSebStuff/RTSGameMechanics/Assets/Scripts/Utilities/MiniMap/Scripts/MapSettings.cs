@@ -1,7 +1,6 @@
 using System.IO;
 
 using UnityEngine;
-using UnityEditor;
 
 namespace MyMinimap
 {
