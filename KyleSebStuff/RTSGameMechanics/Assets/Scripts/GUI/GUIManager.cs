@@ -42,9 +42,7 @@ public class GUIManager : MonoBehaviour {
     private bool attackingCommandCursor;
     private Vector3 destination;
 
-    //Map Texture
-    public Texture map;
-
+    public Texture startLogo;
 
     //Dragging GUI variables
     public GUISkin dragSelectSkin;
@@ -72,8 +70,6 @@ public class GUIManager : MonoBehaviour {
         SetCursorState(CursorState.Select);
 
         //Hide the Cursor
-        Screen.showCursor = false;
-        Screen.showCursor = false;
         gameLoading = true;
         testServer = false;
         username = "Enter name...";
@@ -154,6 +150,7 @@ public class GUIManager : MonoBehaviour {
     }
 
     void OnGUI() {
+        Screen.showCursor = false;
         if(gameLoading) {
             showLoadingScreen();
             DrawMouseCursor();
@@ -175,12 +172,13 @@ public class GUIManager : MonoBehaviour {
 
     private void showLoadingScreen() {
         if(!usernameEntered) {
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), startLogo);
             GUI.backgroundColor = Color.green;
             // GUI.Label (new Rect (Screen.width/2 - 100, Screen.height/2 - 100, 200, 200), "Enter player name:");
-            username = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 - 25, 200, 50), username, 25);
-            serverIP = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 25, 200, 50), serverIP, 25);
-            testServer = GUI.Toggle(new Rect(Screen.width/2 - 100, Screen.height/2 + 75, 200, 25), testServer, "Use Test Server");
-            if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 100, 100, 50), "Enter")) {
+            username = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 200, 200, 50), username, 25);
+            serverIP = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 250, 200, 50), serverIP, 25);
+            testServer = GUI.Toggle(new Rect(Screen.width/2 - 100, Screen.height/2 + 300, 200, 25), testServer, "Use Test Server");
+            if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 325, 100, 50), "Enter")) {
                 usernameEntered = true;
             }
         } else {
