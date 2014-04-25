@@ -6,6 +6,12 @@ using RTS;
 using Parse;
 
 public class StartScript : MonoBehaviour {
+	public bool testServer;
+    public string username;
+    public string serverIP;
+    public string loadMessage;
+    public Texture startLogo;
+
 	private Vector3 cameraStartPosition1 = new Vector3(75, 60, 150);
 	private Vector3 cameraStartPosition2 = new Vector3(725, 60, 150);
 
@@ -44,6 +50,12 @@ public class StartScript : MonoBehaviour {
 	private GUIStyle gameOverStyle;
 	private Vector3 gameOverPanPosition;
 
+	private const int START = 0;
+	private const int CONNECTING = 2;
+	private const int READY = 3;
+	private const int OVER = 4;
+	private int gameState;
+
 	public class GameOverEvent {
 		public int loserPlayerID;
 		public GameOverEvent(int loserPlayerID_) {
@@ -52,6 +64,11 @@ public class StartScript : MonoBehaviour {
 	}
 
 	void Start() {
+		gameState = START;
+		testServer = false;
+        username = "Enter name...";
+        loadMessage = "Loading game...";
+        serverIP = "Server IP...";
 		panSpeed = 6;
 		gameOverStyle = new GUIStyle();
 		Dispatcher.Instance.Register(this);
@@ -60,15 +77,7 @@ public class StartScript : MonoBehaviour {
 	}
 
 	void Update() {
-		if(guiManager.usernameEntered && notConnected) {
-			string serverIP = guiManager.serverIP;
-			if (serverIP == "Server IP...") {
-				serverIP = "";
-			}
-			SSGameSetup.ConnectToGame(guiManager.username, guiManager.testServer, serverIP);
-			notConnected = false;
-		}
-		if (gameOver) {
+		if (gameState == OVER) {
 			if (Vector3.Distance(Camera.main.transform.position, gameOverPanPosition) > 0.2f) {
 				Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, gameOverPanPosition, panSpeed * Time.deltaTime);
 			} else {
@@ -82,15 +91,67 @@ public class StartScript : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		if (gameOver) {
-			gameOverStyle.alignment = TextAnchor.MiddleCenter;
-			gameOverStyle.fontSize = 200;
-			gameOverStyle.normal.textColor = new Color(0, 1, 0.09f);
-			float w = Screen.width / 3;
-			float h = Screen.height / 3;
-			GUI.Label(new Rect((Screen.width - w) / 2, (Screen.height - h) / 2, w, h), winnerName + " won!");
+		switch (gameState) {
+			case START:
+				showStartScreen();
+				break;
+
+			case CONNECTING:
+				showLoadingScreen();
+				break;
+
+			case READY:
+				showOpponent();
+				break;
+
+			case OVER:
+				showGameOver();
+				break;
 		}
 	}
+
+	private void showStartScreen() {
+		GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), startLogo);
+        GUI.backgroundColor = Color.green;
+        // GUI.Label (new Rect (Screen.width/2 - 100, Screen.height/2 - 100, 200, 200), "Enter player name:");
+        username = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 200, 200, 50), username, 25);
+        serverIP = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 250, 200, 50), serverIP, 25);
+        testServer = GUI.Toggle(new Rect(Screen.width/2 - 100, Screen.height/2 + 300, 200, 25), testServer, "Use Test Server");
+        if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 325, 100, 50), "Enter")) {
+			if (serverIP == "Server IP...") {
+				serverIP = "";
+			}
+			SSGameSetup.ConnectToGame(username, testServer, serverIP);
+			gameState = CONNECTING;
+        }
+	}
+
+	private void showLoadingScreen() {
+        GUI.Label(new Rect (Screen.width/2 - 50, Screen.height/2 - 50, 200, 200), loadMessage);
+    }
+
+    private bool hideInvoked = false;
+
+    private void showOpponent() {
+    	showLoadingScreen();
+    	if (!hideInvoked) {
+    		Invoke("hideOpponent", 3);
+    		hideInvoked = true;
+    	}
+    }
+
+    private void hideOpponent() {
+    	loadMessage = null;
+    }
+
+    private void showGameOver() {
+    	gameOverStyle.alignment = TextAnchor.MiddleCenter;
+		gameOverStyle.fontSize = 200;
+		gameOverStyle.normal.textColor = new Color(0, 1, 0.09f);
+		float w = Screen.width / 3;
+		float h = Screen.height / 3;
+		GUI.Label(new Rect((Screen.width - w) / 2, (Screen.height - h) / 2, w, h), winnerName + " won!");
+    }
 	
 	[HandlesEvent]
 	public void OnGameConnection(GameConnectionEvent connectionEvent) {
@@ -186,14 +247,16 @@ public class StartScript : MonoBehaviour {
 	
 	[HandlesEvent]
 	public void OnGameReady(GameReadyEvent readyEvent) {
-		guiManager.connected(readyEvent.opponentInfo.name);
+		loadMessage = "Connected to " + readyEvent.opponentInfo.name;
+		guiManager.gameLoading = false;
 		Camera.main.GetComponent<CameraControl>().enabled = true;
 		Debug.Log("Game is ready");
+		gameState = READY;
 	}
 
 	[HandlesEvent]
 	public void OnGameOver(GameOverEvent gameOverEvent) {
-		gameOver = true;
+		gameState = OVER;
 		Camera.main.GetComponent<CameraControl>().enabled = false;
 
 		PlayerScript player = GameObject.Find("Player").GetComponent<PlayerScript>();

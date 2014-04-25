@@ -6,13 +6,6 @@ using RTS;
 public class GUIManager : MonoBehaviour {
 
     public bool gameLoading;
-    public bool usernameEntered;
-    public bool countdown = false;
-    public bool testServer;
-    public string username;
-    public string serverIP;
-    public string loadMessage;
-    public float messageCounter;
 
     public PlayerScript player;
 
@@ -42,8 +35,6 @@ public class GUIManager : MonoBehaviour {
     private bool attackingCommandCursor;
     private Vector3 destination;
 
-    public Texture startLogo;
-
     //Dragging GUI variables
     public GUISkin dragSelectSkin;
     private static GUIModelManager.GUIModel currentGUIModel;
@@ -71,11 +62,6 @@ public class GUIManager : MonoBehaviour {
 
         //Hide the Cursor
         gameLoading = true;
-        testServer = false;
-        username = "Enter name...";
-        loadMessage = "Loading game...";
-        serverIP = "Server IP...";
-        messageCounter = 5;
     }
 
     void Update() {
@@ -151,10 +137,7 @@ public class GUIManager : MonoBehaviour {
 
     void OnGUI() {
         Screen.showCursor = false;
-        if(gameLoading) {
-            showLoadingScreen();
-            DrawMouseCursor();
-        } else {
+        if (!gameLoading) {
             DrawOrdersBar();
             DrawCurrentGUIModel();
             DrawCombinationIndicator();
@@ -166,34 +149,8 @@ public class GUIManager : MonoBehaviour {
                     Mathf.Min(Mathf.Max(Input.mousePosition.y, GUIResources.OrdersBarHeight + padding), Screen.height - padding));
                 DragBox(dragLocationStart, dragLocationEnd, dragSelectSkin);
             }
-            DrawMouseCursor();
         }
-    }
-
-    private void showLoadingScreen() {
-        if(!usernameEntered) {
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), startLogo);
-            GUI.backgroundColor = Color.green;
-            // GUI.Label (new Rect (Screen.width/2 - 100, Screen.height/2 - 100, 200, 200), "Enter player name:");
-            username = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 200, 200, 50), username, 25);
-            serverIP = GUI.TextField(new Rect(Screen.width/2 - 100, Screen.height/2 + 250, 200, 50), serverIP, 25);
-            testServer = GUI.Toggle(new Rect(Screen.width/2 - 100, Screen.height/2 + 300, 200, 25), testServer, "Use Test Server");
-            if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 325, 100, 50), "Enter")) {
-                usernameEntered = true;
-            }
-        } else {
-            GUI.Label(new Rect (Screen.width/2 - 50, Screen.height/2 - 50, 200, 200), loadMessage);
-            if(countdown && messageCounter <= 0) {
-                gameLoading = false;
-            } else if(countdown) {
-                messageCounter -= Time.deltaTime;
-            }
-        }
-    }
-
-    public void connected(string opponentName) {
-        loadMessage = "Connected to opponent: " + opponentName;
-        countdown = true;
+        DrawMouseCursor();
     }
 
     /*

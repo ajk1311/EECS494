@@ -6501,13 +6501,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameLoading: 0
-  usernameEntered: 0
-  countdown: 0
-  testServer: 0
-  username: 
-  serverIP: 
-  loadMessage: 
-  messageCounter: 0
   player: {fileID: 471585560}
   selectBoxSkin: {fileID: 11400000, guid: 6dc85bd1e4057a84db1f2a650e65eba0, type: 2}
   ordersSkin: {fileID: 11400000, guid: f466893f4fad0164ca6f9d13931accb2, type: 2}
@@ -6562,7 +6555,6 @@ MonoBehaviour:
   captureCursors:
   - {fileID: 2800000, guid: ad46c2c9ea794e0488e5e95dcbc23ac5, type: 3}
   - {fileID: 2800000, guid: 47032cc3f3042d94e892379ed584c8dd, type: 3}
-  map: {fileID: 0}
   dragSelectSkin: {fileID: 11400000, guid: 4b654a65e4b95064b8ef47c9f43ac330, type: 2}
 --- !u!114 &471585560
 MonoBehaviour:
@@ -9003,6 +8995,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6952a5465f4524236b04debe637c5799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testServer: 0
+  username: 
+  serverIP: 
+  loadMessage: 
+  startLogo: {fileID: 2800000, guid: b63332a15f7a9497a8402b9d118a187b, type: 3}
   magentaCpuPrefab: {fileID: 100000, guid: 72987daf2d8cb469f98f39ad1b85c539, type: 2}
   orangeCpuPrefab: {fileID: 100000, guid: bf0a06c2837844f08a3656f987a19502, type: 2}
   orangeDefensiveTower: {fileID: 100318, guid: dc42936a64285e1498b26994418e86b6, type: 2}

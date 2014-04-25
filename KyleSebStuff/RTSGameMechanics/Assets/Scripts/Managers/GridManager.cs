@@ -74,11 +74,7 @@ public static class GridManager {
 	public static List<WorldObject> GetGridOccupants(Int3 position) {
 		int x = position.x / SpaceSize / Int3.Precision;
 		int z = position.z / SpaceSize / Int3.Precision;
-		if (x < 0 || z < 0) {
-			throw new System.IndexOutOfRangeException("Must pass positive coordinates to GridManager");
-		}
-		Debug.Log(x + " " + z);
-		return new List<WorldObject>(grid[x][z]);
+		return GetGridOccupants(x, z);
 	}
 
 	public static List<WorldObject> GetGridOccupants(int x, int z) {
