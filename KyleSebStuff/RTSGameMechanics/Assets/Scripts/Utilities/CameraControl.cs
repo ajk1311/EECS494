@@ -45,6 +45,7 @@ public class CameraControl : MonoBehaviour {
     }
 
     void Update() {
+		Screen.showCursor = false;
         MoveCamera();
         if (!Panning) {
 			guiManager.SetCursorState(CursorState.Select);
